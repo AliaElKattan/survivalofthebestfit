@@ -15,7 +15,7 @@ We would also like to share the survey of the connection of society and algorith
 * [Our references. Inspiring research papers that fundamentally shaped our views.](https://github.com/AliaElKattan/survivalofthebestfit/wiki/Research-&-Writing)
 
 ## Mockups
-Visit our [wiki page](https://github.com/AliaElKattan/survivalofthebestfit/wiki/Visual-prototype-%5BV2%5D) for and in-depth explanation and to follow the development of the project.
+Visit our [wiki page](https://github.com/AliaElKattan/survivalofthebestfit/wiki/User-Experience) for an in-depth explanation and to follow the development of the project.
 
 ## Authors
 * **Alia ElKattan** - alia.elkattan@nyu.edu
