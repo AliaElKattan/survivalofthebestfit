@@ -1,7 +1,9 @@
 # Getting started
 Commands to get you started:
 `npm install -g --save nodemon`
+
 `npm install`
+
 `nodemon`
 
 Head over to localhost:3000 to view website
