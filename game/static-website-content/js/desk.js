@@ -38,6 +38,8 @@ class deskController {
         'y' : y,
         'scale' : {'x': this.parent.scale.x*scale, 'y': this.parent.scale.y*scale}
       }).start();
+
+    //if a person sits at the desk, it has to go with the desk
     if (this.isTaken()){
       var tween = PIXI.tweenManager.createTween(this.getPerson());
         tween.easing = PIXI.tween.Easing.inElastic();

@@ -21,9 +21,6 @@ class Office {
       for (var k = 0; k < col; k++) {
         if (this.deskList.length > indx){
           this.deskList[indx].controller.animateTo(x,y,scale);
-          // if (this.deskList[indx].controller.isTaken()){
-          //   this.deskList[indx].controller.getPerson().animateTo(x,y,scale);
-          // }
         } else {
           this.deskList.push(createDesk(x, y, scale));
         }
