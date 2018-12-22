@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  header.masthead.text-white.text-center
+    .overlay
+    .container
+      .row
+        .col-xl-9.mx-auto
+          h1.mb-5 #{title}
+          p.lead How a machine hires
+
+  section.showcase.bg-light
+    .container
+      .row
+        .col-xl-9.py-3.text-center.mx-auto
+          h1 Play this game
+
+      .row
+        #gameCanvas
