@@ -1,5 +1,5 @@
-import { deskTexture } from './textures.js'
-import { pixiApp, officeContainer, eventEmitter } from './shared.js';
+import { deskTexture } from '../textures.js'
+import { pixiApp, officeContainer, eventEmitter } from '../shared.js';
 import { createDesk } from './desk.js';
 
 class Office {

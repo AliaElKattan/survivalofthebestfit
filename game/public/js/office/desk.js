@@ -1,5 +1,5 @@
-import { deskTexture } from './textures.js'
-import { deskContainer } from './shared.js';
+import { deskTexture } from '../textures.js'
+import { deskContainer } from '../shared.js';
 
 class deskController {
   constructor(parent) {

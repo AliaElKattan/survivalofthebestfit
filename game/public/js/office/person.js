@@ -1,5 +1,5 @@
-import { personTexture } from './textures.js'
-import { pixiApp, officeContainer, personContainer, deskContainer, eventEmitter } from './shared.js';
+import { personTexture } from '../textures.js'
+import { pixiApp, officeContainer, personContainer, deskContainer, eventEmitter } from '../shared.js';
 
 class personController {
   constructor(parent, office) {

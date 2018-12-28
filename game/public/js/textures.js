@@ -5,4 +5,6 @@ personTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 var deskTexture = PIXI.Texture.fromImage('assets/img/desk.png');
 personTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-export { personTexture, deskTexture }
+var incubator = PIXI.Texture.fromImage('assets/img/incubator-winners.jpeg');
+
+export { personTexture, deskTexture, incubator }
