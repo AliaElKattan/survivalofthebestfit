@@ -3,8 +3,14 @@ var personTexture = PIXI.Texture.fromImage('assets/img/character.png');
 personTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
 var deskTexture = PIXI.Texture.fromImage('assets/img/desk.png');
-personTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+deskTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
 var incubator = PIXI.Texture.fromImage('assets/img/incubator-winners.jpeg');
 
-export { personTexture, deskTexture, incubator }
+var floorPlanOne = PIXI.Texture.fromImage('assets/img/3D-floorplan-small.jpg');
+floorPlanOne.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+
+var floorPlanTwo = PIXI.Texture.fromImage('assets/img/3D-floorplan-large.jpg');
+floorPlanTwo.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+
+export { personTexture, deskTexture, incubator , floorPlanOne, floorPlanTwo}

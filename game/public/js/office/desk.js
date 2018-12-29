@@ -23,7 +23,7 @@ class deskController {
     return this.person != null;
   }
 
-  animateTo(x, y, scale){
+  animateTo(scale, x, y){
     var tween = PIXI.tweenManager.createTween(this.parent);
       tween.easing = PIXI.tween.Easing.inElastic();
       tween.time = 2000;
@@ -41,31 +41,18 @@ class deskController {
 
     //if a person sits at the desk, it has to go with the desk
     if (this.isTaken()){
-      var tween = PIXI.tweenManager.createTween(this.getPerson());
-        tween.easing = PIXI.tween.Easing.inElastic();
-        tween.time = 2000;
-        tween.expire = true;
-        tween.from({
-          'x' : this.getPerson().x,
-          'y' : this.getPerson().y,
-          'scale' : {'x': this.getPerson().scale.x, 'y': this.getPerson().scale.y}
-        })
-        tween.to({
-          'x' : x,
-          'y' : y,
-          'scale' : {'x': this.getPerson().scale.x*scale, 'y': this.getPerson().scale.y*scale}
-        }).start();
+      this.getPerson().controller.animateTo(scale, x, y);
     }
   }
 }
 
-function createDesk(x, y, scale){
+function createDesk(scale, x, y){
   var desk = new PIXI.Sprite(deskTexture);
   desk.x = x
   desk.y = y
   desk.type = "desk";
   desk.taken = false;
-  desk.scale.set(scale);
+  desk.scale.set(0.1*scale);
   desk.interactive = true;
   desk.controller = new deskController(desk)
 

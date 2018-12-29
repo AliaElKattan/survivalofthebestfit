@@ -1,7 +1,11 @@
 var pixiApp = new PIXI.Application(800, 600, {backgroundColor : 0x1099bb});
 var officeContainer = new PIXI.Container();
-var deskContainer = new PIXI.Container();
 var personContainer = new PIXI.Container();
+var deskContainer = new PIXI.Container();
+
+deskContainer.zOrder = 2;
+personContainer.zOrder = 3;
+officeContainer.enableSort = true;
 
 pixiApp.stage.addChild(officeContainer);
 officeContainer.addChild(deskContainer);

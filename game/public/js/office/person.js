@@ -16,6 +16,23 @@ class personController {
     return this.desk != null;
   }
 
+  animateTo(scale=1, x=this.parent.x, y=this.parent.y){
+    var tween = PIXI.tweenManager.createTween(this.parent);
+      tween.easing = PIXI.tween.Easing.inElastic();
+      tween.time = 2000;
+      tween.expire = true;
+      tween.from({
+        'x' : this.parent.x,
+        'y' : this.parent.y,
+        'scale' : {'x': this.parent.scale.x, 'y': this.parent.scale.y}
+      })
+      tween.to({
+        'x' : x,
+        'y' : y,
+        'scale' : {'x': this.parent.scale.x*scale, 'y': this.parent.scale.y*scale}
+      }).start();
+    }
+
 }
 
 function onPersonDragStart(event) {
@@ -80,7 +97,7 @@ function createPerson(x, y, office){
       .on('pointerupoutside', onPersonDragEnd)
       .on('pointermove', onPersonDragMove);
 
-  officeContainer.addChild(person);
+  personContainer.addChild(person);
   return person
 }
 

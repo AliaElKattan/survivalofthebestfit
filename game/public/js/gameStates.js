@@ -5,7 +5,6 @@ import { incubator } from './textures.js';
 
 var office;
 var personList;
-
 var gameFSM = new machina.Fsm( {
     namespace: "game-fsm",
     //initialState: "uninitialized",
@@ -18,6 +17,9 @@ var gameFSM = new machina.Fsm( {
           }
         },
 
+        /*///////////////////
+        // Welcome image
+        *////////////////////
         stageZero: {
           _onEnter: function(){
             this.timer = setTimeout( function() {
@@ -28,16 +30,21 @@ var gameFSM = new machina.Fsm( {
             pixiApp.stage.addChild(this.image);
             this.image.scale.set(0.7)
           },
+
           timeout: "stageOne",
+
           _onExit: function() {
             clearTimeout( this.timer );
             this.image.parent.removeChild(this.image);
           }
         },
 
+        /*///////////////////
+        // Small office, hiring from the street
+        *////////////////////
         stageOne: {
           _onEnter: function(){
-            office = new Office(4, 4, 300, 300, 50, 50, 0.10);
+            office = new Office();
             personList = []
 
             //create People in the office
@@ -49,15 +56,27 @@ var gameFSM = new machina.Fsm( {
               x += 80
             }
           },
+
+          nextStage: "stageTwo",
+
           _onExit: function() {
 
           }
         },
 
+        /*///////////////////
+        // Big office, city level view
+        *////////////////////
         stageTwo: {
           _onEnter: function(){
-
+              office.growOffice();
+              for (var i = 0; i < personList.length; i++) {
+                if (!personList[i].controller.isSeated()){
+                      personList[i].controller.animateTo(0.5);
+                }
+              }
           },
+
           _onExit: function() {
 
           }
@@ -66,6 +85,9 @@ var gameFSM = new machina.Fsm( {
 
       startGame: function(){
         this.handle('startGame')
+      },
+      nextStage: function(){
+        this.handle('nextStage')
       }
 } );
 
