@@ -16,7 +16,7 @@ class deskController {
   }
 
   getPerson(){
-    return this.person
+    return this.person;
   }
 
   isTaken(){
@@ -54,10 +54,12 @@ function createDesk(scale, x, y){
   desk.taken = false;
   desk.scale.set(0.1*scale);
   desk.interactive = true;
-  desk.controller = new deskController(desk)
+  desk.controller = new deskController(desk);
 
   deskContainer.addChild(desk);
-  return desk
+  desk.parent.setChildIndex(desk, 0);
+
+  return desk;
 }
 
 export { createDesk };

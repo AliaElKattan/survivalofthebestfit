@@ -17,6 +17,7 @@ class Office {
   }
 
   growOffice(){
+    // getting config according to office size
     var row = this.sizeConfig[this.size].row,
     col = this.sizeConfig[this.size].col,
     scale = this.sizeConfig[this.size].scale,
@@ -25,7 +26,8 @@ class Office {
     offsetY = this.sizeConfig[this.size].offsetY,
     offsetX = this.sizeConfig[this.size].offsetX;
 
-    if (this.size > 1){
+    //creating office floor background
+    if (this.size > 0){
       this.texture.parent.removeChild(this.texture);
     }
     this.texture = new PIXI.Sprite(this.sizeConfig[this.size].texture);
@@ -33,12 +35,10 @@ class Office {
     this.texture.scale.set(0.7);
     this.texture.x = offsetX;
     this.texture.y = offsetY;
-    this.texture.zOrder = 1;
+    officeContainer.addChild(this.texture);
+    this.texture.parent.setChildIndex(this.texture, 0);
 
-    //officeContainer.addChild(this.texture);
-
-
-
+    //adding/moving desks and people at them
     var indx = 0;
     var y = offsetY;
     for (var i = 0; i < row; i++) {
