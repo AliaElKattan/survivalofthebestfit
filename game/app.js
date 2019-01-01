@@ -12,14 +12,14 @@ const home = require('./routes/home');
 const about = require('./routes/about');
 
 /**
- * Create Express server.
+ * Create Express server. First line is required to compile Web assembly code for libsvm library.
  */
+express.static.mime.types['wasm'] = 'application/wasm';
 const app = express();
 
 /**
  * Express configuration.
  */
-
 //Some Middleware - log requests to the terminal console
 app.use(logger('dev'));
 app.set('views', path.join(__dirname, 'views'));
