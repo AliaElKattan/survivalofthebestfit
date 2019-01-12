@@ -4,13 +4,14 @@ import { pixiApp, eventEmitter } from '../shared.js';
 class Bubble {
 
 constructor() {
+  this.width = 200;
+  this.height = 70;
 }
 
 drawBubble(messagex,messagey,messagetext) {
   // var messagex = 300;
   // var messagey = 100;
-  this.width = 200;
-  this.height = 70;
+
   this.x = messagex;
   this.y = messagey;
   let roundBox = new PIXI.Graphics();
@@ -38,7 +39,46 @@ drawBubble(messagex,messagey,messagetext) {
 
 }
 
+class TextBox {
+
+constructor() {
+  this.width = 200;
+  this.height = 70;
+}
+
+drawBox(messagex,messagey,messagetext) {
+  // var messagex = 300;
+  // var messagey = 100;
+
+  this.x = messagex;
+  this.y = messagey;
+  let rectangle = new PIXI.Graphics();
+  rectangle.lineStyle(4,0x99CCFF, 1);
+  rectangle.beginFill(0xFFFFFF);
+  rectangle.drawRect(this.x, this.y, this.width, this.height, 10)
+  rectangle.endFill();
+  rectangle.x = 48;
+rectangle.y = 190;
+  pixiApp.stage.addChild(rectangle);
+
+  let style = new PIXI.TextStyle({
+  fontFamily: "Arial",
+  fontSize: 12,
+  fill: "black",
+  stroke: '#ff3300',
+  wordWrap: true,
+  wordWrapWidth: this.width - 10,
+  });
+
+  let message = new PIXI.Text(messagetext, style);
+  pixiApp.stage.addChild(message);
+  message.position.set(this.x+60,this.y+200);
+}
+
+}
+
 export {Bubble};
+export{TextBox};
 
 // function createBubble(){
 //   //function createBubble(x, y, scale, text){

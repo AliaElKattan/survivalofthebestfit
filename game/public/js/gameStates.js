@@ -2,11 +2,13 @@ import { pixiApp, eventEmitter } from './shared.js';
 import { createPerson } from './office/person.js';
 import { Office } from './office/office.js';
 import { incubator } from './textures.js';
-import {Bubble} from './office/instructionBubble.js';
+import {Bubble, TextBox} from './office/instructionBubble.js';
 
 var office;
 var personList;
 var messagebox = new Bubble();
+var messagebox2 = new TextBox();
+
 var gameFSM = new machina.Fsm( {
     namespace: "game-fsm",
     //initialState: "uninitialized",
@@ -57,7 +59,9 @@ var gameFSM = new machina.Fsm( {
               personList.push(person);
               x += 80
             }
-            messagebox.drawBubble(300,100, "This is a trial! Let's see how long this text will go before being out of bounds.");
+            messagebox.drawBubble(300,-140, "This is a trial! Let's see how long this text will go before being out of bounds.");
+            messagebox2.height = 35;
+            messagebox2.drawBox(70,-150,"Another example of a text box");
 
           },
 
