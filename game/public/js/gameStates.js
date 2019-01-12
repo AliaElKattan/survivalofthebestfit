@@ -57,6 +57,8 @@ var gameFSM = new machina.Fsm( {
               personList.push(person);
               x += 80
             }
+            messagebox.drawBubble(300,100, "This is a trial! Let's see how long this text will go before being out of bounds.");
+
           },
 
           nextStage: "stageTwo",
@@ -66,8 +68,7 @@ var gameFSM = new machina.Fsm( {
           }
 
 
-          messagebox.drawBubble(300,100, "This is a trial! Let's see how long this text will go before being out of bounds.");
-          
+
         },
 
         /*///////////////////
