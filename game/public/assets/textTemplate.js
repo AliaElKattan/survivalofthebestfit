@@ -17,7 +17,7 @@ var english = {
 var language = "hungarian";
 
 // exporting whatever is determined as the language.
-// module.export is for pug, while the txt variable is just a global shatred variable holding all the texts
+// module.export is for pug, while the txt variable is just a global shatred variable holding all the texts and can be used in JS
 // when loading in the ES6 application, there is no module provided so it is undefined
 var txt;
 
