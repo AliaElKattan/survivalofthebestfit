@@ -32,6 +32,15 @@ class Office {
 
         //creating office floor background
         var oldOfficeBackground = this.texture;
+
+        //adding/moving desks and people at them
+        let newOfficeTween = this.createNewOfficeTween(offsetX, offsetY);
+        let [newDeskTweens, moveDeskTweens] = this.createDeskPeopleTweens(row, col, width, height, offsetX, offsetY);
+        this.sequenceTweens(newOfficeTween, objectToResize, oldOfficeBackground, moveDeskTweens, newDeskTweens);
+
+        this.size++;
+    }
+    createNewOfficeTween(offsetX, offsetY){
         this.texture = new PIXI.Sprite(this.sizeConfig[this.size].texture);
         this.texture.type = "office";
         this.texture.scale.set(0.7);
@@ -42,10 +51,11 @@ class Office {
         }
         this.texture.x = offsetX;
         this.texture.y = -300;
-        var newOfficeTween = animateTo({target:this.texture, x:offsetX, y:offsetY, easing:PIXI.tween.Easing.inExpo()});
 
+        return animateTo({target:this.texture, x:offsetX, y:offsetY, easing:PIXI.tween.Easing.inExpo()});
+    }
 
-        //adding/moving desks and people at them
+    createDeskPeopleTweens(row, col, width, height, offsetX, offsetY){
         var indx = 0;
         var y = offsetY;
         var newDeskTweens = [];
@@ -54,11 +64,11 @@ class Office {
             var x = offsetX;
             for (var k = 0; k < col; k++) {
                 if (this.deskList.length > indx){
-                    moveDeskTweens.push(animateTo({target:this.deskList[indx], scale:scale, x:x, y:y}));
+                    moveDeskTweens.push(animateTo({target:this.deskList[indx], scale:this.getScale(), x:x, y:y}));
 
                     //if a person sits at the desk, it has to go with the desk
                     if (this.deskList[indx].controller.isTaken()){
-                        moveDeskTweens.push(animateTo({target:this.deskList[indx].controller.getPerson(), scale:scale, x:x, y:y}));
+                        moveDeskTweens.push(animateTo({target:this.deskList[indx].controller.getPerson(), scale:this.getScale(), x:x, y:y}));
                     }
                 } else {
                     var newDesk = createDesk(this.scale, x, -100);
@@ -71,11 +81,15 @@ class Office {
             y += height/(col-1);
         }
 
+        return [newDeskTweens, moveDeskTweens];
+    }
+
+    sequenceTweens(newOfficeTween, objectToResize, oldOfficeBackground, moveDeskTweens, newDeskTweens){
         newOfficeTween.start();
         newOfficeTween.on('end', ()=>{
             //office is grows. First rescale outside people, delete old background, move existing desks and ppl, THEN add new desks
             objectToResize.forEach((obj)=>{
-                animateTo({target:obj, scale:scale}).start();
+                animateTo({target:obj, scale:this.getScale()}).start();
             })
             if (this.size > 1){
                 oldOfficeBackground.parent.removeChild(oldOfficeBackground);
@@ -96,8 +110,6 @@ class Office {
                 });
             }
         });
-
-        this.size++;
     }
 
     listenerSetup(){
@@ -110,6 +122,10 @@ class Office {
                 gameFSM.nextStage();
             }
         });
+    }
+
+    getScale(){
+        return this.scale;
     }
 }
 

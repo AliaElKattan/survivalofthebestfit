@@ -55,7 +55,7 @@ var gameFSM = new machina.Fsm( {
                 var x = 10;
                 var y = pixiApp.screen.height - 100;
                 for (var i = 0; i < 10; i++) {
-                    var person = createPerson(x, y, office);
+                    var person = createPerson(x, y, office.getScale(), office);
                     personList.push(person);
                     x += 80
                 }
@@ -86,6 +86,13 @@ var gameFSM = new machina.Fsm( {
                     }
                 }
                 office.growOffice(unassignedPeople);
+                var x = 10;
+                var y = pixiApp.screen.height - 80;
+                for (var i = 0; i < 10; i++) {
+                    var person = createPerson(x, y, office.getScale(), office);
+                    personList.push(person);
+                    x += 40
+                }
             },
 
             nextStage: "stageThree",
