@@ -27,7 +27,7 @@ drawBubble(messagex,messagey,messagetext) {
 
 
   let style = new PIXI.TextStyle({
-  fontFamily: "Arial",
+  fontFamily: "\"Lucida Console\", Monaco, monospace",
   fontSize: 12,
   fill: "black",
   stroke: '#ff3300',
@@ -60,7 +60,7 @@ drawBox(messagex,messagey,messagetext) {
   this.y = messagey;
 
   let style = new PIXI.TextStyle({
-  fontFamily: "Arial",
+  fontFamily: "Lucida Console",
   fontSize: 12,
   fill: "black",
   stroke: '#ff3300',

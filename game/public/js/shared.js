@@ -4,7 +4,6 @@ var personContainer = new PIXI.Container();
 var deskContainer = new PIXI.Container();
 var timerContainer = new PIXI.Container();
 
-
 pixiApp.stage.addChild(officeContainer);
 pixiApp.stage.addChild(timerContainer);
 officeContainer.addChild(deskContainer);
@@ -12,6 +11,7 @@ officeContainer.addChild(personContainer);
 
 //shared eventEmitter across components
 var eventEmitter = new PIXI.utils.EventEmitter();
+PIXI.settings.PRECISION_FRAGMENT = 'highp';
 
 //setup for the pixi-tween manager  CALLED AT THE END OF MAIN.JS
 var raf;

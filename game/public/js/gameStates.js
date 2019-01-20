@@ -69,7 +69,7 @@ var gameFSM = new machina.Fsm( {
                 messagebox2.drawBox(300,-150,"sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text ");
 
 
-                startTaskTimer();
+                startTaskTimer(500, 150, 210, 140, txt.stageOne.taskDescription, 140);
             },
 
             nextStage: "stageTwo",
