@@ -2,7 +2,7 @@ import { pixiApp, eventEmitter, animateTo } from './shared.js';
 import { createPerson } from './office/person.js';
 import { Office } from './office/office.js';
 import { incubator } from './textures.js';
-import { Bubble, TextBox }  from './office/instructionBubble.js';
+import { TextBox }  from './common/instructionBubble.js';
 import { startTaskTimer } from './common/taskTimer.js';
 
 import {xIcon} from './textures.js';

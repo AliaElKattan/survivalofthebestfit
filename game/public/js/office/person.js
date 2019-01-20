@@ -55,8 +55,12 @@ function onPersonDragEnd() {
 
 function onPersonDragMove() {
     if (this.dragging) {
-        this.x += this.data.originalEvent.movementX/officeContainer.scale.x;
-        this.y += this.data.originalEvent.movementY/officeContainer.scale.y;
+        // this.x += this.data.originalEvent.movementX/officeContainer.scale.x;
+        // this.y += this.data.originalEvent.movementY/officeContainer.scale.y;
+
+        var newPosition = this.data.getLocalPosition(this.parent);
+        this.position.x = newPosition.x;
+        this.position.y = newPosition.y;
     }
 }
 
