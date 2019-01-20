@@ -1,11 +1,11 @@
 import { pixiApp, eventEmitter, animateTo } from './shared.js';
 import { createPerson } from './office/person.js';
 import { Office } from './office/office.js';
-import { incubator } from './textures.js';
-import {xIcon} from './textures.js';
+import { incubator } from './textures.j';
 import { Bubble, TextBox }  from './office/instructionBubble.js';
 import { startTaskTimer } from './common/TaskTimer.js';
 
+import {xIcon} from './textures.js';
 
 var office;
 var personList;
