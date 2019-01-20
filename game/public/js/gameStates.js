@@ -3,7 +3,7 @@ import { createPerson } from './office/person.js';
 import { Office } from './office/office.js';
 import { incubator } from './textures.js';
 import { Bubble, TextBox }  from './office/instructionBubble.js';
-import { startTaskTimer } from './common/TaskTimer.js';
+import { startTaskTimer } from './common/taskTimer.js';
 
 import {xIcon} from './textures.js';
 
