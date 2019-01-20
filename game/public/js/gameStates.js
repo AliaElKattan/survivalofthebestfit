@@ -2,6 +2,7 @@ import { pixiApp, eventEmitter, animateTo } from './shared.js';
 import { createPerson } from './office/person.js';
 import { Office } from './office/office.js';
 import { incubator } from './textures.js';
+import {xIcon} from './textures.js';
 import { Bubble, TextBox }  from './office/instructionBubble.js';
 import { startTaskTimer } from './common/TaskTimer.js';
 
@@ -61,8 +62,12 @@ var gameFSM = new machina.Fsm( {
                 }
 
                 var messagebox2 = new TextBox();
-                messagebox2.height = 35;
-                messagebox2.drawBox(70,-190,"Another example of a text box");
+                messagebox2.drawBox(70,-150,"sample text sample text sample text ");
+
+
+                var messagebox2 = new TextBox();
+                messagebox2.drawBox(300,-150,"sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text ");
+
 
                 startTaskTimer();
             },
@@ -115,7 +120,7 @@ var gameFSM = new machina.Fsm( {
 
             }
         },
-        
+
 
     },
 
