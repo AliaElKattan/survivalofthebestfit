@@ -24,7 +24,7 @@ drawBubble(messagex,messagey,messagetext) {
   pixiApp.stage.addChild(roundBox);
 
   let style = new PIXI.TextStyle({
-  fontFamily: "Arial",
+  fontFamily: "\"Lucida Console\", Monaco, monospace",
   fontSize: 12,
   fill: "black",
   stroke: '#ff3300',
@@ -62,7 +62,7 @@ rectangle.y = 190;
   pixiApp.stage.addChild(rectangle);
 
   let style = new PIXI.TextStyle({
-  fontFamily: "Arial",
+  fontFamily: "Lucida Console",
   fontSize: 12,
   fill: "black",
   stroke: '#ff3300',
