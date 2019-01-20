@@ -1,4 +1,6 @@
 var pixiApp = new PIXI.Application(800, 600, {backgroundColor : 0x1099bb});
+pixiApp.renderer.autoResize = true;
+
 var officeContainer = new PIXI.Container();
 var personContainer = new PIXI.Container();
 var deskContainer = new PIXI.Container();

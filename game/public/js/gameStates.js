@@ -28,7 +28,7 @@ var gameFSM = new machina.Fsm( {
             _onEnter: function(){
                 this.timer = setTimeout( function() {
                     this.handle( "timeout" );
-                }.bind( this ), 3000 );
+                }.bind( this ), 300000 );
 
                 this.image = new PIXI.Sprite(incubator);
                 pixiApp.stage.addChild(this.image);
