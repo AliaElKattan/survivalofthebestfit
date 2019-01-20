@@ -3,7 +3,7 @@ import { createPerson } from './office/person.js';
 import { Office } from './office/office.js';
 import { incubator } from './textures.js';
 import { Bubble, TextBox }  from './common/instructionBubble.js';
-import { startTaskTimer } from './common/TaskTimer.js';
+import { startTaskTimer } from './common/taskTimer.js';
 
 
 var office;
@@ -115,7 +115,7 @@ var gameFSM = new machina.Fsm( {
 
             }
         },
-        
+
 
     },
 
