@@ -53,7 +53,7 @@ class TaskTimer {
     timerContainer.addChild(taskDesc);
     taskDesc.position.set(this.x+10,this.y+10);
 
-    var style2 = new PIXI.TextStyle({
+    this.style2 = new PIXI.TextStyle({
       fontFamily: "\"Lucida Console\", Monaco, monospace",
       fontSize: 24,
       fontWeight: 700,
@@ -63,20 +63,30 @@ class TaskTimer {
       wordWrapWidth: this.width - 10,
     });
 
+    this.listenerSetup();
+
     this.hiredNum = 0;
     this.toHireNum = 10;
-    this.hiredCountStr = this.hiredNum.toString() + "/" + this.toHireNum.toString();
-    let counter = new PIXI.Text(this.hiredCountStr, style2);
-    timerContainer.addChild(counter);
-    counter.position.set(spacingUtils.getCenteredChildX(x, width, 50), spacingUtils.getTwoThirdsChildY(y, height, 20))
+    this.writeCounter();
   }
-}
 
-function updateCounterString(taskTimer) {
-  if (taskTimer.hiredNum < taskTimer.toHireNum) {
-    taskTimer.hiredNum += 1;
+  writeCounter() {
+    if (timerContainer.children.length > 0) {
+      timerContainer.removeChild(this.counter);
+    }
+    this.hiredCountStr = this.hiredNum.toString() + "/" + this.toHireNum.toString();
+    this.counter = new PIXI.Text(this.hiredCountStr, this.style2);
+    timerContainer.addChild(this.counter);
+    this.counter.position.set(spacingUtils.getCenteredChildX(this.x, this.width, 50), spacingUtils.getTwoThirdsChildY(this.y, this.height, 20))
   }
-  taskTimer.hiredCountStr = taskTimer.hiredNum.toString() + "/" + taskTimer.toHireNum.toString();
+
+  listenerSetup(){
+    eventEmitter.on('assigned-desk', (data)=>{
+        this.hiredNum += 1;
+        console.log(this.hiredNum);
+        this.writeCounter();
+      });
+  }
 }
 
 function updateTimerLength(taskTimer) {
@@ -89,7 +99,7 @@ function updateTimerLength(taskTimer) {
     taskTimer.widthLife += 0.5;
   }
 
-  console.log(taskTimer.widthLife);
+  //console.log(taskTimer.widthLife);
 
   taskTimer.timer.beginFill(0xFFADA3);
   taskTimer.timer.drawRect(0, 0, taskTimer.widthLife, taskTimer.barHeight);
@@ -104,12 +114,6 @@ function startTaskTimer(x, y, width, height, text, totalLife) {
   pixiApp.ticker.add(function(delta) {
     updateTimerLength(taskTimer);
   })
-
-  //change to handle event when someone is hired
-  if (false) {
-    taskTimer.updateCounterString();
-  }
-  
 }
 
 export { startTaskTimer };
