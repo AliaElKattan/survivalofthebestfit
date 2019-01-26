@@ -1,0 +1,100 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; }
+
+body {
+  background-color: #F9F0E3;
+  margin: 10px;
+  font-family: 'VT323', monospace; }
+
+.conversationBox {
+  height: inherit;
+  width: inherit;
+  position: relative;
+  background-color: #FAFAFA; }
+  .conversationBox__wrapper {
+    display: inline-block;
+    margin-right: 20px;
+    width: 600px;
+    height: 200px; }
+  .conversationBox:before, .conversationBox:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .conversationBox:before {
+    left: 0;
+    width: inherit;
+    background: #919191; }
+  .conversationBox:after {
+    top: 0;
+    height: inherit;
+    background: #B9B9B9; }
+  .conversationBox:after {
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .conversationBox:before {
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .conversationBox__wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 700px; }
+
+.replica {
+  display: block;
+  margin: 10px 0; }
+  .replica__paragraph {
+    margin-bottom: 5px; }
+
+button {
+  outline: none;
+  border: none;
+  font-family: 'VT323', monospace; }
+  button:hover, button:active {
+    outline: none;
+    border: none; }
+
+.choiceButton {
+  height: inherit;
+  width: inherit;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #F2F2F2; }
+  .choiceButton__wrapper {
+    display: inline-block;
+    margin-right: 20px;
+    width: 170px;
+    height: 30px; }
+  .choiceButton:before, .choiceButton:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .choiceButton:before {
+    left: 0;
+    width: inherit;
+    background: #919191; }
+  .choiceButton:after {
+    top: 0;
+    height: inherit;
+    background: #B9B9B9; }
+  .choiceButton:after {
+    width: 5px;
+    right: -5px;
+    transform: translateY(1px) skewY(25deg); }
+  .choiceButton:before {
+    height: 4px;
+    bottom: -4px;
+    transform: translate(3px, -1px) skewX(55deg); }
+  .choiceButton--chosen {
+    background-color: #FECCC7; }
+
+.is-inactive {
+  display: none; }

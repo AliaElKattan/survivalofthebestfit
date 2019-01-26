@@ -15,11 +15,15 @@
     "karma": "^3.1.3",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^2.0.1",
+    "node-sass": "^4.11.0",
     "parcel-bundler": "^1.11.0"
   },
   "scripts": {
     "test": "test scrip include from karma website",
-    "start": "parcel static-website-content/index.html"
+    "start": "parcel static-website-content/index.html",
+    "dev" : "npm run watch-css & nodemon app.js",
+    "build-css": "node-sass --include-path scss public/scss/main.scss public/css/demo.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
   },
   "author": "",
   "license": "MIT"

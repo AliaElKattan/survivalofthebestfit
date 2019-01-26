@@ -1,0 +1,183 @@
+// variables
+$badass: #bada55;
+
+$colors: (
+  bg-yellow: #F9F0E3,
+  washed-white: #FAFAFA, 
+  rose-light: #FECCC7,
+  shadow-rose-light: #F29488, 
+  shadow-rose-dark: #FFADA3,
+  grey-main: #F2F2F2,
+  shadow-grey-light: #B9B9B9,
+  shadow-grey-dark: #919191,
+);
+
+// functions + mixins
+@function color($key) {
+	@return map-get($colors, $key);
+}
+
+// @mixin colorCheck($type) {
+//   @if $type == 'type-button' {
+//     // Conditional code
+//     background-color: red;
+//   } @else {
+//     background-color: blue;
+//   }
+// }
+
+@mixin shadowBox($type, $width, $height, $shadow-color: 'grey') {
+  &__wrapper {
+    display: inline-block;
+    margin-right: 20px;
+    width: $width;
+    height: $height;
+  }
+  
+  height: inherit;
+  width: inherit;
+  position:relative;
+  
+  &:before, &:after {
+    content: "";
+    display: inline-block;
+    position:absolute;
+  }
+  
+  &:before {
+    left: 0;
+    width: inherit;
+    background: color(shadow-#{$shadow-color}-dark);
+  }
+  
+  &:after {
+    top: 0;
+    height: inherit;
+    // background: $shadow-light;
+    background: color(shadow-#{$shadow-color}-light);
+  }
+
+  @if $type == 'button' {
+    // light shadow: right side
+    &:after {
+      width: 5px;
+      right: -5px;
+      transform: translateY(1px) skewY(25deg);
+    }
+    // dark shadow: bottom side
+    &:before {
+      height: 4px;
+      bottom: -4px;
+      transform:  translate(3px, -1px) skewX(55deg);
+    }  
+    
+  } @elseif $type == 'textbox' {
+    
+    &:after {
+      width: 10px;
+      right: -10px;
+      transform: translateY(3px) skewY(25deg);
+    }
+    
+    &:before {
+      height: 5px;
+      bottom: -5px;
+      transform:  translateX(5px) skewX(65deg);
+    }  
+    
+  } @else {
+    @error "Sorry, you supplied an invalid type"
+  }
+};
+
+
+
+
+
+
+
+// base
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body { 
+  background-color: color(bg-yellow);
+  margin: 10px;
+  font-family: 'VT323', monospace;
+}
+
+
+// components
+
+.conversationBox {
+  @include shadowBox($type: 'textbox', $width: 600px, $height: 200px, $shadow-color: 'grey');
+  
+  &__wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 700px;
+    // min-height: 200px;
+  }
+
+  background-color: color(washed-white);
+  // padding: 10px;
+  // overflow: hidden;
+}
+
+
+.replica {
+  display: block;
+  margin: 10px 0;
+  
+  &__paragraph {
+    margin-bottom: 5px;
+  }
+};
+
+// button
+
+button {
+  outline: none;
+  border: none;
+  font-family: 'VT323', monospace;
+  
+  &:hover, &:active {
+    outline: none;
+    border: none;
+  }
+}
+
+// $width, $height, $color-main, $color-dark, $color-darker
+.choiceButton {
+  @include shadowBox($type: 'button', $width: 170px, $height: 30px, $shadow-color: 'grey');
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: color(grey-main);
+  
+  &--chosen {
+    background-color: color(rose-light);
+    &:after {
+      background-color: color(rose-dark);
+    }
+    &:before {
+      background-color: color(rose-darker);
+    }
+  }
+}
+
+
+
+// util
+.is-inactive {
+  display: none;
+}
+
