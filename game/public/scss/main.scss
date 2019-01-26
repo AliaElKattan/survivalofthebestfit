@@ -127,6 +127,8 @@ body {
   @include shadowBox($type: 'textbox', $width: 600px, $height: 200px);
   @include boxColors($bg-color: color(washed-white), $shadow-color: 'grey');
   
+  padding: 10px 20px;
+  
   &__wrapper {
     position: absolute;
     left: 50%;

@@ -12,7 +12,8 @@ body {
   height: inherit;
   width: inherit;
   position: relative;
-  background-color: #FAFAFA; }
+  background-color: #FAFAFA;
+  padding: 10px 20px; }
   .conversationBox__wrapper {
     display: inline-block;
     margin-right: 20px;
