@@ -47,14 +47,14 @@ $colors: (
   &:before {
     left: 0;
     width: inherit;
-    background: color(shadow-#{$shadow-color}-dark);
+    // background: color(shadow-#{$shadow-color}-dark);
   }
   
   &:after {
     top: 0;
     height: inherit;
     // background: $shadow-light;
-    background: color(shadow-#{$shadow-color}-light);
+    // background: color(shadow-#{$shadow-color}-light);
   }
 
   @if $type == 'button' {
@@ -90,6 +90,16 @@ $colors: (
   }
 };
 
+@mixin boxColors($bg-color: inherit, $shadow-color: 'grey') {
+  background-color: $bg-color;
+  &:before {
+    background: color(shadow-#{$shadow-color}-dark);
+  }
+  
+  &:after {
+    background: color(shadow-#{$shadow-color}-light);
+  }
+}
 
 
 
@@ -114,7 +124,8 @@ body {
 // components
 
 .conversationBox {
-  @include shadowBox($type: 'textbox', $width: 600px, $height: 200px, $shadow-color: 'grey');
+  @include shadowBox($type: 'textbox', $width: 600px, $height: 200px);
+  @include boxColors($bg-color: color(washed-white), $shadow-color: 'grey');
   
   &__wrapper {
     position: absolute;
@@ -122,12 +133,8 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
     max-width: 700px;
-    // min-height: 200px;
   }
 
-  background-color: color(washed-white);
-  // padding: 10px;
-  // overflow: hidden;
 }
 
 
@@ -155,22 +162,16 @@ button {
 
 // $width, $height, $color-main, $color-dark, $color-darker
 .choiceButton {
-  @include shadowBox($type: 'button', $width: 170px, $height: 30px, $shadow-color: 'grey');
+  @include shadowBox($type: 'button', $width: 170px, $height: 30px, );
+  @include boxColors($bg-color: color(grey-main), $shadow-color: 'grey');
   
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: color(grey-main);
   
   &--chosen {
-    background-color: color(rose-light);
-    &:after {
-      background-color: color(rose-dark);
-    }
-    &:before {
-      background-color: color(rose-darker);
-    }
+    @include boxColors($bg-color: color(rose-light), $shadow-color: 'rose');
   }
 }
 
