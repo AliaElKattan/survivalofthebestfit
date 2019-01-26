@@ -17,21 +17,15 @@ Array.from(buttons).forEach(function(element) {
         button.closest('.choiceButton__wrapper').classList.add('is-inactive');
       };
     });
-    // choiceButton.classList.add('js-active');
-    
-    const nextReplica = (() => {
-      try {
-        return document.getElementsByClassName("replica--" + (parseInt(currentReplica.dataset.step)+1))[0];
-      } catch {
-        return null;
-      }
-    })();
-    
-    if (nextReplica) {
+    // check if there's any other replicas in the conversation
+    // if they are, show them, otherwise go on to the next stage
+    try {
+      const nextReplica =  document.getElementsByClassName("replica--" + (parseInt(currentReplica.dataset.step)+1))[0];
       nextReplica.classList.remove('is-inactive');
-    } else {
+    } catch {
       console.log('move on to the next part in the story!');
-    };  
+    }
+    
   });
   
 });
