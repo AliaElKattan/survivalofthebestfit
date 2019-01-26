@@ -9,10 +9,10 @@ html(lang='en')
    div(class="conversationBox__wrapper")
      div(class="conversationBox")
        each prompt,index in conversation
-         div(class=index === 0 ? '' : 'is-inactive', class="replica replica--"+index data-step=index)
+         div(class=index === 0 ? '' : 'is-inactive', class="replica replica--"+index, data-step=index)
            p(class="replica__paragraph") #{prompt.text}
            if prompt.answer_choice
              each choice in prompt.answer_choice
                div(class="choiceButton__wrapper")
-                 p(class='choiceButton') #{choice.text}
+                 p(class='choiceButton choiceButton--', data-step=index) #{choice.text}
    script(src='/components/demo/demo.js')
