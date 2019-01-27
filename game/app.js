@@ -10,6 +10,7 @@ const path = require('path');
  */
 const home = require('./routes/home');
 const about = require('./routes/about');
+const game = require('./routes/game');
 
 /**
  * Create Express server. First line is required to compile Web assembly code for libsvm library.
@@ -31,6 +32,7 @@ app.use('/', express.static(path.join(__dirname, 'public')));
  */
 app.get('/', home.index);
 app.get('/about', about.index);
+app.get('/game', game.index);
 
 /**
  * Start Express server.
