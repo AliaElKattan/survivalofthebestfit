@@ -1,21 +1,45 @@
-import { floorPlanOne, floorPlanTwo } from '../textures.js';
-import { officeContainer, eventEmitter, animateTo } from '../shared.js';
+import { officeContainer, deskContainer, eventEmitter, animateTo } from '../shared.js';
 import { gameFSM } from '../gameStates.js';
 import { createDesk } from './desk.js';
 
 class Office {
     constructor() {
         this.sizeConfig = [
-            {row: 4, col: 4, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 1, texture: floorPlanOne},
-            {row: 6, col: 8, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.5, texture: floorPlanTwo},
-            {row: 8, col: 12, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.7, texture: floorPlanTwo}
+            {row: 4, col: 4, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 1},
+            {row: 6, col: 8, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.5},
+            {row: 8, col: 12, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.7}
         ]
         this.takenDesks = 0;
         this.deskList = [];
         this.size = 0;
         this.scale = 1;
+
+        this.drawFloor(560);
+        this.drawFloor(300);
+
         this.growOffice();
         this.listenerSetup();
+
+    }
+
+    drawFloor(y) {
+        this.surface = new PIXI.Graphics();
+        this.surface.beginFill(0xffd9d9);
+        this.surface.drawRect(0, 0, 800, 40);
+        this.surface.endFill();
+        this.surface.x = 0;
+        this.surface.y = y;
+
+        this.side = new PIXI.Graphics();
+        this.side.beginFill(0xef807f);
+        this.side.drawRect(0, 0, 800, 20);
+        this.side.endFill();
+        this.side.x = 0;
+        this.side.y = y+40;
+
+        deskContainer.addChild(this.surface);
+        deskContainer.addChild(this.side);
+
     }
 
     growOffice(objectToResize=[]){

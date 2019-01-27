@@ -4,6 +4,8 @@ import { Office } from './office/office.js';
 import { incubator } from './textures.js';
 import { TextBox }  from './common/instructionBubble.js';
 import { startTaskTimer } from './common/taskTimer.js';
+import { CVViewer } from './common/cvViewer.js';
+import { cvCollection } from '../assets/cvCollection.js';
 
 import {xIcon} from './textures.js';
 
@@ -12,7 +14,6 @@ var personList;
 
 var gameFSM = new machina.Fsm( {
     namespace: "game-fsm",
-    //initialState: "uninitialized",
     initialState: "stageOne",
 
     states: {
@@ -29,7 +30,7 @@ var gameFSM = new machina.Fsm( {
             _onEnter: function(){
                 this.timer = setTimeout( function() {
                     this.handle( "timeout" );
-                }.bind( this ), 300000 );
+                }.bind( this ), 300 );
 
                 this.image = new PIXI.Sprite(incubator);
                 pixiApp.stage.addChild(this.image);
@@ -53,23 +54,22 @@ var gameFSM = new machina.Fsm( {
                 personList = []
 
                 //create People in the office
-                var x = 10;
-                var y = pixiApp.screen.height - 100;
-                for (var i = 0; i < 10; i++) {
+                var x = 100;
+                var y = pixiApp.screen.height - 60;
+                for (var i = 0; i < 12; i++) {
                     var person = createPerson(x, y, office);
                     personList.push(person);
-                    x += 80
+                    x += 50
                 }
 
                 var messagebox2 = new TextBox();
                 messagebox2.drawBox(70,-150,"sample text sample text sample text ");
 
-
                 var messagebox2 = new TextBox();
                 messagebox2.drawBox(300,-150,"sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text ");
 
-
-                startTaskTimer(500, 150, 210, 140, txt.stageOne.taskDescription, 140);
+                startTaskTimer(150, 50, 210, 100, txt.stageOne.taskDescription, 140);
+                var cvViewer = new CVViewer(550, 100, 160, 200, cvCollection.cvFeatures, cvCollection.stageOne);
             },
 
             nextStage: "stageTwo",
