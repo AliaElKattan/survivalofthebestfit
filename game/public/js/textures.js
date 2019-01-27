@@ -13,4 +13,8 @@ floorPlanOne.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 var floorPlanTwo = PIXI.Texture.fromImage('assets/img/3D-floorplan-large.jpg');
 floorPlanTwo.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-export { personTexture, deskTexture, incubator , floorPlanOne, floorPlanTwo}
+var xIcon = PIXI.Texture.fromImage('assets/img/x-icon.png');
+floorPlanTwo.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+
+
+export { personTexture, deskTexture, incubator , floorPlanOne, floorPlanTwo, xIcon}
