@@ -7,6 +7,7 @@
     "express": "^4.16.4",
     "morgan": "^1.9.1",
     "mustache-express": "^1.2.8",
+    "node-sass": "^4.11.0",
     "nodemon": "^1.18.7",
     "pug": "^2.0.3"
   },
@@ -19,7 +20,10 @@
   },
   "scripts": {
     "test": "test scrip include from karma website",
-    "start": "parcel static-website-content/index.html"
+    "start": "parcel static-website-content/index.html",
+    "dev" : "npm run watch-css & nodemon app.js",
+    "build-css": "node-sass --include-path scss public/scss/main.scss public/css/main.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
   },
   "author": "",
   "license": "MIT"
