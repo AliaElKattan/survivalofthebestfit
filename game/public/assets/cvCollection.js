@@ -1,5 +1,10 @@
+/*///////////////////
+Object of all CVs for each stage
+As of now, skills are scaled out of 10
+*////////////////////
+
 var cvCollection = {
-    cvFeatures : ["skill", "school", "workExp", "ambition"],
+    cvFeatures : ["Skill", "School Prestige", "Work Experience", "Ambition"],
     stageOne: [
         {
             name: "John Doe",
