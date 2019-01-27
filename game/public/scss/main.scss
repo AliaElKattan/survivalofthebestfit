@@ -3,11 +3,13 @@ $badass: #bada55;
 
 $colors: (
   bg-yellow: #F9F0E3,
-  washed-white: #FAFAFA, 
+  bg-washed-white: #FAFAFA,
+  txt-light-grey: #B2B2B2,
+  txt-black: #000000,
   rose-light: #FECCC7,
+  grey-main: #F2F2F2,
   shadow-rose-light: #F29488, 
   shadow-rose-dark: #FFADA3,
-  grey-main: #F2F2F2,
   shadow-grey-light: #B9B9B9,
   shadow-grey-dark: #919191,
 );
@@ -16,15 +18,6 @@ $colors: (
 @function color($key) {
 	@return map-get($colors, $key);
 }
-
-// @mixin colorCheck($type) {
-//   @if $type == 'type-button' {
-//     // Conditional code
-//     background-color: red;
-//   } @else {
-//     background-color: blue;
-//   }
-// }
 
 @mixin shadowBox($type, $width, $height, $shadow-color: 'grey') {
   &__wrapper {
@@ -124,8 +117,8 @@ body {
 // components
 
 .conversationBox {
-  @include shadowBox($type: 'textbox', $width: 600px, $height: 200px);
-  @include boxColors($bg-color: color(washed-white), $shadow-color: 'grey');
+  @include shadowBox($type: 'textbox', $width: 600px, $height: 500px);
+  @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'grey');
   
   padding: 10px 20px;
   
@@ -136,16 +129,21 @@ body {
     transform: translate(-50%, -50%);
     max-width: 700px;
   }
+  
+  &__head {
+    color: color(txt-light-grey);
+  }
 
 }
 
 
 .replica {
   display: block;
-  margin: 10px 0;
+  margin: 10px 0 20px 0;
   
   &__paragraph {
-    margin-bottom: 5px;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
   }
 };
 
@@ -164,7 +162,7 @@ button {
 
 // $width, $height, $color-main, $color-dark, $color-darker
 .choiceButton {
-  @include shadowBox($type: 'button', $width: 170px, $height: 30px, );
+  @include shadowBox($type: 'button', $width: 250px, $height: 30px, );
   @include boxColors($bg-color: color(grey-main), $shadow-color: 'grey');
   
   display: flex;
@@ -172,8 +170,11 @@ button {
   align-items: center;
   text-align: center;
   
+  color: color(txt-light-grey);
+  
   &--chosen {
     @include boxColors($bg-color: color(rose-light), $shadow-color: 'rose');
+    color: color(txt-black);
   }
 }
 

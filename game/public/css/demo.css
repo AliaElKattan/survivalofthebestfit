@@ -18,7 +18,7 @@ body {
     display: inline-block;
     margin-right: 20px;
     width: 600px;
-    height: 200px; }
+    height: 500px; }
   .conversationBox:before, .conversationBox:after {
     content: "";
     display: inline-block;
@@ -47,12 +47,15 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
     max-width: 700px; }
+  .conversationBox__head {
+    color: #B2B2B2; }
 
 .replica {
   display: block;
-  margin: 10px 0; }
+  margin: 10px 0 20px 0; }
   .replica__paragraph {
-    margin-bottom: 5px; }
+    font-size: 1.2rem;
+    margin-bottom: 15px; }
 
 button {
   outline: none;
@@ -70,11 +73,12 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center; }
+  text-align: center;
+  color: #B2B2B2; }
   .choiceButton__wrapper {
     display: inline-block;
     margin-right: 20px;
-    width: 170px;
+    width: 250px;
     height: 30px; }
   .choiceButton:before, .choiceButton:after {
     content: "";
@@ -99,7 +103,8 @@ button {
   .choiceButton:after {
     background: #B9B9B9; }
   .choiceButton--chosen {
-    background-color: #FECCC7; }
+    background-color: #FECCC7;
+    color: #000000; }
     .choiceButton--chosen:before {
       background: #FFADA3; }
     .choiceButton--chosen:after {

@@ -1,13 +1,16 @@
 doctype html  
 html(lang='en')  
  head
-   title Pug
+   title Conversation demo
    link(rel="stylesheet", href="/css/demo.css")
    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=VT323")
  body
-   h1 Pug Examples
+   h1 Conversation demo
    div(class="conversationBox__wrapper")
      div(class="conversationBox")
+       div(class="conversationBox__head")
+         p From: software-engineer@company.com
+         p Subject: Hiring Algorithm
        each prompt,index in conversation
          div(class=index === 0 ? '' : 'is-inactive', class="replica replica--"+index, data-step=index)
            p(class="replica__paragraph") #{prompt.text}
@@ -15,4 +18,5 @@ html(lang='en')
              each choice in prompt.answer_choice
                div(class="choiceButton__wrapper")
                  p(class='choiceButton choiceButton--', data-step=index) #{choice.text}
-   script(src='/components/demo/demo.js')
+   script(src='/assets/demo-conversation-text.js')
+   script(src='/components/demo/demo-conversation.js')
