@@ -50,6 +50,11 @@ Function inputs:
 ```js
 import { uv2px } from '../common/utils.js';
 
-uv2px({x: 0.1, y: 0.6}) // output: {x: 100, y: 600})
-uv2px(0.5, 'w') // output: 500
+// rectangle is full width of the screen
+this.drawRect(0, 0, uv2px(1,'w'), 40);
+
+// start drawing at the center of the screen
+var coor = u2px({x: 0.5, y: 0.5});
+this.drawRect(coor.x, coor.y, 50, 50); // one way
+this.drawRect(uv2px(0.5,'w'), uv2px(0.5,'h'), 50, 50); // another way
 ```
