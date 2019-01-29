@@ -55,8 +55,8 @@ import { uv2px } from '../common/utils.js';
 this.drawRect(0, 0, uv2px(1,'w'), 40);
 
 // start drawing at the center of the screen
-var coorObj = u2px({x: 0.5, y: 0.5}); // if you prefer objects
-var coorArray = u2px([0.5,0.5]); // if you prefer arrays
+var coorObj = uv2px({x: 0.5, y: 0.5}); // if you prefer objects
+var coorArray = uv2px([0.5,0.5]); // if you prefer arrays
 
 this.drawRect(coorObj.x, coorObj.y, 50, 50); // this works
 this.drawRect(coorArray[0], coorArray[1], 50, 50); // ...this works too
