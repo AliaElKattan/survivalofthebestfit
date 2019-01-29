@@ -43,4 +43,13 @@ Similarly, UV coordinates can be used for measurements:
 - `UV(0.5)` means the element's width is 1/2 of the canvas width etc.
 
 ### Converting UV coordinates to screen pixels
-In `
+In the javascript utilities file (`js/common/utils.js`), there is a function `uv2px`, which accepts uv coordinates ([0-1]), and outputs the corresponding values in screen pixels based on Pixi app dimensions. <br />
+Function inputs:
+- object (`{x: 0.2, y: 0.1}`)
+- value and axis `'w' for width, 'h' for height: e.g. (0.5, 'w')`)
+```js
+import { uv2px } from '../common/utils.js';
+
+uv2px({x: 0.1, y: 0.6}) // output: {x: 100, y: 600})
+uv2px(0.5, 'w') // output: 500
+```
