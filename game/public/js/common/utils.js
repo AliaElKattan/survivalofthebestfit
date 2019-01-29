@@ -15,8 +15,9 @@ var spacingUtils = {
     },
 };
 
+// convert uv coordinates to screen pixels
+
 const uv2px = (uv, axis = null) => {
-  
   const { width, height } = pixiApp.screen;
   // input is object
   if (typeof uv === 'object' && uv !== null) {
@@ -35,14 +36,11 @@ const uv2px = (uv, axis = null) => {
   } else {
     throw "You supplied an invalid value to the function, check utils file for valid inputs";
   };
-  
 };
 
-// (function(){
-// 
-//   console.log(width);
-//   // console.log('self invoking!');
-//   // console.log(pixiApp.screen.width);
-// })();
+// clamp a value
+const clamp = (val, minVal, maxVal) => {
+  return Math.max(minVal, Math.min(maxVal,val));
+};
 
-export { spacingUtils, uv2px };
+export { spacingUtils, uv2px, clamp };
