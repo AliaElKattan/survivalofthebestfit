@@ -1,4 +1,9 @@
-var pixiApp = new PIXI.Application(800, 600, {backgroundColor : 0xf9f0e2});
+// make fullscreen app
+var pixiApp = new PIXI.Application(
+  window.innerWidth, 
+  window.innerHeight, 
+  {backgroundColor : 0xf9f0e2}
+);
 pixiApp.renderer.autoResize = true;
 
 var officeContainer = new PIXI.Container();
@@ -54,6 +59,13 @@ function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), t
     'scale' : {'x': target.scale.x*scale, 'y': target.scale.y*scale}
   })
   return tween;
+}
+
+window.addEventListener('resize', debounce(resize, 200));
+function resize() {
+  console.log('debounced!');
+	// pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
+  // rect.position.set(app.screen.width, app.screen.height);
 }
 
 export { pixiApp,  officeContainer, personContainer, deskContainer, 

@@ -1,6 +1,8 @@
 import { officeContainer, deskContainer, eventEmitter, animateTo } from '../shared.js';
 import { gameFSM } from '../gameStates.js';
 import { createDesk } from './desk.js';
+import { uv2px } from '../common/utils.js';
+
 
 class Office {
     constructor() {
@@ -25,7 +27,7 @@ class Office {
     drawFloor(y) {
         this.surface = new PIXI.Graphics();
         this.surface.beginFill(0xffd9d9);
-        this.surface.drawRect(0, 0, 800, 40);
+        this.surface.drawRect(0, 0, uv2px(1,'w'), 40);
         this.surface.endFill();
         this.surface.x = 0;
         this.surface.y = y;
