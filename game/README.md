@@ -1,14 +1,3 @@
-<sup> **[Getting Started](https://github.com/AliaElKattan/survivalofthebestfit/blob/master/game/README.md#getting-started)**</sup>
-<br />
-<sup> **[Components](https://github.com/AliaElKattan/survivalofthebestfit/blob/master/game/README.md#components)**</sup>
-<br />
-<sup> **[Responsive Design](https://github.com/AliaElKattan/survivalofthebestfit/blob/master/game/README.md#components)**</sup>
-<br/>
-<sup> -- **[UV Space](https://github.com/AliaElKattan/survivalofthebestfit/blob/master/game/README.md#uv-space)**</sup>
-<br />
-<sup> -- **[Converting UV coordinates to screen pixels](https://github.com/AliaElKattan/survivalofthebestfit/blob/master/game/README.md#converting-uv-coordinates-to-screen-pixels)**</sup>
-<hr />
-
 # Getting started
 Commands to get you started:
 `npm install -g --save nodemon`
