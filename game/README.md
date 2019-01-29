@@ -25,7 +25,7 @@ ES6 style modules       - to manage the diff files just makes sure to import and
 
 [Dumb object diagram](https://docs.google.com/drawings/d/1150vTQ1k2IRiph14dX6WhjQmsuUhx7Sej9fgFJ7gKIg/edit?usp=sharing)
 
-# Responsive design
+# Responsive Pixi
 ### UV Space
 The first step towards a responsive pixi.js application is to cast coordinates and measurements in relative terms. A useful way to think of this is a metaphor of a UV space. UV coordinates are normalized and range between `0` and `1`. 
 <br />
