@@ -16,6 +16,7 @@ var spacingUtils = {
 };
 
 const uv2px = (uv, axis = null) => {
+  
   const { width, height } = pixiApp.screen;
   // input is object
   if (typeof uv === 'object' && uv !== null) {
@@ -34,6 +35,7 @@ const uv2px = (uv, axis = null) => {
   } else {
     throw "You supplied an invalid value to the function, check utils file for valid inputs";
   };
+  
 };
 
 // (function(){
