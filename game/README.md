@@ -44,9 +44,10 @@ Similarly, UV coordinates can be used for measurements:
 
 ### Converting UV coordinates to screen pixels
 In the javascript utilities file (`js/common/utils.js`), there is a function `uv2px`, which accepts uv coordinates ([0-1]), and outputs the corresponding values in screen pixels based on Pixi app dimensions. <br />
-Function inputs:
+Possible inputs:
 - object (`{x: 0.2, y: 0.1}`)
-- value and axis `'w' for width, 'h' for height: e.g. (0.5, 'w')`)
+- array (`[0.4, 0.76]`)
+- single value and axis `'w' for width, 'h' for height: e.g. (0.5, 'w')`)
 ```js
 import { uv2px } from '../common/utils.js';
 
@@ -54,7 +55,10 @@ import { uv2px } from '../common/utils.js';
 this.drawRect(0, 0, uv2px(1,'w'), 40);
 
 // start drawing at the center of the screen
-var coor = u2px({x: 0.5, y: 0.5});
-this.drawRect(coor.x, coor.y, 50, 50); // one way
-this.drawRect(uv2px(0.5,'w'), uv2px(0.5,'h'), 50, 50); // another way
+var coorObj = u2px({x: 0.5, y: 0.5}); // if you prefer objects
+var coorArray = u2px([0.5,0.5]); // if you prefer arrays
+
+this.drawRect(coorObj.x, coorObj.y, 50, 50); // this works
+this.drawRect(coorArray[0], coorArray[1], 50, 50); // ...this works too
+this.drawRect(uv2px(0.5,'w'), uv2px(0.5,'h'), 50, 50); // ...this is also good
 ```
