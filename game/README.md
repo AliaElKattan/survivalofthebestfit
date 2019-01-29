@@ -49,7 +49,7 @@ Possible inputs:
 - array (`[0.4, 0.76]`)
 - single value and axis `'w' for width, 'h' for height: e.g. (0.5, 'w')`)
 ```js
-import { uv2px } from '../common/utils.js';
+import { uv2px } from './js/common/utils.js';
 
 // rectangle is full width of the screen
 this.drawRect(0, 0, uv2px(1,'w'), 40);
@@ -61,4 +61,14 @@ var coorArray = uv2px([0.5,0.5]); // if you prefer arrays
 this.drawRect(coorObj.x, coorObj.y, 50, 50); // this works
 this.drawRect(coorArray[0], coorArray[1], 50, 50); // ...this works too
 this.drawRect(uv2px(0.5,'w'), uv2px(0.5,'h'), 50, 50); // ...this is also good
+```
+
+#### Using uv2px with clamp
+Sometimes, blindly resizing an element based on canvas size leads to awkward results (e.g. you test a text box on a small screen and then it looks huge on a big screen). In delicate resizing cases, you can use the `clamp` function to clamp a value between a minimum and a maximum.
+- `clamp(value, minimumValue, maximumValue)`
+```js
+// make the rectangle's size half of the screen's width, but only if it's between 200px and 500px wide
+import { clamp } from '.js/common/utils.js';
+
+this.drawRect(0, 0, clamp(uv2px(0.5, 'w', 200, 500), 100);
 ```
