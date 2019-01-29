@@ -58,7 +58,7 @@ this.drawRect(0, 0, uv2px(1,'w'), 40);
 var coorObj = u2px({x: 0.5, y: 0.5}); // if you prefer objects
 var coorArray = u2px([0.5,0.5]); // if you prefer arrays
 
-this.drawRect(coorObj.x, coorObj.y, 50, 50); // one way
-this.drawRect(coorArray[0], coorArray[1], 50, 50); // ...or another
-this.drawRect(uv2px(0.5,'w'), uv2px(0.5,'h'), 50, 50); // ...or another
+this.drawRect(coorObj.x, coorObj.y, 50, 50); // this works
+this.drawRect(coorArray[0], coorArray[1], 50, 50); // ...this works too
+this.drawRect(uv2px(0.5,'w'), uv2px(0.5,'h'), 50, 50); // ...this is also good
 ```
