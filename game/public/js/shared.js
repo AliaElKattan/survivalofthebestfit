@@ -1,3 +1,5 @@
+const debounce = require('debounce');
+
 // make fullscreen app
 var pixiApp = new PIXI.Application(
   window.innerWidth, 
@@ -62,10 +64,10 @@ function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), t
 }
 
 window.addEventListener('resize', debounce(resize, 200));
+
 function resize() {
-  console.log('debounced!');
-	// pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
-  // rect.position.set(app.screen.width, app.screen.height);
+	pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
+  // TODO redraw all the elements!
 }
 
 export { pixiApp,  officeContainer, personContainer, deskContainer, 
