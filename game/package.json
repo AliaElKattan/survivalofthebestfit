@@ -3,12 +3,23 @@
   "version": "1.0.0",
   "description": "Simulation teaching about problems in AI",
   "main": "app.js",
+  "scripts": {
+    "test": "test scrip include from karma website",
+    "start": "parcel static-website-content/index.html",
+    "dev": "npm run watch-css & npm run watch-js & nodemon app.js",
+    "build-css": "node-sass --include-path scss public/scss/main.scss public/css/main.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\"",
+    "watch-js": "npm run watch-game-js & npm run watch-transition-js",
+    "watch-game-js": "watchify public/js/game-page/index.js -t babelify --outfile public/dist/game-bundle.js -v",
+    "watch-transition-js": "watchify public/js/transition-page/index.js -t babelify --outfile public/dist/transition-bundle.js -v"
+  },
   "dependencies": {
     "@babel/core": "^7.2.2",
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.3.1",
     "babelify": "^10.0.0",
     "browserify": "^16.2.3",
+    "component-loader-js": "^4.0.0",
     "debounce": "^1.2.0",
     "express": "^4.16.4",
     "morgan": "^1.9.1",
@@ -25,15 +36,6 @@
     "karma-jasmine": "^2.0.1",
     "node-sass": "^4.11.0",
     "parcel-bundler": "^1.11.0"
-  },
-  "scripts": {
-    "test": "test scrip include from karma website",
-    "start": "parcel static-website-content/index.html",
-    "dev": "npm run watch-css & npm run watch-js & nodemon app.js",
-    "build-css": "node-sass --include-path scss public/scss/main.scss public/css/main.css",
-    "watch-css": "nodemon -e scss -x \"npm run build-css\"",
-    "build-js": "browserify index.js -o dist/bundle.js",
-    "watch-js": "watchify public/js/game-index.js -t babelify --outfile public/dist/bundle.js -v"
   },
   "author": "",
   "license": "MIT"

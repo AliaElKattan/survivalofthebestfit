@@ -16,7 +16,6 @@ html(lang='en')
            p(class="replica__paragraph") #{prompt.text}
            if prompt.answer_choice
              each choice in prompt.answer_choice
-               div(class="choiceButton__wrapper")
+               div(class="choiceButton__wrapper", data-component="ChoiceButton")
                  p(class='choiceButton choiceButton--', data-step=index) #{choice.text}
-   script(src='/assets/demo-conversation-text.js')
-   script(src='/components/demo/demo-conversation.js')
+   script(src='/dist/transition-bundle.js')
