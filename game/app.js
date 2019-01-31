@@ -11,6 +11,7 @@ const path = require('path');
 const home = require('./routes/home');
 const about = require('./routes/about');
 const game = require('./routes/game');
+const ml_conversation_demo = require('./routes/demo-conversation-route');
 
 /**
  * Create Express server. First line is required to compile Web assembly code for libsvm library.
@@ -33,6 +34,7 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.get('/', home.index);
 app.get('/about', about.index);
 app.get('/game', game.index);
+app.get('/demo-conversation', ml_conversation_demo.index);
 
 /**
  * Start Express server.
