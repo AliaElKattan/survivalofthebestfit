@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import { pixiApp, startTweenManager } from './shared.js';
 import { gameFSM } from './gameStates.js';
 import {trainSVM } from './svm.js';

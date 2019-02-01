@@ -9,7 +9,8 @@
     "dev": "npm run watch-css & npm run watch-js & nodemon app.js",
     "build-css": "node-sass --include-path scss public/scss/main.scss public/css/main.css",
     "watch-css": "nodemon -e scss -x \"npm run build-css\"",
-    "watch-js": "npm run watch-game-js & npm run watch-transition-js",
+    "watch-js": "npm run watch-main-js & npm run watch-game-js & npm run watch-transition-js",
+    "watch-main-js": "watchify public/js/main.js -t babelify --outfile public/dist/main-bundle.js -v",
     "watch-game-js": "watchify public/js/game-page/index.js -t babelify --outfile public/dist/game-bundle.js -v",
     "watch-transition-js": "watchify public/js/transition-page/index.js -t babelify --outfile public/dist/transition-bundle.js -v"
   },
