@@ -1,3 +1,4 @@
+// import txt from '../assets/textTemplate.js'
 import { pixiApp, eventEmitter, animateTo } from './shared.js';
 import { createPerson } from './office/person.js';
 import { Office } from './office/office.js';

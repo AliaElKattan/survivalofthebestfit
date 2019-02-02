@@ -1,3 +1,6 @@
+import * as PIXI from 'pixi.js';
+import * as tweenManager from 'pixi-tween';
+// console.log(PIXI);
 const debounce = require('debounce');
 
 // make fullscreen app

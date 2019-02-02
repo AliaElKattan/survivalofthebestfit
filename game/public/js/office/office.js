@@ -1,3 +1,5 @@
+import * as PIXI from 'pixi.js';
+import * as tweenManager from 'pixi-tween';
 import { officeContainer, deskContainer, eventEmitter, animateTo } from '../shared.js';
 import { gameFSM } from '../gameStates.js';
 import { createDesk } from './desk.js';
