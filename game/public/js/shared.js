@@ -1,11 +1,23 @@
-var pixiApp = new PIXI.Application(800, 600, {backgroundColor : 0x1099bb});
+const debounce = require('debounce');
+
+// make fullscreen app
+var pixiApp = new PIXI.Application(
+  window.innerWidth, 
+  window.innerHeight, 
+  {backgroundColor : 0xf9f0e2}
+);
+pixiApp.renderer.autoResize = true;
+
 var officeContainer = new PIXI.Container();
 var personContainer = new PIXI.Container();
 var deskContainer = new PIXI.Container();
 var timerContainer = new PIXI.Container();
+var cvViewerContainer = new PIXI.Container();
 
 pixiApp.stage.addChild(officeContainer);
 pixiApp.stage.addChild(timerContainer);
+pixiApp.stage.addChild(cvViewerContainer);
+
 officeContainer.addChild(deskContainer);
 officeContainer.addChild(personContainer);
 
@@ -51,4 +63,12 @@ function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), t
   return tween;
 }
 
-export { pixiApp,  officeContainer, personContainer, deskContainer, timerContainer, eventEmitter, startTweenManager, stopTweenManager, animateTo};
+window.addEventListener('resize', debounce(resize, 200));
+
+function resize() {
+	pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
+  // TODO redraw all the elements!
+}
+
+export { pixiApp,  officeContainer, personContainer, deskContainer, 
+  timerContainer, cvViewerContainer, eventEmitter, startTweenManager, stopTweenManager, animateTo};

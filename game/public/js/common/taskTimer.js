@@ -96,7 +96,7 @@ function updateTimerLength(taskTimer) {
     pixiApp.ticker.destroy();
   }
   else {
-    taskTimer.widthLife += 0.5;
+    taskTimer.widthLife += 0.1;
   }
 
   //console.log(taskTimer.widthLife);

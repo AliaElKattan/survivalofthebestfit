@@ -2,6 +2,13 @@
 var personTexture = PIXI.Texture.fromImage('assets/img/character.png');
 personTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
+var yellowPersonTexture = PIXI.Texture.fromImage('assets/img/person_yellow.png');
+
+yellowPersonTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+
+var bluePersonTexture = PIXI.Texture.fromImage('assets/img/person_blue.png');
+bluePersonTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+
 var deskTexture = PIXI.Texture.fromImage('assets/img/desk.png');
 deskTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
@@ -17,4 +24,4 @@ var xIcon = PIXI.Texture.fromImage('assets/img/x-icon.png');
 floorPlanTwo.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
 
-export { personTexture, deskTexture, incubator , floorPlanOne, floorPlanTwo, xIcon}
+export { personTexture, yellowPersonTexture, bluePersonTexture, deskTexture, incubator , floorPlanOne, floorPlanTwo, xIcon}

@@ -13,11 +13,9 @@ var english = {
 		welcome: "The winner of the 2 million dollar funding is... You!",
 	},
 	stageOne: {
-		taskDescription: "Task: Hire 5 new employees",
+		taskDescription: "Task: Hire 10 new employees",
 	}
 }
-
-
 
 var language = "hungarian";
 

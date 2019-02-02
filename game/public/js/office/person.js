@@ -1,4 +1,4 @@
-import { personTexture } from '../textures.js'
+import { personTexture, yellowPersonTexture, bluePersonTexture } from '../textures.js'
 import { pixiApp, officeContainer, personContainer, deskContainer, eventEmitter, animateTo } from '../shared.js';
 
 class personController {
@@ -69,13 +69,13 @@ function sendAssigned(){
 }
 
 function createPerson(x, y, scale, office){
-    var person = new PIXI.Sprite(personTexture);
+    var person = new PIXI.Sprite(bluePersonTexture);
     person.controller = new personController(person, office);
     person.interactive = true;
     person.buttonMode = true;
     person.type = "person";
     person.anchor.set(0.5);
-    person.scale.set(0.5*scale);
+    person.scale.set(0.15*scale);
     person.x = x;
     person.y = 0;
     person

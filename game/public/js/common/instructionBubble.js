@@ -27,12 +27,12 @@ drawBubble(messagex,messagey,messagetext) {
 
 
   let style = new PIXI.TextStyle({
-  fontFamily: "\"Lucida Console\", Monaco, monospace",
-  fontSize: 12,
-  fill: "black",
-  stroke: '#ff3300',
-  wordWrap: true,
-  wordWrapWidth: this.width - 10,
+    fontFamily: "\"Lucida Console\", Monaco, monospace",
+    fontSize: 12,
+    fill: "black",
+    stroke: '#ff3300',
+    wordWrap: true,
+    wordWrapWidth: this.width - 10,
   });
 
   let message = new PIXI.Text(messagetext, style);
