@@ -49662,6 +49662,7 @@ var _gameStates = require("./gameStates.js");
 var _svm = require("./svm.js");
 
 console.log(txt.stageZero.welcome);
+console.log('hellooo!');
 document.getElementById("gameCanvas").appendChild(_shared.pixiApp.view);
 var a = 0;
 

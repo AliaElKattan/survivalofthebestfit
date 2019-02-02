@@ -7,12 +7,11 @@
     "test": "test scrip include from karma website",
     "start": "parcel static-website-content/index.html",
     "dev": "nodemon app.js",
-    "dev-all": "npm run watch-css & npm run watch-js & nodemon app.js",
-    "build-css": "node-sass --include-path scss public/scss/main.scss public/css/main.css",
-    "watch-css": "nodemon -e scss -x \"npm run build-css\"",
-    "watch-js": "npm run watch-main-js & npm run watch-transition-js",
-    "watch-main-js": "watchify public/js/main.js -t babelify --outfile public/dist/main-bundle.js -v",
-    "watch-transition-js": "watchify public/js/transition-page/index.js -t babelify --outfile public/dist/transition-bundle.js -v"
+    "dev-all": "npm-run-all --parallel watch:* dev",
+    "build:css": "node-sass --include-path scss public/scss/main.scss public/css/main.css",
+    "watch:css": "nodemon -e scss -x \"npm run build:css\"",
+    "watch:main-js": "watchify public/js/main.js -t babelify --outfile public/dist/main-bundle.js -v",
+    "watch:transition-js": "watchify public/js/transition-page/index.js -t babelify --outfile public/dist/transition-bundle.js -v"
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
@@ -38,6 +37,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^2.0.1",
     "node-sass": "^4.11.0",
+    "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.11.0"
   },
   "author": "",
