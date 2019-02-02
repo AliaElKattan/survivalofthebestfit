@@ -1,15 +1,16 @@
 # Getting started
 Commands to get you started:
-`npm install -g --save nodemon`
-
-`npm install`
-
-`nodemon`
+- `npm install -g --save nodemon`
+- `npm install`: install all modules
+- `npm run dev`: transpile SASS, bundle up JS, and start a dev server
 
 Head over to localhost:3000 to view website
 
 Please keep in mind that this will be a static page, so don't rely on node packages, and don't make server-side logic, etc... The reason for the node server is that Chrome doesn't allow loading content straight from the disk, there has to be a server in between.
 
+# Tech stack
+- [SASS]
+- [Browserify]
 
 # Components
 
@@ -72,3 +73,59 @@ import { clamp } from '.js/common/utils.js';
 
 this.drawRect(0, 0, clamp(uv2px(0.5, 'w', 200, 500), 100);
 ```
+
+# Javascript
+
+## Browserify
+ES6 import/export statements do not work natively in the browser, so you need an external library to do a bit of magic and allow you to use javascript modules with import/export statements. One of such libraries is [Browserify](http://browserify.org/), which bundles up all of your dependendies and allows you to use modules in the browser. Bundling all module dependencies means that, in the end, you're left with one single javascript file containing all of your javascript (libs + custom code). When the page loads, you could use hundreds of javascript libraries, but the browser will only have to make one HTTP call to load your code, which results in better performance. Along with browserify, you also use a package called [babelify](https://github.com/babel/babelify), which transpiles ES6 code to ES5 that works in all modern browsers.
+<br />
+**Usage:**
+<br />
+The browserify is currently tied to the `npm run dev` command. This command will run a browserify bundler, and also start a nodemon server. Once our code is rewritten to accommodate browserify-enabled features, our pug will look something like this.
+
+```pug 
+html
+  head
+
+  body
+
+    script(src="dist/our-bundled-code.js")
+```
+
+## ES6 imports/exports with Browserify
+ES6 ships with a handful of very useful features, one of the main ones being `import/export` statements. Previously, we would have to import all third-party libraries globally in the html file.
+```pug
+html
+  head
+    ...
+  body
+    ...
+    script(src="jquery...")
+    script(src="tween...")
+    script(src="lodash...")
+```
+
+With `import/export` statements, however, you can simply install javascript packages with `npm install` (e.g. `npm install jquery`) and also import the libraries directly into your modules. In doing so you make your javascript code easier to follow and understand.
+```js
+// my-animation-script.js
+import "my-animation-library"
+
+animate();
+```
+Of course, if you want to use the package globally, you can just include it in the `main.js` file
+```js
+// main.js
+import "babel/polyfill" // the library will be used globally
+import {app} from "./app-module.js"
+import {module1} from "./module.js"
+
+app();
+```
+
+## Styling: Sass + BEM
+[Sass](https://sass-lang.com/) is a CSS extension language that allows you to write modular CSS code. Sass ships with a bunch of code-resembling features, such as variables, key-value based lists, functions, reusable styling blocks, and more. Sass reduces repetition and confusion in styling elements, which is crucial in developing and maintaining bigger projects. Sass becomes even more powerful with [BEM](http://getbem.com/) a CSS naming conventions that encourages modulular styling and basically tries to remove weird styling errors that often happen because of style overwrites. Just like Sass, BEM speeds up the development process and makes our styling both scalable and maintainable.
+<br />
+**Usage:**
+<br />
+We will use the `.scss` syntax of SASS, which looks like an enhanced version of CSS. Browsers do not understand `.scss` files, so we have to transpile `.scss` files to `.css` first. We're using `node-sass` package for that. Currently, SASS-compiler script is used in `npm run dev`, so we watch all `.scss` files and transpile them to `.css` immediately during development.
+
