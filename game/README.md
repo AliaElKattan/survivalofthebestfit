@@ -2,7 +2,7 @@
 Commands to get you started:
 - `npm install -g --save nodemon`
 - `npm install`: install all modules
-- `npm run dev`: transpile SASS, bundle up JS, and start a dev server
+- `npm run dev-all`: transpile SASS, bundle up JS, and start a dev server
 
 Head over to localhost:3000 to view website
 
@@ -81,7 +81,7 @@ ES6 import/export statements do not work natively in the browser, so you need an
 <br />
 **Usage:**
 <br />
-The browserify is currently tied to the `npm run dev` command. This command will run a browserify bundler, and also start a nodemon server. Once our code is rewritten to accommodate browserify-enabled features, our pug will look something like this.
+The browserify is currently tied to the `npm run dev-all` command. This command will run a browserify bundler, and also start a nodemon server. Once our code is rewritten to accommodate browserify-enabled features, our pug will look something like this.
 
 ```pug 
 html
