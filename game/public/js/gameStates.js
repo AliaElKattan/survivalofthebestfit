@@ -1,5 +1,4 @@
-// import txt from '../assets/textTemplate.js'
-import { pixiApp, eventEmitter, animateTo } from './shared.js';
+import { pixiApp, eventEmitter, animateTo, beltContainer } from './shared.js';
 import { createPerson } from './office/person.js';
 import { Office } from './office/office.js';
 import { incubator } from './textures.js';
@@ -9,13 +8,15 @@ import { CVViewer } from './common/cvViewer.js';
 import { cvCollection } from '../assets/cvCollection.js';
 
 import {xIcon} from './textures.js';
+import {beltTexture, doorTexture} from './textures.js';
 
 var office;
-var personList;
+var personList, personList2;
 
 var gameFSM = new machina.Fsm( {
+
     namespace: "game-fsm",
-    initialState: "stageOne",
+    initialState: "stageFour",
 
     states: {
         uninitialized: {
@@ -63,11 +64,11 @@ var gameFSM = new machina.Fsm( {
                     x += 50
                 }
 
-                var messagebox2 = new TextBox();
-                messagebox2.drawBox(70,-150,"sample text sample text sample text ");
+                // var messagebox2 = new TextBox();
+                // messagebox2.drawBox(70,-150,"sample text sample text sample text ");
 
-                var messagebox2 = new TextBox();
-                messagebox2.drawBox(300,-150,"sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text ");
+                // var messagebox2 = new TextBox();
+                // messagebox2.drawBox(300,-150,"sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text ");
 
                 startTaskTimer(150, 50, 210, 100, txt.stageOne.taskDescription, 140);
                 var cvViewer = new CVViewer(550, 100, 160, 200, cvCollection.cvFeatures, cvCollection.stageOne);
@@ -115,15 +116,67 @@ var gameFSM = new machina.Fsm( {
                 office.growOffice(unassignedPeople);
             },
 
-            nextStage: "stageThree",
+            nextStage: "stageFour",
 
             _onExit: function() {
 
             }
         },
 
+        stageFour: {
+
+          _onEnter: function(){
+
+              var messagebox2 = new TextBox();
+              messagebox2.drawBox(70,-150,"machine learning stage");
+
+
+              //conveyorBelt
+
+
+              //create People in the office
+
+              personList2 = []
+
+              var x = 350;
+              var y = pixiApp.screen.height - 90;
+
+
+              for (var i = 0; i < 12; i++) {
+                  var person = createPerson(x, y, office);
+                  personList2.push(person);
+                  x += 50
+              }
+
+
+
+              var belt_y =  (pixiApp.screen.height)/2 - (pixiApp.screen.height/8);
+              var belt_x = (pixiApp.screen.height)/2;
+
+              for (var j = 0; j<4;j++) {
+                  var belt = new PIXI.Sprite(beltTexture);
+                  belt.scale.set(.3);
+                  belt.y = belt_y;
+                  belt.x = belt_x + (160* j)  ;
+
+                  //beltList.push(belt);
+                  pixiApp.stage.addChild(belt);
+              }
+
+
+          },
+
+
+
+        }
+
+
+
 
     },
+
+
+
 
     startGame: function(){
         this.handle('startGame')

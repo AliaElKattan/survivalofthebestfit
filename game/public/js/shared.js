@@ -5,8 +5,8 @@ const debounce = require('debounce');
 
 // make fullscreen app
 var pixiApp = new PIXI.Application(
-  window.innerWidth, 
-  window.innerHeight, 
+  window.innerWidth,
+  window.innerHeight,
   {backgroundColor : 0xf9f0e2}
 );
 pixiApp.renderer.autoResize = true;
@@ -17,9 +17,13 @@ var deskContainer = new PIXI.Container();
 var timerContainer = new PIXI.Container();
 var cvViewerContainer = new PIXI.Container();
 
+var beltContainer = new  PIXI.Container();
+
 pixiApp.stage.addChild(officeContainer);
 pixiApp.stage.addChild(timerContainer);
 pixiApp.stage.addChild(cvViewerContainer);
+
+pixiApp.stage.addChild(beltContainer);
 
 officeContainer.addChild(deskContainer);
 officeContainer.addChild(personContainer);
@@ -73,5 +77,5 @@ function resize() {
   // TODO redraw all the elements!
 }
 
-export { pixiApp,  officeContainer, personContainer, deskContainer, 
+export { pixiApp,  beltContainer, officeContainer, personContainer, deskContainer,
   timerContainer, cvViewerContainer, eventEmitter, startTweenManager, stopTweenManager, animateTo};
