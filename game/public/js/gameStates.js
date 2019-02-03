@@ -6,6 +6,7 @@ import { TextBox }  from './common/instructionBubble.js';
 import { startTaskTimer } from './common/taskTimer.js';
 import { CVViewer } from './common/cvViewer.js';
 import { cvCollection } from '../assets/cvCollection.js';
+import { uv2px } from './common/utils.js';
 
 import {xIcon} from './textures.js';
 import {beltTexture, doorTexture} from './textures.js';
@@ -52,9 +53,12 @@ var gameFSM = new machina.Fsm( {
         *////////////////////
         stageOne: {
             _onEnter: function(){
+                var stageOneOver = new TextBox(uv2px(0.5,'w'), uv2px(0.5,'h'), txt.stageOne.messageFromVc);
+                
                 office = new Office();
                 personList = []
 
+<<<<<<< HEAD
                 //create People in the office
                 var x = 100;
                 var y = pixiApp.screen.height - 60;
@@ -69,9 +73,24 @@ var gameFSM = new machina.Fsm( {
 
                 // var messagebox2 = new TextBox();
                 // messagebox2.drawBox(300,-150,"sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text ");
+=======
+                eventEmitter.on('instructionAcked', (data) => {
+                    
+                    //create People in the office
+                    var x = uv2px(0.12,'w');
+                    var xOffset = uv2px(0.05,'w')
+                    var y = uv2px(0.88,'h');
 
-                startTaskTimer(150, 50, 210, 100, txt.stageOne.taskDescription, 140);
-                var cvViewer = new CVViewer(550, 100, 160, 200, cvCollection.cvFeatures, cvCollection.stageOne);
+                    for (var i = 0; i < 12; i++) {
+                        var person = createPerson(x, y, office);
+                        personList.push(person);
+                        x += xOffset
+                    }
+>>>>>>> e43aaeea2db857cb796c76a1336a3af6e881fa0e
+
+                    startTaskTimer(uv2px(0.7,'w'), uv2px(0.1,'h'), uv2px(0.22,'w'), uv2px(0.16,'h'), txt.stageOne.taskDescription, 140, 5);
+                    var cvViewer = new CVViewer(uv2px(0.8,'w'), uv2px(0.62,'h'), uv2px(0.13,'w'), uv2px(0.32,'h'), cvCollection.cvFeatures, cvCollection.stageOne);
+                });
             },
 
             nextStage: "stageTwo",
@@ -85,14 +104,22 @@ var gameFSM = new machina.Fsm( {
         // Big office, city level view
         *////////////////////
         stageTwo: {
-            _onEnter: function(){
-                var unassignedPeople = []
-                for (var i = 0; i < personList.length; i++) {
-                    if (!personList[i].controller.isSeated()){
-                        unassignedPeople.push(personList[i]);
+            _onEnter: function () {
+                var stageOneOver = new TextBox(uv2px(0.5,'w'), uv2px(0.5,'h'), txt.stageTwo.messageFromVc);
+
+                eventEmitter.on('instructionAcked', (data) => {
+                    var unassignedPeople = []
+                    for (var i = 0; i < personList.length; i++) {
+                        if (!personList[i].controller.isSeated()) {
+                            unassignedPeople.push(personList[i]);
+                        }
                     }
-                }
-                office.growOffice(unassignedPeople);
+                    office.growOffice(unassignedPeople);
+
+                    startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.stageTwo.taskDescription, 140, 10);
+
+                });
+
             },
 
             nextStage: "stageThree",

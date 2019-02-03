@@ -3,23 +3,28 @@ import * as tweenManager from 'pixi-tween';
 import { officeContainer, deskContainer, eventEmitter, animateTo } from '../shared.js';
 import { gameFSM } from '../gameStates.js';
 import { createDesk } from './desk.js';
-import { uv2px } from '../common/utils.js';
-
+import { uv2px, spacingUtils as space} from '../common/utils.js';
 
 class Office {
     constructor() {
         this.sizeConfig = [
-            {row: 4, col: 4, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 1},
-            {row: 6, col: 8, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.5},
-            {row: 8, col: 12, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.7}
+            {row: 1, col: 5, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: 50, scale: 1},
+            {row: 1, col: 15, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: 30, scale: 0.7},
+            {row: 2, col: 15, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: 20, scale: 0.5},
+            //{row: 8, col: 12, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.7}
         ]
         this.takenDesks = 0;
         this.deskList = [];
         this.size = 0;
         this.scale = 1;
 
-        this.drawFloor(560);
-        this.drawFloor(300);
+        var coorObj = uv2px({x: 1, y: 0.5}); // if you prefer objects
+
+        //first office floor
+        this.drawFloor(uv2px(0.5,'h'));
+
+        //ground floor
+        this.drawFloor(space.absMinusSize(40,'h'));
 
         this.growOffice();
         this.listenerSetup();
@@ -27,6 +32,7 @@ class Office {
     }
 
     drawFloor(y) {
+        //main floor
         this.surface = new PIXI.Graphics();
         this.surface.beginFill(0xffd9d9);
         this.surface.drawRect(0, 0, uv2px(1,'w'), 40);
@@ -34,16 +40,16 @@ class Office {
         this.surface.x = 0;
         this.surface.y = y;
 
+        //dark pink side of the floor
         this.side = new PIXI.Graphics();
         this.side.beginFill(0xef807f);
-        this.side.drawRect(0, 0, 800, 20);
+        this.side.drawRect(0, 0, uv2px(1,'w'), 20);
         this.side.endFill();
         this.side.x = 0;
         this.side.y = y+40;
 
         deskContainer.addChild(this.surface);
         deskContainer.addChild(this.side);
-
     }
 
     growOffice(objectToResize=[]){
@@ -75,11 +81,11 @@ class Office {
 
         //adding/moving desks and people at them
         var indx = 0;
-        var y = offsetY;
+        var y = uv2px(0.5,'h') - offsetY;
         var newDeskTweens = [];
         var moveDeskTweens = [];
         for (var i = 0; i < row; i++) {
-            var x = offsetX;
+            var x = (uv2px(1,'w') - width)/2;
             for (var k = 0; k < col; k++) {
                 if (this.deskList.length > indx){
                     moveDeskTweens.push(animateTo({target:this.deskList[indx], scale:scale, x:x, y:y}));
@@ -93,10 +99,10 @@ class Office {
                     newDeskTweens.push(animateTo({target:newDesk, y:y}));
                     this.deskList.push(newDesk);
                 }
-                x += width/(row-1);
+                x += width/(col);
                 indx++;
             }
-            y += height/(col-1);
+            y += height/(row-1);
         }
 
         newOfficeTween.start();
@@ -131,10 +137,11 @@ class Office {
     listenerSetup(){
         eventEmitter.on('assigned-desk', (data)=>{
             this.takenDesks += 1
-            if (this.takenDesks == 3){
+            if (this.takenDesks == 5){
+                eventEmitter.emit('stage-one-task-completed', {});
                 gameFSM.nextStage();
             }
-            if (this.takenDesks == 6){
+            if (this.takenDesks == 10){
                 gameFSM.nextStage();
             }
         });

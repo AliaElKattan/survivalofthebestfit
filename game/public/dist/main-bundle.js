@@ -49167,11 +49167,13 @@ exports.CVViewer = CVViewer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TextBox = exports.Bubble = void 0;
+exports.TextBox = void 0;
 
 var _shared = require("../shared.js");
 
 var _textures = require("../textures.js");
+
+var _utils = require("../common/utils.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -49179,92 +49181,49 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Bubble =
-/*#__PURE__*/
-function () {
-  function Bubble() {
-    _classCallCheck(this, Bubble);
-
-    this.width = 200;
-    this.height = 70;
-  }
-
-  _createClass(Bubble, [{
-    key: "drawBubble",
-    value: function drawBubble(messagex, messagey, messagetext) {
-      // var messagex = 300;
-      // var messagey = 100;
-      this.x = messagex;
-      this.y = messagey;
-      var roundBox = new PIXI.Graphics();
-      roundBox.lineStyle(4, 0x99CCFF, 1);
-      roundBox.beginFill(0xFFFFFF);
-      roundBox.drawRoundedRect(this.x, this.y, this.width, this.height, 10);
-      roundBox.endFill();
-      roundBox.x = 48;
-      roundBox.y = 190;
-
-      _shared.pixiApp.stage.addChild(roundBox);
-
-      var style = new PIXI.TextStyle({
-        fontFamily: "\"Lucida Console\", Monaco, monospace",
-        fontSize: 12,
-        fill: "black",
-        stroke: '#ff3300',
-        wordWrap: true,
-        wordWrapWidth: this.width - 10
-      });
-      var message = new PIXI.Text(messagetext, style);
-
-      _shared.pixiApp.stage.addChild(message);
-
-      message.position.set(this.x + 60, this.y + 200);
-    }
-  }]);
-
-  return Bubble;
-}();
-
-exports.Bubble = Bubble;
+var instructionContainer;
 
 var TextBox =
 /*#__PURE__*/
 function () {
-  function TextBox() {
+  function TextBox(width, height, messageText) {
+    var overlay = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+
     _classCallCheck(this, TextBox);
 
-    this.width = 200; // this.height = 70;
-
+    instructionContainer = new PIXI.Container();
+    this.width = width;
+    this.height = height;
+    this.text = messageText;
     this.alive = true;
+    if (overlay) this.drawFullScreenOverlay();
+    this.drawBox();
+
+    _shared.pixiApp.stage.addChild(instructionContainer);
   }
 
   _createClass(TextBox, [{
     key: "drawBox",
-    value: function drawBox(messagex, messagey, messagetext) {
-      // var messagex = 300;
-      // var messagey = 100;
-      this.x = messagex;
-      this.y = messagey;
+    value: function drawBox() {
+      this.x = _utils.spacingUtils.screenCenterX(this.width);
+      this.y = _utils.spacingUtils.screenCenterY(this.height);
       var style = new PIXI.TextStyle({
         fontFamily: "Lucida Console",
-        fontSize: 12,
+        fontSize: 14,
         fill: "black",
         stroke: '#ff3300',
         wordWrap: true,
-        wordWrapWidth: this.width - 10
+        wordWrapWidth: this.width - 10,
+        lineHeight: 20
       });
-      var message = new PIXI.Text(messagetext, style);
-      this.height2 = messagetext.height;
+      var message = new PIXI.Text(this.text, style);
+      this.height2 = this.text.height;
       var rectangle = new PIXI.Graphics();
       rectangle.lineStyle(4, 0x99CCFF, 1);
       rectangle.beginFill(0xFFFFFF);
-      rectangle.drawRect(this.x, this.y, this.width, message.height + 15, 10);
+      rectangle.drawRect(this.x, this.y, this.width, this.height, 10);
       rectangle.endFill();
-      rectangle.x = 48;
-      rectangle.y = 190;
-
-      _shared.pixiApp.stage.addChild(rectangle);
-
+      instructionContainer.addChild(rectangle);
       rectangle.buttonMode = true;
       rectangle.interactive = true;
       rectangle.on('pointertap', onPress);
@@ -49276,9 +49235,19 @@ function () {
       rectangle.addChild(icon);
       icon.scale.set(.04);
       icon.x = this.x + message.width + 15;
-      icon.y = this.y; // icon.x= message.x+ message.width;
-      // icon.y= message.y - 8;
-      // icon.on('pointertap',this.alive = false);
+      icon.y = this.y;
+    }
+  }, {
+    key: "drawFullScreenOverlay",
+    value: function drawFullScreenOverlay() {
+      var bg = new PIXI.Container();
+      bg.alpha = 0.5;
+      var overlay = new PIXI.Graphics();
+      overlay.beginFill(0xFFFFFF);
+      overlay.drawRect(0, 0, (0, _utils.uv2px)(1, 'w'), (0, _utils.uv2px)(1, 'h'));
+      overlay.endFill();
+      bg.addChild(overlay);
+      instructionContainer.addChild(bg);
     }
   }]);
 
@@ -49288,27 +49257,20 @@ function () {
 exports.TextBox = TextBox;
 
 function onPress(event) {
+  _shared.eventEmitter.emit('instructionAcked', {});
+
   this.data = event.data;
   this.visible = false;
-  console.log("text pressed");
-} // function createBubble(){
-//   //function createBubble(x, y, scale, text){
-//   //var bubble = new PIXI.RoundedRectangle(x,y,width,height, radius);
-//   var bubble = new PIXI.RoundedRectangle(10,10,50,50,5);
-//   //var text = new Text(text);
-//   //app.stage.addChild(text);
-//   // bubble.x = x
-//   // bubble.y = y
-//   // desk.scale.set(scale);
-//   // desk.interactive = true;
-//   bubble.controller = new Bubble(bubble);
-//
-//   bubbleContainer.addChild(bubble);
-// }
-//
-// export { createBubble };
+  hideInstruction();
+}
 
-},{"../shared.js":482,"../textures.js":484}],475:[function(require,module,exports){
+function hideInstruction() {
+  instructionContainer.removeChildren();
+  instructionContainer.parent.removeChild(instructionContainer);
+  instructionContainer.destroy();
+}
+
+},{"../common/utils.js":476,"../shared.js":482,"../textures.js":484}],475:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49326,10 +49288,12 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+var taskTimerContainer = new PIXI.Container(); //let ticker = PIXI.Ticker.shared;
+
 var TaskTimer =
 /*#__PURE__*/
 function () {
-  function TaskTimer(x, y, width, height, text, totalLife) {
+  function TaskTimer(x, y, width, height, text, totalLife, toHireNum) {
     _classCallCheck(this, TaskTimer);
 
     this.x = x;
@@ -49350,23 +49314,17 @@ function () {
     this.box.endFill();
     this.box.x = this.x;
     this.box.y = this.y;
-
-    _shared.timerContainer.addChild(this.box);
-
+    taskTimerContainer.addChild(this.box);
     this.timerBackground = new PIXI.Graphics();
     this.timerBackground.beginFill(0xFECCC7);
     this.timerBackground.drawRect(0, 0, this.totalLife, this.barHeight);
     this.timerBackground.endFill();
     this.timerBackground.x = this.timerStartX;
     this.timerBackground.y = this.barY;
-
-    _shared.timerContainer.addChild(this.timerBackground); //timer bar
-
+    taskTimerContainer.addChild(this.timerBackground); //timer bar
 
     this.timer = new PIXI.Graphics();
-
-    _shared.timerContainer.addChild(this.timer);
-
+    taskTimerContainer.addChild(this.timer);
     var style = new PIXI.TextStyle({
       fontFamily: "\"Lucida Console\", Monaco, monospace",
       fontSize: 12,
@@ -49377,9 +49335,7 @@ function () {
       wordWrapWidth: this.width - 10
     });
     var taskDesc = new PIXI.Text(this.text, style);
-
-    _shared.timerContainer.addChild(taskDesc);
-
+    taskTimerContainer.addChild(taskDesc);
     taskDesc.position.set(this.x + 10, this.y + 10);
     this.style2 = new PIXI.TextStyle({
       fontFamily: "\"Lucida Console\", Monaco, monospace",
@@ -49392,22 +49348,20 @@ function () {
     });
     this.listenerSetup();
     this.hiredNum = 0;
-    this.toHireNum = 10;
+    this.toHireNum = toHireNum;
     this.writeCounter();
   }
 
   _createClass(TaskTimer, [{
     key: "writeCounter",
     value: function writeCounter() {
-      if (_shared.timerContainer.children.length > 0) {
-        _shared.timerContainer.removeChild(this.counter);
+      if (taskTimerContainer.children.length > 0) {
+        taskTimerContainer.removeChild(this.counter);
       }
 
       this.hiredCountStr = this.hiredNum.toString() + "/" + this.toHireNum.toString();
       this.counter = new PIXI.Text(this.hiredCountStr, this.style2);
-
-      _shared.timerContainer.addChild(this.counter);
-
+      taskTimerContainer.addChild(this.counter);
       this.counter.position.set(_utils.spacingUtils.getCenteredChildX(this.x, this.width, 50), _utils.spacingUtils.getTwoThirdsChildY(this.y, this.height, 20));
     }
   }, {
@@ -49417,9 +49371,12 @@ function () {
 
       _shared.eventEmitter.on('assigned-desk', function (data) {
         _this.hiredNum += 1;
-        console.log(_this.hiredNum);
 
         _this.writeCounter();
+      });
+
+      _shared.eventEmitter.on('stage-one-task-completed', function (data) {
+        hideTimer();
       });
     }
   }]);
@@ -49432,11 +49389,12 @@ function updateTimerLength(taskTimer) {
     taskTimer.widthLife = 0;
     taskTimer.timeUp = true;
 
-    _shared.pixiApp.ticker.destroy();
+    _shared.eventEmitter.emit('stage-one-time-up', {});
+
+    hideTimer();
   } else {
     taskTimer.widthLife += 0.1;
-  } //console.log(taskTimer.widthLife);
-
+  }
 
   taskTimer.timer.beginFill(0xFFADA3);
   taskTimer.timer.drawRect(0, 0, taskTimer.widthLife, taskTimer.barHeight);
@@ -49445,12 +49403,23 @@ function updateTimerLength(taskTimer) {
   taskTimer.timer.y = taskTimer.barY;
 }
 
-function startTaskTimer(x, y, width, height, text, totalLife) {
-  var taskTimer = new TaskTimer(x, y, width, height, text, totalLife);
+function startTaskTimer(x, y, width, height, text, totalLife, toHireNum) {
+  taskTimerContainer = new PIXI.Container();
+
+  _shared.pixiApp.stage.addChild(taskTimerContainer);
+
+  var taskTimer = new TaskTimer(x, y, width, height, text, totalLife, toHireNum);
 
   _shared.pixiApp.ticker.add(function (delta) {
     updateTimerLength(taskTimer);
   });
+}
+
+function hideTimer() {
+  _shared.pixiApp.ticker.stop();
+
+  taskTimerContainer.parent.removeChild(taskTimerContainer);
+  taskTimerContainer.destroy();
 }
 
 },{"../shared.js":482,"./utils.js":476}],476:[function(require,module,exports){
@@ -49465,6 +49434,9 @@ var _shared = require("../shared.js");
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+var _pixiApp$screen = _shared.pixiApp.screen,
+    width = _pixiApp$screen.width,
+    height = _pixiApp$screen.height;
 var spacingUtils = {
   getCenteredChildX: function getCenteredChildX(parentX, parentWidth, childWidth) {
     return parentX + (parentWidth - childWidth) / 2;
@@ -49477,17 +49449,32 @@ var spacingUtils = {
   },
   getTwoThirdsChildY: function getTwoThirdsChildY(parentY, parentHeight, childHeight) {
     return parentY + 2 * ((parentHeight - childHeight) / 3);
+  },
+  // absolute height/width minus a value
+  absMinusSize: function absMinusSize(px, axis) {
+    return axis === 'w' ? width - px : height - px;
+  },
+  screenCenterX: function screenCenterX(childWidth) {
+    return this.getCenteredChildX(0, uv2px(1, 'w'), childWidth);
+  },
+  screenCenterY: function screenCenterY(childHeight) {
+    return this.getCenteredChildY(0, uv2px(1, 'h'), childHeight);
   }
 }; // convert uv coordinates to screen pixels
+
+/*
+start drawing at the center of the screen
+
+var coorObj = uv2px({x: 0.5, y: 0.5}); // if you prefer objects
+var coorArray = uv2px([0.5,0.5]); // if you prefer arrays
+*/
 
 exports.spacingUtils = spacingUtils;
 
 var uv2px = function uv2px(uv) {
   var axis = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var _pixiApp$screen = _shared.pixiApp.screen,
-      width = _pixiApp$screen.width,
-      height = _pixiApp$screen.height; // input is object
 
+  // input is object
   if (_typeof(uv) === 'object' && uv !== null) {
     var scaled_x = uv.x !== undefined ? uv.x * width : null;
     var scaled_y = uv.y !== undefined ? uv.y * height : null;
@@ -49825,36 +49812,43 @@ function () {
     _classCallCheck(this, Office);
 
     this.sizeConfig = [{
-      row: 4,
-      col: 4,
-      width: 300,
+      row: 1,
+      col: 5,
+      width: (0, _utils.uv2px)(0.8, 'w'),
       height: 300,
-      offsetX: 50,
+      offsetX: 30,
       offsetY: 50,
       scale: 1
     }, {
-      row: 6,
-      col: 8,
-      width: 300,
+      row: 1,
+      col: 15,
+      width: (0, _utils.uv2px)(0.8, 'w'),
       height: 300,
-      offsetX: 50,
-      offsetY: 50,
-      scale: 0.5
-    }, {
-      row: 8,
-      col: 12,
-      width: 300,
-      height: 300,
-      offsetX: 50,
-      offsetY: 50,
+      offsetX: 30,
+      offsetY: 30,
       scale: 0.7
+    }, {
+      row: 2,
+      col: 15,
+      width: (0, _utils.uv2px)(0.8, 'w'),
+      height: 300,
+      offsetX: 30,
+      offsetY: 20,
+      scale: 0.5
     }];
     this.takenDesks = 0;
     this.deskList = [];
     this.size = 0;
     this.scale = 1;
-    this.drawFloor(560);
-    this.drawFloor(300);
+    var coorObj = (0, _utils.uv2px)({
+      x: 1,
+      y: 0.5
+    }); // if you prefer objects
+    //first office floor
+
+    this.drawFloor((0, _utils.uv2px)(0.5, 'h')); //ground floor
+
+    this.drawFloor(_utils.spacingUtils.absMinusSize(40, 'h'));
     this.growOffice();
     this.listenerSetup();
   }
@@ -49862,15 +49856,17 @@ function () {
   _createClass(Office, [{
     key: "drawFloor",
     value: function drawFloor(y) {
+      //main floor
       this.surface = new PIXI.Graphics();
       this.surface.beginFill(0xffd9d9);
       this.surface.drawRect(0, 0, (0, _utils.uv2px)(1, 'w'), 40);
       this.surface.endFill();
       this.surface.x = 0;
-      this.surface.y = y;
+      this.surface.y = y; //dark pink side of the floor
+
       this.side = new PIXI.Graphics();
       this.side.beginFill(0xef807f);
-      this.side.drawRect(0, 0, 800, 20);
+      this.side.drawRect(0, 0, (0, _utils.uv2px)(1, 'w'), 20);
       this.side.endFill();
       this.side.x = 0;
       this.side.y = y + 40;
@@ -49918,12 +49914,12 @@ function () {
       }); //adding/moving desks and people at them
 
       var indx = 0;
-      var y = offsetY;
+      var y = (0, _utils.uv2px)(0.5, 'h') - offsetY;
       var newDeskTweens = [];
       var moveDeskTweens = [];
 
       for (var i = 0; i < row; i++) {
-        var x = offsetX;
+        var x = ((0, _utils.uv2px)(1, 'w') - width) / 2;
 
         for (var k = 0; k < col; k++) {
           if (this.deskList.length > indx) {
@@ -49951,11 +49947,11 @@ function () {
             this.deskList.push(newDesk);
           }
 
-          x += width / (row - 1);
+          x += width / col;
           indx++;
         }
 
-        y += height / (col - 1);
+        y += height / (row - 1);
       }
 
       newOfficeTween.start();
@@ -49995,11 +49991,13 @@ function () {
       _shared.eventEmitter.on('assigned-desk', function (data) {
         _this2.takenDesks += 1;
 
-        if (_this2.takenDesks == 3) {
+        if (_this2.takenDesks == 5) {
+          _shared.eventEmitter.emit('stage-one-task-completed', {});
+
           _gameStates.gameFSM.nextStage();
         }
 
-        if (_this2.takenDesks == 6) {
+        if (_this2.takenDesks == 10) {
           _gameStates.gameFSM.nextStage();
         }
       });
