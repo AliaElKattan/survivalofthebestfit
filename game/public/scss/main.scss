@@ -1,93 +1,17 @@
-@import 'base/reset';
-
-@import 'config/variables';
-@import 'config/functions';
-@import 'config/mixins';
-
+// CSS reset
+@import 'base/_reset';
+// config
+@import 'config/_variables';
+@import 'config/_functions';
+@import 'config/_mixins';
+// base styles
+@import 'base/_typography';
+@import 'base/_base';
+// pages
 @import 'pages/game-page';
-
-// base
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-body { 
-  background-color: color(bg-yellow);
-  margin: 10px;
-  font-family: 'VT323', monospace;
-}
-
-
-// components
-
-.conversationBox {
-  @include shadowBox($type: 'textbox', $width: 600px, $height: 500px);
-  @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'grey');
-  
-  padding: 10px 20px;
-  
-  &__wrapper {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 700px;
-  }
-  
-  &__head {
-    color: color(txt-light-grey);
-  }
-
-}
-
-
-.replica {
-  display: block;
-  margin: 10px 0 20px 0;
-  
-  &__paragraph {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-  }
-};
-
-// button
-
-button {
-  outline: none;
-  border: none;
-  font-family: 'VT323', monospace;
-  
-  &:hover, &:active {
-    outline: none;
-    border: none;
-  }
-}
-
-// $width, $height, $color-main, $color-dark, $color-darker
-.choiceButton {
-  @include shadowBox($type: 'button', $width: 250px, $height: 30px, );
-  @include boxColors($bg-color: color(grey-main), $shadow-color: 'grey');
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  
-  color: color(txt-light-grey);
-  
-  &--chosen {
-    @include boxColors($bg-color: color(rose-light), $shadow-color: 'rose');
-    color: color(txt-black);
-  }
-}
-
-
-
-// util
-.is-inactive {
-  display: none;
-}
+// components -- transition page
+@import '../components/choice-button/choice-button';
+@import '../components/replica/replica';
+@import '../components/conversation-box/conversation-box';
+// Util classes
+@import 'util/_util';

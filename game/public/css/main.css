@@ -3,67 +3,15 @@
   padding: 0;
   box-sizing: border-box; }
 
-body {
-  overflow: hidden; }
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box; }
+@font-face {
+  font-family: 'VT323';
+  src: url("../../assets/fonts/vt323-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal; }
 
 body {
   background-color: #F9F0E3;
-  margin: 10px;
   font-family: 'VT323', monospace; }
-
-.conversationBox {
-  height: inherit;
-  width: inherit;
-  position: relative;
-  background-color: #FAFAFA;
-  padding: 10px 20px; }
-  .conversationBox__wrapper {
-    display: inline-block;
-    margin-right: 20px;
-    width: 600px;
-    height: 500px; }
-  .conversationBox:before, .conversationBox:after {
-    content: "";
-    display: inline-block;
-    position: absolute; }
-  .conversationBox:before {
-    left: 0;
-    width: inherit; }
-  .conversationBox:after {
-    top: 0;
-    height: inherit; }
-  .conversationBox:after {
-    width: 10px;
-    right: -10px;
-    transform: translateY(3px) skewY(25deg); }
-  .conversationBox:before {
-    height: 5px;
-    bottom: -5px;
-    transform: translateX(5px) skewX(65deg); }
-  .conversationBox:before {
-    background: #919191; }
-  .conversationBox:after {
-    background: #B9B9B9; }
-  .conversationBox__wrapper {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 700px; }
-  .conversationBox__head {
-    color: #B2B2B2; }
-
-.replica {
-  display: block;
-  margin: 10px 0 20px 0; }
-  .replica__paragraph {
-    font-size: 1.2rem;
-    margin-bottom: 15px; }
 
 button {
   outline: none;
@@ -72,6 +20,9 @@ button {
   button:hover, button:active {
     outline: none;
     border: none; }
+
+body.Page--Game {
+  overflow: hidden; }
 
 .choiceButton {
   height: inherit;
@@ -117,6 +68,55 @@ button {
       background: #FFADA3; }
     .choiceButton--chosen:after {
       background: #F29488; }
+
+.replica {
+  display: block;
+  margin: 10px 0 20px 0; }
+  .replica__paragraph {
+    font-size: 1.2rem;
+    margin-bottom: 15px; }
+
+.conversationBox {
+  height: inherit;
+  width: inherit;
+  position: relative;
+  background-color: #FAFAFA;
+  padding: 10px 20px; }
+  .conversationBox__wrapper {
+    display: inline-block;
+    margin-right: 20px;
+    width: 600px;
+    height: 500px; }
+  .conversationBox:before, .conversationBox:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .conversationBox:before {
+    left: 0;
+    width: inherit; }
+  .conversationBox:after {
+    top: 0;
+    height: inherit; }
+  .conversationBox:after {
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .conversationBox:before {
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .conversationBox:before {
+    background: #919191; }
+  .conversationBox:after {
+    background: #B9B9B9; }
+  .conversationBox__wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 700px; }
+  .conversationBox__head {
+    color: #B2B2B2; }
 
 .is-inactive {
   display: none; }
