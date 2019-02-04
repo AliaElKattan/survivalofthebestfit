@@ -49217,7 +49217,7 @@ function () {
         lineHeight: 20
       });
       var message = new PIXI.Text(this.text, style);
-      this.height2 = this.text.height;
+      this.height2 = message.height;
       var rectangle = new PIXI.Graphics();
       rectangle.lineStyle(4, 0x99CCFF, 1);
       rectangle.beginFill(0xFFFFFF);
@@ -49526,11 +49526,13 @@ var _cvViewer = require("./common/cvViewer.js");
 
 var _cvCollection = require("../assets/cvCollection.js");
 
+var _utils = require("./common/utils.js");
+
 var office;
 var personList, personList2;
 var gameFSM = new machina.Fsm({
   namespace: "game-fsm",
-  initialState: "stageFour",
+  initialState: "stageOne",
   states: {
     uninitialized: {
       startGame: function startGame() {
@@ -49566,24 +49568,25 @@ var gameFSM = new machina.Fsm({
     ///////////////////
     stageOne: {
       _onEnter: function _onEnter() {
+        var stageOneOver = new _instructionBubble.TextBox((0, _utils.uv2px)(0.5, 'w'), (0, _utils.uv2px)(0.5, 'h'), txt.stageOne.messageFromVc);
         office = new _office.Office();
-        personList = []; //create People in the office
+        personList = [];
 
-        var x = 100;
-        var y = _shared.pixiApp.screen.height - 60;
+        _shared.eventEmitter.on('instructionAcked', function (data) {
+          //create People in the office
+          var x = (0, _utils.uv2px)(0.12, 'w');
+          var xOffset = (0, _utils.uv2px)(0.05, 'w');
+          var y = (0, _utils.uv2px)(0.88, 'h');
 
-        for (var i = 0; i < 12; i++) {
-          var person = (0, _person.createPerson)(x, y, office);
-          personList.push(person);
-          x += 50;
-        } // var messagebox2 = new TextBox();
-        // messagebox2.drawBox(70,-150,"sample text sample text sample text ");
-        // var messagebox2 = new TextBox();
-        // messagebox2.drawBox(300,-150,"sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text ");
+          for (var i = 0; i < 12; i++) {
+            var person = (0, _person.createPerson)(x, y, office);
+            personList.push(person);
+            x += xOffset;
+          }
 
-
-        (0, _taskTimer.startTaskTimer)(150, 50, 210, 100, txt.stageOne.taskDescription, 140);
-        var cvViewer = new _cvViewer.CVViewer(550, 100, 160, 200, _cvCollection.cvCollection.cvFeatures, _cvCollection.cvCollection.stageOne);
+          (0, _taskTimer.startTaskTimer)((0, _utils.uv2px)(0.7, 'w'), (0, _utils.uv2px)(0.1, 'h'), (0, _utils.uv2px)(0.22, 'w'), (0, _utils.uv2px)(0.16, 'h'), txt.stageOne.taskDescription, 140, 5);
+          var cvViewer = new _cvViewer.CVViewer((0, _utils.uv2px)(0.8, 'w'), (0, _utils.uv2px)(0.62, 'h'), (0, _utils.uv2px)(0.13, 'w'), (0, _utils.uv2px)(0.32, 'h'), _cvCollection.cvCollection.cvFeatures, _cvCollection.cvCollection.stageOne);
+        });
       },
       nextStage: "stageTwo",
       _onExit: function _onExit() {}
@@ -49595,15 +49598,20 @@ var gameFSM = new machina.Fsm({
     ///////////////////
     stageTwo: {
       _onEnter: function _onEnter() {
-        var unassignedPeople = [];
+        var stageOneOver = new _instructionBubble.TextBox((0, _utils.uv2px)(0.5, 'w'), (0, _utils.uv2px)(0.5, 'h'), txt.stageTwo.messageFromVc);
 
-        for (var i = 0; i < personList.length; i++) {
-          if (!personList[i].controller.isSeated()) {
-            unassignedPeople.push(personList[i]);
+        _shared.eventEmitter.on('instructionAcked', function (data) {
+          var unassignedPeople = [];
+
+          for (var i = 0; i < personList.length; i++) {
+            if (!personList[i].controller.isSeated()) {
+              unassignedPeople.push(personList[i]);
+            }
           }
-        }
 
-        office.growOffice(unassignedPeople);
+          office.growOffice(unassignedPeople);
+          (0, _taskTimer.startTaskTimer)((0, _utils.uv2px)(0.7, 'w'), (0, _utils.uv2px)(0.1, 'h'), (0, _utils.uv2px)(0.22, 'w'), (0, _utils.uv2px)(0.16, 'h'), txt.stageTwo.taskDescription, 140, 10);
+        });
       },
       nextStage: "stageThree",
       _onExit: function _onExit() {}
@@ -49634,24 +49642,38 @@ var gameFSM = new machina.Fsm({
         messagebox2.drawBox(70, -150, "machine learning stage"); //conveyorBelt
         //create People in the office
 
-        personList2 = [];
-        var x = 350;
-        var y = _shared.pixiApp.screen.height - 90;
+        personList2 = []; //create People in the office
+
+        var x = (0, _utils.uv2px)(0.2, 'w');
+        var xOffset = (0, _utils.uv2px)(0.05, 'w');
+        var y = (0, _utils.uv2px)(0.8, 'h');
 
         for (var i = 0; i < 12; i++) {
           var person = (0, _person.createPerson)(x, y, office);
+          person.interactive = false;
+          person.button = false;
           personList2.push(person);
-          x += 50;
-        }
+          x += xOffset;
+        } //door
 
-        var belt_y = _shared.pixiApp.screen.height / 2 - _shared.pixiApp.screen.height / 8;
-        var belt_x = _shared.pixiApp.screen.height / 2;
 
-        for (var j = 0; j < 4; j++) {
+        var door = new PIXI.Sprite(_textures.doorTexture);
+        door.x = (0, _utils.uv2px)(0.18, 'w');
+        door.y = (0, _utils.uv2px)(0.65, 'h');
+        door.scale.set(.55);
+
+        _shared.pixiApp.stage.addChild(door);
+
+        var belt_y = _shared.pixiApp.screen.height / 2 - _shared.pixiApp.screen.height / 8; //  var belt_x = (pixiApp.screen.width)/4);
+
+        var belt_x = (0, _utils.uv2px)(0.175, 'w');
+        var belt_xOffset = (0, _utils.uv2px)(0.12, 'w');
+
+        for (var j = 0; j < 5; j++) {
           var belt = new PIXI.Sprite(_textures.beltTexture);
           belt.scale.set(.3);
           belt.y = belt_y;
-          belt.x = belt_x + 160 * j; //beltList.push(belt);
+          belt.x = belt_x + belt_xOffset * j; //beltList.push(belt);
 
           _shared.pixiApp.stage.addChild(belt);
         }
@@ -49667,7 +49689,7 @@ var gameFSM = new machina.Fsm({
 });
 exports.gameFSM = gameFSM;
 
-},{"../assets/cvCollection.js":472,"./common/cvViewer.js":473,"./common/instructionBubble.js":474,"./common/taskTimer.js":475,"./office/office.js":480,"./office/person.js":481,"./shared.js":482,"./textures.js":484}],478:[function(require,module,exports){
+},{"../assets/cvCollection.js":472,"./common/cvViewer.js":473,"./common/instructionBubble.js":474,"./common/taskTimer.js":475,"./common/utils.js":476,"./office/office.js":480,"./office/person.js":481,"./shared.js":482,"./textures.js":484}],478:[function(require,module,exports){
 "use strict";
 
 require("@babel/polyfill");
@@ -50324,7 +50346,7 @@ floorPlanTwo.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 var beltTexture = PIXI.Texture.fromImage('assets/img/conveyor_belt.png');
 exports.beltTexture = beltTexture;
 beltTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-var doorTexture = PIXI.Texture.fromImage('assets/img/conveyor_belt.png');
+var doorTexture = PIXI.Texture.fromImage('assets/img/door.png');
 exports.doorTexture = doorTexture;
 doorTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 

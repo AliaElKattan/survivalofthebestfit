@@ -33,7 +33,7 @@ class TextBox {
 
     let message = new PIXI.Text(this.text, style);
 
-    this.height2 = this.text.height;
+    this.height2 = message.height;
 
     let rectangle = new PIXI.Graphics();
     rectangle.lineStyle(4, 0x99CCFF, 1);

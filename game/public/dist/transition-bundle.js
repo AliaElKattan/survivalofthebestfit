@@ -619,40 +619,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 },{}],5:[function(require,module,exports){
 "use strict";
 
-var demo_conversation = {
-  conversation: [{
-    dialogue_step: 1,
-    text: "Hey, could you send me the CVs of all the current employees? The algorithm cannot do anything without the raw data...",
-    answer_choice: [{
-      text: "How will the algorithm work?",
-      response: "The algorithm will analyze a lot of CV samples (the CVs of all the people working at this company!) and try to figure out how a successful employee looks like - in numbers! "
-    }, {
-      text: "Sure, makes sense.",
-      response: "Great! "
-    }]
-  }, {
-    dialogue_step: 2,
-    text: "And here’s the cool part: most of the CVs fed to the algorithm are of the people you hired - so the program I wrote will essentially try to replicate your hiring strategy!",
-    answer_choice: [{
-      text: "The program will think the way I do??",
-      response: "Thinking is a strong word, the program is not even close to thinking, it’s just really good at finding patterns in the data I give to it."
-    }, {
-      text: "Sounds too good to be true.",
-      response: "That’s why machine learning is getting so much hype these days!"
-    }]
-  }, {
-    dialogue_step: 3,
-    text: "What matters is that the hiring algorithm will hire people just like you would, but at a much faster pace! Your role now is to sit back and supervise the algorithm.",
-    answer_choice: [{
-      text: "OK"
-    }]
-  }]
-};
-module.exports = demo_conversation;
-
-},{}],6:[function(require,module,exports){
-"use strict";
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -660,27 +626,19 @@ exports.default = void 0;
 
 var _componentLoaderJs = require("component-loader-js");
 
-var Conversation = _interopRequireWildcard(require("../../assets/demo-conversation-text.js"));
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 // publishing custom event to any registered listener
 var ChoiceButton =
@@ -694,63 +652,21 @@ function (_Component) {
     _classCallCheck(this, ChoiceButton);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ChoiceButton).apply(this, arguments));
-    _this._step = parseInt(_this.el.dataset.step);
-    _this._replica = _this.el.closest(".replica");
-    _this._textContainer = _this.el.querySelector(".choiceButton");
-    _this._onBtnClick = _this._onBtnClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this._hideBtn = _this._hideBtn.bind(_assertThisInitialized(_assertThisInitialized(_this)));
 
-    _this.el.addEventListener('click', function (e) {
-      return _this._onBtnClick(e);
+    _this.el.addEventListener('click', function () {
+      console.log('it werks!'); // trigger event when DOM element is clicked
+      // this.publish('custom-event', {foo: 'bar'});
     });
-
-    _this.subscribe('hide-other-choice', _this._hideBtn);
 
     return _this;
   }
-
-  _createClass(ChoiceButton, [{
-    key: "_onBtnClick",
-    // on button click 
-    value: function _onBtnClick(e) {
-      // add 'chosen' styling to the button
-      e.target.classList.add('choiceButton--chosen'); // hide the other choice button
-
-      this.publish('hide-other-choice', this._step); // show next replica
-
-      var choiceButtonResponse = this._getChoiceResponse(this._step, this._textContainer.innerHTML);
-
-      this.publish('reveal-next-replica', {
-        choice_response: choiceButtonResponse,
-        step: this._step + 1
-      });
-    } // hide the unchosen button
-
-  }, {
-    key: "_hideBtn",
-    value: function _hideBtn(conversation_step) {
-      if (this._step === conversation_step && !this._textContainer.classList.contains('choiceButton--chosen')) {
-        this.el.classList.add('is-inactive');
-      }
-
-      ;
-    } // get response text to a given choice
-
-  }, {
-    key: "_getChoiceResponse",
-    value: function _getChoiceResponse(step, text) {
-      return Conversation.conversation[step].answer_choice.find(function (choice) {
-        return choice.text === text;
-      }).response;
-    }
-  }]);
 
   return ChoiceButton;
 }(_componentLoaderJs.Component);
 
 exports.default = ChoiceButton;
 
-},{"../../assets/demo-conversation-text.js":5,"component-loader-js":3}],7:[function(require,module,exports){
+},{"component-loader-js":3}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -814,7 +730,7 @@ function (_Component) {
 
 exports.default = Replica;
 
-},{"component-loader-js":3}],8:[function(require,module,exports){
+},{"component-loader-js":3}],7:[function(require,module,exports){
 "use strict";
 
 var _componentLoaderJs = _interopRequireDefault(require("component-loader-js"));
@@ -831,4 +747,4 @@ var componentLoader = new _componentLoaderJs.default({
 });
 componentLoader.scan();
 
-},{"../../components/choice-button/choice-button":6,"../../components/replica/replica":7,"component-loader-js":3}]},{},[8]);
+},{"../../components/choice-button/choice-button":5,"../../components/replica/replica":6,"component-loader-js":3}]},{},[7]);

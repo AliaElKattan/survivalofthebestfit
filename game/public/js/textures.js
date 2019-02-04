@@ -26,7 +26,7 @@ floorPlanTwo.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 var beltTexture = PIXI.Texture.fromImage('assets/img/conveyor_belt.png');
 beltTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-var doorTexture = PIXI.Texture.fromImage('assets/img/conveyor_belt.png');
+var doorTexture = PIXI.Texture.fromImage('assets/img/door.png');
 doorTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
 
