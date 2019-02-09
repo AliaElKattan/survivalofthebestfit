@@ -1,3 +1,20 @@
+@import "./node_modules/sass-mq/_mq";
+
+$paddings = (
+  xs: 10px,
+  sm: 20px,
+  md: 40px,
+  lg: 80px
+);
+
+$margins = (
+  xs: 10px,
+  sm: 20px,
+  md: 40px,
+  lg: 80px,
+  xl: 150px
+);
+
 $colors: (
   bg-yellow: #F9F0E3,
   bg-washed-white: #FAFAFA,
@@ -9,4 +26,11 @@ $colors: (
   shadow-rose-dark: #FFADA3,
   shadow-grey-light: #B9B9B9,
   shadow-grey-dark: #919191,
+);
+
+$mq-breakpoints: (
+    mobile:  370px,
+    tablet:  740px,
+    desktop: 1024px,
+    wide:    1300px
 );
