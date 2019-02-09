@@ -1,3 +1,5 @@
+#!/bin/sh
+
 cd public
 if [ -d "dist" ]
 then

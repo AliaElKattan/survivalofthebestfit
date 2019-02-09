@@ -9,7 +9,7 @@
     "start": "parcel static-website-content/index.html",
     "dev": "nodemon app.js",
     "dev-all": "npm-run-all --parallel clean-dist watch:* dev ",
-    "clean-dist": "./scripts/clean-dist-folder.bash",
+    "clean-dist": "./scripts/clean-dist-folder.sh",
     "build:css": "node-sass --include-path node_modules/sass-mq public/scss/main.scss public/css/main.css",
     "watch:css": "nodemon -e scss -x \"npm run build:css\"",
     "watch:main-js": "watchify public/js/main.js -t babelify --outfile public/dist/main-bundle.js -v --debug",
