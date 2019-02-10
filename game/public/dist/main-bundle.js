@@ -49536,7 +49536,7 @@ var cvViewerML;
 var cvList;
 var gameFSM = new machina.Fsm({
   namespace: "game-fsm",
-  initialState: "stageFour",
+  initialState: "stageOne",
   states: {
     uninitialized: {
       startGame: function startGame() {
