@@ -18,7 +18,7 @@ var personList, personList2;
 var gameFSM = new machina.Fsm( {
 
     namespace: "game-fsm",
-    initialState: "stageFour",
+    initialState: "stageOne",
 
     states: {
         uninitialized: {
