@@ -1,4 +1,3 @@
-import * as machina from 'machina';
 import { pixiApp, eventEmitter, animateTo, beltContainer } from './shared.js';
 import { createPerson } from './office/person.js';
 import { Office } from './office/office.js';

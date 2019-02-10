@@ -11,7 +11,7 @@ html(lang='en')
          p From: software-engineer@company.com
          p Subject: Hiring Algorithm
        each prompt,index in conversation
-         include ../../../public/components/replica/replica.pug
+         include ../public/components/replica/replica.pug
          +replica(index, prompt)
 
    script(src='/dist/transition-bundle.js')
