@@ -49161,7 +49161,7 @@ function () {
 
 exports.CVViewer = CVViewer;
 
-},{"../shared.js":482,"./utils.js":476}],474:[function(require,module,exports){
+},{"../shared.js":483,"./utils.js":476}],474:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49270,7 +49270,7 @@ function hideInstruction() {
   instructionContainer.destroy();
 }
 
-},{"../common/utils.js":476,"../shared.js":482,"../textures.js":484}],475:[function(require,module,exports){
+},{"../common/utils.js":476,"../shared.js":483,"../textures.js":485}],475:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49422,7 +49422,7 @@ function hideTimer() {
   taskTimerContainer.destroy();
 }
 
-},{"../shared.js":482,"./utils.js":476}],476:[function(require,module,exports){
+},{"../shared.js":483,"./utils.js":476}],476:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49502,7 +49502,7 @@ var clamp = function clamp(val, minVal, maxVal) {
 
 exports.clamp = clamp;
 
-},{"../shared.js":482}],477:[function(require,module,exports){
+},{"../shared.js":483}],477:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49515,6 +49515,8 @@ var _shared = require("./shared.js");
 var _person = require("./office/person.js");
 
 var _office = require("./office/office.js");
+
+var _mloffice = require("./office/mloffice.js");
 
 var _textures = require("./textures.js");
 
@@ -49530,6 +49532,8 @@ var _utils = require("./common/utils.js");
 
 var office;
 var personList, personList2;
+var cvViewerML;
+var cvList;
 var gameFSM = new machina.Fsm({
   namespace: "game-fsm",
   initialState: "stageFour",
@@ -49638,17 +49642,20 @@ var gameFSM = new machina.Fsm({
     },
     stageFour: {
       _onEnter: function _onEnter() {
-        var messagebox2 = new _instructionBubble.TextBox();
-        messagebox2.drawBox(70, -150, "machine learning stage"); //conveyorBelt
+        // var messagebox2 = new TextBox();
+        // messagebox2.drawBox(70,-150,"machine learning stage",false);
+        // conveyorBelt
+        //////
+        //will organize this code later
         //create People in the office
-
+        var office2 = new _mloffice.MLOffice();
         personList2 = []; //create People in the office
 
-        var x = (0, _utils.uv2px)(0.2, 'w');
+        var x = (0, _utils.uv2px)(0.12, 'w');
         var xOffset = (0, _utils.uv2px)(0.05, 'w');
-        var y = (0, _utils.uv2px)(0.8, 'h');
+        var y = (0, _utils.uv2px)(0.85, 'h');
 
-        for (var i = 0; i < 12; i++) {
+        for (var i = 0; i < 16; i++) {
           var person = (0, _person.createPerson)(x, y, office);
           person.interactive = false;
           person.button = false;
@@ -49658,27 +49665,41 @@ var gameFSM = new machina.Fsm({
 
 
         var door = new PIXI.Sprite(_textures.doorTexture);
-        door.x = (0, _utils.uv2px)(0.18, 'w');
-        door.y = (0, _utils.uv2px)(0.65, 'h');
+        door.x = (0, _utils.uv2px)(0.03, 'w');
+        door.y = (0, _utils.uv2px)(0.69, 'h');
         door.scale.set(.55);
 
-        _shared.pixiApp.stage.addChild(door);
+        _shared.pixiApp.stage.addChild(door); //  var belt_y =  (pixiApp.screen.height)/2 - (pixiApp.screen.height/8);
 
-        var belt_y = _shared.pixiApp.screen.height / 2 - _shared.pixiApp.screen.height / 8; //  var belt_x = (pixiApp.screen.width)/4);
 
-        var belt_x = (0, _utils.uv2px)(0.175, 'w');
-        var belt_xOffset = (0, _utils.uv2px)(0.12, 'w');
+        var belt_y = (0, _utils.uv2px)(.38, 'h'); //  var belt_x = (pixiApp.screen.width)/4);
 
-        for (var j = 0; j < 5; j++) {
+        var belt_x = (0, _utils.uv2px)(0., 'w');
+        var belt_xOffset = (0, _utils.uv2px)(0.165, 'w');
+
+        for (var j = 0; j < 6; j++) {
           var belt = new PIXI.Sprite(_textures.beltTexture);
-          belt.scale.set(.3);
+          belt.scale.set(.4);
           belt.y = belt_y;
           belt.x = belt_x + belt_xOffset * j; //beltList.push(belt);
 
           _shared.pixiApp.stage.addChild(belt);
         }
 
-        var cvViewer = new _cvViewer.CVViewer((0, _utils.uv2px)(0.8, 'w'), (0, _utils.uv2px)(0.62, 'h'), (0, _utils.uv2px)(0.13, 'w'), (0, _utils.uv2px)(0.32, 'h'), _cvCollection.cvCollection.cvFeatures, _cvCollection.cvCollection.stageOne);
+        cvList = [];
+        var cv_xOffset = (0, _utils.uv2px)(0.165, 'w'); //cvs on belt
+
+        for (var x = 0; x < 12; x++) {
+          var cv = new PIXI.Sprite(_textures.cvTexture);
+          cv.scale.set(.4);
+          cv.y = belt_y;
+          cv.x = belt_x + cv_xOffset * x / 2;
+          cvList[x] = cv; //beltList.push(belt);
+
+          _shared.pixiApp.stage.addChild(cv);
+        }
+
+        cvViewerML = new _cvViewer.CVViewer((0, _utils.uv2px)(0.8, 'w'), (0, _utils.uv2px)(0.05, 'h'), (0, _utils.uv2px)(0.13, 'w'), (0, _utils.uv2px)(0.32, 'h'), _cvCollection.cvCollection.cvFeatures, _cvCollection.cvCollection.stageOne);
       }
     }
   },
@@ -49691,7 +49712,7 @@ var gameFSM = new machina.Fsm({
 });
 exports.gameFSM = gameFSM;
 
-},{"../assets/cvCollection.js":472,"./common/cvViewer.js":473,"./common/instructionBubble.js":474,"./common/taskTimer.js":475,"./common/utils.js":476,"./office/office.js":480,"./office/person.js":481,"./shared.js":482,"./textures.js":484}],478:[function(require,module,exports){
+},{"../assets/cvCollection.js":472,"./common/cvViewer.js":473,"./common/instructionBubble.js":474,"./common/taskTimer.js":475,"./common/utils.js":476,"./office/mloffice.js":480,"./office/office.js":481,"./office/person.js":482,"./shared.js":483,"./textures.js":485}],478:[function(require,module,exports){
 "use strict";
 
 require("@babel/polyfill");
@@ -49711,7 +49732,7 @@ _gameStates.gameFSM.startGame();
 
 (0, _shared.startTweenManager)();
 
-},{"./gameStates.js":477,"./shared.js":482,"./svm.js":483,"@babel/polyfill":1}],479:[function(require,module,exports){
+},{"./gameStates.js":477,"./shared.js":483,"./svm.js":484,"@babel/polyfill":1}],479:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49801,7 +49822,129 @@ function createDesk(scale, x, y) {
   return desk;
 }
 
-},{"../shared.js":482,"../textures.js":484}],480:[function(require,module,exports){
+},{"../shared.js":483,"../textures.js":485}],480:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MLOffice = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+var tweenManager = _interopRequireWildcard(require("pixi-tween"));
+
+var _shared = require("../shared.js");
+
+var _gameStates = require("../gameStates.js");
+
+var _utils = require("../common/utils.js");
+
+var _textures = require("../textures.js");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var MLOffice =
+/*#__PURE__*/
+function () {
+  function MLOffice() {
+    _classCallCheck(this, MLOffice);
+
+    // this.sizeConfig = [
+    //     {row: 1, col: 5, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: 50, scale: 1},
+    //     {row: 1, col: 15, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: 30, scale: 0.7},
+    //     {row: 2, col: 15, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: 20, scale: 0.5},
+    //     //{row: 8, col: 12, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.7}
+    // ]
+    // this.takenDesks = 0;
+    this.size = 0;
+    this.scale = 1;
+    var coorObj = (0, _utils.uv2px)({
+      x: 1,
+      y: 0.5
+    }); // if you prefer objects
+    //first office floor
+
+    this.drawFloor((0, _utils.uv2px)(0.5, 'h')); //ground floor/
+
+    this.drawFloor(_utils.spacingUtils.absMinusSize(40, 'h')); // this.growOffice();
+    // this.listenerSetup();
+  } // drawBelt() {
+  //               //door
+  //               var door = new PIXI.Sprite(doorTexture);
+  //               door.x = uv2px(0.18, 'w');
+  //               door.y = uv2px(0.65, 'h');
+  //               door.scale.set(.55);
+  //               officeContainer.addChild(door);
+  //
+  //
+  //               var belt_y =  (PIXI.pixiApp.screen.height)/2 - (this.pixiApp.screen.height/8);
+  //             //  var belt_x = (pixiApp.screen.width)/4);
+  //               var belt_x = uv2px(0.175,'w');
+  //               var belt_xOffset = uv2px(0.12,'w');
+  //
+  //
+  //               for (var j = 0; j<5;j++) {
+  //                   var belt = new PIXI.Sprite(beltTexture);
+  //                   belt.scale.set(.3);
+  //                   belt.y = belt_y;
+  //                   belt.x = belt_x + (belt_xOffset* j)  ;
+  //
+  //                   //beltList.push(belt);
+  //                   officeContainer.addChild(belt);
+  //               }
+  //
+  //               //cvs on belt
+  //               for (var x = 0; x<10;x++) {
+  //                   var cv = new PIXI.Sprite(cvTexture);
+  //                   cv.scale.set(.4);
+  //                   cv.y = belt_y;
+  //                   cv.x = belt_x + (belt_xOffset* x)/2 ;
+  //
+  //                   //beltList.push(belt);
+  //                   officeContainer.addChild(cv);
+  //               }
+  //
+  //
+  //             }
+
+
+  _createClass(MLOffice, [{
+    key: "drawFloor",
+    value: function drawFloor(y) {
+      //main floor
+      this.surface = new PIXI.Graphics();
+      this.surface.beginFill(0xffd9d9);
+      this.surface.drawRect(0, 0, (0, _utils.uv2px)(1, 'w'), 40);
+      this.surface.endFill();
+      this.surface.x = 0;
+      this.surface.y = y; //dark pink side of the floor
+
+      this.side = new PIXI.Graphics();
+      this.side.beginFill(0xef807f);
+      this.side.drawRect(0, 0, (0, _utils.uv2px)(1, 'w'), 20);
+      this.side.endFill();
+      this.side.x = 0;
+      this.side.y = y + 40;
+
+      _shared.officeContainer.addChild(this.surface);
+
+      _shared.officeContainer.addChild(this.side);
+    }
+  }]);
+
+  return MLOffice;
+}();
+
+exports.MLOffice = MLOffice;
+
+},{"../common/utils.js":476,"../gameStates.js":477,"../shared.js":483,"../textures.js":485,"pixi-tween":306,"pixi.js":422}],481:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -50033,7 +50176,7 @@ function () {
 
 exports.Office = Office;
 
-},{"../common/utils.js":476,"../gameStates.js":477,"../shared.js":482,"./desk.js":479,"pixi-tween":306,"pixi.js":422}],481:[function(require,module,exports){
+},{"../common/utils.js":476,"../gameStates.js":477,"../shared.js":483,"./desk.js":479,"pixi-tween":306,"pixi.js":422}],482:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -50145,7 +50288,7 @@ function createPerson(x, y, office) {
   return person;
 }
 
-},{"../shared.js":482,"../textures.js":484}],482:[function(require,module,exports){
+},{"../shared.js":483,"../textures.js":485}],483:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -50262,7 +50405,7 @@ function resize() {
   pixiApp.renderer.resize(window.innerWidth, window.innerHeight); // TODO redraw all the elements!
 }
 
-},{"debounce":282,"pixi-tween":306,"pixi.js":422}],483:[function(require,module,exports){
+},{"debounce":282,"pixi-tween":306,"pixi.js":422}],484:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -50314,13 +50457,13 @@ trainSVM(features1, labels1).then(function () {
   console.log(predictedLabel);
 });
 
-},{}],484:[function(require,module,exports){
+},{}],485:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.beltTexture = exports.xIcon = exports.floorPlanTwo = exports.floorPlanOne = exports.incubator = exports.deskTexture = exports.bluePersonTexture = exports.yellowPersonTexture = exports.personTexture = exports.doorTexture = void 0;
+exports.beltTexture = exports.xIcon = exports.floorPlanTwo = exports.floorPlanOne = exports.incubator = exports.deskTexture = exports.bluePersonTexture = exports.yellowPersonTexture = exports.personTexture = exports.doorTexture = exports.cvTexture = void 0;
 //module to load textures
 var personTexture = PIXI.Texture.fromImage('assets/img/character.png');
 exports.personTexture = personTexture;
@@ -50351,5 +50494,8 @@ beltTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 var doorTexture = PIXI.Texture.fromImage('assets/img/door.png');
 exports.doorTexture = doorTexture;
 doorTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+var cvTexture = PIXI.Texture.fromImage('assets/cv_yellow.png');
+exports.cvTexture = cvTexture;
+cvTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
 },{}]},{},[478]);

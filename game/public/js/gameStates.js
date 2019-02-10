@@ -1,6 +1,8 @@
 import { pixiApp, eventEmitter, animateTo, beltContainer } from './shared.js';
 import { createPerson } from './office/person.js';
 import { Office } from './office/office.js';
+import { MLOffice } from './office/mloffice.js';
+
 import { incubator } from './textures.js';
 import { TextBox }  from './common/instructionBubble.js';
 import { startTaskTimer } from './common/taskTimer.js';
@@ -9,10 +11,13 @@ import { cvCollection } from '../assets/cvCollection.js';
 import { uv2px } from './common/utils.js';
 
 import {xIcon} from './textures.js';
-import {beltTexture, doorTexture} from './textures.js';
+import {beltTexture, doorTexture, cvTexture} from './textures.js';
 
 var office;
 var personList, personList2;
+var cvViewerML;
+
+var cvList;
 
 var gameFSM = new machina.Fsm( {
 
@@ -137,23 +142,28 @@ var gameFSM = new machina.Fsm( {
 
           _onEnter: function(){
 
-              var messagebox2 = new TextBox();
-              messagebox2.drawBox(70,-150,"machine learning stage");
+              // var messagebox2 = new TextBox();
+              // messagebox2.drawBox(70,-150,"machine learning stage",false);
 
+              // conveyorBelt
 
-              //conveyorBelt
+//////
+              //will organize this code later
 
 
               //create People in the office
 
-              personList2 = []
+
+              var office2 = new MLOffice();
+
+  personList2 = []
 
               //create People in the office
-              var x = uv2px(0.2,'w');
+              var x = uv2px(0.12,'w');
               var xOffset = uv2px(0.05,'w');
-              var y = uv2px(0.8,'h');
+              var y = uv2px(0.85,'h');
 
-              for (var i = 0; i < 12; i++) {
+              for (var i = 0; i < 16; i++) {
                   var person = createPerson(x, y, office);
                   person.interactive = false;
                   person.button = false;
@@ -163,27 +173,48 @@ var gameFSM = new machina.Fsm( {
 
               //door
               var door = new PIXI.Sprite(doorTexture);
-              door.x = uv2px(0.18, 'w');
-              door.y = uv2px(0.65, 'h');
+              door.x = uv2px(0.03, 'w');
+              door.y = uv2px(0.69, 'h');
               door.scale.set(.55);
               pixiApp.stage.addChild(door);
 
 
-              var belt_y =  (pixiApp.screen.height)/2 - (pixiApp.screen.height/8);
+            //  var belt_y =  (pixiApp.screen.height)/2 - (pixiApp.screen.height/8);
+            var belt_y =   uv2px(.38,'h');
             //  var belt_x = (pixiApp.screen.width)/4);
-              var belt_x = uv2px(0.175,'w');
-              var belt_xOffset = uv2px(0.12,'w');
 
-              for (var j = 0; j<5;j++) {
+              var belt_x = uv2px(0.,'w');
+              var belt_xOffset = uv2px(0.165,'w');
+
+
+              for (var j = 0; j<6;j++) {
                   var belt = new PIXI.Sprite(beltTexture);
-                  belt.scale.set(.3);
+                  belt.scale.set(.4);
                   belt.y = belt_y;
-                  belt.x = belt_x + (belt_xOffset* j)  ;
-
+                  belt.x = belt_x + (belt_xOffset* j) ;
                   //beltList.push(belt);
                   pixiApp.stage.addChild(belt);
               }
-              var cvViewer = new CVViewer(uv2px(0.8,'w'), uv2px(0.62,'h'), uv2px(0.13,'w'), uv2px(0.32,'h'), cvCollection.cvFeatures, cvCollection.stageOne);
+
+              cvList = [];
+
+              var cv_xOffset = uv2px(0.165,'w');
+
+              //cvs on belt
+              for (var x = 0; x<12;x++) {
+                  var cv = new PIXI.Sprite(cvTexture);
+                  cv.scale.set(.4);
+                  cv.y = belt_y;
+                  cv.x = belt_x + (cv_xOffset* x)/2 ;
+
+                  cvList[x] = cv;
+
+                  //beltList.push(belt);
+                  pixiApp.stage.addChild(cv);
+              }
+
+              cvViewerML = new CVViewer(uv2px(0.8,'w'), uv2px(0.05,'h'), uv2px(0.13,'w'), uv2px(0.32,'h'), cvCollection.cvFeatures, cvCollection.stageOne);
+
 
 
           },

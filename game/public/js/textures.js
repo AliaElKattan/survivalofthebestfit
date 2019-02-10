@@ -29,5 +29,10 @@ beltTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 var doorTexture = PIXI.Texture.fromImage('assets/img/door.png');
 doorTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
+var cvTexture = PIXI.Texture.fromImage('assets/cv_yellow.png');
+cvTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-export {doorTexture, personTexture, yellowPersonTexture, bluePersonTexture, deskTexture, incubator , floorPlanOne, floorPlanTwo, xIcon, beltTexture}
+
+
+
+export {cvTexture, doorTexture, personTexture, yellowPersonTexture, bluePersonTexture, deskTexture, incubator , floorPlanOne, floorPlanTwo, xIcon, beltTexture}
