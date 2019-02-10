@@ -17,7 +17,7 @@ var personList, personList2;
 var gameFSM = new machina.Fsm( {
 
     namespace: "game-fsm",
-    initialState: "stageOne",
+    initialState: "stageFour",
 
     states: {
         uninitialized: {
@@ -183,6 +183,7 @@ var gameFSM = new machina.Fsm( {
                   //beltList.push(belt);
                   pixiApp.stage.addChild(belt);
               }
+              var cvViewer = new CVViewer(uv2px(0.8,'w'), uv2px(0.62,'h'), uv2px(0.13,'w'), uv2px(0.32,'h'), cvCollection.cvFeatures, cvCollection.stageOne);
 
 
           },

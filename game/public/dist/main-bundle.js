@@ -49532,7 +49532,7 @@ var office;
 var personList, personList2;
 var gameFSM = new machina.Fsm({
   namespace: "game-fsm",
-  initialState: "stageOne",
+  initialState: "stageFour",
   states: {
     uninitialized: {
       startGame: function startGame() {
@@ -49677,6 +49677,8 @@ var gameFSM = new machina.Fsm({
 
           _shared.pixiApp.stage.addChild(belt);
         }
+
+        var cvViewer = new _cvViewer.CVViewer((0, _utils.uv2px)(0.8, 'w'), (0, _utils.uv2px)(0.62, 'h'), (0, _utils.uv2px)(0.13, 'w'), (0, _utils.uv2px)(0.32, 'h'), _cvCollection.cvCollection.cvFeatures, _cvCollection.cvCollection.stageOne);
       }
     }
   },
