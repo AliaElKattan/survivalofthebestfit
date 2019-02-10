@@ -8,10 +8,7 @@ const path = require('path');
 /**
  * Route handlers.
  */
-const home = require('./routes/home');
-const about = require('./routes/about');
-const game = require('./routes/game');
-const ml_conversation_demo = require('./routes/demo-conversation-route');
+const routes = require('./routes/routes');
 
 /**
  * Create Express server. First line is required to compile Web assembly code for libsvm library.
@@ -31,10 +28,10 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 /**
  * Primary app routes.
  */
-app.get('/', home.index);
-app.get('/about', about.index);
-app.get('/game', game.index);
-app.get('/demo-conversation', ml_conversation_demo.index);
+app.get('/', routes.HOME);
+app.get('/about', routes.ABOUT);
+app.get('/game', routes.GAME);
+app.get('/transition', routes.TRANSITION);
 
 /**
  * Start Express server.
