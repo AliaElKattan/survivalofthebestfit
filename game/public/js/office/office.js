@@ -7,9 +7,9 @@ import { uv2px } from '../common/utils.js';
 class Office {
     constructor() {
         this.sizeConfig = [
-            {row: 4, col: 4, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 1},
-            {row: 6, col: 8, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.5},
-            {row: 8, col: 12, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.7}
+            {row: 4, col: 4, width: 0.5, height: 0.5, offsetX: 0.2, offsetY: 0.2, scale: 1},
+            {row: 6, col: 8, width: 0.5, height: 0.5, offsetX: 0.2, offsetY: 0.2, scale: 0.5},
+            {row: 8, col: 12, width: 0.5, height: 0.5, offsetX: 0.2, offsetY: 0.2, scale: 0.7}
         ]
         this.takenDesks = 0;
         this.deskList = [];
@@ -49,10 +49,10 @@ class Office {
         var row = this.sizeConfig[this.size].row,
         col = this.sizeConfig[this.size].col,
         scale = this.sizeConfig[this.size].scale,
-        width = this.sizeConfig[this.size].width,
-        height = this.sizeConfig[this.size].height,
-        offsetY = this.sizeConfig[this.size].offsetY,
-        offsetX = this.sizeConfig[this.size].offsetX;
+        width = uv2px(this.sizeConfig[this.size].width, 'w'),
+        height = uv2px(this.sizeConfig[this.size].height, 'h'),
+        offsetY = uv2px(this.sizeConfig[this.size].offsetY, 'h'),
+        offsetX = uv2px(this.sizeConfig[this.size].offsetX, 'w');
 
         this.scale *= scale;
 

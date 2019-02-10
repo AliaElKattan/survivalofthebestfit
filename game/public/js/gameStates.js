@@ -54,12 +54,12 @@ var gameFSM = new machina.Fsm( {
                 personList = []
 
                 //create People in the office
-                var x = 100;
-                var y = pixiApp.screen.height - 60;
+                var x = 0.1;
+                var y = 0.9;
                 for (var i = 0; i < 12; i++) {
                     var person = createPerson(x, y, office.getScale(), office);
                     personList.push(person);
-                    x += 50
+                    x += 0.05
                 }
 
                 var messagebox2 = new TextBox();
