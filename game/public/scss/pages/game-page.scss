@@ -1,3 +1,10 @@
 body.Page--Game {
     overflow: hidden;
 }
+
+#gameCanvas {
+  display: block;
+  @include mq($until: mobile) {
+      display: none;
+  }
+}

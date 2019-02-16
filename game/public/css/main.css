@@ -36,6 +36,12 @@ button {
 body.Page--Game {
   overflow: hidden; }
 
+#gameCanvas {
+  display: block; }
+  @media (max-width: 23.115em) {
+    #gameCanvas {
+      display: none; } }
+
 .choiceButton {
   height: inherit;
   width: inherit;

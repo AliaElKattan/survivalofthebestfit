@@ -27,3 +27,10 @@ $colors: (
   shadow-grey-light: #B9B9B9,
   shadow-grey-dark: #919191,
 );
+
+$mq-breakpoints: (
+    mobile:  370px,
+    tablet:  740px,
+    desktop: 1024px,
+    wide:    1300px
+);
