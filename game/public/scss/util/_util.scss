@@ -1,4 +1,13 @@
 // util
 .is-inactive {
+  opacity: 0;
   display: none;
+}
+
+.u-fade-in {
+  animation: fadein 0.3s ease-in-out;
+}
+
+.u-fade-out {
+    animation: fadeout 0.3s ease-in-out;
 }

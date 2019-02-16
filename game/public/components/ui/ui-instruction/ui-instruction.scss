@@ -1,0 +1,20 @@
+// conversation box
+.Instruction {
+  @include shadowBox($type: 'textbox', $width: 500px, $height: 400px);
+  @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'grey');
+  
+  padding: 10px;
+  
+  &__wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 700px;
+  }
+  
+  &__head {
+    color: color(txt-light-grey);
+  }
+
+}

@@ -7,11 +7,14 @@
 // base styles
 @import 'base/_typography';
 @import 'base/_base';
+@import 'base/_animations';
 // pages
 @import 'pages/game-page';
 // components -- transition page
 @import '../components/choice-button/choice-button';
 @import '../components/replica/replica';
 @import '../components/conversation-box/conversation-box';
+// components -- ui
+@import '../components/ui/ui-instruction/ui-instruction';
 // Util classes
 @import 'util/_util';

@@ -10,7 +10,7 @@
     "dev-all": "npm-run-all --parallel watch:* dev",
     "build:css": "node-sass --include-path scss public/scss/main.scss public/css/main.css",
     "watch:css": "nodemon -e scss -x \"npm run build:css\"",
-    "watch:main-js": "watchify public/js/main.js -t babelify --outfile public/dist/main-bundle.js -v",
+    "watch:main-js": "watchify public/js/main.js -t babelify --outfile public/dist/main-bundle.js -v --debug",
     "watch:transition-js": "watchify public/js/transition-page/index.js -t babelify --outfile public/dist/transition-bundle.js -v"
   },
   "dependencies": {

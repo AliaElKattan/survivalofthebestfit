@@ -21,6 +21,18 @@ button {
     outline: none;
     border: none; }
 
+@keyframes fadein {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes fadeout {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+
 body.Page--Game {
   overflow: hidden; }
 
@@ -115,8 +127,55 @@ body.Page--Game {
     top: 50%;
     transform: translate(-50%, -50%);
     max-width: 700px; }
-  .conversationBox__head {
+
+.Instruction {
+  height: inherit;
+  width: inherit;
+  position: relative;
+  background-color: #FAFAFA;
+  padding: 10px; }
+  .Instruction__wrapper {
+    display: inline-block;
+    margin-right: 20px;
+    width: 500px;
+    height: 400px; }
+  .Instruction:before, .Instruction:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .Instruction:before {
+    left: 0;
+    width: inherit; }
+  .Instruction:after {
+    top: 0;
+    height: inherit; }
+  .Instruction:after {
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .Instruction:before {
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .Instruction:before {
+    background: #919191; }
+  .Instruction:after {
+    background: #B9B9B9; }
+  .Instruction__wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 700px; }
+  .Instruction__head {
     color: #B2B2B2; }
 
 .is-inactive {
+  opacity: 0;
   display: none; }
+
+.u-fade-in {
+  animation: fadein 0.3s ease-in-out; }
+
+.u-fade-out {
+  animation: fadeout 0.3s ease-in-out; }
