@@ -1,0 +1,6 @@
+.MobileNofication {
+  display: none;
+  @include mq($until: mobile) {
+      display: block;
+  }
+}
