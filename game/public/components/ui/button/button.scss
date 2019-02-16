@@ -1,0 +1,20 @@
+.button {
+  @include shadowBox($type: 'button', $width: 200px, $height: 30px );
+  @include boxColors($bg-color: color(grey-main), $shadow-color: 'grey');
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+  color: color(txt-light-grey);
+  
+  &:hover {
+    cursor: pointer;
+  }
+  
+  &.is-clicked {
+    @include boxColors($bg-color: color(rose-light), $shadow-color: 'rose');
+    color: color(txt-black);
+  }
+}

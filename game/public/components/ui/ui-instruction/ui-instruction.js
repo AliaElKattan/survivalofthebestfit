@@ -12,29 +12,38 @@ export default class extends UIBase {
     super();
     this.$el = $('.js-instruction'); // This should be a single element
     this.$textEl = this.$el.find('.Instruction__content');
+    this.$button = this.$el.find('.button');
     this._addEventListeners();
     this.setContent = this.setContent.bind(this);
-      this._content = options ? options.content : 'dummy text'; // TODO: change this to null
-      this.overlay = options ? options.overlay : null; // TODO think about the overlay
-    
+    this._content = options ? options.content : 'dummy text'; // TODO: change this to null
+    this.overlay = options ? options.overlay : null; // TODO think about the overlay
     this.setContent(); // set content
 
   }
   
   setContent() {
-    this.$textEl.html('new text');
+    console.log('set content!');
+    this.$textEl.html('new text lala');
   }
   
   _testLog() {
     console.log("test emitter works!");
   }
   
+  _buttonIsClicked(e) {
+    this.$button.addClass(CLASSES.BUTTON_CLICKED);
+    eventEmitter.emit('instructionAcked', {});
+    this.hide();
+  }
+  
   _addEventListeners() {
     eventEmitter.on(EVENTS.EMITTER_TEST, this._testLog());
+    this.$button.click(this._buttonIsClicked.bind(this));
   }
   
   _removeEventListeners() {
     eventEmitter.off(EVENTS.EMITTER_TEST, this._testLog());
+    this.$button.off(this._buttonIsClicked.bind(this));
   }
   
   show () {
@@ -53,8 +62,9 @@ export default class extends UIBase {
 
   destroy () {
     super.dispose();
+    this.hide();
     this._removeEventListeners();
-    this.$el.destroy();
+    // this.$el.destroy();
   }
 }
 

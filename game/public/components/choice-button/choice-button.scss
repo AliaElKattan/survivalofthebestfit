@@ -1,5 +1,5 @@
 .choiceButton {
-  @include shadowBox($type: 'button', $width: 250px, $height: 30px, );
+  @include shadowBox($type: 'button', $width: 250px, $height: 30px );
   @include boxColors($bg-color: color(grey-main), $shadow-color: 'grey');
   
   display: flex;
