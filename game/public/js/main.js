@@ -4,6 +4,7 @@ import { gameFSM } from './gameStates.js';
 import {trainSVM } from './svm.js';
 
 console.log(txt.stageZero.welcome);
+console.log('hellooo!');
 
 document.getElementById("gameCanvas").appendChild(pixiApp.view);
 var a = 0;

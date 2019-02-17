@@ -1,135 +1,89 @@
 // import { bubbleContainer} from '../shared.js';
 import { pixiApp, eventEmitter } from '../shared.js';
-import {xIcon} from '../textures.js';
+import { xIcon } from '../textures.js';
+import { uv2px, spacingUtils as space } from '../common/utils.js';
 
-class Bubble {
-
-constructor() {
-  this.width = 200;
-  this.height = 70;
-}
-
-drawBubble(messagex,messagey,messagetext) {
-  // var messagex = 300;
-  // var messagey = 100;
-
-  this.x = messagex;
-  this.y = messagey;
-  let roundBox = new PIXI.Graphics();
-  roundBox.lineStyle(4,0x99CCFF, 1);
-  roundBox.beginFill(0xFFFFFF);
-  roundBox.drawRoundedRect(this.x, this.y, this.width, this.height, 10)
-  roundBox.endFill();
-  roundBox.x = 48;
-  roundBox.y = 190;
-  pixiApp.stage.addChild(roundBox);
-
-
-
-  let style = new PIXI.TextStyle({
-    fontFamily: "\"Lucida Console\", Monaco, monospace",
-    fontSize: 12,
-    fill: "black",
-    stroke: '#ff3300',
-    wordWrap: true,
-    wordWrapWidth: this.width - 10,
-  });
-
-  let message = new PIXI.Text(messagetext, style);
-  pixiApp.stage.addChild(message);
-  message.position.set(this.x+60,this.y+200);
-}
-
-}
-
+let instructionContainer;
 class TextBox {
+  constructor(width, height, messageText, overlay=true) {
+    instructionContainer = new PIXI.Container();
+    this.width = width;
+    this.height = height;
+    this.text = messageText;
+    this.alive = true;
+    if (overlay) this.drawFullScreenOverlay();
+    this.drawBox();
+    pixiApp.stage.addChild(instructionContainer);
+  }
 
-constructor() {
-  this.width = 200;
-  // this.height = 70;
-  this.alive = true;
+  drawBox() {
 
+    this.x = space.screenCenterX(this.width);
+    this.y = space.screenCenterY(this.height);
 
-}
+    let style = new PIXI.TextStyle({
+      fontFamily: "Lucida Console",
+      fontSize: 14,
+      fill: "black",
+      stroke: '#ff3300',
+      wordWrap: true,
+      wordWrapWidth: this.width - 10,
+      lineHeight: 20
+    });
 
-drawBox(messagex,messagey,messagetext) {
-  // var messagex = 300;
-  // var messagey = 100;
+    let message = new PIXI.Text(this.text, style);
 
-  this.x = messagex;
-  this.y = messagey;
+    this.height2 = message.height;
 
-  let style = new PIXI.TextStyle({
-  fontFamily: "Lucida Console",
-  fontSize: 12,
-  fill: "black",
-  stroke: '#ff3300',
-  wordWrap: true,
-  wordWrapWidth: this.width - 10,
-  });
+    let rectangle = new PIXI.Graphics();
+    rectangle.lineStyle(4, 0x99CCFF, 1);
+    rectangle.beginFill(0xFFFFFF);
+    rectangle.drawRect(this.x, this.y, this.width, this.height, 10)
+    rectangle.endFill();
+    instructionContainer.addChild(rectangle)
 
-  let message = new PIXI.Text(messagetext, style);
+    rectangle.buttonMode = true;
+    rectangle.interactive = true;
+    rectangle.on('pointertap', onPress);
 
-  this.height2= messagetext.height;
+    rectangle.addChild(message);
+    message.position.set(this.x + 5, this.y + 5);
 
-  let rectangle = new PIXI.Graphics();
-  rectangle.lineStyle(4,0x99CCFF, 1);
-  rectangle.beginFill(0xFFFFFF);
-  rectangle.drawRect(this.x, this.y, this.width, message.height + 15, 10)
-  rectangle.endFill();
-  rectangle.x = 48;
-rectangle.y = 190;
-  pixiApp.stage.addChild(rectangle);
+    var icon = new PIXI.Sprite(xIcon);
+    icon.interactive = true;
+    icon.buttonMode = true;
 
-  rectangle.buttonMode = true;
-  rectangle.interactive = true;
-  rectangle.on('pointertap', onPress);
+    rectangle.addChild(icon);
+    icon.scale.set(.04);
+    icon.x = this.x + message.width + 15;
+    icon.y = this.y;
+  }
 
-  rectangle.addChild(message);
-  message.position.set(this.x+5,this.y+5);
+  drawFullScreenOverlay() {
+    let bg = new PIXI.Container();
+    bg.alpha = 0.5
 
+    let overlay = new PIXI.Graphics();
+    overlay.beginFill(0xFFFFFF);
+    overlay.drawRect(0, 0, uv2px(1, 'w'), uv2px(1, 'h'))
+    overlay.endFill();
 
-  var icon = new PIXI.Sprite(xIcon);
-  icon.interactive = true;
-  icon.buttonMode = true;
-
-  rectangle.addChild(icon);
-  icon.scale.set(.04);
-  icon.x = this.x + message.width + 15;
-  icon.y = this.y;
-  // icon.x= message.x+ message.width;
-  // icon.y= message.y - 8;
-
-
-// icon.on('pointertap',this.alive = false);
-}
-
-
+    bg.addChild(overlay);
+    instructionContainer.addChild(bg);
+  }
 }
 
 function onPress(event) {
+  eventEmitter.emit('instructionAcked', {});
   this.data = event.data;
   this.visible = false;
-  console.log("text pressed");
+  hideInstruction();
 }
 
+function hideInstruction() {
+  instructionContainer.removeChildren();
+  instructionContainer.parent.removeChild(instructionContainer);
+  instructionContainer.destroy()
+}
 
-export {Bubble};
-export{TextBox};
-
-// function createBubble(){
-//   //function createBubble(x, y, scale, text){
-//   //var bubble = new PIXI.RoundedRectangle(x,y,width,height, radius);
-//   var bubble = new PIXI.RoundedRectangle(10,10,50,50,5);
-//   //var text = new Text(text);
-//   //app.stage.addChild(text);
-//   // bubble.x = x
-//   // bubble.y = y
-//   // desk.scale.set(scale);
-//   // desk.interactive = true;
-//   bubble.controller = new Bubble(bubble);
-//
-//   bubbleContainer.addChild(bubble);
-// }
-//
-// export { createBubble };
+export { TextBox };

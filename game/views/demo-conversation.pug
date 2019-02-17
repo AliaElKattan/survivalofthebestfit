@@ -2,8 +2,7 @@ doctype html
 html(lang='en')  
  head
    title Conversation demo
-   link(rel="stylesheet", href="/css/demo.css")
-   link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=VT323")
+   link(rel="stylesheet", href="/css/main.css")
  body
    h1 Conversation demo
    div(class="conversationBox__wrapper")
@@ -12,10 +11,7 @@ html(lang='en')
          p From: software-engineer@company.com
          p Subject: Hiring Algorithm
        each prompt,index in conversation
-         div(class=index === 0 ? '' : 'is-inactive', class="replica replica--"+index, data-step=index)
-           p(class="replica__paragraph") #{prompt.text}
-           if prompt.answer_choice
-             each choice in prompt.answer_choice
-               div(class="choiceButton__wrapper", data-component="ChoiceButton")
-                 p(class='choiceButton choiceButton--', data-step=index) #{choice.text}
+         include ../public/components/replica/replica.pug
+         +replica(index, prompt)
+
    script(src='/dist/transition-bundle.js')
