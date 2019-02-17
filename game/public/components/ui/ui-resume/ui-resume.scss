@@ -1,0 +1,52 @@
+// UI instruction box
+.Resume {
+  @include textBox();
+  @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'blue');
+  box-shadow: inset 0 0 0 2px color(shadow-blue-light);
+  
+  padding: padding(sm) padding(sm) padding(md) padding(sm);
+  
+  position: absolute;
+  right: margin(sm);
+  top: 5%;
+  // transform: translateY(-50%);
+  min-width: 250px;
+  min-height: 300px;
+  max-height: 700px;
+  max-width: 500px;
+
+}
+
+.cv-category {
+  
+  &__name {
+    padding: padding(xs) 0;
+  }
+  
+  &__skillbar {
+    height: 7px;
+    width: 100%;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 70%;
+      height: inherit;
+      position: absolute;
+    }
+    
+    .Resume--yellow & {
+      background-color: color(skill-bg-yellow);
+      &:before {
+        background-color: color(skill-val-yellow);
+      }
+    }
+    
+    .Resume--blue & {
+      background-color: color(skill-bg-blue);
+      &:before {
+        background-color: color(skill-val-blue);
+      }
+    }    
+  }
+  
+}

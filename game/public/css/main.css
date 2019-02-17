@@ -75,6 +75,60 @@ body.Page--Game {
   .Instruction__head {
     color: #B2B2B2; }
 
+.Resume {
+  color: inherit;
+  background-color: #FAFAFA;
+  box-shadow: inset 0 0 0 2px #CDE4F1;
+  padding: 20px 20px 40px 20px;
+  position: absolute;
+  right: 20px;
+  top: 5%;
+  min-width: 250px;
+  min-height: 300px;
+  max-height: 700px;
+  max-width: 500px; }
+  .Resume:before, .Resume:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .Resume:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .Resume:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .Resume:before {
+    background: #7DA6BE; }
+  .Resume:after {
+    background: #CDE4F1; }
+
+.cv-category__name {
+  padding: 10px 0; }
+
+.cv-category__skillbar {
+  height: 7px;
+  width: 100%; }
+  .cv-category__skillbar:before {
+    content: "";
+    display: inline-block;
+    width: 70%;
+    height: inherit;
+    position: absolute; }
+  .Resume--yellow .cv-category__skillbar {
+    background-color: #FFDB8C; }
+    .Resume--yellow .cv-category__skillbar:before {
+      background-color: #F4AB0B; }
+  .Resume--blue .cv-category__skillbar {
+    background-color: #CDE4F1; }
+    .Resume--blue .cv-category__skillbar:before {
+      background-color: #2F4755; }
+
 .button {
   height: inherit;
   width: inherit;
