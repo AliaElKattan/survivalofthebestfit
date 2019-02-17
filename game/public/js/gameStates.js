@@ -6,6 +6,7 @@ import { MLOffice } from './office/mloffice.js';
 
 import { incubator } from './textures.js';
 import { TextBox }  from './common/instructionBubble.js';
+import TextBoxUI from '../components/ui/ui-instruction/ui-instruction';
 import { startTaskTimer } from './common/taskTimer.js';
 import { CVViewer } from './common/cvViewer.js';
 import { cvCollection } from '../assets/cvCollection.js';
@@ -59,8 +60,8 @@ var gameFSM = new machina.Fsm( {
         *////////////////////
         stageOne: {
             _onEnter: function(){
-                var stageOneOver = new TextBox(uv2px(0.5,'w'), uv2px(0.5,'h'), txt.stageOne.messageFromVc);
-
+                // var stageOneOver = new TextBox(uv2px(0.5,'w'), uv2px(0.5,'h'), txt.stageOne.messageFromVc);
+                const stageOneText = new TextBoxUI({content: txt.stageOne.messageFromVc, show: true});
                 office = new Office();
                 personList = []
 

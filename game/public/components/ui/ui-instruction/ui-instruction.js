@@ -18,12 +18,15 @@ export default class extends UIBase {
     this._content = options ? options.content : 'dummy text'; // TODO: change this to null
     this.overlay = options ? options.overlay : null; // TODO think about the overlay
     this.setContent(); // set content
+    if(options && options.show){
+      this.show();
+    }
 
   }
   
   setContent() {
     console.log('set content!');
-    this.$textEl.html('new text lala');
+    this.$textEl.html(this._content);
   }
   
   _testLog() {

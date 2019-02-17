@@ -42,143 +42,36 @@ body.Page--Game {
     #gameCanvas {
       display: none; } }
 
-.choiceButton {
-  height: inherit;
-  width: inherit;
-  position: relative;
-  background-color: #F2F2F2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: #B2B2B2; }
-  .choiceButton__wrapper {
-    display: inline-block;
-    margin-right: 20px;
-    width: 250px;
-    height: 30px; }
-  .choiceButton:before, .choiceButton:after {
-    content: "";
-    display: inline-block;
-    position: absolute; }
-  .choiceButton:before {
-    left: 0;
-    width: inherit; }
-  .choiceButton:after {
-    top: 0;
-    height: inherit; }
-  .choiceButton:after {
-    width: 5px;
-    right: -5px;
-    transform: translateY(1px) skewY(25deg); }
-  .choiceButton:before {
-    height: 4px;
-    bottom: -4px;
-    transform: translate(3px, -1px) skewX(55deg); }
-  .choiceButton:before {
-    background: #919191; }
-  .choiceButton:after {
-    background: #B9B9B9; }
-  .choiceButton--chosen {
-    background-color: #FECCC7;
-    color: #000000; }
-    .choiceButton--chosen:before {
-      background: #FFADA3; }
-    .choiceButton--chosen:after {
-      background: #F29488; }
-
-.replica {
-  display: block;
-  margin: 10px 0 20px 0; }
-  .replica__paragraph {
-    font-size: 1.2rem;
-    margin-bottom: 15px; }
-
-.conversationBox {
-  height: inherit;
-  width: inherit;
-  position: relative;
-  background-color: #FAFAFA;
-  padding: 10px 20px; }
-  .conversationBox__wrapper {
-    display: inline-block;
-    margin-right: 20px;
-    width: 600px;
-    height: 500px; }
-  .conversationBox:before, .conversationBox:after {
-    content: "";
-    display: inline-block;
-    position: absolute; }
-  .conversationBox:before {
-    left: 0;
-    width: inherit; }
-  .conversationBox:after {
-    top: 0;
-    height: inherit; }
-  .conversationBox:after {
-    width: 10px;
-    right: -10px;
-    transform: translateY(3px) skewY(25deg); }
-  .conversationBox:before {
-    height: 5px;
-    bottom: -5px;
-    transform: translateX(5px) skewX(65deg); }
-  .conversationBox:before {
-    background: #919191; }
-  .conversationBox:after {
-    background: #B9B9B9; }
-  .conversationBox__wrapper {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 700px; }
-
-.MobileNofication {
-  display: none; }
-  @media (max-width: 23.115em) {
-    .MobileNofication {
-      display: block; } }
-
 .Instruction {
-  height: inherit;
-  width: inherit;
-  position: relative;
+  color: inherit;
   background-color: #FAFAFA;
-  padding: 10px; }
-  .Instruction__wrapper {
-    display: inline-block;
-    margin-right: 20px;
-    width: 500px;
-    height: 400px; }
+  padding: 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 500px;
+  max-width: 600px; }
   .Instruction:before, .Instruction:after {
     content: "";
     display: inline-block;
     position: absolute; }
   .Instruction:before {
     left: 0;
-    width: inherit; }
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
   .Instruction:after {
     top: 0;
-    height: inherit; }
-  .Instruction:after {
+    height: 100%;
     width: 10px;
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
   .Instruction:before {
-    height: 5px;
-    bottom: -5px;
-    transform: translateX(5px) skewX(65deg); }
-  .Instruction:before {
     background: #919191; }
   .Instruction:after {
     background: #B9B9B9; }
-  .Instruction__wrapper {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 700px; }
   .Instruction__head {
     color: #B2B2B2; }
 
@@ -186,12 +79,12 @@ body.Page--Game {
   height: inherit;
   width: inherit;
   position: relative;
+  color: #B2B2B2;
   background-color: #F2F2F2;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  color: #B2B2B2; }
+  text-align: center; }
   .button__wrapper {
     display: inline-block;
     margin-right: 20px;
@@ -203,18 +96,16 @@ body.Page--Game {
     position: absolute; }
   .button:before {
     left: 0;
-    width: inherit; }
-  .button:after {
-    top: 0;
-    height: inherit; }
-  .button:after {
-    width: 5px;
-    right: -5px;
-    transform: translateY(1px) skewY(25deg); }
-  .button:before {
+    width: inherit;
     height: 4px;
     bottom: -4px;
     transform: translate(3px, -1px) skewX(55deg); }
+  .button:after {
+    top: 0;
+    height: inherit;
+    width: 5px;
+    right: -5px;
+    transform: translateY(1px) skewY(25deg); }
   .button:before {
     background: #919191; }
   .button:after {
@@ -222,12 +113,61 @@ body.Page--Game {
   .button:hover {
     cursor: pointer; }
   .button.is-clicked {
-    background-color: #FECCC7;
-    color: #000000; }
+    color: #000000;
+    background-color: #FECCC7; }
     .button.is-clicked:before {
       background: #FFADA3; }
     .button.is-clicked:after {
       background: #F29488; }
+
+.choiceButton {
+  width: 250px;
+  height: 30px; }
+
+.replica {
+  display: block;
+  margin: 10px 0 20px 0; }
+  .replica__paragraph {
+    font-size: 1.2rem;
+    margin-bottom: 15px; }
+
+.conversationBox {
+  color: inherit;
+  background-color: #FAFAFA;
+  padding: 10px 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 80%;
+  max-width: 700px; }
+  .conversationBox:before, .conversationBox:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .conversationBox:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .conversationBox:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .conversationBox:before {
+    background: #919191; }
+  .conversationBox:after {
+    background: #B9B9B9; }
+
+.MobileNofication {
+  display: none; }
+  @media (max-width: 23.115em) {
+    .MobileNofication {
+      display: block; } }
 
 .is-inactive {
   opacity: 0;

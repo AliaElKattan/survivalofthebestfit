@@ -1,16 +1,16 @@
 // conversation box
 .conversationBox {
-  @include shadowBox($type: 'textbox', $width: 600px, $height: 500px);
+  @include textBox();
   @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'grey');
   
   padding: 10px 20px;
   
-  &__wrapper {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 700px;
-  }
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 80%;
+  max-width: 700px;
 
 }

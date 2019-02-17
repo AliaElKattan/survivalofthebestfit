@@ -1,5 +1,8 @@
+import CLASSES from '../../js/constants/classes';
 import {Component} from 'component-loader-js';
-import * as Conversation from '../../assets/demo-conversation-text.js'
+import * as Conversation from '../../assets/demo-conversation-text.js';
+
+
 
 // publishing custom event to any registered listener
 export default class ChoiceButton extends Component {
@@ -8,7 +11,7 @@ export default class ChoiceButton extends Component {
 
 		this._step = parseInt(this.el.dataset.step);
 		this._replica = this.el.closest(".replica");
-		this._textContainer = this.el.querySelector(".choiceButton");
+		this._textContainer = this.el.querySelector("p");
 		this._onBtnClick = this._onBtnClick.bind(this);
 		this._hideBtn = this._hideBtn.bind(this);
 		
@@ -21,7 +24,7 @@ export default class ChoiceButton extends Component {
 	
 	_onBtnClick (e) {
 		// add 'chosen' styling to the button
-		e.target.classList.add('choiceButton--chosen');
+		e.target.classList.add(CLASSES.BUTTON_CLICKED);
 		// hide the other choice button
 		this.publish('hide-other-choice', this._step);
 		// show next replica
@@ -32,8 +35,8 @@ export default class ChoiceButton extends Component {
 	// hide the unchosen button
 	
 	_hideBtn (conversation_step) {
-		if (this._step === conversation_step && !this._textContainer.classList.contains('choiceButton--chosen')) {
-			this.el.classList.add('is-inactive');
+		if (this._step === conversation_step && !this._textContainer.classList.contains(CLASSES.BUTTON_CLICKED)) {
+			this.el.classList.add(CLASSES.IS_INACTIVE);
 		};
 	}
 	
