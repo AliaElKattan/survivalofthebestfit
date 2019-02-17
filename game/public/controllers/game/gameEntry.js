@@ -2,7 +2,7 @@ import { eventEmitter } from './gameSetup.js';
 import "@babel/polyfill";
 import { pixiApp, startTweenManager } from './gameSetup.js';
 import { gameFSM } from './stateManager.js';
-import {trainSVM } from '../../js/svm.js';
+import {trainSVM } from '../machine-learning/svm.js';
 
 import ResumeUI from '../../components/ui/ui-resume/ui-resume';
 
