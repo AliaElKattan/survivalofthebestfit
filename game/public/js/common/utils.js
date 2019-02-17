@@ -1,4 +1,4 @@
-import { pixiApp } from '../shared.js';
+import { pixiApp } from '../../controllers/game/gameSetup.js';
 
 const { width, height } = pixiApp.screen;
 

@@ -1,6 +1,6 @@
 import "@babel/polyfill";
-import { pixiApp, startTweenManager } from '../shared.js';
-import { gameFSM } from '../gameStates.js';
+import { pixiApp, startTweenManager } from '../../controllers/game/gameSetup.js';
+import { gameFSM } from '../../controllers/game/stateManager.js';
 import {trainSVM } from '../svm.js';
 
 console.log(txt.stageZero.welcome);

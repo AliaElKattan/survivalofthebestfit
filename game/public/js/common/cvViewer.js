@@ -1,4 +1,4 @@
-import { pixiApp, cvViewerContainer, eventEmitter } from '../shared.js';
+import { pixiApp, cvViewerContainer, eventEmitter } from '../../controllers/game/gameSetup.js';
 import { spacingUtils } from './utils.js'
 
 class CVViewer {

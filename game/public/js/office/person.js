@@ -1,5 +1,5 @@
 import { personTexture, yellowPersonTexture, bluePersonTexture } from '../textures.js'
-import { pixiApp, officeContainer, personContainer, deskContainer, eventEmitter } from '../shared.js';
+import { pixiApp, officeContainer, personContainer, deskContainer, eventEmitter } from '../../controllers/game/gameSetup.js';
 
 class personController {
     constructor(parent, office) {

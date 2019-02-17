@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import * as tweenManager from 'pixi-tween';
-import { officeContainer, deskContainer, eventEmitter, animateTo } from '../shared.js';
-import { gameFSM } from '../gameStates.js';
+import { officeContainer, deskContainer, eventEmitter, animateTo } from '../../controllers/game/gameSetup.js';
+import { gameFSM } from '../../controllers/game/stateManager.js';
 import { createDesk } from './desk.js';
 import { uv2px, spacingUtils as space} from '../common/utils.js';
 

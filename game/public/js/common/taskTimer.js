@@ -1,4 +1,4 @@
-import { pixiApp, eventEmitter } from '../shared.js';
+import { pixiApp, eventEmitter } from '../../controllers/game/gameSetup.js';
 import { spacingUtils } from './utils.js'
 
 var taskTimerContainer = new PIXI.Container();

@@ -1,5 +1,5 @@
 import { deskTexture } from '../textures.js'
-import { deskContainer, animateTo } from '../shared.js';
+import { deskContainer, animateTo } from '../../controllers/game/gameSetup.js';
 
 class deskController {
     constructor(parent) {

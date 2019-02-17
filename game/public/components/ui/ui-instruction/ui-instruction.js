@@ -3,7 +3,7 @@ import CLASSES from '../../../js/constants/classes';
 import EVENTS from '../../../js/constants/events';
 
 import UIBase from '../../../js/common/ui-base';
-import { eventEmitter } from '../../../js/shared.js';
+import { eventEmitter } from '../../../controllers/game/gameSetup.js';
 
 
 export default class extends UIBase {

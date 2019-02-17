@@ -1,5 +1,5 @@
 // import { bubbleContainer} from '../shared.js';
-import { pixiApp, eventEmitter } from '../shared.js';
+import { pixiApp, eventEmitter } from '../../controllers/game/gameSetup.js';
 import { xIcon } from '../textures.js';
 import { uv2px, spacingUtils as space } from '../common/utils.js';
 

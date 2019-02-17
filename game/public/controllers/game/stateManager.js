@@ -1,19 +1,19 @@
 import * as machina from 'machina';
-import { pixiApp, eventEmitter, animateTo, beltContainer } from './shared.js';
-import { createPerson } from './office/person.js';
-import { Office } from './office/office.js';
-import { MLOffice } from './office/mloffice.js';
+import { pixiApp, eventEmitter, animateTo, beltContainer } from './gameSetup.js';
+import { createPerson } from '../../js/office/person.js';
+import { Office } from '../../js/office/office.js';
+import { MLOffice } from '../../js/office/mloffice.js';
 
-import { incubator } from './textures.js';
-import { TextBox }  from './common/instructionBubble.js';
-import TextBoxUI from '../components/ui/ui-instruction/ui-instruction';
-import { startTaskTimer } from './common/taskTimer.js';
-import { CVViewer } from './common/cvViewer.js';
-import { cvCollection } from '../assets/cvCollection.js';
-import { uv2px } from './common/utils.js';
+import { incubator } from '../../js/textures.js';
+import { TextBox }  from '../../js/common/instructionBubble.js';
+import TextBoxUI from '../../components/ui/ui-instruction/ui-instruction';
+import { startTaskTimer } from '../../js/common/taskTimer.js';
+import { CVViewer } from '../../js/common/cvViewer.js';
+import { cvCollection } from '../../assets/cvCollection.js';
+import { uv2px } from '../../js/common/utils.js';
 
-import {xIcon} from './textures.js';
-import {beltTexture, doorTexture, cvTexture} from './textures.js';
+import {xIcon} from '../../js/textures.js';
+import {beltTexture, doorTexture, cvTexture} from '../../js/textures.js';
 
 var office;
 var personList, personList2;
@@ -24,7 +24,7 @@ var cvList;
 var gameFSM = new machina.Fsm( {
 
     namespace: "game-fsm",
-    initialState: "stageFour",
+    initialState: "stageOne",
 
     states: {
         uninitialized: {
