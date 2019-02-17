@@ -10,14 +10,15 @@
 @import 'base/_animations';
 // pages
 @import 'pages/game-page';
+// components -- ui
+@import '../components/ui/ui-instruction/ui-instruction';
+@import '../components/ui/button/button';
 // components -- transition page
 @import '../components/choice-button/choice-button';
 @import '../components/replica/replica';
 @import '../components/conversation-box/conversation-box';
 // components -- mobile // warning
 @import '../components/mobile-notification/mobile-notification';
-// components -- ui
-@import '../components/ui/ui-instruction/ui-instruction';
-@import '../components/ui/button/button';
+
 // Util classes
 @import 'util/_util';

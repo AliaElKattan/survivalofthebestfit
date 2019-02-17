@@ -5,13 +5,12 @@ html(lang='en')
    link(rel="stylesheet", href="/css/main.css")
  body
    h1 Conversation demo
-   div(class="conversationBox__wrapper")
-     div(class="conversationBox")
-       div(class="conversationBox__head")
-         p From: software-engineer@company.com
-         p Subject: Hiring Algorithm
-       each prompt,index in conversation
-         include ../../../public/components/replica/replica.pug
-         +replica(index, prompt)
+   div(class="conversationBox")
+     div(class="conversationBox__head")
+       p From: software-engineer@company.com
+       p Subject: Hiring Algorithm
+     each prompt,index in conversation
+       include ../../../public/components/replica/replica.pug
+       +replica(index, prompt)
 
    script(src='/dist/transition-bundle.js')
