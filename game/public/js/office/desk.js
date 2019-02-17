@@ -1,4 +1,4 @@
-import { deskTexture } from '../textures.js'
+import { deskTexture } from '../../controllers/common/textures.js'
 import { deskContainer, animateTo } from '../../controllers/game/gameSetup.js';
 
 class deskController {

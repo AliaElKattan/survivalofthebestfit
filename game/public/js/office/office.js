@@ -3,7 +3,7 @@ import * as tweenManager from 'pixi-tween';
 import { officeContainer, deskContainer, eventEmitter, animateTo } from '../../controllers/game/gameSetup.js';
 import { gameFSM } from '../../controllers/game/stateManager.js';
 import { createDesk } from './desk.js';
-import { uv2px, spacingUtils as space} from '../common/utils.js';
+import { uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
 
 class Office {
     constructor() {

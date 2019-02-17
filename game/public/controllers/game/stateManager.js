@@ -4,16 +4,16 @@ import { createPerson } from '../../js/office/person.js';
 import { Office } from '../../js/office/office.js';
 import { MLOffice } from '../../js/office/mloffice.js';
 
-import { incubator } from '../../js/textures.js';
+import { incubator } from '../common/textures.js';
 import { TextBox }  from '../../js/common/instructionBubble.js';
 import TextBoxUI from '../../components/ui/ui-instruction/ui-instruction';
 import { startTaskTimer } from '../../js/common/taskTimer.js';
 import { CVViewer } from '../../js/common/cvViewer.js';
 import { cvCollection } from '../../assets/cvCollection.js';
-import { uv2px } from '../../js/common/utils.js';
+import { uv2px } from '../common/utils.js';
 
-import {xIcon} from '../../js/textures.js';
-import {beltTexture, doorTexture, cvTexture} from '../../js/textures.js';
+import {xIcon} from '../common/textures.js';
+import {beltTexture, doorTexture, cvTexture} from '../common/textures.js';
 
 var office;
 var personList, personList2;

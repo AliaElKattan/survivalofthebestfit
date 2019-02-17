@@ -1,5 +1,5 @@
 import { pixiApp, cvViewerContainer, eventEmitter } from '../../controllers/game/gameSetup.js';
-import { spacingUtils } from './utils.js'
+import { spacingUtils } from '../../controllers/common/utils.js'
 
 class CVViewer {
     constructor(x, y, width, height, cvFeatureList, cvObjByStage) {
