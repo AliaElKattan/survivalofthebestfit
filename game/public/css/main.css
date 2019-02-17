@@ -42,6 +42,51 @@ body.Page--Game {
     #gameCanvas {
       display: none; } }
 
+.button {
+  height: inherit;
+  width: inherit;
+  position: relative;
+  color: #B2B2B2;
+  background-color: #F2F2F2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center; }
+  .button__wrapper {
+    display: inline-block;
+    margin-right: 20px;
+    width: 200px;
+    height: 30px; }
+  .button:before, .button:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .button:before {
+    left: 0;
+    width: inherit;
+    height: 4px;
+    bottom: -4px;
+    transform: translate(3px, -1px) skewX(55deg); }
+  .button:after {
+    top: 0;
+    height: inherit;
+    width: 5px;
+    right: -5px;
+    transform: translateY(1px) skewY(25deg); }
+  .button:before {
+    background: #919191; }
+  .button:after {
+    background: #B9B9B9; }
+  .button:hover {
+    cursor: pointer; }
+  .button.is-clicked {
+    color: #000000;
+    background-color: #FECCC7; }
+    .button.is-clicked:before {
+      background: #FFADA3; }
+    .button.is-clicked:after {
+      background: #F29488; }
+
 .Instruction {
   color: inherit;
   background-color: #FAFAFA;
@@ -129,50 +174,51 @@ body.Page--Game {
     .Resume--blue .cv-category__skillbar:before {
       background-color: #2F4755; }
 
-.button {
-  height: inherit;
-  width: inherit;
-  position: relative;
-  color: #B2B2B2;
-  background-color: #F2F2F2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center; }
-  .button__wrapper {
-    display: inline-block;
-    margin-right: 20px;
-    width: 200px;
-    height: 30px; }
-  .button:before, .button:after {
+.TaskTimer {
+  color: inherit;
+  background-color: #FAFAFA;
+  padding: 10px 20px;
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  transform: translateX(-50%);
+  min-width: 200px; }
+  .TaskTimer:before, .TaskTimer:after {
     content: "";
     display: inline-block;
     position: absolute; }
-  .button:before {
+  .TaskTimer:before {
     left: 0;
-    width: inherit;
-    height: 4px;
-    bottom: -4px;
-    transform: translate(3px, -1px) skewX(55deg); }
-  .button:after {
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .TaskTimer:after {
     top: 0;
-    height: inherit;
-    width: 5px;
-    right: -5px;
-    transform: translateY(1px) skewY(25deg); }
-  .button:before {
-    background: #919191; }
-  .button:after {
-    background: #B9B9B9; }
-  .button:hover {
-    cursor: pointer; }
-  .button.is-clicked {
-    color: #000000;
-    background-color: #FECCC7; }
-    .button.is-clicked:before {
-      background: #FFADA3; }
-    .button.is-clicked:after {
-      background: #F29488; }
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .TaskTimer:before {
+    background: #FFADA3; }
+  .TaskTimer:after {
+    background: #F29488; }
+  .TaskTimer__task {
+    text-align: center; }
+  .TaskTimer__task-progress {
+    text-align: center; }
+  .TaskTimer__timerbar {
+    height: 7px;
+    width: 100%;
+    margin: 10px 0 5px 0;
+    background-color: #F29488; }
+    .TaskTimer__timerbar:before {
+      content: "";
+      display: inline-block;
+      background-color: #FFADA3;
+      width: 70%;
+      height: inherit;
+      position: absolute; }
 
 .choiceButton {
   width: 250px;

@@ -11,9 +11,10 @@
 // pages
 @import 'pages/game-page';
 // components -- ui
+@import '../components/ui/button/button';
 @import '../components/ui/ui-instruction/ui-instruction';
 @import '../components/ui/ui-resume/ui-resume';
-@import '../components/ui/button/button';
+@import '../components/ui/task-timer/task-timer';
 // components -- transition page
 @import '../components/choice-button/choice-button';
 @import '../components/replica/replica';
