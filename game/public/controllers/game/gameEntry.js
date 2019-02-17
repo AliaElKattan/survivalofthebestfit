@@ -9,8 +9,10 @@ import ResumeUI from '../../components/ui/ui-resume/ui-resume';
 console.log(txt.stageZero.welcome);
 console.log('hellooo!');
 
-// new ResumeUI({content: 'this is my CV', show: true}); 
-// eventEmitter.emit('emitter-test-emit', {});
+/* -- JUST TESTING -- */
+// new Resume({content: 'this is my CV', show: true}); 
+// new TaskTimer({show: true});
+
 
 
 document.getElementById("gameCanvas").appendChild(pixiApp.view);
