@@ -1,6 +1,5 @@
 import { personTexture, yellowPersonTexture, bluePersonTexture } from '../textures.js'
-import { pixiApp, officeContainer, personContainer, deskContainer, eventEmitter, animateTo } from '../shared.js';
-import { uv2px } from '../common/utils.js';
+import { pixiApp, officeContainer, personContainer, deskContainer, eventEmitter } from '../shared.js';
 
 class personController {
     constructor(parent, office) {
@@ -69,22 +68,22 @@ function sendAssigned(){
     eventEmitter.emit('assigned-desk', {});
 }
 
-function createPerson(x, y, scale, office){
+function createPerson(x, y, office){
     var person = new PIXI.Sprite(bluePersonTexture);
     person.controller = new personController(person, office);
     person.interactive = true;
     person.buttonMode = true;
     person.type = "person";
     person.anchor.set(0.5);
-    person.scale.set(0.15*scale);
-    person.x = uv2px(x, "w");
-    person.y = 0;
+    person.scale.set(0.15);
+    person.x = x;
+    person.y = y;
     person
         .on('pointerdown', onPersonDragStart)
         .on('pointerup', onPersonDragEnd)
         .on('pointerupoutside', onPersonDragEnd)
         .on('pointermove', onPersonDragMove);
-    animateTo({target: person, y: uv2px(y, "h")}).start();
+
     personContainer.addChild(person);
     return person
 }

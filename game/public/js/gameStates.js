@@ -24,7 +24,7 @@ var cvList;
 var gameFSM = new machina.Fsm( {
 
     namespace: "game-fsm",
-    initialState: "stageOne",
+    initialState: "stageFour",
 
     states: {
         uninitialized: {

@@ -57,10 +57,10 @@ class Office {
         var row = this.sizeConfig[this.size].row,
         col = this.sizeConfig[this.size].col,
         scale = this.sizeConfig[this.size].scale,
-        width = uv2px(this.sizeConfig[this.size].width, 'w'),
-        height = uv2px(this.sizeConfig[this.size].height, 'h'),
-        offsetY = uv2px(this.sizeConfig[this.size].offsetY, 'h'),
-        offsetX = uv2px(this.sizeConfig[this.size].offsetX, 'w');
+        width = this.sizeConfig[this.size].width,
+        height = this.sizeConfig[this.size].height,
+        offsetY = this.sizeConfig[this.size].offsetY,
+        offsetX = this.sizeConfig[this.size].offsetX;
 
         this.scale *= scale;
 
