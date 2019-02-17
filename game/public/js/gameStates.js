@@ -63,7 +63,9 @@ var gameFSM = new machina.Fsm( {
 
                 office = new Office();
                 personList = []
+
                 eventEmitter.on('instructionAcked', (data) => {
+
                     //create People in the office
                     var x = uv2px(0.12,'w');
                     var xOffset = uv2px(0.05,'w')
@@ -101,24 +103,12 @@ var gameFSM = new machina.Fsm( {
                             unassignedPeople.push(personList[i]);
                         }
                     }
-<<<<<<< HEAD
-                }
-                office.growOffice(unassignedPeople);
-                var x = 10;
-                var y = pixiApp.screen.height - 80;
-                for (var i = 0; i < 10; i++) {
-                    var person = createPerson(x, y, office.getScale(), office);
-                    personList.push(person);
-                    x += 40
-                }
-=======
                     office.growOffice(unassignedPeople);
 
                     startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.stageTwo.taskDescription, 140, 10);
 
                 });
 
->>>>>>> be9075e2b713ea045e36ce36c5ae5e455581724e
             },
 
             nextStage: "stageThree",

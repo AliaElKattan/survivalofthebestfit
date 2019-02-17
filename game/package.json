@@ -6,7 +6,6 @@
   "config": {},
   "scripts": {
     "test": "test scrip include from karma website",
-    "start": "parcel static-website-content/index.html",
     "dev": "nodemon app.js",
     "dev-all": "npm-run-all --parallel clean-dist watch:* dev ",
     "clean-dist": "./scripts/clean-dist-folder.sh",
