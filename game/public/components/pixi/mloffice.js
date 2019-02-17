@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 import * as tweenManager from 'pixi-tween';
-import { officeContainer, eventEmitter, animateTo } from '../../controllers/game/gameSetup.js';
+import { officeContainer, eventEmitter } from '../../controllers/game/gameSetup.js';
 import { gameFSM } from '../../controllers/game/stateManager.js';
-import { uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
+import { uv2px, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
 import {beltTexture, doorTexture, cvTexture} from '../../controllers/common/textures.js';
 
 

@@ -11,16 +11,16 @@
 // pages
 @import 'pages/game-page';
 // components -- ui
-@import '../components/ui/button/button';
-@import '../components/ui/ui-instruction/ui-instruction';
-@import '../components/ui/ui-resume/ui-resume';
-@import '../components/ui/task-timer/task-timer';
+@import '../components/universal/button/button';
+@import '../components/interface/ui-instruction/ui-instruction';
+@import '../components/interface/ui-resume/ui-resume';
+@import '../components/interface/task-timer/task-timer';
 // components -- transition page
-@import '../components/choice-button/choice-button';
-@import '../components/replica/replica';
-@import '../components/conversation-box/conversation-box';
+@import '../components/interface/choice-button/choice-button';
+@import '../components/interface/replica/replica';
+@import '../components/interface/conversation-box/conversation-box';
 // components -- mobile // warning
-@import '../components/mobile-notification/mobile-notification';
+@import '../../views/pages/game/mobile-notification/mobile-notification';
 
 // Util classes
 @import 'util/_util';

@@ -1,6 +1,6 @@
-import CLASSES from '../../js/constants/classes';
+import CLASSES from '../../../controllers/constants/classes';
 import {Component} from 'component-loader-js';
-import * as Conversation from '../../assets/demo-conversation-text.js';
+import * as Conversation from '../../../assets/demo-conversation-text.js';
 
 
 

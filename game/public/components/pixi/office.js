@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js';
 import * as tweenManager from 'pixi-tween';
-import { officeContainer, deskContainer, eventEmitter, animateTo } from '../../controllers/game/gameSetup.js';
+import { officeContainer, deskContainer, eventEmitter } from '../../controllers/game/gameSetup.js';
 import { gameFSM } from '../../controllers/game/stateManager.js';
 import { createDesk } from './desk.js';
-import { uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
+import { uv2px, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
 
 class Office {
     constructor() {

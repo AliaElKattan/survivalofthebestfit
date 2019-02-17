@@ -1,16 +1,16 @@
 import * as machina from 'machina';
-import { pixiApp, eventEmitter, animateTo, beltContainer } from './gameSetup.js';
-import { createPerson } from '../../js/office/person.js';
-import { Office } from '../../js/office/office.js';
-import { MLOffice } from '../../js/office/mloffice.js';
+import { pixiApp, eventEmitter, beltContainer } from './gameSetup.js';
+import { createPerson } from '../../components/pixi/person.js';
+import { Office } from '../../components/pixi/office.js';
+import { MLOffice } from '../../components/pixi/mloffice.js';
 
 import { incubator } from '../common/textures.js';
-import { TextBox }  from '../../js/common/instructionBubble.js';
-import TextBoxUI from '../../components/ui/ui-instruction/ui-instruction';
-import { startTaskTimer } from '../../js/common/taskTimer.js';
-import { CVViewer } from '../../js/common/cvViewer.js';
+import { TextBox }  from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
+import TextBoxUI from '../../components/interface/ui-instruction/ui-instruction';
+import { startTaskTimer } from '../../components/interface/old-pixi-components-demise/taskTimer.js';
+import { CVViewer } from '../../components/interface/old-pixi-components-demise/cvViewer.js';
 import { cvCollection } from '../../assets/cvCollection.js';
-import { uv2px } from '../common/utils.js';
+import { uv2px, animateTo } from '../common/utils.js';
 
 import {xIcon} from '../common/textures.js';
 import {beltTexture, doorTexture, cvTexture} from '../common/textures.js';

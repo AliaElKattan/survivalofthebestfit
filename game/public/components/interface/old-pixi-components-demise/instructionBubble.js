@@ -1,7 +1,7 @@
 // import { bubbleContainer} from '../shared.js';
-import { pixiApp, eventEmitter } from '../../controllers/game/gameSetup.js';
-import { xIcon } from '../../controllers/common/textures.js';
-import { uv2px, spacingUtils as space } from '../../controllers/common/utils.js';
+import { pixiApp, eventEmitter } from '../../../controllers/game/gameSetup.js';
+import { xIcon } from '../../../controllers/common/textures.js';
+import { uv2px, spacingUtils as space } from '../../../controllers/common/utils.js';
 
 let instructionContainer;
 class TextBox {

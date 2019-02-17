@@ -1,7 +1,7 @@
 import $ from 'jquery';
-import CLASSES from '../../../js/constants/classes';
-import EVENTS from '../../../js/constants/events';
-import UIBase from '../../../js/common/ui-base';
+import CLASSES from '../../../controllers/constants/classes';
+import EVENTS from '../../../controllers/constants/events';
+import UIBase from '../old-pixi-components-demise/ui-base';
 import { eventEmitter } from '../../../controllers/game/gameSetup.js';
 
 

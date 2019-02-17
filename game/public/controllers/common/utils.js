@@ -58,5 +58,29 @@ const clamp = (val, minVal, maxVal) => {
   return Math.max(minVal, Math.min(maxVal, val));
 };
 
+// convenience function to animate object, parameter default to not moving anywhere
+function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), time=1000} = {}){
+  if (x === undefined) {
+        x = target.x;
+  };
+  if (y === undefined) {
+        y = target.y;
+  };
+  var tween = PIXI.tweenManager.createTween(target);
+  tween.easing = easing;
+  tween.time = time;
+  tween.expire = true;
+  tween.from({
+    'x' : target.x,
+    'y' : target.y,
+    'scale' : {'x': target.scale.x, 'y': target.scale.y}
+  })
+  tween.to({
+    'x' : x,
+    'y' : y,
+    'scale' : {'x': target.scale.x*scale, 'y': target.scale.y*scale}
+  })
+  return tween;
+}
 
-export { spacingUtils, uv2px, clamp };
+export { spacingUtils, uv2px, clamp, animateTo };

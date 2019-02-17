@@ -1,5 +1,5 @@
-import { pixiApp, eventEmitter } from '../../controllers/game/gameSetup.js';
-import { spacingUtils } from '../../controllers/common/utils.js'
+import { pixiApp, eventEmitter } from '../../../controllers/game/gameSetup.js';
+import { spacingUtils } from '../../../controllers/common/utils.js'
 
 var taskTimerContainer = new PIXI.Container();
 //let ticker = PIXI.Ticker.shared;

@@ -4,7 +4,7 @@ import { pixiApp, startTweenManager } from './gameSetup.js';
 import { gameFSM } from './stateManager.js';
 import {trainSVM } from '../machine-learning/svm.js';
 
-import ResumeUI from '../../components/ui/ui-resume/ui-resume';
+import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 
 console.log(txt.stageZero.welcome);
 console.log('hellooo!');

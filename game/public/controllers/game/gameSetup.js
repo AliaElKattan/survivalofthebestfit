@@ -45,31 +45,6 @@ var stopTweenManager = function(){
 startTweenManager = startTweenManager.bind(this);
 stopTweenManager = startTweenManager.bind(this);
 
-// convenience function to animate object, parameter default to not moving anywhere
-function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), time=1000} = {}){
-  if (x === undefined) {
-        x = target.x;
-  };
-  if (y === undefined) {
-        y = target.y;
-  };
-  var tween = PIXI.tweenManager.createTween(target);
-  tween.easing = easing;
-  tween.time = time;
-  tween.expire = true;
-  tween.from({
-    'x' : target.x,
-    'y' : target.y,
-    'scale' : {'x': target.scale.x, 'y': target.scale.y}
-  })
-  tween.to({
-    'x' : x,
-    'y' : y,
-    'scale' : {'x': target.scale.x*scale, 'y': target.scale.y*scale}
-  })
-  return tween;
-}
-
 window.addEventListener('resize', debounce(resize, 200));
 
 function resize() {
@@ -78,4 +53,4 @@ function resize() {
 }
 
 export { pixiApp,  beltContainer, officeContainer, personContainer, deskContainer,
-  timerContainer, cvViewerContainer, eventEmitter, startTweenManager, stopTweenManager, animateTo};
+  timerContainer, cvViewerContainer, eventEmitter, startTweenManager, stopTweenManager};
