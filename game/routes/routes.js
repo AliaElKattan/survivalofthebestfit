@@ -1,5 +1,5 @@
-const textFile = require('../public/assets/textTemplate.js');
-const ml_conversation = require('../public/assets/demo-conversation-text.js');
+const textFile = require('../public/assets/text/textTemplate.js');
+const ml_conversation = require('../public/assets/text/demo-conversation-text.js');
 
 // home page
 const HOME = (req, res) => {

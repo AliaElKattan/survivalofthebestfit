@@ -9,7 +9,7 @@ import { TextBox }  from '../../components/interface/old-pixi-components-demise/
 import TextBoxUI from '../../components/interface/ui-instruction/ui-instruction';
 import { startTaskTimer } from '../../components/interface/old-pixi-components-demise/taskTimer.js';
 import { CVViewer } from '../../components/interface/old-pixi-components-demise/cvViewer.js';
-import { cvCollection } from '../../assets/cvCollection.js';
+import { cvCollection } from '../../assets/text/cvCollection.js';
 import { uv2px, animateTo } from '../common/utils.js';
 
 import {xIcon} from '../common/textures.js';
