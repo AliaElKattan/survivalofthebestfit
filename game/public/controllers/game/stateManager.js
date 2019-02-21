@@ -60,7 +60,6 @@ var gameFSM = new machina.Fsm( {
         *////////////////////
         stageOne: {
             _onEnter: function(){
-                // var stageOneOver = new TextBox(uv2px(0.5,'w'), uv2px(0.5,'h'), txt.stageOne.messageFromVc);
                 const stageOneText = new TextBoxUI({content: txt.stageOne.messageFromVc, show: true});
                 office = new Office();
                 personList = []
@@ -96,6 +95,7 @@ var gameFSM = new machina.Fsm( {
         stageTwo: {
             _onEnter: function () {
                 var stageOneOver = new TextBox(uv2px(0.5,'w'), uv2px(0.5,'h'), txt.stageTwo.messageFromVc);
+                //const stageTwoText = new TextBoxUI({content: txt.stageTwo.messageFromVc, show: true});
 
                 eventEmitter.on('instructionAcked', (data) => {
                     var unassignedPeople = []
@@ -217,14 +217,11 @@ var gameFSM = new machina.Fsm( {
 
               cvViewerML = new CVViewer(uv2px(0.8,'w'), uv2px(0.05,'h'), uv2px(0.13,'w'), uv2px(0.32,'h'), cvCollection.cvFeatures, cvCollection.stageOne);
 
-
-
           },
 
 
 
         }
-
 
 
 

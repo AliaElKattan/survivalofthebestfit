@@ -1,11 +1,12 @@
 import { pixiApp, eventEmitter } from '../../../controllers/game/gameSetup.js';
 import { spacingUtils } from '../../../controllers/common/utils.js'
 
-var taskTimerContainer = new PIXI.Container();
+//var taskTimerContainer = new PIXI.Container();
 //let ticker = PIXI.Ticker.shared;
 
 class TaskTimer {
   constructor(x, y, width, height, text, totalLife, toHireNum) {
+    this.taskTimerContainer = new PIXI.Container();
     this.x = x;
     this.y = y;
     this.width = width;
@@ -28,7 +29,7 @@ class TaskTimer {
     this.box.endFill();
     this.box.x = this.x;
     this.box.y = this.y;
-    taskTimerContainer.addChild(this.box);
+    this.taskTimerContainer.addChild(this.box);
 
     this.timerBackground = new PIXI.Graphics();
     this.timerBackground.beginFill(0xFECCC7);
@@ -36,11 +37,11 @@ class TaskTimer {
     this.timerBackground.endFill();
     this.timerBackground.x = this.timerStartX;
     this.timerBackground.y = this.barY;
-    taskTimerContainer.addChild(this.timerBackground);
+    this.taskTimerContainer.addChild(this.timerBackground);
 
     //timer bar
     this.timer = new PIXI.Graphics();
-    taskTimerContainer.addChild(this.timer);
+    this.taskTimerContainer.addChild(this.timer);
 
     var style = new PIXI.TextStyle({
       fontFamily: "\"Lucida Console\", Monaco, monospace",
@@ -53,7 +54,7 @@ class TaskTimer {
     });
 
     let taskDesc = new PIXI.Text(this.text, style);
-    taskTimerContainer.addChild(taskDesc);
+    this.taskTimerContainer.addChild(taskDesc);
     taskDesc.position.set(this.x + 10, this.y + 10);
 
     this.style2 = new PIXI.TextStyle({
@@ -74,12 +75,12 @@ class TaskTimer {
   }
 
   writeCounter() {
-    if (taskTimerContainer.children.length > 0) {
-      taskTimerContainer.removeChild(this.counter);
+    if (this.taskTimerContainer.children.length > 0) {
+      this.taskTimerContainer.removeChild(this.counter);
     }
     this.hiredCountStr = this.hiredNum.toString() + "/" + this.toHireNum.toString();
     this.counter = new PIXI.Text(this.hiredCountStr, this.style2);
-    taskTimerContainer.addChild(this.counter);
+    this.taskTimerContainer.addChild(this.counter);
     this.counter.position.set(spacingUtils.getCenteredChildX(this.x, this.width, 50), spacingUtils.getTwoThirdsChildY(this.y, this.height, 20))
   }
 
@@ -90,8 +91,13 @@ class TaskTimer {
     });
 
     eventEmitter.on('stage-one-task-completed', (data) => {
-      hideTimer()
+      this.hideTimer()
     });
+  }
+
+  hideTimer() {
+    this.taskTimerContainer.parent.removeChild(this.taskTimerContainer);
+    this.taskTimerContainer.destroy()
   }
 }
 
@@ -113,18 +119,12 @@ function updateTimerLength(taskTimer) {
 }
 
 function startTaskTimer(x, y, width, height, text, totalLife, toHireNum) {
-  taskTimerContainer = new PIXI.Container();
-  pixiApp.stage.addChild(taskTimerContainer);
   let taskTimer = new TaskTimer(x, y, width, height, text, totalLife, toHireNum);
+  pixiApp.stage.addChild(taskTimer.taskTimerContainer);
+
   pixiApp.ticker.add(function (delta) {
     updateTimerLength(taskTimer);
   })
-}
-
-function hideTimer() {
-  pixiApp.ticker.stop();
-  taskTimerContainer.parent.removeChild(taskTimerContainer);
-  taskTimerContainer.destroy()
 }
 
 export { startTaskTimer };

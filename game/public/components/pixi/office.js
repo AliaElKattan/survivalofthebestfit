@@ -8,9 +8,9 @@ import { uv2px, spacingUtils as space, animateTo} from '../../controllers/common
 class Office {
     constructor() {
         this.sizeConfig = [
-            {row: 1, col: 5, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: 50, scale: 1},
-            {row: 1, col: 15, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: 30, scale: 0.7},
-            {row: 2, col: 15, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: 20, scale: 0.5},
+            {row: 1, col: 5, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: uv2px(0.08,'h'), scale: 1},
+            {row: 1, col: 10, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: uv2px(0.06,'h'), scale: 0.8},
+            {row: 2, col: 10, width: uv2px(0.8,'w'), height: uv2px(0.25,'h'), offsetX: 30, offsetY: uv2px(0.08,'h'), scale: 1},
             //{row: 8, col: 12, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.7}
         ]
         this.takenDesks = 0;
@@ -20,15 +20,15 @@ class Office {
 
         var coorObj = uv2px({x: 1, y: 0.5}); // if you prefer objects
 
-        //first office floor
-        this.drawFloor(uv2px(0.5,'h'));
+        //first (top floor) office floor Y
+        this.topFloor = 1;
+        this.topFloorY = uv2px(0.5,'h');
+        this.drawFloor(this.topFloorY);
 
         //ground floor
         this.drawFloor(space.absMinusSize(40,'h'));
-
         this.growOffice();
         this.listenerSetup();
-
     }
 
     drawFloor(y) {
@@ -46,7 +46,7 @@ class Office {
         this.side.drawRect(0, 0, uv2px(1,'w'), 20);
         this.side.endFill();
         this.side.x = 0;
-        this.side.y = y+40;
+        this.side.y = y + 40;
 
         deskContainer.addChild(this.surface);
         deskContainer.addChild(this.side);
@@ -62,7 +62,7 @@ class Office {
         offsetY = this.sizeConfig[this.size].offsetY,
         offsetX = this.sizeConfig[this.size].offsetX;
 
-        this.scale *= scale;
+        this.scale = scale;
 
         //creating office floor background
         var oldOfficeBackground = this.texture;
@@ -74,6 +74,7 @@ class Office {
 
         this.size++;
     }
+    
     createNewOfficeTween(offsetX, offsetY){
         this.texture = new PIXI.Sprite(this.sizeConfig[this.size].texture);
         this.texture.type = "office";
@@ -94,8 +95,16 @@ class Office {
         var y = uv2px(0.5,'h') - offsetY;
         var newDeskTweens = [];
         var moveDeskTweens = [];
+
         for (var i = 0; i < row; i++) {
             var x = (uv2px(1,'w') - width)/2;
+
+            if (i > 0 && this.topFloor < i+1) {
+                this.topFloorY -= height;
+                this.drawFloor(this.topFloorY);
+                this.topFloor++;
+            }
+
             for (var k = 0; k < col; k++) {
                 if (this.deskList.length > indx){
                     moveDeskTweens.push(animateTo({target:this.deskList[indx], scale:this.getScale(), x:x, y:y}));
@@ -104,7 +113,8 @@ class Office {
                     if (this.deskList[indx].controller.isTaken()){
                         moveDeskTweens.push(animateTo({target:this.deskList[indx].controller.getPerson(), scale:this.getScale(), x:x, y:y}));
                     }
-                } else {
+                } 
+                else {
                     var newDesk = createDesk(this.scale, x, -100);
                     newDeskTweens.push(animateTo({target:newDesk, y:y}));
                     this.deskList.push(newDesk);
@@ -112,9 +122,8 @@ class Office {
                 x += width/(col);
                 indx++;
             }
-            y += height/(row-1);
+            y -= height;
         }
-
         return [newDeskTweens, moveDeskTweens];
     }
 
