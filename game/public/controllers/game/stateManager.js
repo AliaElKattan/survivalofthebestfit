@@ -74,9 +74,9 @@ const gameFSM = new machina.Fsm( {
                 office = new Office();
                 personList = [];
                 // create People in the office
-                
+                let x = 0.12;
                 for (let i = 0; i < 12; i++) {
-                    const person = createPerson(0.12, 0,88, office);
+                    const person = createPerson(x, 0.88, office);
                     personList.push(person);
                     x += 0.05;
                 }
@@ -164,12 +164,14 @@ const gameFSM = new machina.Fsm( {
 } );
 
 const getUnassignedPeople = () => {
+    const unassignedPeople = [];
     for (let i = 0; i < personList.length; i++) {
         if (!personList[i].controller.isSeated()) {
             unassignedPeople.push(personList[i]);
         }
     }
-}
+    return unassignedPeople;
+};
 
 
 export {gameFSM};

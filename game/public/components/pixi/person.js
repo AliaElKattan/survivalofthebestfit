@@ -1,5 +1,6 @@
 import {bluePersonTexture} from '../../controllers/common/textures.js';
 import {pixiApp, personContainer, deskContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
+import {uv2px} from '../../controllers/common/utils.js';
 
 class PersonController {
     constructor(parent, office) {
