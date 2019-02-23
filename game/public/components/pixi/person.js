@@ -1,7 +1,7 @@
-import {personTexture, yellowPersonTexture, bluePersonTexture} from '../../controllers/common/textures.js';
-import {pixiApp, officeContainer, personContainer, deskContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
+import {bluePersonTexture} from '../../controllers/common/textures.js';
+import {pixiApp, personContainer, deskContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
 
-class personController {
+class PersonController {
     constructor(parent, office) {
         this.parent = parent;
         this.office = office;
@@ -69,7 +69,7 @@ function sendAssigned() {
 
 function createPerson(x, y, office) {
     const person = new PIXI.Sprite(bluePersonTexture);
-    person.controller = new personController(person, office);
+    person.controller = new PersonController(person, office);
     person.interactive = true;
     person.buttonMode = true;
     person.type = 'person';

@@ -6,9 +6,6 @@ import {trainSVM} from '../machine-learning/svm.js';
 
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 
-console.log(txt.stageZero.welcome);
-console.log('hellooo!');
-
 /* -- JUST TESTING -- */
 // new Resume({content: 'this is my CV', show: true});
 // new TaskTimer({show: true});

@@ -9,14 +9,14 @@ const english = {
     },
 
     // texts displayed during the game
-    stageZero: {
+    welcomeStage: {
         welcome: 'The winner of the 2 million dollar funding is... You!',
     },
-    stageOne: {
+    smallOfficeStage: {
         messageFromVc: 'Hi,\n\nCongrats again on your seed round. Very impressive.\nNow time to execute the idea. Hire the best people, fast. Hiring good talent is a war these days...\n\nKeep us updated.\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
         taskDescription: 'Task: Hire 5 new employees',
     },
-    stageTwo: {
+    mediumOfficeStage: {
         messageFromVc: 'Hi,\n\nGood progress but you are just not growing fast enough. You need to hire more aggressively to get all the talent and outgrow your competitors.\n\nQuadraple your headcount by next week and you can raise one more million in funding...\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
         taskDescription: 'Task: Hire 10 new employees',
     },

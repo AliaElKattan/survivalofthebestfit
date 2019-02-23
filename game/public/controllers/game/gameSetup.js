@@ -34,7 +34,7 @@ PIXI.settings.PRECISION_FRAGMENT = 'highp';
 
 // setup for the pixi-tween manager  CALLED AT THE END OF MAIN.JS
 let raf;
-var startTweenManager = function() {
+let startTweenManager = function() {
     raf = window.requestAnimationFrame(startTweenManager);
     pixiApp.renderer.render(pixiApp.stage);
     PIXI.tweenManager.update();

@@ -1,8 +1,9 @@
 import {deskTexture} from '../../controllers/common/textures.js';
 import {deskContainer} from '../../controllers/game/gameSetup.js';
 import {animateTo} from '../../controllers/common/utils';
+import {uv2px} from '../../controllers/common/utils.js';
 
-class deskController {
+class DeskController {
     constructor(parent) {
         this.parent = parent;
         this.person = null;
@@ -36,13 +37,13 @@ class deskController {
 
 function createDesk(scale, x, y) {
     const desk = new PIXI.Sprite(deskTexture);
-    desk.x = x;
-    desk.y = y;
+    desk.x = uv2px(x, 'w');
+    desk.y = uv2px(y, 'h');
     desk.type = 'desk';
     desk.taken = false;
     desk.scale.set(0.1*scale);
     desk.interactive = true;
-    desk.controller = new deskController(desk);
+    desk.controller = new DeskController(desk);
 
     deskContainer.addChild(desk);
 

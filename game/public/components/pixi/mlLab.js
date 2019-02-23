@@ -1,12 +1,17 @@
 import * as PIXI from 'pixi.js';
 import * as tweenManager from 'pixi-tween';
+import {pixiApp} from '../../controllers/game/gameSetup';
 import {officeContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
 import {gameFSM} from '../../controllers/game/stateManager.js';
 import {uv2px, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
 import {beltTexture, doorTexture, cvTexture} from '../../controllers/common/textures.js';
+import {createPerson} from './person.js';
+import {CVViewer} from '../../components/interface/old-pixi-components-demise/cvViewer.js';
+import {cvCollection} from '../../assets/text/cvCollection.js';
 
 
-class MLOffice {
+
+class MlOffice {
     constructor() {
         // this.sizeConfig = [
         //     {row: 1, col: 5, width: uv2px(0.8,'w'), height: 300, offsetX: 30, offsetY: 50, scale: 1},
@@ -40,17 +45,17 @@ class MLOffice {
     //               officeContainer.addChild(door);
     //
     //
-    //               var belt_y =  (PIXI.pixiApp.screen.height)/2 - (this.pixiApp.screen.height/8);
-    //             //  var belt_x = (pixiApp.screen.width)/4);
-    //               var belt_x = uv2px(0.175,'w');
-    //               var belt_xOffset = uv2px(0.12,'w');
+    //               var beltY =  (PIXI.pixiApp.screen.height)/2 - (this.pixiApp.screen.height/8);
+    //             //  var beltX = (pixiApp.screen.width)/4);
+    //               var beltX = uv2px(0.175,'w');
+    //               var beltXOffset = uv2px(0.12,'w');
     //
     //
     //               for (var j = 0; j<5;j++) {
     //                   var belt = new PIXI.Sprite(beltTexture);
     //                   belt.scale.set(.3);
-    //                   belt.y = belt_y;
-    //                   belt.x = belt_x + (belt_xOffset* j)  ;
+    //                   belt.y = beltY;
+    //                   belt.x = beltX + (beltXOffset* j)  ;
     //
     //                   //beltList.push(belt);
     //                   officeContainer.addChild(belt);
@@ -60,8 +65,8 @@ class MLOffice {
     //               for (var x = 0; x<10;x++) {
     //                   var cv = new PIXI.Sprite(cvTexture);
     //                   cv.scale.set(.4);
-    //                   cv.y = belt_y;
-    //                   cv.x = belt_x + (belt_xOffset* x)/2 ;
+    //                   cv.y = beltY;
+    //                   cv.x = beltX + (beltXOffset* x)/2 ;
     //
     //                   //beltList.push(belt);
     //                   officeContainer.addChild(cv);
@@ -92,4 +97,80 @@ class MLOffice {
     }
 }
 
-export {MLOffice};
+function createMlOffice() {
+    // var messagebox2 = new TextBox();
+    // messagebox2.drawBox(70,-150,"machine learning stage",false);
+
+    // conveyorBelt
+
+    // ////
+    // will organize this code later
+
+
+    // create People in the office
+
+
+    const office2 = new MlOffice();
+
+    const personList2 = [];
+
+    // create People in the office
+    let x = uv2px(0.12, 'w');
+    const xOffset = uv2px(0.05, 'w');
+    const y = uv2px(0.85, 'h');
+
+    for (let i = 0; i < 16; i++) {
+        const person = createPerson(x, y, office2);
+        person.interactive = false;
+        person.button = false;
+        personList2.push(person);
+        x += xOffset;
+    }
+
+    // door
+    const door = new PIXI.Sprite(doorTexture);
+    door.x = uv2px(0.03, 'w');
+    door.y = uv2px(0.69, 'h');
+    door.scale.set(.55);
+    pixiApp.stage.addChild(door);
+
+
+    //  var beltY =  (pixiApp.screen.height)/2 - (pixiApp.screen.height/8);
+    const beltY = uv2px(.38, 'h');
+    //  var beltX = (pixiApp.screen.width)/4);
+
+    const beltX = uv2px(0., 'w');
+    const beltXOffset = uv2px(0.165, 'w');
+
+
+    for (let j = 0; j<6; j++) {
+        const belt = new PIXI.Sprite(beltTexture);
+        belt.scale.set(.4);
+        belt.y = beltY;
+        belt.x = beltX + (beltXOffset* j);
+        // beltList.push(belt);
+        pixiApp.stage.addChild(belt);
+    }
+
+    let cvList = [];
+
+    const cvXOffset = uv2px(0.165, 'w');
+
+    // cvs on belt
+    for (let x = 0; x<12; x++) {
+        const cv = new PIXI.Sprite(cvTexture);
+        cv.scale.set(.4);
+        cv.y = beltY;
+        cv.x = beltX + (cvXOffset* x)/2;
+
+        cvList[x] = cv;
+
+        // beltList.push(belt);
+        pixiApp.stage.addChild(cv);
+    }
+
+    let cvViewerML = new CVViewer(uv2px(0.8, 'w'), uv2px(0.05, 'h'), uv2px(0.13, 'w'), uv2px(0.32, 'h'), cvCollection.cvFeatures, cvCollection.smallOfficeStage);
+}
+
+
+export {createMlOffice};

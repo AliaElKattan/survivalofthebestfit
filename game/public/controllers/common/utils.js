@@ -62,9 +62,13 @@ const clamp = (val, minVal, maxVal) => {
 function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), time=1000} = {}) {
     if (x === undefined) {
         x = target.x;
+    } else {
+        x = uv2px(x, 'w');
     };
     if (y === undefined) {
         y = target.y;
+    } else {
+        y = uv2px(y, 'h');
     };
     const tween = PIXI.tweenManager.createTween(target);
     tween.easing = easing;

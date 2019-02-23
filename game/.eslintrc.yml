@@ -11,5 +11,6 @@ parserOptions:
   esversion: 6
 rules: {
   "indent": ["error", 4],
-  "max-len": ["error", {"code": 240}]
+  "max-len": ["error", {"code": 240}],
+  "require-jsdoc" : 0
 }
