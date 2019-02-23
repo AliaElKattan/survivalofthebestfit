@@ -53,6 +53,26 @@ const uv2px = (uv, axis = null) => {
     };
 };
 
+const px2uv = (px, axis = null) => {
+    // input is object
+    if (typeof px === 'object' && px !== null) {
+        const uvX = px.x !== undefined ? px.x/width : null;
+        const uvY = px.y !== undefined ? px.y/height : null;
+        return {
+            x: uvX,
+            y: uvY,
+        };
+    // input is number + axis
+    } else if (typeof px === 'number' && axis !== null && /^(w|h)$/.test(axis)) {
+        return axis === 'w' ? px/width : px/height;
+    // input is array
+    } else if (Array.isArray(px)) {
+        return [px[0] * width, px[1] * height];
+    } else {
+        throw 'You supplied an invalid value to the function, check utils file for valid inputs';
+    };
+};
+
 // clamp a value
 const clamp = (val, minVal, maxVal) => {
     return Math.max(minVal, Math.min(maxVal, val));
@@ -60,16 +80,9 @@ const clamp = (val, minVal, maxVal) => {
 
 // convenience function to animate object, parameter default to not moving anywhere
 function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), time=1000} = {}) {
-    if (x === undefined) {
-        x = target.x;
-    } else {
-        x = uv2px(x, 'w');
-    };
-    if (y === undefined) {
-        y = target.y;
-    } else {
-        y = uv2px(y, 'h');
-    };
+    const X = x === undefined ? target.x : uv2px(x, 'w');
+    const Y = y === undefined ? target.y : uv2px(y, 'h');
+
     const tween = PIXI.tweenManager.createTween(target);
     tween.easing = easing;
     tween.time = time;
@@ -80,11 +93,11 @@ function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), t
         'scale': {'x': target.scale.x, 'y': target.scale.y},
     });
     tween.to({
-        'x': x,
-        'y': y,
+        'x': X,
+        'y': Y,
         'scale': {'x': target.scale.x*scale, 'y': target.scale.y*scale},
     });
     return tween;
 }
 
-export {spacingUtils, uv2px, clamp, animateTo};
+export {spacingUtils, uv2px, px2uv, clamp, animateTo};

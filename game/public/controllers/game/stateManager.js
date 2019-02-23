@@ -28,7 +28,7 @@ let cvList;
 const gameFSM = new machina.Fsm( {
 
     namespace: 'game-fsm',
-    initialState: 'smallOfficeStage',
+    initialState: 'welcomeStage',
 
     states: {
         uninitialized: {
@@ -42,9 +42,9 @@ const gameFSM = new machina.Fsm( {
         */// /////////////////
         welcomeStage: {
             _onEnter: function() {
-                this.timer = setTimeout( function() {
+                this.timer = setTimeout(() => {
                     this.handle( 'timeout' );
-                }.bind( this ), 300 );
+                }, 300 );
 
                 this.image = new PIXI.Sprite(incubator);
                 pixiApp.stage.addChild(this.image);
@@ -65,23 +65,23 @@ const gameFSM = new machina.Fsm( {
         smallOfficeStage: {
             _onEnter: function() {
                 const smallOfficeStageText = new TextBoxUI({content: txt.smallOfficeStage.messageFromVc, show: true});
+                eventEmitter.on('instructionAcked', () => {
+                    this.handle('setupOffice');
+                });
+            },
+
+            setupOffice: function() {
                 office = new Office();
                 personList = [];
-
-                eventEmitter.on('instructionAcked', (data) => {
-                    // create People in the office
-                    let x = uv2px(0.12, 'w');
-                    const xOffset = uv2px(0.05, 'w');
-                    const y = uv2px(0.88, 'h');
-
-                    for (let i = 0; i < 12; i++) {
-                        const person = createPerson(x, y, office);
-                        personList.push(person);
-                        x += xOffset;
-                    }
-                    startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.smallOfficeStage.taskDescription, 140, 5);
-                    const cvViewer = new CVViewer(uv2px(0.8, 'w'), uv2px(0.62, 'h'), uv2px(0.13, 'w'), uv2px(0.32, 'h'), cvCollection.cvFeatures, cvCollection.smallOfficeStage);
-                });
+                // create People in the office
+                
+                for (let i = 0; i < 12; i++) {
+                    const person = createPerson(0.12, 0,88, office);
+                    personList.push(person);
+                    x += 0.05;
+                }
+                startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.smallOfficeStage.taskDescription, 140, 5);
+                const cvViewer = new CVViewer(uv2px(0.8, 'w'), uv2px(0.62, 'h'), uv2px(0.13, 'w'), uv2px(0.32, 'h'), cvCollection.cvFeatures, cvCollection.smallOfficeStage);
             },
 
             nextStage: 'mediumOfficeStage',
@@ -98,18 +98,15 @@ const gameFSM = new machina.Fsm( {
             _onEnter: function() {
                 const smallOfficeStageOver = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.mediumOfficeStage.messageFromVc);
                 // const mediumOfficeStageText = new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
-
-                eventEmitter.on('instructionAcked', (data) => {
-                    const unassignedPeople = [];
-                    for (let i = 0; i < personList.length; i++) {
-                        if (!personList[i].controller.isSeated()) {
-                            unassignedPeople.push(personList[i]);
-                        }
-                    }
-                    office.growOffice(unassignedPeople);
-
-                    startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.mediumOfficeStage.taskDescription, 140, 10);
+                eventEmitter.on('instructionAcked', () => {
+                    this.handle('setupOffice');
                 });
+            },
+
+            setupOffice: function() {
+                office.growOffice(getUnassignedPeople());
+
+                startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.mediumOfficeStage.taskDescription, 140, 10);
             },
 
             nextStage: 'bigOfficeStage',
@@ -124,13 +121,7 @@ const gameFSM = new machina.Fsm( {
         */// /////////////////
         bigOfficeStage: {
             _onEnter: function() {
-                const unassignedPeople = [];
-                for (let i = 0; i < personList.length; i++) {
-                    if (!personList[i].controller.isSeated()) {
-                        unassignedPeople.push(personList[i]);
-                    }
-                }
-                office.growOffice(unassignedPeople);
+                office.growOffice(getUnassignedPeople());
             },
 
             nextStage: 'mlTransitionStage',
@@ -156,8 +147,7 @@ const gameFSM = new machina.Fsm( {
 
             _onEnter: function() {
                 createMlOffice();
-            },
-
+            }
 
         },
 
@@ -173,7 +163,13 @@ const gameFSM = new machina.Fsm( {
     },
 } );
 
-
+const getUnassignedPeople = () => {
+    for (let i = 0; i < personList.length; i++) {
+        if (!personList[i].controller.isSeated()) {
+            unassignedPeople.push(personList[i]);
+        }
+    }
+}
 
 
 export {gameFSM};

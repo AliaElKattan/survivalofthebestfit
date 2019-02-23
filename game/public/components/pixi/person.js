@@ -75,8 +75,8 @@ function createPerson(x, y, office) {
     person.type = 'person';
     person.anchor.set(0.5);
     person.scale.set(0.15);
-    person.x = x;
-    person.y = y;
+    person.x = uv2px(x, 'w');
+    person.y = uv2px(y, 'h');
     person
         .on('pointerdown', onPersonDragStart)
         .on('pointerup', onPersonDragEnd)

@@ -3,7 +3,7 @@ import * as tweenManager from 'pixi-tween';
 import {officeContainer, deskContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
 import {gameFSM} from '../../controllers/game/stateManager.js';
 import {createDesk} from './desk.js';
-import {uv2px, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
+import {uv2px, px2uv, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
 
 class Office {
     constructor() {
@@ -111,7 +111,9 @@ class Office {
 
                     // if a person sits at the desk, it has to go with the desk
                     if (this.deskList[indx].controller.isTaken()) {
-                        moveDeskTweens.push(animateTo({target: this.deskList[indx].controller.getPerson(), scale: this.getScale(), x: x, y: y}));
+                        const middleOfDeskX = x + px2uv(this.deskList[indx].width, 'w')/2;
+                        const middleOfDeskY = y + px2uv(this.deskList[indx].height, 'h')/2;
+                        moveDeskTweens.push(animateTo({target: this.deskList[indx].controller.getPerson(), scale: this.getScale(), x: middleOfDeskX, y: middleOfDeskY}));
                     }
                 } else {
                     const newDesk = createDesk(this.scale, x, -1);
