@@ -1,3 +1,3 @@
 export default {
-  EMITTER_TEST: 'emitter-test'
-}
+    EMITTER_TEST: 'emitter-test',
+};

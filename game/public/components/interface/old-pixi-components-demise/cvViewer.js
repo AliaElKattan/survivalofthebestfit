@@ -1,9 +1,8 @@
-import { pixiApp, cvViewerContainer, eventEmitter } from '../../../controllers/game/gameSetup.js';
-import { spacingUtils } from '../../../controllers/common/utils.js'
+import {pixiApp, cvViewerContainer, eventEmitter} from '../../../controllers/game/gameSetup.js';
+import {spacingUtils} from '../../../controllers/common/utils.js';
 
 class CVViewer {
     constructor(x, y, width, height, cvFeatureList, cvObjByStage) {
-
         this.x = x;
         this.y = y;
         this.width = width;
@@ -27,21 +26,21 @@ class CVViewer {
         this.box.y = this.y;
         cvViewerContainer.addChild(this.box);
 
-        var style = new PIXI.TextStyle({
-            fontFamily: "\"Lucida Console\", Monaco, monospace",
+        const style = new PIXI.TextStyle({
+            fontFamily: '"Lucida Console", Monaco, monospace',
             fontSize: 12,
             fontWeight: 700,
-            fill: "black",
+            fill: 'black',
             stroke: '#ff3300',
             wordWrap: true,
             wordWrapWidth: this.width - 10,
         });
 
         this.style2 = new PIXI.TextStyle({
-            fontFamily: "\"Lucida Console\", Monaco, monospace",
+            fontFamily: '"Lucida Console", Monaco, monospace',
             fontSize: 24,
             fontWeight: 700,
-            fill: "black",
+            fill: 'black',
             stroke: '#ff3300',
             wordWrap: true,
             wordWrapWidth: this.width - 10,
@@ -51,26 +50,25 @@ class CVViewer {
     }
 
     createNewBar(skillName, skillLevel, barY) {
+        const skillLevelWidth = (skillLevel / 10) * this.barWidth;
 
-        var skillLevelWidth = (skillLevel / 10) * this.barWidth;
-
-        var style = new PIXI.TextStyle({
-            fontFamily: "\"Lucida Console\", Monaco, monospace",
+        const style = new PIXI.TextStyle({
+            fontFamily: '"Lucida Console", Monaco, monospace',
             fontSize: 8,
             fontWeight: 700,
-            fill: "black",
+            fill: 'black',
             stroke: '#ff3300',
             wordWrap: true,
             wordWrapWidth: this.width - 10,
         });
 
-        //add skill name as text
+        // add skill name as text
         var skillName = new PIXI.Text(skillName, style);
         cvViewerContainer.addChild(skillName);
         skillName.position.set(this.x + 10, barY - 10);
 
-        //add skill bar background
-        var skillBarBg = new PIXI.Graphics();
+        // add skill bar background
+        const skillBarBg = new PIXI.Graphics();
         skillBarBg.beginFill(0x7ba6bf);
         skillBarBg.drawRect(0, 0, this.barWidth, this.barHeight);
         skillBarBg.endFill();
@@ -78,26 +76,25 @@ class CVViewer {
         skillBarBg.y = barY;
         cvViewerContainer.addChild(skillBarBg);
 
-        //add skill bar
-        var skillBar = new PIXI.Graphics();
+        // add skill bar
+        const skillBar = new PIXI.Graphics();
         skillBar.beginFill(0x2d4654);
         skillBar.drawRect(0, 0, skillLevelWidth, this.barHeight);
         skillBar.endFill();
         skillBar.x = this.barStartX;
         skillBar.y = barY;
         cvViewerContainer.addChild(skillBar);
-
     }
 
     createNewCV(cv) {
-        //add Name as text
-        let candidateName = new PIXI.Text(cv.name, this.style);
+        // add Name as text
+        const candidateName = new PIXI.Text(cv.name, this.style);
         cvViewerContainer.addChild(candidateName);
         candidateName.position.set(this.x + 10, this.y + 10);
 
-        var barY = this.y + 60;
+        let barY = this.y + 60;
 
-        this.featureList.forEach(function (feature, index) {
+        this.featureList.forEach(function(feature, index) {
             console.log(index); // index
             console.log(feature); // value
 
@@ -107,4 +104,4 @@ class CVViewer {
     }
 }
 
-export { CVViewer };
+export {CVViewer};

@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 import * as tweenManager from 'pixi-tween';
-import { officeContainer, eventEmitter } from '../../controllers/game/gameSetup.js';
-import { gameFSM } from '../../controllers/game/stateManager.js';
-import { uv2px, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
+import {officeContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
+import {gameFSM} from '../../controllers/game/stateManager.js';
+import {uv2px, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
 import {beltTexture, doorTexture, cvTexture} from '../../controllers/common/textures.js';
 
 
@@ -19,17 +19,16 @@ class MLOffice {
         this.size = 0;
         this.scale = 1;
 
-        var coorObj = uv2px({x: 1, y: 0.5}); // if you prefer objects
+        const coorObj = uv2px({x: 1, y: 0.5}); // if you prefer objects
 
-        //first office floor
-        this.drawFloor(uv2px(0.5,'h'));
+        // first office floor
+        this.drawFloor(uv2px(0.5, 'h'));
 
-        //ground floor/
-        this.drawFloor(space.absMinusSize(40,'h'));
+        // ground floor/
+        this.drawFloor(space.absMinusSize(40, 'h'));
 
         // this.growOffice();
         // this.listenerSetup();
-
     }
 
     // drawBelt() {
@@ -72,18 +71,18 @@ class MLOffice {
     //             }
 
     drawFloor(y) {
-        //main floor
+        // main floor
         this.surface = new PIXI.Graphics();
         this.surface.beginFill(0xffd9d9);
-        this.surface.drawRect(0, 0, uv2px(1,'w'), 40);
+        this.surface.drawRect(0, 0, uv2px(1, 'w'), 40);
         this.surface.endFill();
         this.surface.x = 0;
         this.surface.y = y;
 
-        //dark pink side of the floor
+        // dark pink side of the floor
         this.side = new PIXI.Graphics();
         this.side.beginFill(0xef807f);
-        this.side.drawRect(0, 0, uv2px(1,'w'), 20);
+        this.side.drawRect(0, 0, uv2px(1, 'w'), 20);
         this.side.endFill();
         this.side.x = 0;
         this.side.y = y+40;
@@ -91,8 +90,6 @@ class MLOffice {
         officeContainer.addChild(this.surface);
         officeContainer.addChild(this.side);
     }
-
-
 }
 
-export { MLOffice };
+export {MLOffice};

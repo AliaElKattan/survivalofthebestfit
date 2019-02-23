@@ -1,38 +1,36 @@
-//module to load textures
-var personTexture = PIXI.Texture.fromImage('assets/img/character.png');
+// module to load textures
+const personTexture = PIXI.Texture.fromImage('assets/img/character.png');
 personTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-var yellowPersonTexture = PIXI.Texture.fromImage('assets/img/person_yellow.png');
+const yellowPersonTexture = PIXI.Texture.fromImage('assets/img/person_yellow.png');
 
 yellowPersonTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-var bluePersonTexture = PIXI.Texture.fromImage('assets/img/person_blue.png');
+const bluePersonTexture = PIXI.Texture.fromImage('assets/img/person_blue.png');
 bluePersonTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-var deskTexture = PIXI.Texture.fromImage('assets/img/desk.png');
+const deskTexture = PIXI.Texture.fromImage('assets/img/desk.png');
 deskTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-var incubator = PIXI.Texture.fromImage('assets/img/incubator-winners.jpeg');
+const incubator = PIXI.Texture.fromImage('assets/img/incubator-winners.jpeg');
 
-var floorPlanOne = PIXI.Texture.fromImage('assets/img/3D-floorplan-small.jpg');
+const floorPlanOne = PIXI.Texture.fromImage('assets/img/3D-floorplan-small.jpg');
 floorPlanOne.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-var floorPlanTwo = PIXI.Texture.fromImage('assets/img/3D-floorplan-large.jpg');
+const floorPlanTwo = PIXI.Texture.fromImage('assets/img/3D-floorplan-large.jpg');
 floorPlanTwo.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-var xIcon = PIXI.Texture.fromImage('assets/img/x-icon.png');
+const xIcon = PIXI.Texture.fromImage('assets/img/x-icon.png');
 floorPlanTwo.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-var beltTexture = PIXI.Texture.fromImage('assets/img/conveyor_belt.png');
+const beltTexture = PIXI.Texture.fromImage('assets/img/conveyor_belt.png');
 beltTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-var doorTexture = PIXI.Texture.fromImage('assets/img/door.png');
+const doorTexture = PIXI.Texture.fromImage('assets/img/door.png');
 doorTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-var cvTexture = PIXI.Texture.fromImage('assets/img/cv_yellow.png');
+const cvTexture = PIXI.Texture.fromImage('assets/img/cv_yellow.png');
 cvTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
 
-
-
-export {cvTexture, doorTexture, personTexture, yellowPersonTexture, bluePersonTexture, deskTexture, incubator , floorPlanOne, floorPlanTwo, xIcon, beltTexture}
+export {cvTexture, doorTexture, personTexture, yellowPersonTexture, bluePersonTexture, deskTexture, incubator, floorPlanOne, floorPlanTwo, xIcon, beltTexture};

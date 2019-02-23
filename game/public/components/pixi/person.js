@@ -1,5 +1,5 @@
-import { personTexture, yellowPersonTexture, bluePersonTexture } from '../../controllers/common/textures.js'
-import { pixiApp, officeContainer, personContainer, deskContainer, eventEmitter } from '../../controllers/game/gameSetup.js';
+import {personTexture, yellowPersonTexture, bluePersonTexture} from '../../controllers/common/textures.js';
+import {pixiApp, officeContainer, personContainer, deskContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
 
 class personController {
     constructor(parent, office) {
@@ -8,21 +8,20 @@ class personController {
         this.desk = null;
     }
 
-    setDesk(desk){
+    setDesk(desk) {
         this.desk = desk;
     }
 
-    isSeated(){
+    isSeated() {
         return this.desk != null;
     }
-
 }
 
 function onPersonDragStart(event) {
-    if (this.controller.isSeated()){
-        //ToDo: replace this with person leaving a desk. Remove from desk object, and decrease office fullness counter
+    if (this.controller.isSeated()) {
+        // ToDo: replace this with person leaving a desk. Remove from desk object, and decrease office fullness counter
         this.dragging = false;
-        return
+        return;
     }
     this.data = event.data;
     this.origX = this.x;
@@ -31,13 +30,13 @@ function onPersonDragStart(event) {
     this.dragging = true;
 }
 
-//BUG: double click outside the app on text and click on character and drag it around. This can cause a lot of issues.
-//BUG: sometimes if people are overlapping, it thinks the bottom one was dropped and it pops the guy back to the original position
+// BUG: double click outside the app on text and click on character and drag it around. This can cause a lot of issues.
+// BUG: sometimes if people are overlapping, it thinks the bottom one was dropped and it pops the guy back to the original position
 
 function onPersonDragEnd() {
     if (this.dragging) {
-        var hitDesk = pixiApp.renderer.plugins.interaction.hitTest(new PIXI.Point(this.x, this.y), deskContainer);
-        if (hitDesk == null || hitDesk.controller.isTaken()){
+        const hitDesk = pixiApp.renderer.plugins.interaction.hitTest(new PIXI.Point(this.x, this.y), deskContainer);
+        if (hitDesk == null || hitDesk.controller.isTaken()) {
             this.x = this.origX;
             this.y = this.origY;
         } else {
@@ -58,22 +57,22 @@ function onPersonDragMove() {
         // this.x += this.data.originalEvent.movementX/officeContainer.scale.x;
         // this.y += this.data.originalEvent.movementY/officeContainer.scale.y;
 
-        var newPosition = this.data.getLocalPosition(this.parent);
+        const newPosition = this.data.getLocalPosition(this.parent);
         this.position.x = newPosition.x;
         this.position.y = newPosition.y;
     }
 }
 
-function sendAssigned(){
+function sendAssigned() {
     eventEmitter.emit('assigned-desk', {});
 }
 
-function createPerson(x, y, office){
-    var person = new PIXI.Sprite(bluePersonTexture);
+function createPerson(x, y, office) {
+    const person = new PIXI.Sprite(bluePersonTexture);
     person.controller = new personController(person, office);
     person.interactive = true;
     person.buttonMode = true;
-    person.type = "person";
+    person.type = 'person';
     person.anchor.set(0.5);
     person.scale.set(0.15);
     person.x = x;
@@ -85,7 +84,7 @@ function createPerson(x, y, office){
         .on('pointermove', onPersonDragMove);
 
     personContainer.addChild(person);
-    return person
+    return person;
 }
 
-export { createPerson };
+export {createPerson};
