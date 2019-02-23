@@ -26,13 +26,15 @@ const spacingUtils = {
         return this.getCenteredChildY(0, uv2px(1, 'h'), childHeight);
     },
 };
-// convert uv coordinates to screen pixels
-/*
-start drawing at the center of the screen
 
-var coorObj = uv2px({x: 0.5, y: 0.5}); // if you prefer objects
-var coorArray = uv2px([0.5,0.5]); // if you prefer arrays
-*/
+/**
+ * convert uv coordinates to screen pixels
+ * start drawing at the center of the screen
+ *
+ * var coorObj = uv2px({x: 0.5, y: 0.5}); // if you prefer objects
+ * var coorArray = uv2px([0.5,0.5]); // if you prefer arrays
+ */
+
 const uv2px = (uv, axis = null) => {
     // input is object
     if (typeof uv === 'object' && uv !== null) {
@@ -79,14 +81,15 @@ const clamp = (val, minVal, maxVal) => {
 };
 
 // convenience function to animate object, parameter default to not moving anywhere
-function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), time=1000} = {}) {
+function animateTo({target, x, y, scale=1, scaleY, easing=PIXI.tween.Easing.inQuart(), time=1000} = {}) {
     const X = x === undefined ? target.x : uv2px(x, 'w');
     const Y = y === undefined ? target.y : uv2px(y, 'h');
+    const yScale = scaleY === undefined ? scale : scaleY;
 
     const tween = PIXI.tweenManager.createTween(target);
     tween.easing = easing;
     tween.time = time;
-    tween.expire = true;
+    tween.expire = false;
     tween.from({
         'x': target.x,
         'y': target.y,
@@ -95,7 +98,7 @@ function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), t
     tween.to({
         'x': X,
         'y': Y,
-        'scale': {'x': target.scale.x*scale, 'y': target.scale.y*scale},
+        'scale': {'x': target.scale.x*scale, 'y': target.scale.y*yScale},
     });
     return tween;
 }

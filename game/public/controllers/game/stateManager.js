@@ -133,7 +133,7 @@ const gameFSM = new machina.Fsm( {
 
         mlTransitionStage: {
             _onEnter: function() {
-                
+
             },
 
             nextStage: 'mlLabStage',
@@ -147,7 +147,9 @@ const gameFSM = new machina.Fsm( {
 
             _onEnter: function() {
                 createMlOffice();
-            }
+            },
+
+            nextStage: 'Oh gish we haven\'t even started it hahah',
 
         },
 
@@ -172,6 +174,5 @@ const getUnassignedPeople = () => {
     }
     return unassignedPeople;
 };
-
 
 export {gameFSM};

@@ -5,20 +5,113 @@ import {gameFSM} from '../../controllers/game/stateManager.js';
 import {createDesk} from './desk.js';
 import {uv2px, px2uv, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
 
+const officeHeight = 0.6;
+const officeWidth = 0.6;
+const tweenXStart = -0.5;
+
+const config = [
+    {row: 1, col: 5, width: 0.8, height: 0.25, offsetX: 0.1, offsetY: 0.08, scale: 1},
+    {row: 1, col: 10, width: 0.8, height: 0.25, offsetX: 0.1, offsetY: 0.06, scale: 0.8},
+    {row: 2, col: 10, width: 0.8, height: 0.25, offsetX: 0.1, offsetY: 0.08, scale: 1},
+];
+
 class Office {
+    constructor() {
+        this.takenDesks = 0;
+        this.deskList = [];
+        this.floorList = [];
+        this.size = 0;
+        this.scale = 1;
+        this.expandOffice();
+        this.listenerSetup();
+    }
+
+    expandOffice(objectToResize=[]) {
+        // getting config according to office size
+        const row = config[this.size].row;
+        const col = config[this.size].col;
+        const scale = config[this.size].scale;
+        const width = config[this.size].width;
+        const height = config[this.size].height;
+        const offsetY = config[this.size].offsetY;
+        const offsetX = config[this.size].offsetX;
+
+        this.scale = scale;
+
+        const [moveFloorsTween, newFloorsTween] = this.expandFloors();
+        const [newDeskTweens, moveDeskTweens] = this.expandDesks();
+        newFloorsTween[0].start();
+        //this.sequenceTweens(newOfficeTween, objectToResize, oldOfficeBackground, moveDeskTweens, newDeskTweens);
+        this.size++;
+    }
+
+    expandFloors() {
+        let moveTweenList = [];
+        let newTweenList = [];
+        let floorHeight = officeHeight / (config[this.size].row + 1);
+        let currentY = floorHeight;
+        for (let i = 0; i < config[this.size].row; i++) {
+            if (this.floorList.size > i) {
+                moveTweenList.push(animateTo({target: floorList[i], scaleY: this.scale, currentY: currentHeight}));
+            } else {
+                const newFloor = createFloor(currentY, this);
+                newTweenList.push(animateTo({target: newFloor, x: 0}));
+            
+            }
+        }
+        return [moveTweenList, newTweenList];
+    }
+
+    expandDesks() {
+        let moveTweenList = [];
+        let newTweenList = [];
+        return [moveTweenList, newTweenList];
+    }
+    
+    listenerSetup() {
+        eventEmitter.on('assigned-desk', (data)=>{
+            this.takenDesks += 1;
+            if (this.takenDesks == 5) {
+                eventEmitter.emit('stage-one-task-completed', {});
+                gameFSM.nextStage();
+            }
+            if (this.takenDesks == 10) {
+                gameFSM.nextStage();
+            }
+        });
+    }
+
+    getScale() {
+        return this.scale;
+    }
+}
+
+function createFloor(y, office) {
+    const floor = new PIXI.Graphics();
+    floor.beginFill(0xffd9d9);
+    floor.drawRect(0, 0, uv2px(0.5, 'w'), 40*office.getScale());
+    floor.endFill();
+    floor.beginFill(0xef807f);
+    floor.drawRect(0, 40, uv2px(0.5, 'w'), 20*office.getScale());
+    floor.endFill();
+    floor.x = tweenXStart;
+    floor.y = uv2px(y, 'h');
+
+    deskContainer.addChild(floor);
+    return floor;
+}
+
+class oldOffice {
     constructor() {
         this.sizeConfig = [
             {row: 1, col: 5, width: 0.8, height: 0.25, offsetX: 0.1, offsetY: 0.08, scale: 1},
             {row: 1, col: 10, width: 0.8, height: 0.25, offsetX: 0.1, offsetY: 0.06, scale: 0.8},
             {row: 2, col: 10, width: 0.8, height: 0.25, offsetX: 0.1, offsetY: 0.08, scale: 1},
-            // {row: 8, col: 12, width: 300, height: 300, offsetX: 50, offsetY: 50, scale: 0.7}
         ];
         this.takenDesks = 0;
         this.deskList = [];
         this.size = 0;
         this.scale = 1;
-
-        const coorObj = uv2px({x: 1, y: 0.5}); // if you prefer objects
 
         // first (top floor) office floor Y
         this.topFloor = 1;
