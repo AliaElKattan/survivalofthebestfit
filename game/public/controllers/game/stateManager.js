@@ -1,39 +1,38 @@
 import * as machina from 'machina';
-import {pixiApp, eventEmitter, beltContainer} from './gameSetup.js';
-import {createPerson} from '../../components/pixi/person.js';
-import {Office} from '../../components/pixi/office.js';
-import {createMlOffice} from '../../components/pixi/mlLab.js';
+import { pixiApp, eventEmitter, beltContainer, officeContainer } from './gameSetup.js';
+import { createPerson } from '../../components/pixi/person.js';
+import { Office } from '../../components/pixi/office.js';
+import { createMlOffice } from '../../components/pixi/mlLab.js';
 
-import {incubator} from '../common/textures.js';
-import {TextBox} from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
+import { incubator } from '../common/textures.js';
+import { TextBox } from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
 import TextBoxUI from '../../components/interface/ui-instruction/ui-instruction';
-import {startTaskTimer} from '../../components/interface/old-pixi-components-demise/taskTimer.js';
-import {CVViewer} from '../../components/interface/old-pixi-components-demise/cvViewer.js';
-import {cvCollection} from '../../assets/text/cvCollection.js';
-import {uv2px, animateTo} from '../common/utils.js';
+import { startTaskTimer } from '../../components/interface/old-pixi-components-demise/taskTimer.js';
+import { CVViewer } from '../../components/interface/old-pixi-components-demise/cvViewer.js';
+import { cvCollection } from '../../assets/text/cvCollection.js';
+import { uv2px, animateTo } from '../common/utils.js';
 
-import {xIcon} from '../common/textures.js';
-import {beltTexture, doorTexture, cvTexture} from '../common/textures.js';
+import { xIcon } from '../common/textures.js';
+import { beltTexture, doorTexture, cvTexture } from '../common/textures.js';
 
 let office;
 let personList;
 let cvViewerML;
-
 let cvList;
 
 /**
  * MINIMIZE GAME SETUP CODE HERE. Try to shift setup into other files respective to stage
  * Gamestates is for the orchestration and sequencing of object creation.
  */
-const gameFSM = new machina.Fsm( {
+const gameFSM = new machina.Fsm({
 
     namespace: 'game-fsm',
     initialState: 'welcomeStage',
 
     states: {
         uninitialized: {
-            startGame: function() {
-                this.transition( 'welcomeStage' );
+            startGame: function () {
+                this.transition('welcomeStage');
             },
         },
 
@@ -41,10 +40,10 @@ const gameFSM = new machina.Fsm( {
         // Welcome image
         */// /////////////////
         welcomeStage: {
-            _onEnter: function() {
+            _onEnter: function () {
                 this.timer = setTimeout(() => {
-                    this.handle( 'timeout' );
-                }, 300 );
+                    this.handle('timeout');
+                }, 300);
 
                 this.image = new PIXI.Sprite(incubator);
                 pixiApp.stage.addChild(this.image);
@@ -53,8 +52,8 @@ const gameFSM = new machina.Fsm( {
 
             timeout: 'smallOfficeStage',
 
-            _onExit: function() {
-                clearTimeout( this.timer );
+            _onExit: function () {
+                clearTimeout(this.timer);
                 this.image.parent.removeChild(this.image);
             },
         },
@@ -63,30 +62,40 @@ const gameFSM = new machina.Fsm( {
         // Small office, hiring from the street
         */// /////////////////
         smallOfficeStage: {
-            _onEnter: function() {
-                const smallOfficeStageText = new TextBoxUI({content: txt.smallOfficeStage.messageFromVc, show: true});
+            _onEnter: function () {
+                const smallOfficeStageText = new TextBoxUI({ content: txt.smallOfficeStage.messageFromVc, show: true });
                 eventEmitter.on('instructionAcked', () => {
+                    office = new Office();
                     this.handle('setupOffice');
+                });
+                eventEmitter.on('time-up', () => {
+                    this.handle('retryStage');
                 });
             },
 
-            setupOffice: function() {
-                office = new Office();
+            setupOffice: function () {
                 personList = [];
                 // create People in the office
-                let x = 0.12;
+                let numberOfCandidates = 0.12;
                 for (let i = 0; i < 12; i++) {
-                    const person = createPerson(x, 0.88, office);
+                    const person = createPerson(numberOfCandidates, 0.88, office);
                     personList.push(person);
-                    x += 0.05;
+                    numberOfCandidates += 0.05;
                 }
-                startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.smallOfficeStage.taskDescription, 140, 5);
-                const cvViewer = new CVViewer(uv2px(0.8, 'w'), uv2px(0.62, 'h'), uv2px(0.13, 'w'), uv2px(0.32, 'h'), cvCollection.cvFeatures, cvCollection.smallOfficeStage);
+                startTaskTimer(0.7, 0.1, 0.22, 0.16, txt.smallOfficeStage.taskDescription, 140, 5);
+                const cvViewer = new CVViewer(0.8, 0.62, 0.13, 0.32, cvCollection.cvFeatures, cvCollection.smallOfficeStage);
+                //const resumeViewer = new ResumeViewerUI();
+            },
+
+            retryStage: function () {
+                const retryMsg = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.smallOfficeStage.retryMessage);
+                // TODO - clear/reset office drawing
+                this.handle('setupOffice');
             },
 
             nextStage: 'mediumOfficeStage',
 
-            _onExit: function() {
+            _onExit: function () {
 
             },
         },
@@ -95,23 +104,31 @@ const gameFSM = new machina.Fsm( {
         // Big office, city level view
         */// /////////////////
         mediumOfficeStage: {
-            _onEnter: function() {
-                const smallOfficeStageOver = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.mediumOfficeStage.messageFromVc);
-                // const mediumOfficeStageText = new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
+            _onEnter: function () {
+                const mediumOfficeStageText = new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
+                
                 eventEmitter.on('instructionAcked', () => {
                     this.handle('setupOffice');
                 });
+                
+                eventEmitter.on('time-up', () => {
+                    this.handle('retryStage');
+                });
+            },
+            
+            setupOffice: function () {
+                office.growOffice(getUnassignedPeople());
+                startTaskTimer(0.7, 0.1, 0.22, 0.16, txt.mediumOfficeStage.taskDescription, 140, 10);
             },
 
-            setupOffice: function() {
-                office.growOffice(getUnassignedPeople());
-
-                startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.mediumOfficeStage.taskDescription, 140, 10);
+            retryStage: function () {
+                const retryMsg = new TextBoxUI({content: txt.mediumOfficeStage.retryMessage, show: true});
+                this.handle('setupOffice');
             },
 
             nextStage: 'bigOfficeStage',
 
-            _onExit: function() {
+            _onExit: function () {
 
             },
         },
@@ -120,32 +137,32 @@ const gameFSM = new machina.Fsm( {
         // Huge office, ccountry level view
         */// /////////////////
         bigOfficeStage: {
-            _onEnter: function() {
+            _onEnter: function () {
                 office.growOffice(getUnassignedPeople());
             },
 
             nextStage: 'mlTransitionStage',
 
-            _onExit: function() {
+            _onExit: function () {
 
             },
         },
 
         mlTransitionStage: {
-            _onEnter: function() {
-                
+            _onEnter: function () {
+
             },
 
             nextStage: 'mlLabStage',
 
-            _onExit: function() {
+            _onExit: function () {
 
             },
         },
 
         mlLabStage: {
 
-            _onEnter: function() {
+            _onEnter: function () {
                 createMlOffice();
             }
 
@@ -155,13 +172,13 @@ const gameFSM = new machina.Fsm( {
     },
 
 
-    startGame: function() {
+    startGame: function () {
         this.handle('startGame');
     },
-    nextStage: function() {
+    nextStage: function () {
         this.handle('nextStage');
     },
-} );
+});
 
 const getUnassignedPeople = () => {
     const unassignedPeople = [];
@@ -174,4 +191,4 @@ const getUnassignedPeople = () => {
 };
 
 
-export {gameFSM};
+export { gameFSM };

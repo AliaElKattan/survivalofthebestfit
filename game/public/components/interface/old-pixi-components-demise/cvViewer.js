@@ -1,20 +1,20 @@
 import {pixiApp, cvViewerContainer, eventEmitter} from '../../../controllers/game/gameSetup.js';
-import {spacingUtils} from '../../../controllers/common/utils.js';
+import {spacingUtils, uv2px} from '../../../controllers/common/utils.js';
 
 class CVViewer {
     constructor(x, y, width, height, cvFeatureList, cvObjByStage) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        this.x = uv2px(x, 'w');
+        this.y = uv2px(y, 'h');
+        this.width = uv2px(width, 'w');
+        this.height = uv2px(height, 'h');
         this.cvObj = cvObjByStage;
 
         this.featureList = cvFeatureList;
 
         this.barHeight = 5;
-        this.barStartX = x + 10;
-        this.barWidth = width - 20;
-        this.barY = spacingUtils.getOneThirdChildY(y, height, this.barHeight);
+        this.barStartX = this.x + 10;
+        this.barWidth = this.width - 20;
+        this.barY = spacingUtils.getOneThirdChildY(this.y, this.height, this.barHeight);
 
         this.box = new PIXI.Graphics();
 

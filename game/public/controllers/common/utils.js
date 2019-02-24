@@ -100,4 +100,19 @@ function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), t
     return tween;
 }
 
-export {spacingUtils, uv2px, px2uv, clamp, animateTo};
+const clearPixiContainer = (thisContainer) => {
+    const childrenList = thisContainer.children;
+    thisContainer.removeChild(childrenList);
+    thisContainer.parent.removeChild(thisContainer);
+    console.log("Removed: " + thisContainer.name);
+
+    thisContainer = new PIXI.Container();
+    childrenList.forEach(function(element) {
+        element = new PIXI.Container();
+        thisContainer.addChild(element);
+        console.log("child container: " + element.name);
+      });
+    return thisContainer;
+} 
+
+export {spacingUtils, uv2px, px2uv, clamp, animateTo, clearPixiContainer};

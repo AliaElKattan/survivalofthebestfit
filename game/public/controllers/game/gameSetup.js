@@ -11,6 +11,8 @@ const pixiApp = new PIXI.Application(
 );
 pixiApp.renderer.autoResize = true;
 
+
+//TODO - should these be pre-defined here?
 const officeContainer = new PIXI.Container();
 const personContainer = new PIXI.Container();
 const deskContainer = new PIXI.Container();
@@ -52,5 +54,19 @@ function resize() {
     // TODO redraw all the elements!
 }
 
+//TODO - should these be pre-defined here?
+function clearOfficeContainerGlobal() {
+    officeContainer.parent.removeChild(officeContainer);
+    console.log("Removed: " + officeContainer);
+
+    officeContainer = new PIXI.Container();
+    deskContainer = new PIXI.Container();
+    personContainer = new PIXI.Container();
+
+    officeContainer.addChild(deskContainer);
+    officeContainer.addChild(personContainer);
+} 
+
+
 export {pixiApp, beltContainer, officeContainer, personContainer, deskContainer,
-    timerContainer, cvViewerContainer, eventEmitter, startTweenManager, stopTweenManager};
+    timerContainer, cvViewerContainer, eventEmitter, startTweenManager, stopTweenManager, clearOfficeContainerGlobal};

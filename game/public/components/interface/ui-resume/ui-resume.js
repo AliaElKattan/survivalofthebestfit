@@ -2,16 +2,18 @@ import $ from 'jquery';
 import CLASSES from '../../../controllers/constants/classes';
 import EVENTS from '../../../controllers/constants/events';
 import UIBase from '../old-pixi-components-demise/ui-base';
-import {eventEmitter} from '../../../controllers/game/gameSetup.js';
+import { eventEmitter } from '../../../controllers/game/gameSetup.js';
 
 
 export default class extends UIBase {
     constructor(options) {
         super();
+        this._removeEventListeners();
         this.$el = $('.js-resume'); // This should be a single element
         this.$textEl = this.$el.find('.Resume__content');
         this.setContent = this.setContent.bind(this);
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
+        this._addEventListeners();
         this.setContent(); // set content
         if (options && options.show) {
             this.show();
@@ -19,7 +21,7 @@ export default class extends UIBase {
     }
 
     setContent() {
-    // this.$textEl.html(this._content);
+        // this.$textEl.html(this._content);
     }
 
     _testLog() {
@@ -60,7 +62,7 @@ export default class extends UIBase {
         super.dispose();
         this.hide();
         this._removeEventListeners();
-    // this.$el.destroy();
+        // this.$el.destroy();
     }
 }
 

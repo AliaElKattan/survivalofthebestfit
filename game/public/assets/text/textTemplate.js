@@ -7,7 +7,6 @@ const english = {
     about: {
         aboutBody: 'Survival of the Best Fit is a game to demonstrates how careless use of AI in hiring further perpetuates existing human bias. In this simulation, the users will play the role of recruiters at a fast-growth company. To reduce costs and maximize output, they would use a new, obscure AI system to replace human recruiters, only to realize that this creates a snowball of problems.\nThis is a project by Gabor Csapo, Jihyun Kim, Miha Klasinc, and Alia ElKattan',
     },
-
     // texts displayed during the game
     welcomeStage: {
         welcome: 'The winner of the 2 million dollar funding is... You!',
@@ -15,10 +14,12 @@ const english = {
     smallOfficeStage: {
         messageFromVc: 'Hi,\n\nCongrats again on your seed round. Very impressive.\nNow time to execute the idea. Hire the best people, fast. Hiring good talent is a war these days...\n\nKeep us updated.\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
         taskDescription: 'Task: Hire 5 new employees',
+        retryMessage: 'You are too slow at hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.'
     },
     mediumOfficeStage: {
         messageFromVc: 'Hi,\n\nGood progress but you are just not growing fast enough. You need to hire more aggressively to get all the talent and outgrow your competitors.\n\nQuadraple your headcount by next week and you can raise one more million in funding...\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
         taskDescription: 'Task: Hire 10 new employees',
+        retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.'
     },
 };
 
