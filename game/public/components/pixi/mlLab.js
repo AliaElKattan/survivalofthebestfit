@@ -6,8 +6,8 @@ import {gameFSM} from '../../controllers/game/stateManager.js';
 import {uv2px, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
 import {beltTexture, doorTexture, cvTexture} from '../../controllers/common/textures.js';
 import {createPerson} from './person.js';
-import {CVViewer} from '../../components/interface/old-pixi-components-demise/cvViewer.js';
 import {cvCollection} from '../../assets/text/cvCollection.js';
+import ResumeUI from '../interface/ui-resume/ui-resume';
 
 
 
@@ -168,8 +168,7 @@ function createMlOffice() {
         // beltList.push(belt);
         pixiApp.stage.addChild(cv);
     }
-
-    let cvViewerML = new CVViewer(uv2px(0.8, 'w'), uv2px(0.05, 'h'), uv2px(0.13, 'w'), uv2px(0.32, 'h'), cvCollection.cvFeatures, cvCollection.smallOfficeStage);
+    const resumeUI_ml = new ResumeUI({show: true, features: cvCollection.cvFeatures, scores: cvCollection.smallOfficeStage});
 }
 
 

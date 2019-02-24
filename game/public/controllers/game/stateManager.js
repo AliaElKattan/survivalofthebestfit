@@ -7,8 +7,8 @@ import {createMlOffice} from '../../components/pixi/mlLab.js';
 import {incubator} from '../common/textures.js';
 import {TextBox} from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
 import TextBoxUI from '../../components/interface/ui-instruction/ui-instruction';
+import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import {startTaskTimer} from '../../components/interface/old-pixi-components-demise/taskTimer.js';
-import {CVViewer} from '../../components/interface/old-pixi-components-demise/cvViewer.js';
 import {cvCollection} from '../../assets/text/cvCollection.js';
 import {uv2px, animateTo} from '../common/utils.js';
 
@@ -81,7 +81,7 @@ const gameFSM = new machina.Fsm( {
                     x += 0.05;
                 }
                 startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.smallOfficeStage.taskDescription, 140, 5);
-                const cvViewer = new CVViewer(uv2px(0.8, 'w'), uv2px(0.62, 'h'), uv2px(0.13, 'w'), uv2px(0.32, 'h'), cvCollection.cvFeatures, cvCollection.smallOfficeStage);
+                const resumeUI = new ResumeUI({show: true, features: cvCollection.cvFeatures, scores: cvCollection.smallOfficeStage});
             },
 
             nextStage: 'mediumOfficeStage',
@@ -133,7 +133,7 @@ const gameFSM = new machina.Fsm( {
 
         mlTransitionStage: {
             _onEnter: function() {
-                
+
             },
 
             nextStage: 'mlLabStage',
@@ -147,7 +147,7 @@ const gameFSM = new machina.Fsm( {
 
             _onEnter: function() {
                 createMlOffice();
-            }
+            },
 
         },
 

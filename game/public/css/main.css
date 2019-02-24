@@ -127,7 +127,7 @@ body.Page--Game {
   padding: 20px 20px 40px 20px;
   position: absolute;
   right: 20px;
-  top: 5%;
+  top: 45%;
   min-width: 250px;
   min-height: 300px;
   max-height: 700px;
@@ -159,20 +159,19 @@ body.Page--Game {
 .cv-category__skillbar {
   height: 7px;
   width: 100%; }
-  .cv-category__skillbar:before {
-    content: "";
-    display: inline-block;
-    width: 70%;
-    height: inherit;
-    position: absolute; }
   .Resume--yellow .cv-category__skillbar {
     background-color: #FFDB8C; }
-    .Resume--yellow .cv-category__skillbar:before {
-      background-color: #F4AB0B; }
   .Resume--blue .cv-category__skillbar {
     background-color: #CDE4F1; }
     .Resume--blue .cv-category__skillbar:before {
       background-color: #2F4755; }
+
+.cv-category__progress {
+  height: inherit; }
+  .Resume--yellow .cv-category__progress {
+    background-color: #F4AB0B; }
+  .Resume--blue .cv-category__progress {
+    background-color: #2F4755; }
 
 .TaskTimer {
   color: inherit;
