@@ -1,5 +1,5 @@
-import {pixiApp, eventEmitter} from '../../../controllers/game/gameSetup.js';
-import {spacingUtils} from '../../../controllers/common/utils.js';
+import { pixiApp, eventEmitter } from '../../../controllers/game/gameSetup.js';
+import { spacingUtils, uv2px } from '../../../controllers/common/utils.js';
 
 // var taskTimerContainer = new PIXI.Container();
 // let ticker = PIXI.Ticker.shared;
@@ -7,18 +7,18 @@ import {spacingUtils} from '../../../controllers/common/utils.js';
 class TaskTimer {
     constructor(x, y, width, height, text, totalLife, toHireNum) {
         this.taskTimerContainer = new PIXI.Container();
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        this.x = uv2px(x, 'w');
+        this.y = uv2px(y, 'h');
+        this.width = uv2px(width, 'w');
+        this.height = uv2px(height, 'h');
         this.text = text;
         this.totalLife = totalLife;
 
         this.barHeight = 10;
-        this.barY = spacingUtils.getOneThirdChildY(y, height, this.barHeight);
+        this.barY = spacingUtils.getOneThirdChildY(this.y, this.height, this.barHeight);
 
         this.widthLife = 0;
-        this.timerStartX = spacingUtils.getCenteredChildX(x, width, totalLife);
+        this.timerStartX = spacingUtils.getCenteredChildX(this.x, this.width, totalLife);
         this.timeUp = false;
 
         this.box = new PIXI.Graphics();
@@ -90,14 +90,13 @@ class TaskTimer {
             this.writeCounter();
         });
 
-        eventEmitter.on('stage-one-task-completed', (data) => {
+        eventEmitter.on('task-complete', (data) => {
             this.hideTimer();
         });
     }
 
     hideTimer() {
         this.taskTimerContainer.parent.removeChild(this.taskTimerContainer);
-        this.taskTimerContainer.destroy();
     }
 }
 
@@ -105,8 +104,8 @@ function updateTimerLength(taskTimer) {
     if (taskTimer.widthLife >= taskTimer.totalLife) {
         taskTimer.widthLife = 0;
         taskTimer.timeUp = true;
-        eventEmitter.emit('stage-one-time-up', {});
-        hideTimer();
+        taskTimer.hideTimer();
+        eventEmitter.emit('time-up', {});
     } else {
         taskTimer.widthLife += 0.1;
     }
@@ -121,9 +120,9 @@ function startTaskTimer(x, y, width, height, text, totalLife, toHireNum) {
     const taskTimer = new TaskTimer(x, y, width, height, text, totalLife, toHireNum);
     pixiApp.stage.addChild(taskTimer.taskTimerContainer);
 
-    pixiApp.ticker.add(function(delta) {
+    pixiApp.ticker.add(function (delta) {
         updateTimerLength(taskTimer);
     });
 }
 
-export {startTaskTimer};
+export { startTaskTimer };

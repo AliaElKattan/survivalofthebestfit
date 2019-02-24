@@ -5,10 +5,11 @@ import EVENTS from '../../../controllers/constants/events';
 import UIBase from '../old-pixi-components-demise/ui-base';
 import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
-
 export default class extends UIBase {
     constructor(options) {
         super();
+        this._removeEventListeners();
+        this.options = options;
         this.$el = $('.js-instruction'); // This should be a single element
         this.$textEl = this.$el.find('.Instruction__content');
         this.$button = this.$el.find('.button');
@@ -38,7 +39,8 @@ export default class extends UIBase {
     }
 
     _removeEventListeners() {
-        this.$button.off(this._buttonIsClicked.bind(this));
+        eventEmitter.off(EVENTS.EMITTER_TEST, this._testLog());
+        //this.$button.off(this._buttonIsClicked.bind(this));
     }
 
     show() {
@@ -62,3 +64,4 @@ export default class extends UIBase {
         // this.$el.destroy();
     }
 }
+
