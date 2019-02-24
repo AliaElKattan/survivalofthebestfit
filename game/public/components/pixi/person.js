@@ -1,5 +1,5 @@
 import {bluePersonTexture} from '../../controllers/common/textures.js';
-import {pixiApp, personContainer, deskContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
+import {pixiApp, personContainer, floorContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
 import {uv2px} from '../../controllers/common/utils.js';
 
 class PersonController {
@@ -36,16 +36,22 @@ function onPersonDragStart(event) {
 
 function onPersonDragEnd() {
     if (this.dragging) {
-        const hitDesk = pixiApp.renderer.plugins.interaction.hitTest(new PIXI.Point(this.x, this.y), deskContainer);
-        if (hitDesk == null || hitDesk.controller.isTaken()) {
+        let hitDesk = null;
+        floorContainer.children.some((floor) => {
+            hitDesk = pixiApp.renderer.plugins.interaction.hitTest(new PIXI.Point(this.x, this.y), floor);
+            if (hitDesk !== null && hitDesk.type === 'desk' && !hitDesk.isTaken) {
+                this.scale.set(this.scale.x*(1/hitDesk.scale.x));
+                this.x = hitDesk.x;
+                this.y = hitDesk.y;
+                hitDesk.addChild(this);
+
+                sendAssigned();
+                return true;
+            }
+        });
+        if (hitDesk === null) {
             this.x = this.origX;
             this.y = this.origY;
-        } else {
-            this.x = hitDesk.x+hitDesk.height/2;
-            this.y = hitDesk.y+hitDesk.width/2;
-            hitDesk.controller.setPerson(this);
-            this.controller.setDesk(hitDesk);
-            sendAssigned();
         }
         this.alpha = 1;
         this.dragging = false;
@@ -55,9 +61,6 @@ function onPersonDragEnd() {
 
 function onPersonDragMove() {
     if (this.dragging) {
-        // this.x += this.data.originalEvent.movementX/officeContainer.scale.x;
-        // this.y += this.data.originalEvent.movementY/officeContainer.scale.y;
-
         const newPosition = this.data.getLocalPosition(this.parent);
         this.position.x = newPosition.x;
         this.position.y = newPosition.y;

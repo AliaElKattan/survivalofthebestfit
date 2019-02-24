@@ -99,12 +99,13 @@ const gameFSM = new machina.Fsm( {
                 const smallOfficeStageOver = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.mediumOfficeStage.messageFromVc);
                 // const mediumOfficeStageText = new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
                 eventEmitter.on('instructionAcked', () => {
-                    this.handle('setupOffice');
+                    this.handle('expandOffice');
                 });
             },
 
-            setupOffice: function() {
-                office.growOffice(getUnassignedPeople());
+            expandOffice: function() {
+                console.log("one");
+                office.expandOffice(getUnassignedPeople());
 
                 startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.mediumOfficeStage.taskDescription, 140, 10);
             },
@@ -121,7 +122,7 @@ const gameFSM = new machina.Fsm( {
         */// /////////////////
         bigOfficeStage: {
             _onEnter: function() {
-                office.growOffice(getUnassignedPeople());
+                office.expandOffice(getUnassignedPeople());
             },
 
             nextStage: 'mlTransitionStage',

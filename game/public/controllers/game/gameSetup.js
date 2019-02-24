@@ -13,7 +13,7 @@ pixiApp.renderer.autoResize = true;
 
 const officeContainer = new PIXI.Container();
 const personContainer = new PIXI.Container();
-const deskContainer = new PIXI.Container();
+const floorContainer = new PIXI.Container();
 const timerContainer = new PIXI.Container();
 const cvViewerContainer = new PIXI.Container();
 
@@ -25,7 +25,7 @@ pixiApp.stage.addChild(cvViewerContainer);
 
 pixiApp.stage.addChild(beltContainer);
 
-officeContainer.addChild(deskContainer);
+officeContainer.addChild(floorContainer);
 officeContainer.addChild(personContainer);
 
 // shared eventEmitter across components
@@ -52,5 +52,5 @@ function resize() {
     // TODO redraw all the elements!
 }
 
-export {pixiApp, beltContainer, officeContainer, personContainer, deskContainer,
+export {pixiApp, beltContainer, officeContainer, personContainer, floorContainer,
     timerContainer, cvViewerContainer, eventEmitter, startTweenManager, stopTweenManager};
