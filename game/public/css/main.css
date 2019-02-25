@@ -83,9 +83,9 @@ body.Page--Game {
     color: #000000;
     background-color: #FECCC7; }
     .button.is-clicked:before {
-      background: #FFADA3; }
-    .button.is-clicked:after {
       background: #F29488; }
+    .button.is-clicked:after {
+      background: #FFADA3; }
 
 .Instruction {
   color: inherit;
@@ -199,9 +199,9 @@ body.Page--Game {
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
   .TaskTimer:before {
-    background: #FFADA3; }
-  .TaskTimer:after {
     background: #F29488; }
+  .TaskTimer:after {
+    background: #FFADA3; }
   .TaskTimer__task {
     text-align: center; }
   .TaskTimer__task-progress {
@@ -210,14 +210,10 @@ body.Page--Game {
     height: 7px;
     width: 100%;
     margin: 10px 0 5px 0;
+    background-color: #FFADA3; }
+  .TaskTimer__timer-progress {
+    height: inherit;
     background-color: #F29488; }
-    .TaskTimer__timerbar:before {
-      content: "";
-      display: inline-block;
-      background-color: #FFADA3;
-      width: 70%;
-      height: inherit;
-      position: absolute; }
 
 .choiceButton {
   width: 250px;

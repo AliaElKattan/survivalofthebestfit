@@ -73,6 +73,10 @@ const px2uv = (px, axis = null) => {
     };
 };
 
+const lerp = (v0, v1, t) => {
+    return v0*(1-t)+v1*t;
+};
+
 // clamp a value
 const clamp = (val, minVal, maxVal) => {
     return Math.max(minVal, Math.min(maxVal, val));
@@ -100,4 +104,4 @@ function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), t
     return tween;
 }
 
-export {spacingUtils, uv2px, px2uv, clamp, animateTo};
+export {spacingUtils, uv2px, px2uv, clamp, animateTo, lerp};

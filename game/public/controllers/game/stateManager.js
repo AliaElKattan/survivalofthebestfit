@@ -8,6 +8,7 @@ import {incubator} from '../common/textures.js';
 import {TextBox} from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
 import TextBoxUI from '../../components/interface/ui-instruction/ui-instruction';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
+import TaskUI from '../../components/interface/ui-task/ui-task';
 import {startTaskTimer} from '../../components/interface/old-pixi-components-demise/taskTimer.js';
 import {cvCollection} from '../../assets/text/cvCollection.js';
 import {uv2px, animateTo} from '../common/utils.js';
@@ -80,8 +81,8 @@ const gameFSM = new machina.Fsm( {
                     personList.push(person);
                     x += 0.05;
                 }
-                startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.smallOfficeStage.taskDescription, 140, 5);
-                const resumeUI = new ResumeUI({show: true, features: cvCollection.cvFeatures, scores: cvCollection.smallOfficeStage});
+                new TaskUI({show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription});
+                new ResumeUI({show: true, features: cvCollection.cvFeatures, scores: cvCollection.smallOfficeStage});
             },
 
             nextStage: 'mediumOfficeStage',
@@ -105,8 +106,8 @@ const gameFSM = new machina.Fsm( {
 
             setupOffice: function() {
                 office.growOffice(getUnassignedPeople());
-
-                startTaskTimer(uv2px(0.7, 'w'), uv2px(0.1, 'h'), uv2px(0.22, 'w'), uv2px(0.16, 'h'), txt.mediumOfficeStage.taskDescription, 140, 10);
+                
+                new TaskUI({show: true, hires: 10, duration: 30, content: txt.mediumOfficeStage.taskDescription});
             },
 
             nextStage: 'bigOfficeStage',
