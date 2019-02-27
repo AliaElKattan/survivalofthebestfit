@@ -97,16 +97,19 @@ const gameFSM = new machina.Fsm({
         */// /////////////////
         mediumOfficeStage: {
             _onEnter: function() {
-                const smallOfficeStageOver = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.mediumOfficeStage.messageFromVc);
-                // const mediumOfficeStageText = new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
+                //const smallOfficeStageOver = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.mediumOfficeStage.messageFromVc);
+                const mediumOfficeStageText = new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
                 eventEmitter.on('instructionAcked', () => {
                     this.handle('setupOffice');
                 });
-            },
-
-            setupOffice: function() {
-                office.growOffice(getUnassignedPeople());
                 
+                eventEmitter.on('time-up', () => {
+                    this.handle('retryStage');
+                });
+            },
+            
+            setupOffice: function () {
+                office.growOffice(getUnassignedPeople());
                 new TaskUI({show: true, hires: 10, duration: 30, content: txt.mediumOfficeStage.taskDescription});
             },
 
