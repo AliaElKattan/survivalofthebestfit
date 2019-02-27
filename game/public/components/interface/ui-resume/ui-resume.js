@@ -10,18 +10,38 @@ export default class extends UIBase {
         super();
         this._removeEventListeners();
         this.$el = $('.js-resume'); // This should be a single element
-        this.$textEl = this.$el.find('.Resume__content');
-        this.setContent = this.setContent.bind(this);
+        this.$nameEl = this.$el.find('.Resume__title');
+        this.$taglineEl = this.$el.find('.Resume__tagline');
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
-        this._addEventListeners();
-        this.setContent(); // set content
+        this._resumeFeatures = options ? options.features : undefined;
+        this._resumes = options ? options.scores : undefined;
+        this._candidateNum = 0;
+        // this.setContent(); // set content
         if (options && options.show) {
             this.show();
+            this.newCV();
         }
     }
 
-    setContent() {
-        // this.$textEl.html(this._content);
+    newCV() {
+        if (this._resumes === undefined || this._resumeFeatures === undefined) {
+            throw new Error('You need to pass CV scores to the CV viewer upon instantiation');
+        };
+        if (this._candidateNum === this._resumes.length) alert('we have no CVs left');
+        this.showCV(this._resumes[this._candidateNum]);
+        this._candidateNum++;
+    }
+
+    showCV(cv) {
+        this.$nameEl.html(cv.name);
+        this.$taglineEl.html('personal tagline comes here');
+        this._resumeFeatures.forEach((feature, index) => {
+            const skillScore = cv.qualifications[index]*10;
+            const skillClass = `.${CLASSES.CV_CATEGORY}--${feature.class}`;
+            const $skillEl = this.$el.find(skillClass);
+            $skillEl.find(`.${CLASSES.CV_CATEGORY}__name`).html(feature.name);
+            $skillEl.find(`.${CLASSES.CV_CATEGORY}__progress`).css('width', `${skillScore}%`);
+        });
     }
 
     _testLog() {
@@ -41,7 +61,7 @@ export default class extends UIBase {
 
     _removeEventListeners() {
         eventEmitter.off(EVENTS.EMITTER_TEST, this._testLog());
-        this.$button.off(this._buttonIsClicked.bind(this));
+        //this.$button.off(this._buttonIsClicked.bind(this));
     }
 
     show() {
@@ -65,94 +85,3 @@ export default class extends UIBase {
         // this.$el.destroy();
     }
 }
-
-// let instructionContainer;
-// class TextBoxUI {
-//   constructor() {
-//     console.log('added test UI!');
-//     // this._addEventListener();
-//     // instructionContainer = new PIXI.Container();
-//     // this.width = width;
-//     // this.height = height;
-//     // this.text = messageText;
-//     // this.alive = true;
-//     // if (overlay) this.drawFullScreenOverlay();
-//     // this.drawBox();
-//     // pixiApp.stage.addChild(instructionContainer);
-//   }
-//
-//   _addEventListener() {
-//     eventEmitter.on('emitter-test', () => console.log('test emitter works!'));
-//   }
-//
-// //   drawBox() {
-// //
-// //     this.x = space.screenCenterX(this.width);
-// //     this.y = space.screenCenterY(this.height);
-// //
-// //     let style = new PIXI.TextStyle({
-// //       fontFamily: "Lucida Console",
-// //       fontSize: 14,
-// //       fill: "black",
-// //       stroke: '#ff3300',
-// //       wordWrap: true,
-// //       wordWrapWidth: this.width - 10,
-// //       lineHeight: 20
-// //     });
-// //
-// //     let message = new PIXI.Text(this.text, style);
-// //
-// //     this.height2 = message.height;
-// //
-// //     let rectangle = new PIXI.Graphics();
-// //     rectangle.lineStyle(4, 0x99CCFF, 1);
-// //     rectangle.beginFill(0xFFFFFF);
-// //     rectangle.drawRect(this.x, this.y, this.width, this.height, 10)
-// //     rectangle.endFill();
-// //     instructionContainer.addChild(rectangle)
-// //
-// //     rectangle.buttonMode = true;
-// //     rectangle.interactive = true;
-// //     rectangle.on('pointertap', onPress);
-// //
-// //     rectangle.addChild(message);
-// //     message.position.set(this.x + 5, this.y + 5);
-// //
-// //     var icon = new PIXI.Sprite(xIcon);
-// //     icon.interactive = true;
-// //     icon.buttonMode = true;
-// //
-// //     rectangle.addChild(icon);
-// //     icon.scale.set(.04);
-// //     icon.x = this.x + message.width + 15;
-// //     icon.y = this.y;
-// //   }
-// //
-// //   drawFullScreenOverlay() {
-// //     let bg = new PIXI.Container();
-// //     bg.alpha = 0.5
-// //
-// //     let overlay = new PIXI.Graphics();
-// //     overlay.beginFill(0xFFFFFF);
-// //     overlay.drawRect(0, 0, uv2px(1, 'w'), uv2px(1, 'h'))
-// //     overlay.endFill();
-// //
-// //     bg.addChild(overlay);
-// //     instructionContainer.addChild(bg);
-// //   }
-// // }
-// //
-// // function onPress(event) {
-// //   eventEmitter.emit('instructionAcked', {});
-// //   this.data = event.data;
-// //   this.visible = false;
-// //   hideInstruction();
-// // }
-// //
-// // function hideInstruction() {
-// //   instructionContainer.removeChildren();
-// //   instructionContainer.parent.removeChild(instructionContainer);
-// //   instructionContainer.destroy()
-// }
-//
-// export { TextBoxUI };

@@ -23,16 +23,11 @@
     width: 100%;
     margin: padding(xs) 0 5px 0;
     background-color: color(shadow-rose-light);
-    
-    &:before {
-      content: "";
-      display: inline-block;
-      background-color: color(shadow-rose-dark);
-      width: 70%;
-      height: inherit;
-      position: absolute;
-    }
-
+  }
+  
+  &__timer-progress {
+    height: inherit;
+    background-color: color(shadow-rose-dark);
   }
 
 }

@@ -73,6 +73,10 @@ const px2uv = (px, axis = null) => {
     };
 };
 
+const lerp = (v0, v1, t) => {
+    return v0*(1-t)+v1*t;
+};
+
 // clamp a value
 const clamp = (val, minVal, maxVal) => {
     return Math.max(minVal, Math.min(maxVal, val));
@@ -100,19 +104,4 @@ function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), t
     return tween;
 }
 
-const clearPixiContainer = (thisContainer) => {
-    const childrenList = thisContainer.children;
-    thisContainer.removeChild(childrenList);
-    thisContainer.parent.removeChild(thisContainer);
-    console.log("Removed: " + thisContainer.name);
-
-    thisContainer = new PIXI.Container();
-    childrenList.forEach(function(element) {
-        element = new PIXI.Container();
-        thisContainer.addChild(element);
-        console.log("child container: " + element.name);
-      });
-    return thisContainer;
-} 
-
-export {spacingUtils, uv2px, px2uv, clamp, animateTo, clearPixiContainer};
+export {spacingUtils, uv2px, px2uv, clamp, animateTo, lerp};

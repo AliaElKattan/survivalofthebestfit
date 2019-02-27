@@ -7,10 +7,11 @@ import { createMlOffice } from '../../components/pixi/mlLab.js';
 import { incubator } from '../common/textures.js';
 import { TextBox } from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
 import TextBoxUI from '../../components/interface/ui-instruction/ui-instruction';
-import { startTaskTimer } from '../../components/interface/old-pixi-components-demise/taskTimer.js';
-import { CVViewer } from '../../components/interface/old-pixi-components-demise/cvViewer.js';
-import { cvCollection } from '../../assets/text/cvCollection.js';
-import { uv2px, animateTo } from '../common/utils.js';
+import ResumeUI from '../../components/interface/ui-resume/ui-resume';
+import TaskUI from '../../components/interface/ui-task/ui-task';
+import {startTaskTimer} from '../../components/interface/old-pixi-components-demise/taskTimer.js';
+import {cvCollection} from '../../assets/text/cvCollection.js';
+import {uv2px, animateTo} from '../common/utils.js';
 
 import { xIcon } from '../common/textures.js';
 import { beltTexture, doorTexture, cvTexture } from '../common/textures.js';
@@ -61,41 +62,32 @@ const gameFSM = new machina.Fsm({
         /* ///////////////////
         // Small office, hiring from the street
         */// /////////////////
+
         smallOfficeStage: {
-            _onEnter: function () {
-                const smallOfficeStageText = new TextBoxUI({ content: txt.smallOfficeStage.messageFromVc, show: true });
+            _onEnter: function() {
+                const smallOfficeStageText = new TextBoxUI({content: txt.smallOfficeStage.messageFromVc, show: true});
                 eventEmitter.on('instructionAcked', () => {
-                    office = new Office();
                     this.handle('setupOffice');
                 });
-                eventEmitter.on('time-up', () => {
-                    this.handle('retryStage');
-                });
             },
 
-            setupOffice: function () {
+            setupOffice: function() {
+                office = new Office();
                 personList = [];
                 // create People in the office
-                let numberOfCandidates = 0.12;
+                let x = 0.12;
                 for (let i = 0; i < 12; i++) {
-                    const person = createPerson(numberOfCandidates, 0.88, office);
+                    const person = createPerson(x, 0.88, office);
                     personList.push(person);
-                    numberOfCandidates += 0.05;
+                    x += 0.05;
                 }
-                startTaskTimer(0.7, 0.1, 0.22, 0.16, txt.smallOfficeStage.taskDescription, 140, 5);
-                const cvViewer = new CVViewer(0.8, 0.62, 0.13, 0.32, cvCollection.cvFeatures, cvCollection.smallOfficeStage);
-                //const resumeViewer = new ResumeViewerUI();
-            },
-
-            retryStage: function () {
-                const retryMsg = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.smallOfficeStage.retryMessage);
-                // TODO - clear/reset office drawing
-                this.handle('setupOffice');
+                new TaskUI({show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription});
+                new ResumeUI({show: true, features: cvCollection.cvFeatures, scores: cvCollection.smallOfficeStage});
             },
 
             nextStage: 'mediumOfficeStage',
 
-            _onExit: function () {
+            _onExit: function() {
 
             },
         },
@@ -104,31 +96,23 @@ const gameFSM = new machina.Fsm({
         // Big office, city level view
         */// /////////////////
         mediumOfficeStage: {
-            _onEnter: function () {
-                const mediumOfficeStageText = new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
-                
+            _onEnter: function() {
+                const smallOfficeStageOver = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.mediumOfficeStage.messageFromVc);
+                // const mediumOfficeStageText = new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
                 eventEmitter.on('instructionAcked', () => {
                     this.handle('setupOffice');
                 });
-                
-                eventEmitter.on('time-up', () => {
-                    this.handle('retryStage');
-                });
-            },
-            
-            setupOffice: function () {
-                office.growOffice(getUnassignedPeople());
-                startTaskTimer(0.7, 0.1, 0.22, 0.16, txt.mediumOfficeStage.taskDescription, 140, 10);
             },
 
-            retryStage: function () {
-                const retryMsg = new TextBoxUI({content: txt.mediumOfficeStage.retryMessage, show: true});
-                this.handle('setupOffice');
+            setupOffice: function() {
+                office.growOffice(getUnassignedPeople());
+                
+                new TaskUI({show: true, hires: 10, duration: 30, content: txt.mediumOfficeStage.taskDescription});
             },
 
             nextStage: 'bigOfficeStage',
 
-            _onExit: function () {
+            _onExit: function() {
 
             },
         },
@@ -137,34 +121,34 @@ const gameFSM = new machina.Fsm({
         // Huge office, ccountry level view
         */// /////////////////
         bigOfficeStage: {
-            _onEnter: function () {
+            _onEnter: function() {
                 office.growOffice(getUnassignedPeople());
             },
 
             nextStage: 'mlTransitionStage',
 
-            _onExit: function () {
+            _onExit: function() {
 
             },
         },
 
         mlTransitionStage: {
-            _onEnter: function () {
+            _onEnter: function() {
 
             },
 
             nextStage: 'mlLabStage',
 
-            _onExit: function () {
+            _onExit: function() {
 
             },
         },
 
         mlLabStage: {
 
-            _onEnter: function () {
+            _onEnter: function() {
                 createMlOffice();
-            }
+            },
 
         },
 
