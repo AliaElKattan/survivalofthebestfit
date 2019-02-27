@@ -17,13 +17,11 @@ const officeContainer = new PIXI.Container();
 const personContainer = new PIXI.Container();
 const deskContainer = new PIXI.Container();
 const timerContainer = new PIXI.Container();
-const cvViewerContainer = new PIXI.Container();
 
 const beltContainer = new PIXI.Container();
 
 pixiApp.stage.addChild(officeContainer);
 pixiApp.stage.addChild(timerContainer);
-pixiApp.stage.addChild(cvViewerContainer);
 
 pixiApp.stage.addChild(beltContainer);
 
@@ -69,4 +67,4 @@ function clearOfficeContainerGlobal() {
 
 
 export {pixiApp, beltContainer, officeContainer, personContainer, deskContainer,
-    timerContainer, cvViewerContainer, eventEmitter, startTweenManager, stopTweenManager, clearOfficeContainerGlobal};
+    timerContainer, eventEmitter, startTweenManager, stopTweenManager};
