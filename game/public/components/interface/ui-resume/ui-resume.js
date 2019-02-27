@@ -61,7 +61,7 @@ export default class extends UIBase {
 
     _removeEventListeners() {
         eventEmitter.off(EVENTS.EMITTER_TEST, this._testLog());
-        this.$button.off(this._buttonIsClicked.bind(this));
+        //this.$button.off(this._buttonIsClicked.bind(this));
     }
 
     show() {

@@ -62,26 +62,24 @@ const gameFSM = new machina.Fsm({
         /* ///////////////////
         // Small office, hiring from the street
         */// /////////////////
+
         smallOfficeStage: {
-            _onEnter: function () {
-                const smallOfficeStageText = new TextBoxUI({ content: txt.smallOfficeStage.messageFromVc, show: true });
+            _onEnter: function() {
+                const smallOfficeStageText = new TextBoxUI({content: txt.smallOfficeStage.messageFromVc, show: true});
                 eventEmitter.on('instructionAcked', () => {
-                    office = new Office();
                     this.handle('setupOffice');
-                });
-                eventEmitter.on('time-up', () => {
-                    this.handle('retryStage');
                 });
             },
 
-            setupOffice: function () {
+            setupOffice: function() {
+                office = new Office();
                 personList = [];
                 // create People in the office
-                let numberOfCandidates = 0.12;
+                let x = 0.12;
                 for (let i = 0; i < 12; i++) {
-                    const person = createPerson(numberOfCandidates, 0.88, office);
+                    const person = createPerson(x, 0.88, office);
                     personList.push(person);
-                    numberOfCandidates += 0.05;
+                    x += 0.05;
                 }
                 new TaskUI({show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription});
                 new ResumeUI({show: true, features: cvCollection.cvFeatures, scores: cvCollection.smallOfficeStage});
@@ -89,7 +87,7 @@ const gameFSM = new machina.Fsm({
 
             nextStage: 'mediumOfficeStage',
 
-            _onExit: function () {
+            _onExit: function() {
 
             },
         },
@@ -98,9 +96,9 @@ const gameFSM = new machina.Fsm({
         // Big office, city level view
         */// /////////////////
         mediumOfficeStage: {
-            _onEnter: function () {
+            _onEnter: function() {
+                //const smallOfficeStageOver = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.mediumOfficeStage.messageFromVc);
                 const mediumOfficeStageText = new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
-                
                 eventEmitter.on('instructionAcked', () => {
                     this.handle('setupOffice');
                 });
@@ -112,13 +110,12 @@ const gameFSM = new machina.Fsm({
             
             setupOffice: function () {
                 office.growOffice(getUnassignedPeople());
-                
                 new TaskUI({show: true, hires: 10, duration: 30, content: txt.mediumOfficeStage.taskDescription});
             },
 
             nextStage: 'bigOfficeStage',
 
-            _onExit: function () {
+            _onExit: function() {
 
             },
         },
@@ -127,13 +124,13 @@ const gameFSM = new machina.Fsm({
         // Huge office, ccountry level view
         */// /////////////////
         bigOfficeStage: {
-            _onEnter: function () {
+            _onEnter: function() {
                 office.growOffice(getUnassignedPeople());
             },
 
             nextStage: 'mlTransitionStage',
 
-            _onExit: function () {
+            _onExit: function() {
 
             },
         },
@@ -145,14 +142,14 @@ const gameFSM = new machina.Fsm({
 
             nextStage: 'mlLabStage',
 
-            _onExit: function () {
+            _onExit: function() {
 
             },
         },
 
         mlLabStage: {
 
-            _onEnter: function () {
+            _onEnter: function() {
                 createMlOffice();
             },
 
