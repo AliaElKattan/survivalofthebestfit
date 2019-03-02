@@ -7,7 +7,8 @@ import {gameFSM} from '../../controllers/game/stateManager.js';
 import {uv2px, clamp, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
 import {createPerson} from './person.js';
 import {cvCollection} from '../../assets/text/cvCollection.js';
-import ResumeList from './ml/cv-list';
+import Machine from './ml/machine';
+import Resumes from './ml/cv-list';
 import ConveyorBelt from './ml/conveyor-belt';
 import Door from './door';
 import ResumeUI from '../interface/ui-resume/ui-resume';
@@ -37,10 +38,12 @@ class MlOffice {
             y: uv2px(.43, 'h'),
         });
 
-        this.resumeList = new ResumeList({
+        this.resumeList = new Resumes({
             y: uv2px(.43, 'h'),
             xOffset: uv2px(0.1, 'w'),
         });
+        
+        this.machine = new Machine({});
 
         // const coorObj = uv2px({x: 1, y: 0.5}); // if you prefer objects
 
@@ -53,6 +56,7 @@ class MlOffice {
         this.doors.forEach((door) => door.draw());
         this.belt.draw();
         this.resumeList.draw();
+        this.machine.draw();
         // first office floor
         this._drawFloor(uv2px(0.6, 'h'));
         // ground floor/

@@ -26,6 +26,9 @@ floorPlanTwo.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 const beltTexture = PIXI.Texture.fromImage('assets/img/conveyor_belt.png');
 beltTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
+const machineTexture = PIXI.Texture.fromImage('assets/img/machine.png');
+machineTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+
 const doorTexture = PIXI.Texture.fromImage('assets/img/door.png');
 doorTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
@@ -33,4 +36,4 @@ const cvTexture = PIXI.Texture.fromImage('assets/img/cv_yellow.png');
 cvTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
 
-export {cvTexture, doorTexture, personTexture, yellowPersonTexture, bluePersonTexture, deskTexture, incubator, floorPlanOne, floorPlanTwo, xIcon, beltTexture};
+export {cvTexture, doorTexture, personTexture, machineTexture, yellowPersonTexture, bluePersonTexture, deskTexture, incubator, floorPlanOne, floorPlanTwo, xIcon, beltTexture};
