@@ -3,6 +3,8 @@ import * as tweenManager from 'pixi-tween';
 // console.log(PIXI);
 const debounce = require('debounce');
 
+let DRAW_STACK = [];
+
 // make fullscreen app
 const pixiApp = new PIXI.Application(
     window.innerWidth,
@@ -67,4 +69,4 @@ function clearOfficeContainerGlobal() {
 
 
 export {pixiApp, beltContainer, officeContainer, personContainer, deskContainer,
-    timerContainer, eventEmitter, startTweenManager, stopTweenManager};
+    timerContainer, eventEmitter, startTweenManager, stopTweenManager, DRAW_STACK};

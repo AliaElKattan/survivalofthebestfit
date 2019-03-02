@@ -1,11 +1,10 @@
 import * as machina from 'machina';
-import { pixiApp, eventEmitter, beltContainer, officeContainer } from './gameSetup.js';
-import { createPerson } from '../../components/pixi/person.js';
-import { Office } from '../../components/pixi/office.js';
-import { createMlOffice } from '../../components/pixi/mlLab.js';
-
-import { incubator } from '../common/textures.js';
-import { TextBox } from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
+import {pixiApp, eventEmitter, beltContainer, officeContainer, DRAW_STACK} from './gameSetup.js';
+import {createPerson} from '../../components/pixi/person.js';
+import {Office} from '../../components/pixi/office.js';
+import {createMlOffice} from '../../components/pixi/mlLab.js';
+import {incubator} from '../common/textures.js';
+import {TextBox} from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
 import TextBoxUI from '../../components/interface/ui-instruction/ui-instruction';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import TaskUI from '../../components/interface/ui-task/ui-task';
@@ -13,8 +12,8 @@ import {startTaskTimer} from '../../components/interface/old-pixi-components-dem
 import {cvCollection} from '../../assets/text/cvCollection.js';
 import {uv2px, animateTo} from '../common/utils.js';
 
-import { xIcon } from '../common/textures.js';
-import { beltTexture, doorTexture, cvTexture } from '../common/textures.js';
+import {xIcon} from '../common/textures.js';
+import {beltTexture, doorTexture, cvTexture} from '../common/textures.js';
 
 let office;
 let personList;
@@ -28,11 +27,11 @@ let cvList;
 const gameFSM = new machina.Fsm({
 
     namespace: 'game-fsm',
-    initialState: 'welcomeStage',
+    initialState: 'mlLabStage',
 
     states: {
         uninitialized: {
-            startGame: function () {
+            startGame: function() {
                 this.transition('welcomeStage');
             },
         },
@@ -41,7 +40,7 @@ const gameFSM = new machina.Fsm({
         // Welcome image
         */// /////////////////
         welcomeStage: {
-            _onEnter: function () {
+            _onEnter: function() {
                 this.timer = setTimeout(() => {
                     this.handle('timeout');
                 }, 300);
@@ -53,7 +52,7 @@ const gameFSM = new machina.Fsm({
 
             timeout: 'smallOfficeStage',
 
-            _onExit: function () {
+            _onExit: function() {
                 clearTimeout(this.timer);
                 this.image.parent.removeChild(this.image);
             },
@@ -97,18 +96,18 @@ const gameFSM = new machina.Fsm({
         */// /////////////////
         mediumOfficeStage: {
             _onEnter: function() {
-                //const smallOfficeStageOver = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.mediumOfficeStage.messageFromVc);
+                // const smallOfficeStageOver = new TextBox(uv2px(0.5, 'w'), uv2px(0.5, 'h'), txt.mediumOfficeStage.messageFromVc);
                 const mediumOfficeStageText = new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
                 eventEmitter.on('instructionAcked', () => {
                     this.handle('setupOffice');
                 });
-                
+
                 eventEmitter.on('time-up', () => {
                     this.handle('retryStage');
                 });
             },
-            
-            setupOffice: function () {
+
+            setupOffice: function() {
                 office.growOffice(getUnassignedPeople());
                 new TaskUI({show: true, hires: 10, duration: 30, content: txt.mediumOfficeStage.taskDescription});
             },
@@ -159,10 +158,10 @@ const gameFSM = new machina.Fsm({
     },
 
 
-    startGame: function () {
+    startGame: function() {
         this.handle('startGame');
     },
-    nextStage: function () {
+    nextStage: function() {
         this.handle('nextStage');
     },
 });
@@ -178,4 +177,4 @@ const getUnassignedPeople = () => {
 };
 
 
-export { gameFSM };
+export {gameFSM};
