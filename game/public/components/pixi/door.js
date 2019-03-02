@@ -1,6 +1,5 @@
 import * as PIXI from 'pixi.js';
 import {pixiApp} from '../../controllers/game/gameSetup';
-import {uv2px, clamp} from '../../controllers/common/utils.js';
 import {doorTexture} from '../../controllers/common/textures.js';
 
 
@@ -21,6 +20,3 @@ export default class {
         pixiApp.stage.addChild(this.door);
     }
 }
-
-// door.x = uv2px(0.03, 'w');
-// door.y = uv2px(0.69, 'h');
