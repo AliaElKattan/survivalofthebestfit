@@ -20,7 +20,7 @@ class Floor {
         this.sprite.controller = this;
 
         this.deskList = [];
-        const colSpace = office.getWidth() / (office.getColumns() + 1);
+        let colSpace = office.getWidth() / (office.getColumns() + 1);
 
         for (let i = office.getColumns(); i > 0; i--) {
             this.createDesk(office.getScale(), i * colSpace, deskOffsetY);
@@ -49,16 +49,17 @@ class Floor {
 
         tweenList.push(animateTo({'target': this.texture, 'scaleY': office.getScale()}));
 
-        const colSpace = office.getWidth() / (office.getColumns() + 1);
+        let colSpace = office.getWidth() / (office.getColumns() + 1);
         let indx = 0;
-        for (let i = office.getColumns(); i >= 0; i--) {
+        for (let i = office.getColumns(); i > 0; i--) {
             if (this.deskList.length > indx) {
-                tweenList.push(animateTo({'target': this.deskList[indx++], 'scale': office.getScale(), 'x': i*colSpace}));
+                tweenList.push(animateTo({'target': this.deskList[indx], 'scale': office.getScale(), 'x': i*colSpace}));
             } else {
-                const newDesk = this.createDesk(office.getScale(), i * colSpace - 1, deskOffsetY);
-                tweenList.push(animateTo({'target': newDesk, 'x': i*colSpace}));
-
+                this.createDesk(1, i * colSpace, deskOffsetY);
+                // tweenList.push(animateTo({'target': newDesk, 'x': i*colSpace}));
+                
             }
+            indx++;
         }
 
         tweenList.push(animateTo({'target': this.sprite, 'y': y}));

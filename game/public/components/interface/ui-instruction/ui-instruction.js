@@ -8,7 +8,6 @@ import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 export default class extends UIBase {
     constructor(options) {
         super();
-        this._removeEventListeners();
         this.options = options;
         this.$el = $('.js-instruction'); // This should be a single element
         this.$textEl = this.$el.find('.Instruction__content');
@@ -31,7 +30,7 @@ export default class extends UIBase {
     _buttonIsClicked(e) {
         this.$button.addClass(CLASSES.BUTTON_CLICKED);
         eventEmitter.emit('instructionAcked', {});
-        this.hide();
+        this.destroy();
     }
 
     _addEventListeners() {
@@ -39,7 +38,7 @@ export default class extends UIBase {
     }
 
     _removeEventListeners() {
-        //this.$button.off(this._buttonIsClicked.bind(this));
+        this.$button.off();
     }
 
     show() {
@@ -57,9 +56,9 @@ export default class extends UIBase {
     }
 
     destroy() {
+        this._removeEventListeners();
         super.dispose();
         this.hide();
-        this._removeEventListeners();
-        // this.$el.destroy();
+        this.$el.destroy();
     }
 }

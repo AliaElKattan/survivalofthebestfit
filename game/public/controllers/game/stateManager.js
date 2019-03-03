@@ -22,7 +22,7 @@ let office;
 let personList;
 let cvViewerML;
 let cvList;
-
+let index = 0;
 /**
  * MINIMIZE GAME SETUP CODE HERE. Try to shift setup into other files respective to stage
  * Gamestates is for the orchestration and sequencing of object creation.
@@ -30,7 +30,7 @@ let cvList;
 const gameFSM = new machina.Fsm({
 
     namespace: 'game-fsm',
-    // initialState: 'mlLabStage',
+    initialState: 'smallOfficeStage',
 
     states: {
         uninitialized: {
@@ -111,6 +111,7 @@ const gameFSM = new machina.Fsm({
             },
 
             expandOffice: function() {
+                index++;
                 office.expandOffice(getUnassignedPeople());
 
                 new TaskUI({show: true, hires: 10, duration: 30, content: txt.mediumOfficeStage.taskDescription});
@@ -154,17 +155,13 @@ const gameFSM = new machina.Fsm({
 
             _onEnter: function() {
                 createMlOffice();
-<<<<<<< HEAD
-            },
-
-            nextStage: 'Oh gish we haven\'t even started it hahah',
-=======
                 new MLResumeViewerUI({show: true, type: 'accepted'});
                 new MLResumeViewerUI({show: true, type: 'rejected'});
                 new MLAlgorithmInspectorUI({});
                 new NewsFeedUI({show: true});
             },
->>>>>>> 3911dbcc85db31d090f5e9160fb139e5b1db35a8
+
+            nextStage: 'Oh gish we haven\'t even started it hahah',
 
         },
 

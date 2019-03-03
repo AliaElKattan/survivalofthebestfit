@@ -76,7 +76,7 @@ class Office {
     listenerSetup() {
         eventEmitter.on('assigned-desk', (data)=>{
             this.takenDesks += 1;
-            if (this.takenDesks == 5) {
+            if (this.takenDesks == 1) {
                 eventEmitter.emit('task-complete', {});
                 gameFSM.nextStage();
             }
