@@ -1,44 +1,70 @@
 import {deskTexture} from '../../controllers/common/textures.js';
 import {uv2px, px2uv, animateTo} from '../../controllers/common/utils.js';
 import {officeContainer, floorContainer, deskContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
+const deskScale = 0.1;
+const deskOffsetY = -0.05;
+class Floor {
+    constructor(x, y, office) {
+        this.texture = new PIXI.Graphics();
+        this.texture.beginFill(0xffd9d9);
+        this.texture.drawRect(0, 0, uv2px(office.getWidth(), 'w'), uv2px(0.05, 'w')*office.getScale());
+        this.texture.endFill();
+        this.texture.beginFill(0xef807f);
+        this.texture.drawRect(0, uv2px(0.05, 'w')*office.getScale(), uv2px(office.getWidth(), 'w'), uv2px(0.02, 'w')*office.getScale());
+        this.texture.endFill();
 
+        this.sprite = new PIXI.Sprite();
+        this.sprite.x = uv2px(x, 'w');
+        this.sprite.y = uv2px(y, 'h');
+        this.sprite.addChild(this.texture);
+        this.sprite.controller = this;
 
-function createDesk(scale, x, y) {
-    const desk = new PIXI.Sprite(deskTexture);
-    desk.x = uv2px(x, 'w');
-    desk.y = uv2px(y, 'h');
-    desk.type = 'desk';
-    desk.taken = false;
-    desk.scale.set(0.1*scale);
-    desk.interactive = true;
-    desk.isTaken = false;
-    return desk;
-}
+        this.deskList = [];
+        const colSpace = office.getWidth() / (office.getColumns() + 1);
 
-function createFloor(x, y, office) {
-    const floor = new PIXI.Graphics();
-    floor.beginFill(0xffd9d9);
-    floor.drawRect(0, 0, uv2px(office.getWidth(), 'w'), uv2px(0.05, 'w')*office.getScale());
-    floor.endFill();
-    floor.beginFill(0xef807f);
-    floor.drawRect(0, uv2px(0.05, 'w')*office.getScale(), uv2px(office.getWidth(), 'w'), uv2px(0.02, 'w')*office.getScale());
-    floor.endFill();
+        for (let i = office.getColumns(); i > 0; i--) {
+            this.createDesk(office.getScale(), i * colSpace, deskOffsetY);
+        }
 
-    const sprite = new PIXI.Sprite();
-    sprite.x = uv2px(x, 'w');
-    sprite.y = uv2px(y, 'h');
-    sprite.addChild(floor);
-
-    const deskOffsetY = -0.05;
-    const colSpace = office.getWidth() / (office.getColumns() + 1);
-
-    for (let i = 0; i < office.getColumns(); i++) {
-        const newDesk = createDesk(office.getScale(), i * colSpace, deskOffsetY);
-        sprite.addChild(newDesk);
+        floorContainer.addChild(this.sprite);
     }
 
-    floorContainer.addChild(sprite);
-    return sprite;
+    createDesk(scale, x, y) {
+        const desk = new PIXI.Sprite(deskTexture);
+        desk.x = uv2px(x, 'w');
+        desk.y = uv2px(y, 'h');
+        desk.type = 'desk';
+        desk.taken = false;
+        desk.scale.set(deskScale*scale);
+        desk.interactive = true;
+        desk.isTaken = false;
+        this.sprite.addChild(desk);
+        this.deskList.push(desk);
+        return desk;
+    }
+
+
+    resizeFloor(office, y) {
+        let tweenList = [];
+
+        tweenList.push(animateTo({'target': this.texture, 'scaleY': office.getScale()}));
+
+        const colSpace = office.getWidth() / (office.getColumns() + 1);
+        let indx = 0;
+        for (let i = office.getColumns(); i >= 0; i--) {
+            if (this.deskList.length > indx) {
+                tweenList.push(animateTo({'target': this.deskList[indx++], 'scale': office.getScale(), 'x': i*colSpace}));
+            } else {
+                const newDesk = this.createDesk(office.getScale(), i * colSpace - 1, deskOffsetY);
+                tweenList.push(animateTo({'target': newDesk, 'x': i*colSpace}));
+
+            }
+        }
+
+        tweenList.push(animateTo({'target': this.sprite, 'y': y}));
+        return tweenList;
+    }
 }
 
-export {createFloor};
+
+export {Floor};

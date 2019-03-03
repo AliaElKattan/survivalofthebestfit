@@ -44,7 +44,7 @@ function onPersonDragEnd() {
                 this.x = hitDesk.x;
                 this.y = hitDesk.y;
                 hitDesk.addChild(this);
-
+                this.controller.setDesk(hitDesk);
                 sendAssigned();
                 return true;
             }
