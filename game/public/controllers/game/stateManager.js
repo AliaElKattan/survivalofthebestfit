@@ -5,6 +5,7 @@ import {Office} from '../../components/pixi/office.js';
 import {createMlOffice} from '../../components/pixi/mlLab.js';
 import {incubator} from '../common/textures.js';
 import {TextBox} from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
+import NewsFeedUI from '../../components/interface/ml/news-feed/news-feed.js';
 import MLAlgorithmInspectorUI from '../../components/interface/ml/algorithm-inspector/algorithm-inspector.js';
 import MLResumeViewerUI from '../../components/interface/ml/resume-viewer/resume-viewer.js';
 import TextBoxUI from '../../components/interface/ui-instruction/ui-instruction';
@@ -155,6 +156,7 @@ const gameFSM = new machina.Fsm({
                 new MLResumeViewerUI({show: true, type: 'accepted'});
                 new MLResumeViewerUI({show: true, type: 'rejected'});
                 new MLAlgorithmInspectorUI({});
+                new NewsFeedUI({show: true});
             },
 
         },

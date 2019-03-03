@@ -278,7 +278,7 @@ body.Page--Game {
   background-color: #FAFAFA;
   box-shadow: inset 0 0 0 2px #FFADA3;
   padding: 10px 20px 40px 20px;
-  z-index: 2;
+  z-index: 3;
   position: absolute;
   right: 20px;
   top: 2%;
@@ -329,6 +329,57 @@ body.Page--Game {
   .Param__value {
     padding-left: 10px;
     color: #B2B2B2; }
+
+.NewsFeed {
+  color: inherit;
+  background-color: #FAFAFA;
+  padding: 2px 20px 2px 20px;
+  z-index: 2;
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  font-size: 1.5rem; }
+  .NewsFeed:before, .NewsFeed:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .NewsFeed:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .NewsFeed:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .NewsFeed:before {
+    background: #919191; }
+  .NewsFeed:after {
+    background: #B9B9B9; }
+  .NewsFeed__title {
+    position: absolute;
+    text-transform: uppercase;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #B2B2B2;
+    padding: 0 20px; }
+  .NewsFeed__title, .NewsFeed .NewsList, .NewsFeed .NewsList-item {
+    display: inline-block; }
+  .NewsFeed .NewsList {
+    transform: translateX(100px);
+    padding: 2px;
+    width: 150%;
+    display: flex;
+    align-items: center;
+    overflow: hidden; }
+    .NewsFeed .NewsList-item {
+      padding: 0 20px;
+      line-height: 1;
+      border-right: solid #B2B2B2 2px; }
 
 .choiceButton {
   width: 250px;
