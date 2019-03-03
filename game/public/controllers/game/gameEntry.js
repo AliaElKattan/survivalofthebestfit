@@ -3,6 +3,7 @@ import '@babel/polyfill';
 import {pixiApp, startTweenManager} from './gameSetup.js';
 import {gameFSM} from './stateManager.js';
 import {trainSVM} from '../machine-learning/svm.js';
+import {loadAssets} from '../common/textures.js';
 
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 
@@ -13,6 +14,10 @@ import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 
 document.getElementById('gameCanvas').appendChild(pixiApp.view);
 const a = 0;
-gameFSM.startGame();
+loadAssets().then(() => {
+    console.log('start game!!');
+    gameFSM.startGame();
 
-startTweenManager();
+    startTweenManager();
+});
+

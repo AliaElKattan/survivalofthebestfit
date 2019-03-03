@@ -5,6 +5,8 @@ import {Office} from '../../components/pixi/office.js';
 import {createMlOffice} from '../../components/pixi/mlLab.js';
 import {incubator} from '../common/textures.js';
 import {TextBox} from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
+import MLAlgorithmInspectorUI from '../../components/interface/ml/algorithm-inspector/algorithm-inspector.js';
+import MLResumeViewerUI from '../../components/interface/ml/resume-viewer/resume-viewer.js';
 import TextBoxUI from '../../components/interface/ui-instruction/ui-instruction';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import TaskUI from '../../components/interface/ui-task/ui-task';
@@ -27,12 +29,12 @@ let cvList;
 const gameFSM = new machina.Fsm({
 
     namespace: 'game-fsm',
-    initialState: 'mlLabStage',
+    // initialState: 'mlLabStage',
 
     states: {
         uninitialized: {
             startGame: function() {
-                this.transition('welcomeStage');
+                this.transition('mlLabStage');
             },
         },
 
@@ -150,6 +152,9 @@ const gameFSM = new machina.Fsm({
 
             _onEnter: function() {
                 createMlOffice();
+                new MLResumeViewerUI({show: true, type: 'accepted'});
+                new MLResumeViewerUI({show: true, type: 'rejected'});
+                new MLAlgorithmInspectorUI({});
             },
 
         },

@@ -12,7 +12,10 @@ export default class {
     }
 
     draw() {
-        this.resumeList.forEach((resume) => resume.draw());
+        this.resumeList.forEach((resume) => {
+            resume.draw();
+            // resume.animate();
+        });
     }
 
     _initalizeResumes() {
