@@ -1,0 +1,45 @@
+.NewsFeed {
+  @include textBox();
+  @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'grey');
+  // box-shadow: inset 0 0 0 2px color(txt-light-grey);
+  
+  padding: 2px padding(sm) 2px padding(sm);
+  
+  z-index: 2;
+  position: absolute;
+  top: padding(xs);
+  width: 100%;
+
+  font-size: 1.5rem;
+  
+  &__title {
+    position: absolute;
+    text-transform: uppercase;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: color(txt-light-grey);
+    padding: 0 padding(sm);
+  }
+  
+  &__title, .NewsList, .NewsList-item{
+    display: inline-block;
+  }
+  
+  .NewsList {
+    transform: translateX(100px);
+    padding: 2px;
+    width: 150%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    
+    &-item {
+      padding: 0 padding(sm);
+      line-height: 1;
+      border-right:solid color(txt-light-grey) 2px;
+    }
+  }
+
+
+}

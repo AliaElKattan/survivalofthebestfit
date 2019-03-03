@@ -2,13 +2,16 @@ import * as PIXI from 'pixi.js';
 import * as tweenManager from 'pixi-tween';
 import {pixiApp} from '../../controllers/game/gameSetup';
 import {officeContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
+import COLORS from '../../controllers/constants/pixi-colors.js';
 import {gameFSM} from '../../controllers/game/stateManager.js';
-import {uv2px, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
-import {beltTexture, doorTexture, cvTexture} from '../../controllers/common/textures.js';
+import {uv2px, clamp, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
 import {createPerson} from './person.js';
-import {CVViewer} from '../../components/interface/old-pixi-components-demise/cvViewer.js';
 import {cvCollection} from '../../assets/text/cvCollection.js';
-
+import Machine from './ml/machine';
+import Resumes from './ml/cv-list';
+import ConveyorBelt from './ml/conveyor-belt';
+import Door from './door';
+import ResumeUI from '../interface/ui-resume/ui-resume';
 
 
 class MlOffice {
@@ -24,76 +27,62 @@ class MlOffice {
         this.size = 0;
         this.scale = 1;
 
-        const coorObj = uv2px({x: 1, y: 0.5}); // if you prefer objects
+        this.doors = [
+            new Door({
+                x: uv2px(0.03, 'w'),
+                y: uv2px(0.7, 'h'),
+            }), // ground floor door
+        ];
 
-        // first office floor
-        this.drawFloor(uv2px(0.5, 'h'));
+        this.belt = new ConveyorBelt({
+            y: uv2px(.43, 'h'),
+        });
 
-        // ground floor/
-        this.drawFloor(space.absMinusSize(40, 'h'));
+        this.resumeList = new Resumes({
+            y: uv2px(.43, 'h'),
+            xOffset: uv2px(0.1, 'w'),
+        });
+        
+        this.machine = new Machine({});
+
+        // const coorObj = uv2px({x: 1, y: 0.5}); // if you prefer objects
 
         // this.growOffice();
         // this.listenerSetup();
+        this.draw();
     }
 
-    // drawBelt() {
-    //               //door
-    //               var door = new PIXI.Sprite(doorTexture);
-    //               door.x = uv2px(0.18, 'w');
-    //               door.y = uv2px(0.65, 'h');
-    //               door.scale.set(.55);
-    //               officeContainer.addChild(door);
-    //
-    //
-    //               var beltY =  (PIXI.pixiApp.screen.height)/2 - (this.pixiApp.screen.height/8);
-    //             //  var beltX = (pixiApp.screen.width)/4);
-    //               var beltX = uv2px(0.175,'w');
-    //               var beltXOffset = uv2px(0.12,'w');
-    //
-    //
-    //               for (var j = 0; j<5;j++) {
-    //                   var belt = new PIXI.Sprite(beltTexture);
-    //                   belt.scale.set(.3);
-    //                   belt.y = beltY;
-    //                   belt.x = beltX + (beltXOffset* j)  ;
-    //
-    //                   //beltList.push(belt);
-    //                   officeContainer.addChild(belt);
-    //               }
-    //
-    //               //cvs on belt
-    //               for (var x = 0; x<10;x++) {
-    //                   var cv = new PIXI.Sprite(cvTexture);
-    //                   cv.scale.set(.4);
-    //                   cv.y = beltY;
-    //                   cv.x = beltX + (beltXOffset* x)/2 ;
-    //
-    //                   //beltList.push(belt);
-    //                   officeContainer.addChild(cv);
-    //               }
-    //
-    //
-    //             }
+    draw() {
+        this.doors.forEach((door) => door.draw());
+        this.belt.draw();
+        this.resumeList.draw();
+        this.machine.draw();
+        // first office floor
+        this._drawFloor(uv2px(0.6, 'h'));
+        // ground floor/
+        this._drawFloor(space.absMinusSize(0, 'h'));
+    }
 
-    drawFloor(y) {
-        // main floor
-        this.surface = new PIXI.Graphics();
-        this.surface.beginFill(0xffd9d9);
-        this.surface.drawRect(0, 0, uv2px(1, 'w'), 40);
-        this.surface.endFill();
-        this.surface.x = 0;
-        this.surface.y = y;
-
-        // dark pink side of the floor
-        this.side = new PIXI.Graphics();
-        this.side.beginFill(0xef807f);
-        this.side.drawRect(0, 0, uv2px(1, 'w'), 20);
-        this.side.endFill();
-        this.side.x = 0;
-        this.side.y = y+40;
-
-        officeContainer.addChild(this.surface);
-        officeContainer.addChild(this.side);
+    _drawFloor(yAnchor) {
+        const heightMain = clamp(uv2px(0.1, 'w'), 40, 50);
+        const heightShadow = clamp(heightMain/5, 20, 30);
+        // main floor - pink
+        const surface = new PIXI.Graphics();
+        surface.beginFill(COLORS.ROSE_MAIN);
+        surface.drawRect(0, 0, uv2px(1, 'w'), heightMain);
+        surface.endFill();
+        surface.x = 0;
+        surface.y = yAnchor-heightMain;
+        // dark pink shadow
+        const side = new PIXI.Graphics();
+        side.beginFill(COLORS.ROSE_SHADOW);
+        side.drawRect(0, 0, uv2px(1, 'w'), heightShadow);
+        side.endFill();
+        side.x = 0;
+        side.y = yAnchor;
+        // add the floor to the container
+        officeContainer.addChild(surface);
+        officeContainer.addChild(side);
     }
 }
 
@@ -127,49 +116,7 @@ function createMlOffice() {
         x += xOffset;
     }
 
-    // door
-    const door = new PIXI.Sprite(doorTexture);
-    door.x = uv2px(0.03, 'w');
-    door.y = uv2px(0.69, 'h');
-    door.scale.set(.55);
-    pixiApp.stage.addChild(door);
-
-
-    //  var beltY =  (pixiApp.screen.height)/2 - (pixiApp.screen.height/8);
-    const beltY = uv2px(.38, 'h');
-    //  var beltX = (pixiApp.screen.width)/4);
-
-    const beltX = uv2px(0., 'w');
-    const beltXOffset = uv2px(0.165, 'w');
-
-
-    for (let j = 0; j<6; j++) {
-        const belt = new PIXI.Sprite(beltTexture);
-        belt.scale.set(.4);
-        belt.y = beltY;
-        belt.x = beltX + (beltXOffset* j);
-        // beltList.push(belt);
-        pixiApp.stage.addChild(belt);
-    }
-
-    let cvList = [];
-
-    const cvXOffset = uv2px(0.165, 'w');
-
-    // cvs on belt
-    for (let x = 0; x<12; x++) {
-        const cv = new PIXI.Sprite(cvTexture);
-        cv.scale.set(.4);
-        cv.y = beltY;
-        cv.x = beltX + (cvXOffset* x)/2;
-
-        cvList[x] = cv;
-
-        // beltList.push(belt);
-        pixiApp.stage.addChild(cv);
-    }
-
-    let cvViewerML = new CVViewer(uv2px(0.8, 'w'), uv2px(0.05, 'h'), uv2px(0.13, 'w'), uv2px(0.32, 'h'), cvCollection.cvFeatures, cvCollection.smallOfficeStage);
+    const resumeUI_ml = new ResumeUI({show: true, features: cvCollection.cvFeatures, scores: cvCollection.smallOfficeStage});
 }
 
 

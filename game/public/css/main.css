@@ -83,9 +83,9 @@ body.Page--Game {
     color: #000000;
     background-color: #FECCC7; }
     .button.is-clicked:before {
-      background: #FFADA3; }
-    .button.is-clicked:after {
       background: #F29488; }
+    .button.is-clicked:after {
+      background: #FFADA3; }
 
 .Instruction {
   color: inherit;
@@ -127,7 +127,7 @@ body.Page--Game {
   padding: 20px 20px 40px 20px;
   position: absolute;
   right: 20px;
-  top: 5%;
+  top: 45%;
   min-width: 250px;
   min-height: 300px;
   max-height: 700px;
@@ -159,20 +159,19 @@ body.Page--Game {
 .cv-category__skillbar {
   height: 7px;
   width: 100%; }
-  .cv-category__skillbar:before {
-    content: "";
-    display: inline-block;
-    width: 70%;
-    height: inherit;
-    position: absolute; }
   .Resume--yellow .cv-category__skillbar {
     background-color: #FFDB8C; }
-    .Resume--yellow .cv-category__skillbar:before {
-      background-color: #F4AB0B; }
   .Resume--blue .cv-category__skillbar {
     background-color: #CDE4F1; }
     .Resume--blue .cv-category__skillbar:before {
       background-color: #2F4755; }
+
+.cv-category__progress {
+  height: inherit; }
+  .Resume--yellow .cv-category__progress {
+    background-color: #F4AB0B; }
+  .Resume--blue .cv-category__progress {
+    background-color: #2F4755; }
 
 .TaskTimer {
   color: inherit;
@@ -200,9 +199,9 @@ body.Page--Game {
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
   .TaskTimer:before {
-    background: #FFADA3; }
-  .TaskTimer:after {
     background: #F29488; }
+  .TaskTimer:after {
+    background: #FFADA3; }
   .TaskTimer__task {
     text-align: center; }
   .TaskTimer__task-progress {
@@ -211,14 +210,176 @@ body.Page--Game {
     height: 7px;
     width: 100%;
     margin: 10px 0 5px 0;
+    background-color: #FFADA3; }
+  .TaskTimer__timer-progress {
+    height: inherit;
     background-color: #F29488; }
-    .TaskTimer__timerbar:before {
-      content: "";
-      display: inline-block;
-      background-color: #FFADA3;
-      width: 70%;
-      height: inherit;
-      position: absolute; }
+
+.MlResumeViewer {
+  color: inherit;
+  background-color: #FAFAFA;
+  padding: 10px;
+  position: absolute;
+  transform: translate(-50%, -50%); }
+  .MlResumeViewer:before, .MlResumeViewer:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .MlResumeViewer:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .MlResumeViewer:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .MlResumeViewer:before {
+    background: #919191; }
+  .MlResumeViewer:after {
+    background: #B9B9B9; }
+  .MlResumeViewer__title {
+    text-align: center;
+    text-transform: uppercase; }
+  .MlResumeViewer--accepted {
+    left: 30%;
+    top: 21%; }
+  .MlResumeViewer--rejected {
+    left: 70%;
+    top: 21%; }
+
+.ResumeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px; }
+  .ResumeGrid-item {
+    background-color: #CDE4F1;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; }
+  .ResumeGrid-item:hover .ResumeGrid-tooltip {
+    visibility: visible; }
+  .ResumeGrid-tooltip {
+    position: absolute;
+    visibility: hidden;
+    z-index: 1;
+    min-width: 100px;
+    background-color: #FECCC7;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0; }
+
+.AlgorithmInspector {
+  color: inherit;
+  background-color: #FAFAFA;
+  box-shadow: inset 0 0 0 2px #FFADA3;
+  padding: 10px 20px 40px 20px;
+  z-index: 3;
+  position: absolute;
+  right: 20px;
+  top: 2%;
+  width: 250px;
+  min-height: 300px;
+  max-height: 700px; }
+  .AlgorithmInspector:before, .AlgorithmInspector:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .AlgorithmInspector:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .AlgorithmInspector:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .AlgorithmInspector:before {
+    background: #F29488; }
+  .AlgorithmInspector:after {
+    background: #FFADA3; }
+  .AlgorithmInspector__x-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background-color: red;
+    right: 10px;
+    top: 10px;
+    background: url("../../assets/img/x-icon.png") no-repeat center;
+    background-size: contain; }
+  .AlgorithmInspector__title {
+    text-transform: uppercase;
+    font-size: 1.7rem; }
+  .AlgorithmInspector__description {
+    color: #B2B2B2; }
+
+.ParamList {
+  padding-top: 10px; }
+
+.Param {
+  font-size: 1.3rem;
+  text-transform: uppercase; }
+  .Param__value {
+    padding-left: 10px;
+    color: #B2B2B2; }
+
+.NewsFeed {
+  color: inherit;
+  background-color: #FAFAFA;
+  padding: 2px 20px 2px 20px;
+  z-index: 2;
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  font-size: 1.5rem; }
+  .NewsFeed:before, .NewsFeed:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .NewsFeed:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .NewsFeed:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .NewsFeed:before {
+    background: #919191; }
+  .NewsFeed:after {
+    background: #B9B9B9; }
+  .NewsFeed__title {
+    position: absolute;
+    text-transform: uppercase;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #B2B2B2;
+    padding: 0 20px; }
+  .NewsFeed__title, .NewsFeed .NewsList, .NewsFeed .NewsList-item {
+    display: inline-block; }
+  .NewsFeed .NewsList {
+    transform: translateX(100px);
+    padding: 2px;
+    width: 150%;
+    display: flex;
+    align-items: center;
+    overflow: hidden; }
+    .NewsFeed .NewsList-item {
+      padding: 0 20px;
+      line-height: 1;
+      border-right: solid #B2B2B2 2px; }
 
 .choiceButton {
   width: 250px;

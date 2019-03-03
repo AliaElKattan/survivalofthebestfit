@@ -77,7 +77,7 @@ class Office {
         eventEmitter.on('assigned-desk', (data)=>{
             this.takenDesks += 1;
             if (this.takenDesks == 5) {
-                eventEmitter.emit('stage-one-task-completed', {});
+                eventEmitter.emit('task-complete', {});
                 gameFSM.nextStage();
             }
             if (this.takenDesks == 10) {

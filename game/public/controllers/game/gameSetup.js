@@ -3,6 +3,8 @@ import * as tweenManager from 'pixi-tween';
 // console.log(PIXI);
 const debounce = require('debounce');
 
+let DRAW_STACK = [];
+
 // make fullscreen app
 const pixiApp = new PIXI.Application(
     window.innerWidth,
@@ -11,17 +13,17 @@ const pixiApp = new PIXI.Application(
 );
 pixiApp.renderer.autoResize = true;
 
+
+//TODO - should these be pre-defined here?
 const officeContainer = new PIXI.Container();
 const personContainer = new PIXI.Container();
 const floorContainer = new PIXI.Container();
 const timerContainer = new PIXI.Container();
-const cvViewerContainer = new PIXI.Container();
 
 const beltContainer = new PIXI.Container();
 
 pixiApp.stage.addChild(officeContainer);
 pixiApp.stage.addChild(timerContainer);
-pixiApp.stage.addChild(cvViewerContainer);
 
 pixiApp.stage.addChild(beltContainer);
 
@@ -52,5 +54,19 @@ function resize() {
     // TODO redraw all the elements!
 }
 
+//TODO - should these be pre-defined here?
+function clearOfficeContainerGlobal() {
+    officeContainer.parent.removeChild(officeContainer);
+    console.log("Removed: " + officeContainer);
+
+    officeContainer = new PIXI.Container();
+    deskContainer = new PIXI.Container();
+    personContainer = new PIXI.Container();
+
+    officeContainer.addChild(deskContainer);
+    officeContainer.addChild(personContainer);
+} 
+
+
 export {pixiApp, beltContainer, officeContainer, personContainer, floorContainer,
-    timerContainer, cvViewerContainer, eventEmitter, startTweenManager, stopTweenManager};
+    timerContainer, eventEmitter, startTweenManager, stopTweenManager, DRAW_STACK};

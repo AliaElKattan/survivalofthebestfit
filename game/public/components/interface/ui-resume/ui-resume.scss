@@ -8,8 +8,7 @@
   
   position: absolute;
   right: margin(sm);
-  top: 5%;
-  // transform: translateY(-50%);
+  top: 45%;
   min-width: 250px;
   min-height: 300px;
   max-height: 700px;
@@ -26,19 +25,9 @@
   &__skillbar {
     height: 7px;
     width: 100%;
-    &:before {
-      content: "";
-      display: inline-block;
-      width: 70%;
-      height: inherit;
-      position: absolute;
-    }
-    
+
     .Resume--yellow & {
       background-color: color(skill-bg-yellow);
-      &:before {
-        background-color: color(skill-val-yellow);
-      }
     }
     
     .Resume--blue & {
@@ -47,6 +36,17 @@
         background-color: color(skill-val-blue);
       }
     }    
+  }
+  
+  &__progress {
+    height: inherit;
+    
+    .Resume--yellow & {
+      background-color: color(skill-val-yellow);
+    }
+    .Resume--blue & {
+      background-color: color(skill-val-blue);
+    } 
   }
   
 }
