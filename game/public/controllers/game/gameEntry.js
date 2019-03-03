@@ -1,4 +1,3 @@
-import {eventEmitter} from './gameSetup.js';
 import '@babel/polyfill';
 import {pixiApp, startTweenManager} from './gameSetup.js';
 import {gameFSM} from './stateManager.js';
@@ -13,7 +12,6 @@ import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 
 
 document.getElementById('gameCanvas').appendChild(pixiApp.view);
-const a = 0;
 loadAssets().then(() => {
     console.log('start game!!');
     gameFSM.startGame();

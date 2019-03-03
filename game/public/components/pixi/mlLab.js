@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import * as tweenManager from 'pixi-tween';
 import {pixiApp} from '../../controllers/game/gameSetup';
-import {officeContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
+import {mlLabStageContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
 import COLORS from '../../controllers/constants/pixi-colors.js';
 import {gameFSM} from '../../controllers/game/stateManager.js';
 import {uv2px, clamp, spacingUtils as space, animateTo} from '../../controllers/common/utils.js';
@@ -49,6 +49,9 @@ class MlOffice {
 
         // this.growOffice();
         // this.listenerSetup();
+
+        this.personContainer = new PIXI.Container();
+
         this.draw();
     }
 
@@ -81,8 +84,8 @@ class MlOffice {
         side.x = 0;
         side.y = yAnchor;
         // add the floor to the container
-        officeContainer.addChild(surface);
-        officeContainer.addChild(side);
+        mlLabStageContainer.addChild(surface);
+        mlLabStageContainer.addChild(side);
     }
 }
 

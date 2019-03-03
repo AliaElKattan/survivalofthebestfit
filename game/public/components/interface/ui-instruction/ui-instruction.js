@@ -38,6 +38,7 @@ export default class extends UIBase {
     }
 
     _removeEventListeners() {
+        //event listeners need to be removed explicitly because they are managed globally Jquery
         this.$button.off();
     }
 
@@ -59,6 +60,7 @@ export default class extends UIBase {
         this._removeEventListeners();
         super.dispose();
         this.hide();
-        this.$el.destroy();
+        // this.$el.destroy();
+
     }
 }

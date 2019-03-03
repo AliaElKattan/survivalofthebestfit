@@ -15,20 +15,14 @@ pixiApp.renderer.autoResize = true;
 
 
 //TODO - should these be pre-defined here?
-const officeContainer = new PIXI.Container();
-const personContainer = new PIXI.Container();
-const floorContainer = new PIXI.Container();
+const officeStageContainer = new PIXI.Container();
+const mlLabStageContainer = new PIXI.Container();
 const timerContainer = new PIXI.Container();
-
 const beltContainer = new PIXI.Container();
 
-pixiApp.stage.addChild(officeContainer);
+pixiApp.stage.addChild(officeStageContainer);
 pixiApp.stage.addChild(timerContainer);
-
 pixiApp.stage.addChild(beltContainer);
-
-officeContainer.addChild(floorContainer);
-officeContainer.addChild(personContainer);
 
 // shared eventEmitter across components
 const eventEmitter = new PIXI.utils.EventEmitter();
@@ -54,19 +48,4 @@ function resize() {
     // TODO redraw all the elements!
 }
 
-//TODO - should these be pre-defined here?
-function clearOfficeContainerGlobal() {
-    officeContainer.parent.removeChild(officeContainer);
-    console.log("Removed: " + officeContainer);
-
-    officeContainer = new PIXI.Container();
-    deskContainer = new PIXI.Container();
-    personContainer = new PIXI.Container();
-
-    officeContainer.addChild(deskContainer);
-    officeContainer.addChild(personContainer);
-} 
-
-
-export {pixiApp, beltContainer, officeContainer, personContainer, floorContainer,
-    timerContainer, eventEmitter, startTweenManager, stopTweenManager, DRAW_STACK};
+export {pixiApp, beltContainer, officeStageContainer, mlLabStageContainer, timerContainer, eventEmitter, startTweenManager, stopTweenManager, DRAW_STACK};
