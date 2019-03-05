@@ -3,7 +3,7 @@ extends ../../layouts/layout-game
 block content
   
   #gameCanvas
-  include ../../../public/components/interface/ui-instruction/ui-instruction.pug
+  include ../../../public/components/interface/ui-textbox/ui-textbox.pug
   include ../../../public/components/interface/ui-resume/ui-resume.pug
   include ../../../public/components/interface/ui-task/ui-task.pug
   include ../../../public/components/interface/ml/algorithm-inspector/algorithm-inspector.pug
@@ -11,5 +11,8 @@ block content
   include ../../../public/components/interface/ml/resume-viewer/resume-viewer.pug
   +MlResumeViewer('accepted')(class="MlResumeViewer--accepted")
   +MlResumeViewer('rejected')(class="MlResumeViewer--rejected")
+  
+  include ../../../public/components/interface/transition/overlay/overlay.pug
+  +transitionOverlay()
 
   include ./mobile-notification/mobile-notification.pug

@@ -8,9 +8,11 @@ export default class {
     constructor(options) {
         this.xAnchor = options.x;
         this.yAnchor = options.y;
+        this.parent = options.parent || pixiApp.stage;
         this.scale = 0.4;
         this.texture = cvTexture;
         this.cv = null;
+        this.draw();
     }
 
     draw() {
@@ -18,7 +20,8 @@ export default class {
         this.cv.scale.set(this.scale);
         this.cv.y = this.yAnchor;
         this.cv.x = this.xAnchor;
-        pixiApp.stage.addChild(this.cv);
+        this.parent.addChild(this.cv);
+        // pixiApp.stage.addChild(this.cv);
     }
 
     animate() {
