@@ -1,16 +1,19 @@
-import {eventEmitter} from './gameSetup.js';
 import '@babel/polyfill';
+import ComponentLoader from 'component-loader-js';
+import {eventEmitter} from './gameSetup.js';
 import {pixiApp, startTweenManager} from './gameSetup.js';
 import {gameFSM} from './stateManager.js';
 import {trainSVM} from '../machine-learning/svm.js';
 import {loadAssets} from '../common/textures.js';
+import ChoiceButton from '../../components/interface/transition/choice-button/choice-button';
+import Replica from '../../components/interface/transition/replica/replica';
 
-import ResumeUI from '../../components/interface/ui-resume/ui-resume';
+const componentLoader = new ComponentLoader({
+    ChoiceButton,
+    Replica,
+});
 
-/* -- JUST TESTING -- */
-// new Resume({content: 'this is my CV', show: true});
-// new TaskTimer({show: true});
-
+componentLoader.scan();
 
 document.getElementById('gameCanvas').appendChild(pixiApp.view);
 const a = 0;
@@ -20,4 +23,5 @@ loadAssets().then(() => {
 
     startTweenManager();
 });
+
 

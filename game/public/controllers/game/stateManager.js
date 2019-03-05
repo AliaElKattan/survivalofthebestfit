@@ -4,14 +4,13 @@ import {createPerson} from '../../components/pixi/person.js';
 import {Office} from '../../components/pixi/office.js';
 import {createMlOffice} from '../../components/pixi/mlLab.js';
 import {incubator} from '../common/textures.js';
-import {TextBox} from '../../components/interface/old-pixi-components-demise/instructionBubble.js';
+import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
+import ResumeUI from '../../components/interface/ui-resume/ui-resume';
+import TaskUI from '../../components/interface/ui-task/ui-task';
+import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
 import NewsFeedUI from '../../components/interface/ml/news-feed/news-feed.js';
 import MLAlgorithmInspectorUI from '../../components/interface/ml/algorithm-inspector/algorithm-inspector.js';
 import MLResumeViewerUI from '../../components/interface/ml/resume-viewer/resume-viewer.js';
-import TextBoxUI from '../../components/interface/ui-instruction/ui-instruction';
-import ResumeUI from '../../components/interface/ui-resume/ui-resume';
-import TaskUI from '../../components/interface/ui-task/ui-task';
-import {startTaskTimer} from '../../components/interface/old-pixi-components-demise/taskTimer.js';
 import {cvCollection} from '../../assets/text/cvCollection.js';
 import {uv2px, animateTo} from '../common/utils.js';
 
@@ -22,6 +21,7 @@ let office;
 let personList;
 let cvViewerML;
 let cvList;
+let transitionOverlay;
 
 /**
  * MINIMIZE GAME SETUP CODE HERE. Try to shift setup into other files respective to stage
@@ -35,7 +35,7 @@ const gameFSM = new machina.Fsm({
     states: {
         uninitialized: {
             startGame: function() {
-                this.transition('mlLabStage');
+                this.transition('mlTransitionStage');
             },
         },
 
@@ -139,13 +139,13 @@ const gameFSM = new machina.Fsm({
 
         mlTransitionStage: {
             _onEnter: function() {
-
+                transitionOverlay = new TransitionOverlay({show: true});
             },
 
             nextStage: 'mlLabStage',
 
             _onExit: function() {
-
+                transitionOverlay.destroy();
             },
         },
 

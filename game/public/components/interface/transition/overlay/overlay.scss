@@ -1,4 +1,3 @@
-// conversation box
 .conversationBox {
   @include textBox();
   @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'grey');

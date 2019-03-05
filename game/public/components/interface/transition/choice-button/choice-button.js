@@ -1,6 +1,9 @@
-import CLASSES from '../../../controllers/constants/classes';
 import {Component} from 'component-loader-js';
-import * as Conversation from '../../../assets/text/demo-conversation-text.js';
+import * as Conversation from '../../../../assets/text/demo-conversation-text.js';
+import CLASSES from '../../../../controllers/constants/classes';
+import EVENTS from '../../../../controllers/constants/events';
+import {gameFSM} from '../../../../controllers/game/stateManager.js';
+import {eventEmitter} from '../../../../controllers/game/gameSetup.js';
 
 
 // publishing custom event to any registered listener
@@ -8,6 +11,7 @@ export default class ChoiceButton extends Component {
     constructor() {
         super(...arguments);
 
+        this._totalSteps = parseInt(this.el.dataset.totalsteps);
         this._step = parseInt(this.el.dataset.step);
         this._replica = this.el.closest('.replica');
         this._textContainer = this.el.querySelector('p');
@@ -22,6 +26,10 @@ export default class ChoiceButton extends Component {
 
     _onBtnClick(e) {
         // add 'chosen' styling to the button
+        if (this._step+1 === this._totalSteps) {
+            gameFSM.nextStage();
+            return false;
+        };
         e.target.classList.add(CLASSES.BUTTON_CLICKED);
         // hide the other choice button
         this.publish('hide-other-choice', this._step);
@@ -41,6 +49,6 @@ export default class ChoiceButton extends Component {
     // get response text to a given choice
 
     _getChoiceResponse(step, text) {
-	  return Conversation.conversation[step].answer_choice.find((choice) => choice.text === text).response;
+	     return Conversation.conversation[step].answer_choice.find((choice) => choice.text === text).response;
     }
 }
