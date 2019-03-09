@@ -87,7 +87,7 @@ body.Page--Game {
     .button.is-clicked:after {
       background: #FFADA3; }
 
-.Instruction {
+.Textbox {
   color: inherit;
   background-color: #FAFAFA;
   padding: 20px;
@@ -97,27 +97,27 @@ body.Page--Game {
   transform: translate(-50%, -50%);
   max-height: 500px;
   max-width: 600px; }
-  .Instruction:before, .Instruction:after {
+  .Textbox:before, .Textbox:after {
     content: "";
     display: inline-block;
     position: absolute; }
-  .Instruction:before {
+  .Textbox:before {
     left: 0;
     width: 100%;
     height: 5px;
     bottom: -5px;
     transform: translateX(5px) skewX(65deg); }
-  .Instruction:after {
+  .Textbox:after {
     top: 0;
     height: 100%;
     width: 10px;
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
-  .Instruction:before {
+  .Textbox:before {
     background: #919191; }
-  .Instruction:after {
+  .Textbox:after {
     background: #B9B9B9; }
-  .Instruction__head {
+  .Textbox__head {
     color: #B2B2B2; }
 
 .Resume {

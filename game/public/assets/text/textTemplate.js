@@ -13,13 +13,18 @@ const english = {
     },
     smallOfficeStage: {
         messageFromVc: 'Hi,\n\nCongrats again on your seed round. Very impressive.\nNow time to execute the idea. Hire the best people, fast. Hiring good talent is a war these days...\n\nKeep us updated.\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
+        responses: ['Let\'s do this'],
         taskDescription: 'Task: Hire 5 new employees',
-        retryMessage: 'You are too slow at hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.'
+        retryMessage: 'You are too slow at hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.',
     },
     mediumOfficeStage: {
         messageFromVc: 'Hi,\n\nGood progress but you are just not growing fast enough. You need to hire more aggressively to get all the talent and outgrow your competitors.\n\nQuadraple your headcount by next week and you can raise one more million in funding...\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
+        responses: [
+            'I\'ll do my best',
+            'Are you sure?',
+        ],
         taskDescription: 'Task: Hire 10 new employees',
-        retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.'
+        retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.',
     },
     conversation: [
         {
@@ -78,12 +83,12 @@ function setLang(dictionary) {
 }
 
 switch (language) {
-    case 'english':
-        setLang(english);
-        break;
-    case 'arabic':
-        setLang(null);
-        break;
-    default:
-        setLang(english);
+case 'english':
+    setLang(english);
+    break;
+case 'arabic':
+    setLang(null);
+    break;
+default:
+    setLang(english);
 }

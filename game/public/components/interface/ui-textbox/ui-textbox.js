@@ -9,37 +9,41 @@ export default class extends UIBase {
     constructor(options) {
         super();
         this.options = options;
-        this.$el = $('.js-instruction'); // This should be a single element
-        this.$textEl = this.$el.find('.Instruction__content');
-        this.$button = this.$el.find('.button');
+        this.$el = $('.js-textbox'); // This should be a single element
+        this.$textEl = this.$el.find('.Textbox__content');
+        this.$buttons = this.$el.find('.TextboxButton');
+        console.log(this.$buttons);
         this._addEventListeners();
         this.setContent = this.setContent.bind(this);
-        this._content = options ? options.content : 'dummy text'; // TODO: change this to null
-        this.overlay = options ? options.overlay : null; // TODO think about the overlay
+        this._mainContent = options.content || 'dummy text'; // TODO: change this to null
+        this._responseContent = options.responses || ['OKK'];
+        this.overlay = options.overlay || null; // TODO think about the overlay
+        if (options.show) this.show();
         this.setContent(); // set content
-        if (options && options.show) {
-            this.show();
-        }
     }
 
     setContent() {
-        // console.log('set content!');
-        this.$textEl.html(this._content);
+        this.$textEl.html(this._mainContent);
+        this._responseContent.forEach((response, index) => {
+            const $responseButton = $(this.$buttons[index]);
+            $responseButton.removeClass(CLASSES.IS_INACTIVE);
+            $responseButton.find('.button__text').html(response);
+        });
     }
 
     _buttonIsClicked(e) {
-        this.$button.addClass(CLASSES.BUTTON_CLICKED);
+        this.$buttons.addClass(CLASSES.BUTTON_CLICKED);
         eventEmitter.emit('instructionAcked', {});
         this.destroy();
     }
 
     _addEventListeners() {
-        this.$button.click(this._buttonIsClicked.bind(this));
+        this.$buttons.click(this._buttonIsClicked.bind(this));
     }
 
     _removeEventListeners() {
-        //event listeners need to be removed explicitly because they are managed globally Jquery
-        this.$button.off();
+        // event listeners need to be removed explicitly because they are managed globally Jquery
+        this.$buttons.off();
     }
 
     show() {
@@ -61,6 +65,5 @@ export default class extends UIBase {
         super.dispose();
         this.hide();
         // this.$el.destroy();
-
     }
 }

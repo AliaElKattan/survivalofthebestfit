@@ -8,12 +8,9 @@ import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
 import {cvCollection} from '../../assets/text/cvCollection.js';
-import {uv2px, animateTo} from '../common/utils.js';
 
 
 let office;
-let cvList;
-let cvViewerML;
 let transitionOverlay;
 
 /**
@@ -57,7 +54,11 @@ const gameFSM = new machina.Fsm({
 
         smallOfficeStage: {
             _onEnter: function() {
-                new TextBoxUI({content: txt.smallOfficeStage.messageFromVc, show: true});
+                new TextBoxUI({
+                    content: txt.smallOfficeStage.messageFromVc,
+                    responses: txt.smallOfficeStage.responses,
+                    show: true,
+                });
                 eventEmitter.on('instructionAcked', () => {
                     this.handle('setupOffice');
                 });
@@ -81,7 +82,11 @@ const gameFSM = new machina.Fsm({
         */// /////////////////
         mediumOfficeStage: {
             _onEnter: function() {
-                new TextBoxUI({content: txt.mediumOfficeStage.messageFromVc, show: true});
+                new TextBoxUI({
+                    content: txt.mediumOfficeStage.messageFromVc,
+                    responses: txt.mediumOfficeStage.responses,
+                    show: true,
+                });
                 eventEmitter.on('instructionAcked', () => {
                     this.handle('expandOffice');
                 });
