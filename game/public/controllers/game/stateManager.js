@@ -22,7 +22,8 @@ const gameFSM = new machina.Fsm({
     states: {
         uninitialized: {
             startGame: function() {
-                this.transition('smallOfficeStage');
+                // this.transition('smallOfficeStage');
+                this.transition('mlLabStage');
             },
         },
 

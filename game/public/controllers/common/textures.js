@@ -6,7 +6,8 @@ loader
     .add('machine', 'assets/img/machine.png')
     .add('inspectButton', 'assets/img/question-mark-icon.png')
     .add('scanRay', 'assets/img/scan-ray.png')
-    .add('rayAnim', 'assets/spritesheets/machine-ray/ray_spritesheet.json');
+    .add('rayAnim', 'assets/spritesheets/machine-ray/ray_spritesheet.json')
+    .add('dataStorage', 'assets/spritesheets/data-storage/data-storage.json');
 
 async function loadAssets() {
     await new Promise((resolve, reject) => {
@@ -14,7 +15,8 @@ async function loadAssets() {
             SPRITES.machine = new PIXI.Sprite(resources.machine.texture);
             SPRITES.scanRay = new PIXI.Sprite(resources.scanRay.texture);
             SPRITES.inspectButton = new PIXI.Sprite(resources.inspectButton.texture);
-            SPRITES.rayAnim = new PIXI.extras.AnimatedSprite(resources.rayAnim.spritesheet.animations['ray']);
+            SPRITES.rayAnim = new PIXI.extras.AnimatedSprite(resources.rayAnim.spritesheet.animations['ray'])
+            SPRITES.dataStorage = new PIXI.extras.AnimatedSprite(resources.dataStorage.spritesheet.animations['data-storage']);
             resolve();
         });
     });

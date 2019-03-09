@@ -70,7 +70,7 @@ export default class MLLab {
         this.belt.draw();
         this.resumeList.draw();
         this.machine.draw();
-        // this.animate();
+        this.animate();
     }
 
     _setupTweens() {
@@ -112,28 +112,6 @@ export default class MLLab {
 
     animate() {
         this.tweens.resumesTween.start();
-    }
-
-    _drawFloor(yAnchor) {
-        // const heightMain = clamp(uv2px(0.1, 'w'), 40, 50);
-        // const heightShadow = clamp(heightMain/5, 20, 30);
-        // // main floor - pink
-        // const surface = new PIXI.Graphics();
-        // surface.beginFill(COLORS.ROSE_MAIN);
-        // surface.drawRect(0, 0, uv2px(1, 'w'), heightMain);
-        // surface.endFill();
-        // surface.x = 0;
-        // surface.y = yAnchor-heightMain;
-        // // dark pink shadow
-        // const side = new PIXI.Graphics();
-        // side.beginFill(COLORS.ROSE_SHADOW);
-        // side.drawRect(0, 0, uv2px(1, 'w'), heightShadow);
-        // side.endFill();
-        // side.x = 0;
-        // side.y = yAnchor;
-        // // add the floor to the container
-        // mlLabStageContainer.addChild(surface);
-        // mlLabStageContainer.addChild(side);
     }
 
     _drawPeople() {
