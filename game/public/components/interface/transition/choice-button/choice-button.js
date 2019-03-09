@@ -1,5 +1,4 @@
 import {Component} from 'component-loader-js';
-import * as Conversation from '../../../../assets/text/demo-conversation-text.js';
 import CLASSES from '../../../../controllers/constants/classes';
 import EVENTS from '../../../../controllers/constants/events';
 import {gameFSM} from '../../../../controllers/game/stateManager.js';
@@ -49,6 +48,6 @@ export default class ChoiceButton extends Component {
     // get response text to a given choice
 
     _getChoiceResponse(step, text) {
-	     return Conversation.conversation[step].answer_choice.find((choice) => choice.text === text).response;
+	     return txt.conversation[step].answer_choice.find((choice) => choice.text === text).response;
     }
 }
