@@ -120,7 +120,7 @@ const gameFSM = new machina.Fsm({
 
         mlTransitionStage: {
             _onEnter: function() {
-                office.delete();  
+                if (office) office.delete();
                 transitionOverlay = new TransitionOverlay({show: true});
             },
 

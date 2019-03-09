@@ -16,18 +16,18 @@ export default class ChoiceButton extends Component {
         this._textContainer = this.el.querySelector('p');
         this._onBtnClick = this._onBtnClick.bind(this);
         this._hideBtn = this._hideBtn.bind(this);
-
-        this.el.addEventListener('click', (e) => this._onBtnClick(e));
-        this.subscribe('hide-other-choice', this._hideBtn);
+        this._clicked = false;
+        this._addEventListeners();
     };
 
     // on button click
 
     _onBtnClick(e) {
+        if (this.clicked) return;
         // add 'chosen' styling to the button
         if (this._step+1 === this._totalSteps) {
             gameFSM.nextStage();
-            return false;
+            return;
         };
         e.target.classList.add(CLASSES.BUTTON_CLICKED);
         // hide the other choice button
@@ -35,6 +35,19 @@ export default class ChoiceButton extends Component {
         // show next replica
         const choiceButtonResponse = this._getChoiceResponse(this._step, this._textContainer.innerHTML);
         this.publish('reveal-next-replica', {choice_response: choiceButtonResponse, step: this._step+1});
+        // remove the event listeners on the clicked button and turn the boolean value
+        this._removeEventListeners();
+        this.clicked = true;
+    }
+
+    _addEventListeners() {
+        this.el.addEventListener('click', (e) => this._onBtnClick(e));
+        this.subscribe('hide-other-choice', this._hideBtn);
+    }
+
+    _removeEventListeners() {
+        this.el.removeEventListener('click', (e) => this._onBtnClick(e));
+        this.unsubscribe('hide-other-choice', this._hideBtn);
     }
 
     // hide the unchosen button
@@ -42,6 +55,8 @@ export default class ChoiceButton extends Component {
     _hideBtn(conversation_step) {
         if (this._step === conversation_step && !this._textContainer.classList.contains(CLASSES.BUTTON_CLICKED)) {
             this.el.classList.add(CLASSES.IS_INACTIVE);
+            this._removeEventListeners();
+            super.destroy();
         };
     }
 
