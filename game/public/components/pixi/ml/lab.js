@@ -93,7 +93,7 @@ export default class MLLab {
         });
     }
 
-    _removeTweens() {
+    destroyTweens() {
         this.tweens.resumesTween.clear(); // PIXI TWEEN
         this.tweens.resumesTween.remove();
         this.tweens.rayAnim.destroy(); // PIXI spritesheet - destroy
@@ -151,5 +151,9 @@ export default class MLLab {
         //     personList2.push(person);
         //     x += xOffset;
         // }
+    }
+
+    destroy() {
+        this.destroyTweens();
     }
 }
