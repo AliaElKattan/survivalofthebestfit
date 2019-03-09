@@ -9,6 +9,7 @@ import {createPerson} from '../person.js';
 import {cvCollection} from '../../../assets/text/cvCollection.js';
 import Machine from './machine';
 import Resumes from './cv-list';
+import Floor from './floor';
 import ConveyorBelt from './conveyor-belt';
 import Door from '../door';
 import ResumeUI from '../../interface/ui-resume/ui-resume';
@@ -29,6 +30,11 @@ export default class MLLab {
         this.resumeViewers = [
             new ResumeViewerUI({show: true, type: 'accepted'}),
             new ResumeViewerUI({show: true, type: 'rejected'}),
+        ];
+
+        this.floors = [
+            new Floor({y: uv2px(0.6, 'h')}),
+            new Floor({y: space.absMinusSize(0, 'h')}),
         ];
 
         this.doors = [
@@ -61,6 +67,15 @@ export default class MLLab {
 
         this._setupTweens();
         this.draw();
+    }
+
+    draw() {
+        this.floors.forEach((floor) => floor.draw());
+        this.doors.forEach((door) => door.draw());
+        this.belt.draw();
+        this.resumeList.draw();
+        this.machine.draw();
+        // this.animate();
     }
 
     _setupTweens() {
@@ -100,42 +115,30 @@ export default class MLLab {
         this.tweens.resumeUI.kill(); // GSAP tween - kill
     };
 
-    draw() {
-        this.doors.forEach((door) => door.draw());
-        this.belt.draw();
-        this.resumeList.draw();
-        this.machine.draw();
-        // first office floor
-        this._drawFloor(uv2px(0.6, 'h'));
-        // ground floor/
-        this._drawFloor(space.absMinusSize(0, 'h'));
-        this.animate();
-    }
-
     animate() {
         this.tweens.resumesTween.start();
     }
 
     _drawFloor(yAnchor) {
-        const heightMain = clamp(uv2px(0.1, 'w'), 40, 50);
-        const heightShadow = clamp(heightMain/5, 20, 30);
-        // main floor - pink
-        const surface = new PIXI.Graphics();
-        surface.beginFill(COLORS.ROSE_MAIN);
-        surface.drawRect(0, 0, uv2px(1, 'w'), heightMain);
-        surface.endFill();
-        surface.x = 0;
-        surface.y = yAnchor-heightMain;
-        // dark pink shadow
-        const side = new PIXI.Graphics();
-        side.beginFill(COLORS.ROSE_SHADOW);
-        side.drawRect(0, 0, uv2px(1, 'w'), heightShadow);
-        side.endFill();
-        side.x = 0;
-        side.y = yAnchor;
-        // add the floor to the container
-        mlLabStageContainer.addChild(surface);
-        mlLabStageContainer.addChild(side);
+        // const heightMain = clamp(uv2px(0.1, 'w'), 40, 50);
+        // const heightShadow = clamp(heightMain/5, 20, 30);
+        // // main floor - pink
+        // const surface = new PIXI.Graphics();
+        // surface.beginFill(COLORS.ROSE_MAIN);
+        // surface.drawRect(0, 0, uv2px(1, 'w'), heightMain);
+        // surface.endFill();
+        // surface.x = 0;
+        // surface.y = yAnchor-heightMain;
+        // // dark pink shadow
+        // const side = new PIXI.Graphics();
+        // side.beginFill(COLORS.ROSE_SHADOW);
+        // side.drawRect(0, 0, uv2px(1, 'w'), heightShadow);
+        // side.endFill();
+        // side.x = 0;
+        // side.y = yAnchor;
+        // // add the floor to the container
+        // mlLabStageContainer.addChild(surface);
+        // mlLabStageContainer.addChild(side);
     }
 
     _drawPeople() {
