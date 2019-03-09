@@ -152,6 +152,13 @@ body.Page--Game {
     background: #7DA6BE; }
   .Resume:after {
     background: #CDE4F1; }
+  .Resume__scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: red;
+    height: 5px; }
 
 .cv-category__name {
   padding: 10px 0; }
@@ -442,6 +449,9 @@ body.Page--Game {
 .is-inactive {
   opacity: 0;
   display: none; }
+
+.is-invisible {
+  opacity: 0; }
 
 .u-fade-in {
   animation: fadein 0.3s ease-in-out; }

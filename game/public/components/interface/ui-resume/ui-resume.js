@@ -1,8 +1,9 @@
+import {TweenLite} from 'gsap/TweenMax';
 import $ from 'jquery';
 import CLASSES from '../../../controllers/constants/classes';
 import EVENTS from '../../../controllers/constants/events';
 import UIBase from '../ui-base/ui-base';
-import { eventEmitter } from '../../../controllers/game/gameSetup.js';
+import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
 
 export default class extends UIBase {
@@ -12,11 +13,17 @@ export default class extends UIBase {
         this.$el = $('.js-resume'); // This should be a single element
         this.$nameEl = this.$el.find('.Resume__title');
         this.$taglineEl = this.$el.find('.Resume__tagline');
+        this.$scanline = this.$el.find('.Resume__scanline');
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
         this._resumeFeatures = options ? options.features : undefined;
         this._resumes = options ? options.scores : undefined;
         this._candidateNum = 0;
+        this.type = options.type || null;
         // this.setContent(); // set content
+
+        if (this.type === 'ml') {
+            this.$scanline.removeClass(CLASSES.IS_INACTIVE);
+        }
         if (options && options.show) {
             this.show();
             this.newCV();
@@ -44,24 +51,23 @@ export default class extends UIBase {
         });
     }
 
-    _testLog() {
-        console.log('test emitter works!');
+    createTween() {
+        return new TweenMax('.Resume__scanline', 2, {top: '100%'}).pause();
     }
 
-    _buttonIsClicked(e) {
-        this.$button.addClass(CLASSES.BUTTON_CLICKED);
-        eventEmitter.emit('instructionAcked', {});
-        this.hide();
+    showScanline() {
+        this.$scanline.removeClass(CLASSES.IS_INACTIVE);
+    }
+
+    hideScanline() {
+        this.$scanline.addClass(CLASSES.IS_INACTIVE);
+        this.$scanline.css('top', '0');
     }
 
     _addEventListeners() {
-        eventEmitter.on(EVENTS.EMITTER_TEST, this._testLog());
-        this.$button.click(this._buttonIsClicked.bind(this));
     }
 
     _removeEventListeners() {
-        eventEmitter.off(EVENTS.EMITTER_TEST, this._testLog());
-        //this.$button.off(this._buttonIsClicked.bind(this));
     }
 
     show() {
@@ -74,7 +80,6 @@ export default class extends UIBase {
         this.$el.removeClass(CLASSES.FADE_IN)
             .addClass(CLASSES.FADE_OUT)
             .addClass(CLASSES.IS_INACTIVE);
-
         // TODO you might need a delayed call for this
     }
 

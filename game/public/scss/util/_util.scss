@@ -4,6 +4,11 @@
   display: none;
 }
 
+.is-invisible {
+  opacity: 0;
+}
+
+
 .u-fade-in {
   animation: fadein 0.3s ease-in-out;
 }

@@ -2,14 +2,11 @@ import * as machina from 'machina';
 import {incubator} from '../common/textures.js';
 import {pixiApp, eventEmitter} from './gameSetup.js';
 import {Office} from '../../components/pixi/office.js';
-import {createMlOffice} from '../../components/pixi/mlLab.js';
+import MLLab from '../../components/pixi/ml/lab.js';
 import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
-import NewsFeedUI from '../../components/interface/ml/news-feed/news-feed.js';
-import MLAlgorithmInspectorUI from '../../components/interface/ml/algorithm-inspector/algorithm-inspector.js';
-import MLResumeViewerUI from '../../components/interface/ml/resume-viewer/resume-viewer.js';
 import {cvCollection} from '../../assets/text/cvCollection.js';
 import {uv2px, animateTo} from '../common/utils.js';
 
@@ -136,13 +133,9 @@ const gameFSM = new machina.Fsm({
 
         mlLabStage: {
             _onEnter: function() {
-                createMlOffice();
-                new MLResumeViewerUI({show: true, type: 'accepted'});
-                new MLResumeViewerUI({show: true, type: 'rejected'});
-                new MLAlgorithmInspectorUI({});
-                new NewsFeedUI({show: true});
+                new MLLab();
             },
-
+            // TODO destroy the lab!
             nextStage: 'Oh gosh we haven\'t even started it hahah',
 
         },

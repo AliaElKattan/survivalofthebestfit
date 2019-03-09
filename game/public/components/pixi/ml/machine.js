@@ -10,7 +10,9 @@ export default class {
         this.machine = SPRITES.machine;
         this.inspectButton = SPRITES.inspectButton;
         this.scale = 0.7;
-        this.scanRay = SPRITES.scanRay;
+        this.scanRay = SPRITES.rayAnim;
+        // this.rayAnim = SPRITES.rayAnim;
+        // console.log(this.rayAnim);
         this.machineAnchors = {
             x: space.screenCenterX(this.machine.width*this.scale),
             y: space.screenCenterY(this.machine.height*this.scale) - uv2px(0.27, 'h'),
@@ -42,6 +44,8 @@ export default class {
         this.scanRay.scale.set(this.scale);
         this.scanRay.y = this.scanRayAnchors.y;
         this.scanRay.x = this.scanRayAnchors.x;
+        this.scanRay.loop = false;
+        this.scanRay.gotoAndStop(0);
         pixiApp.stage.addChild(this.scanRay);
 
 
@@ -49,6 +53,18 @@ export default class {
         this.inspectButton.y = this.inspectButtonAnchors.y;
         this.inspectButton.x = this.inspectButtonAnchors.x;
         pixiApp.stage.addChild(this.inspectButton);
+    }
+
+    hideRay() {
+        this.scanRay.visible = false;
+    }
+
+    showRay() {
+        this.scanRay.visible = true;
+    }
+
+    getSprite() {
+        return this.scanRay;
     }
 
     _inspectButtonClickHandler() {
