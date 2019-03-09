@@ -1,10 +1,5 @@
 import * as PIXI from 'pixi.js';
-import * as tweenManager from 'pixi-tween';
-import {pixiApp} from '../../../controllers/game/gameSetup';
-import {mlLabStageContainer, eventEmitter} from '../../../controllers/game/gameSetup.js';
-import COLORS from '../../../controllers/constants/pixi-colors.js';
-import {gameFSM} from '../../../controllers/game/stateManager.js';
-import {uv2px, clamp, spacingUtils as space, animateTo} from '../../../controllers/common/utils.js';
+import {uv2px, clamp, spacingUtils as space} from '../../../controllers/common/utils.js';
 import {createPerson} from '../person.js';
 import {cvCollection} from '../../../assets/text/cvCollection.js';
 import Machine from './machine';

@@ -41,12 +41,12 @@ export default class ChoiceButton extends Component {
     }
 
     _addEventListeners() {
-        this.el.addEventListener('click', (e) => this._onBtnClick(e));
+        this.el.addEventListener('click', this._onBtnClick);
         this.subscribe('hide-other-choice', this._hideBtn);
     }
 
     _removeEventListeners() {
-        this.el.removeEventListener('click', (e) => this._onBtnClick(e));
+        this.el.removeEventListener('click', this._onBtnClick);
         this.unsubscribe('hide-other-choice', this._hideBtn);
     }
 
