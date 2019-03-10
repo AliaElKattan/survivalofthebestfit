@@ -12,6 +12,7 @@ import NewsFeedUI from '../../interface/ml/news-feed/news-feed.js';
 import AlgorithmInspectorUI from '../../interface/ml/algorithm-inspector/algorithm-inspector.js';
 import ScanRay from './scan-ray.js';
 import DataServer from './data-server.js';
+import MLPeople from './people.js';
 
 
 // import ResumeViewerUI from '../../interface/ml/resume-viewer/resume-viewer.js';
@@ -38,6 +39,7 @@ export default class MLLab {
             y: uv2px(.43, 'h'),
             xOffset: uv2px(0.1, 'w'),
         });
+        this.people = new MLPeople();
         this.machine = new Machine({});
         this.dataServers = [
             new DataServer({
@@ -53,8 +55,6 @@ export default class MLLab {
         this.belt = new ConveyorBelt({
             y: uv2px(.43, 'h'),
         });
-        this.personList = [];
-        this.personContainer = new PIXI.Container();
         this.resumeUI = new ResumeUI({show: true, type: 'ml', features: cvCollection.cvFeatures, scores: cvCollection.smallOfficeStage});
         this.tweens = {};
         this.animLoopCount = 0;
@@ -71,7 +71,8 @@ export default class MLLab {
         this.belt.draw();
         this.resumeList.draw();
         this.scanRay.draw();
-        // this.animate();
+        this.people.draw();
+        this.animate();
     }
     
     animate() {

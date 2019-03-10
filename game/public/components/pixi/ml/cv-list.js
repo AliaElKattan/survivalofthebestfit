@@ -24,7 +24,7 @@ export default class {
         const tween = PIXI.tweenManager.createTween(this._resumeContainer);
         tween.from({x: this._resumeContainer.x}).to({x: this._resumeContainer.x+this.resumeXOffset});
         tween.delay = 300;
-        tween.time = 500;
+        tween.time = 700;
         return tween;
     }
 

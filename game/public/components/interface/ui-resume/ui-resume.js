@@ -15,11 +15,11 @@ export default class extends UIBase {
         this.$taglineEl = this.$el.find('.Resume__tagline');
         this.$scanline = this.$el.find('.Resume__scanline');
         this.$mask = this.$el.find('.Resume__mask');
-        this.scanlineAnimDuration = 1.6;
+        this.scanlineAnimDuration = 1.8;
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
         this._resumeFeatures = options ? options.features : undefined;
         this._resumes = options ? options.scores : undefined;
-        this._candidateId = options ? options.candidateId : "";
+        this._candidateId = options.candidateId || 0;
         this.type = options.type || null;
         // this.setContent(); // set content
 
@@ -42,6 +42,7 @@ export default class extends UIBase {
     }
 
     showCV(cv) {
+        // console.log(cv);
         this.$nameEl.html(cv.name);
         this.$taglineEl.html('personal tagline comes here');
         this._resumeFeatures.forEach((feature, index) => {
