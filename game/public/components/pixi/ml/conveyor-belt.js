@@ -8,9 +8,9 @@ export default class {
     constructor(options) {
         this.xAnchor = 0;
         this.yAnchor = options.y;
-        this.xOffset = uv2px(0.141, 'w');
+        this.xOffset = uv2px(0.18, 'w');
         this.numOfPieces = Math.floor(1/0.165)+1;
-        this.scale = 0.4;
+        this.scale = 0.45;
         this.texture = beltTexture;
     }
 

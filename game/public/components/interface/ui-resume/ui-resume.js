@@ -14,6 +14,8 @@ export default class extends UIBase {
         this.$nameEl = this.$el.find('.Resume__title');
         this.$taglineEl = this.$el.find('.Resume__tagline');
         this.$scanline = this.$el.find('.Resume__scanline');
+        this.$mask = this.$el.find('.Resume__mask');
+        this.scanlineAnimDuration = 1.6;
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
         this._resumeFeatures = options ? options.features : undefined;
         this._resumes = options ? options.scores : undefined;
@@ -51,17 +53,26 @@ export default class extends UIBase {
         });
     }
 
-    createTween() {
-        return new TweenMax('.Resume__scanline', 2, {top: '100%'}).pause();
+    createScanTween() {
+        return TweenMax.to('.Resume__scanline', this.scanlineAnimDuration, {top: '100%', ease: Power0.easeNone})
+            .pause();
+    }
+
+    createMaskTween() {
+        return TweenMax.to('.Resume__mask', this.scanlineAnimDuration, {height: '100%', ease: Power0.easeNone})
+            .pause();
     }
 
     showScanline() {
         this.$scanline.removeClass(CLASSES.IS_INACTIVE);
+        this.$mask.removeClass(CLASSES.IS_INACTIVE);
     }
 
     hideScanline() {
         this.$scanline.addClass(CLASSES.IS_INACTIVE);
         this.$scanline.css('top', '0');
+        this.$mask.addClass(CLASSES.IS_INACTIVE);
+        this.$mask.css('height', '0');
     }
 
     _addEventListeners() {
