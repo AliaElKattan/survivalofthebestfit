@@ -103,7 +103,6 @@ class Office {
         for (let i = 0; i < count; i++) {
             //TODO handle diff textures
             let color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
-            console.log(color);
             texture = (color === "yellow") ? yellowPersonTexture : bluePersonTexture; 
             createPerson(x, (Math.random() * 0.1) + 0.8, this, this.uniqueCandidateIndex, texture);
             this.uniqueCandidateIndex++;
