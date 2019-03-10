@@ -22,8 +22,8 @@ const gameFSM = new machina.Fsm({
     states: {
         uninitialized: {
             startGame: function() {
-                this.transition('transitionToSmallOffice');
-                //this.transition('mlLabStage');
+                this.transition('smallOfficeStage');
+                // this.transition('mlLabStage');
             },
         },
 
@@ -53,7 +53,7 @@ const gameFSM = new machina.Fsm({
         // Small office, hiring from the street
         */// /////////////////
 
-        transitionToSmallOffice: {
+        smallOfficeStage: {
             _onEnter: function() {
                 new TextBoxUI({
                     content: txt.smallOfficeStage.messageFromVc,
@@ -61,15 +61,8 @@ const gameFSM = new machina.Fsm({
                     show: true,
                 });
                 eventEmitter.on('instructionAcked', () => {
-                    this.handle('nextStage');
+                    this.handle('setupOffice');
                 });
-            },
-            nextStage: 'smallOfficeStage',
-        },
-
-        smallOfficeStage: {
-            _onEnter: function() {
-                this.handle('setupOffice');
             },
 
             setupOffice: function() {
@@ -88,14 +81,8 @@ const gameFSM = new machina.Fsm({
 
             nextStage: 'mediumOfficeStage',
 
-            _reset: function() {
-                new TextBoxUI({
-                    content: txt.smallOfficeStage.retryMessage,
-                    responses: txt.smallOfficeStage.retryResponse,
-                    show: true,
-                });
-                office.delete();
-                this.handle('transitionToSmallOffice');
+            _onExit: function() {
+
             },
         },
 
@@ -111,6 +98,10 @@ const gameFSM = new machina.Fsm({
                 });
                 eventEmitter.on('instructionAcked', () => {
                     this.handle('expandOffice');
+                });
+
+                eventEmitter.on('time-up', () => {
+                    this.handle('retryStage');
                 });
             },
 
@@ -160,18 +151,18 @@ const gameFSM = new machina.Fsm({
             },
             // TODO destroy the lab!
             nextStage: 'Oh gosh we haven\'t even started it hahah',
+
         },
 
 
     },
+
+
     startGame: function() {
         this.handle('startGame');
     },
     nextStage: function() {
         this.handle('nextStage');
-    },
-    reset: function() {
-        this.handle( "_reset");
     },
 });
 

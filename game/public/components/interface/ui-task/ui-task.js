@@ -3,7 +3,6 @@ import CLASSES from '../../../controllers/constants/classes';
 import EVENTS from '../../../controllers/constants/events';
 import UIBase from '../ui-base/ui-base';
 import {eventEmitter, pixiApp} from '../../../controllers/game/gameSetup.js';
-import { gameFSM } from '../../../controllers/game/stateManager';
 
 
 export default class extends UIBase {
@@ -56,9 +55,6 @@ export default class extends UIBase {
             this.$progressBar.css('width', `${progressAmt}%`);
         } else {
             this.$progressBar.css('width', '100%');
-            gameFSM.reset();
-            this.timeUp = true;
-            this.destroy();
         }
     }
 

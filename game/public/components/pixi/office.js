@@ -82,15 +82,14 @@ class Office {
     listenerSetup() {
         eventEmitter.on('assigned-desk', (data)=>{
             this.takenDesks += 1;
-            // TODO right now these goal numbers are hardcoded so the task box number and the instruction text have to be updated. We can think of a better way
             if (this.takenDesks == 3) {
                 eventEmitter.emit('task-complete', {});
                 gameFSM.nextStage();
             }
-            if (this.takenDesks == 8) {
+            if (this.takenDesks == 6) {
                 gameFSM.nextStage();
             }
-            if (this.takenDesks == 18) {
+            if (this.takenDesks == 9) {
                 gameFSM.nextStage();
             }
         });
