@@ -4,16 +4,17 @@
   "description": "Simulation teaching about problems in AI",
   "main": "app.js",
   "config": {},
+  "nodemonConfig": {
+    "ignore": ["**/fontawesome-free/*", "node_modules/*"]
+  },
   "scripts": {
     "test": "test scrip include from karma website",
     "dev": "nodemon app.js",
     "dev-all": "npm-run-all --parallel clean-dist watch:* dev ",
-    "clean-dist": "del-cli dist/*",
-    "dev-all-win": "npm-run-all --parallel clean-dist-win watch:* dev ",
+    "clean-dist": "mkdir public/dist ; del-cli public/dist/*",
     "build:css": "node-sass --include-path node_modules/sass-mq public/scss/main.scss public/css/main.css",
     "watch:css": "nodemon -e scss -x \"npm run build:css\"",
-    "watch:main-js": "watchify public/controllers/game/gameEntry.js -t babelify --outfile public/dist/main-bundle.js -v --debug",
-    "watch:transition-js": "watchify public/js/transition-page/index.js -t babelify --outfile public/dist/transition-bundle.js -v"
+    "watch:main-js": "watchify public/controllers/game/gameEntry.js -t babelify --outfile public/dist/main-bundle.js -v --debug"
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
@@ -49,8 +50,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^2.0.1",
     "node-sass": "^4.11.0",
-    "npm-run-all": "^4.1.5",
-    "parcel-bundler": "^1.11.0"
+    "npm-run-all": "^4.1.5"
   },
   "author": "",
   "license": "MIT"
