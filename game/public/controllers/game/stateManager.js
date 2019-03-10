@@ -22,8 +22,8 @@ const gameFSM = new machina.Fsm({
     states: {
         uninitialized: {
             startGame: function() {
-                // this.transition('smallOfficeStage');
-                this.transition('mlLabStage');
+                this.transition('transitionToSmallOffice');
+                //this.transition('mlLabStage');
             },
         },
 
@@ -53,7 +53,7 @@ const gameFSM = new machina.Fsm({
         // Small office, hiring from the street
         */// /////////////////
 
-        smallOfficeStage: {
+        transitionToSmallOffice: {
             _onEnter: function() {
                 new TextBoxUI({
                     content: txt.smallOfficeStage.messageFromVc,
@@ -61,13 +61,20 @@ const gameFSM = new machina.Fsm({
                     show: true,
                 });
                 eventEmitter.on('instructionAcked', () => {
-                    this.handle('setupOffice');
+                    this.handle('nextStage');
                 });
+            },
+            nextStage: 'smallOfficeStage',
+        },
+
+        smallOfficeStage: {
+            _onEnter: function() {
+                this.handle('setupOffice');
             },
 
             setupOffice: function() {
                 office = new Office();
-                new TaskUI({show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription});
+                new TaskUI({show: true, hires: 3, duration: 30, content: txt.smallOfficeStage.taskDescription});
 
                 eventEmitter.on('person-clicked', () => {
                     new ResumeUI({
@@ -81,8 +88,14 @@ const gameFSM = new machina.Fsm({
 
             nextStage: 'mediumOfficeStage',
 
-            _onExit: function() {
-
+            _reset: function() {
+                new TextBoxUI({
+                    content: txt.smallOfficeStage.retryMessage,
+                    responses: txt.smallOfficeStage.retryResponse,
+                    show: true,
+                });
+                office.delete();
+                this.handle('transitionToSmallOffice');
             },
         },
 
@@ -99,15 +112,11 @@ const gameFSM = new machina.Fsm({
                 eventEmitter.on('instructionAcked', () => {
                     this.handle('expandOffice');
                 });
-
-                eventEmitter.on('time-up', () => {
-                    this.handle('retryStage');
-                });
             },
 
             expandOffice: function() {
                 office.expandOffice();
-                new TaskUI({show: true, hires: 10, duration: 30, content: txt.mediumOfficeStage.taskDescription});
+                new TaskUI({show: true, hires: 5, duration: 30, content: txt.mediumOfficeStage.taskDescription});
             },
 
             nextStage: 'bigOfficeStage',
@@ -151,18 +160,18 @@ const gameFSM = new machina.Fsm({
             },
             // TODO destroy the lab!
             nextStage: 'Oh gosh we haven\'t even started it hahah',
-
         },
 
 
     },
-
-
     startGame: function() {
         this.handle('startGame');
     },
     nextStage: function() {
         this.handle('nextStage');
+    },
+    reset: function() {
+        this.handle( "_reset");
     },
 });
 
