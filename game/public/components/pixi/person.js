@@ -21,6 +21,16 @@ class PersonController {
 
 /*eslint-disable */
 function onPersonDragStart(event) {
+    /* 
+    first block executed when person is clicked
+    */
+    eventEmitter.emit('person-clicked', {});
+    candidateInScope = this.id;
+    console.log("GLOBAL Candidate id: " + candidateInScope);
+
+    /* 
+    second block executed when person is dragged
+    */
     if (this.controller.isSeated()) {
         this.dragging = false;
         return;
@@ -31,6 +41,7 @@ function onPersonDragStart(event) {
     this.alpha = 0.5;
     this.dragging = true;
 }
+
 
 function onPersonDragEnd() {
     if (this.dragging) {
@@ -73,13 +84,14 @@ function sendAssigned() {
     eventEmitter.emit('assigned-desk', {});
 }
 
-function createPerson(x, y, office) {
-    const person = new PIXI.Sprite(bluePersonTexture);
+function createPerson(x, y, office, id, texture) {
+    const person = new PIXI.Sprite(texture);
     person.controller = new PersonController(person, office);
     const scale = office instanceof Office ? office.getScale() : 1;
     person.scale.set(0.15 * scale);
     person.interactive = true;
     person.buttonMode = true;
+    person.id = id;
     person.x = uv2px(x, 'w');
     person.y = uv2px(y, 'h');
     person.type = 'person';

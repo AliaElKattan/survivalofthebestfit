@@ -68,7 +68,15 @@ const gameFSM = new machina.Fsm({
             setupOffice: function() {
                 office = new Office();
                 new TaskUI({show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription});
-                new ResumeUI({show: true, features: cvCollection.cvFeatures, scores: cvCollection.smallOfficeStage});
+
+                eventEmitter.on('person-clicked', () => {
+                    new ResumeUI({
+                        show: true, 
+                        features: cvCollection.cvFeatures, 
+                        scores: cvCollection.smallOfficeStage,
+                        candidateId: candidateInScope
+                    });
+                })
             },
 
             nextStage: 'mediumOfficeStage',

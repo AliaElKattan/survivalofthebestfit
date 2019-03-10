@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import {officeStageContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
+import {bluePersonTexture} from '../../controllers/common/textures.js';
 import {gameFSM} from '../../controllers/game/stateManager.js';
 import {createPerson} from '../../components/pixi/person.js';
 import {animateTo} from '../../controllers/common/utils.js';
@@ -17,6 +18,7 @@ const config = [
 
 class Office {
     constructor() {
+        this.uniqueCandidateIndex = 0;
         this.size = 0;
         this.scale = 1;
         this.deskList = [];
@@ -95,8 +97,12 @@ class Office {
 
     addPeople(count) {
         let x = (Math.random() * 0.1) + 0.1;
+        let texture = bluePersonTexture;
+
         for (let i = 0; i < count; i++) {
-            createPerson(x, (Math.random() * 0.1) + 0.8, this);
+            //TODO handle diff textures
+            createPerson(x, (Math.random() * 0.1) + 0.8, this, this.uniqueCandidateIndex, texture);
+            this.uniqueCandidateIndex++;
             x += 0.05;
         }
     }

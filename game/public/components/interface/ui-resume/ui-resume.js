@@ -17,7 +17,7 @@ export default class extends UIBase {
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
         this._resumeFeatures = options ? options.features : undefined;
         this._resumes = options ? options.scores : undefined;
-        this._candidateNum = 0;
+        this._candidateId = options ? options.candidateId : "";
         this.type = options.type || null;
         // this.setContent(); // set content
 
@@ -34,9 +34,9 @@ export default class extends UIBase {
         if (this._resumes === undefined || this._resumeFeatures === undefined) {
             throw new Error('You need to pass CV scores to the CV viewer upon instantiation');
         };
-        if (this._candidateNum === this._resumes.length) alert('we have no CVs left');
-        this.showCV(this._resumes[this._candidateNum]);
-        this._candidateNum++;
+        if (this._candidateId === this._resumes.length) alert('we have no CVs left');
+        else this.showCV(this._resumes[this._candidateId]);
+        //this._candidateId++;
     }
 
     showCV(cv) {
