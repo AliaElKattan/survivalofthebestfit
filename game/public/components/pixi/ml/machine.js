@@ -5,30 +5,30 @@ import {uv2px, spacingUtils as space} from '../../../controllers/common/utils.js
 import EVENTS from '../../../controllers/constants/events.js';
 import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
+
 export default class {
     constructor(options) {
         this.machine = SPRITES.machine;
         this.inspectButton = SPRITES.inspectButton;
         this.scale = 0.7;
-        this.scanRay = SPRITES.rayAnim;
-        // this.rayAnim = SPRITES.rayAnim;
-        // console.log(this.rayAnim);
-        this.machineAnchors = {
+
+        this.machineConfig = {
+            scale: this.scale,
+            width: this.machine.width*this.scale,
+            height: this.machine.height*this.scale,
             x: space.screenCenterX(this.machine.width*this.scale),
             y: space.screenCenterY(this.machine.height*this.scale) - uv2px(0.27, 'h'),
         };
-        this.scanRayAnchors = {
-            x: space.getCenteredChildX(this.machineAnchors.x, this.machine.width*this.scale, this.scanRay.width*this.scale),
-            y: this.machineAnchors.y + this.machine.height*this.scale,
+        this.inspectButtonConfig = {
+            x: space.getCenteredChildX(this.machineConfig.x, this.machine.width*this.scale, this.inspectButton.width*this.scale),
+            y: space.getCenteredChildY(this.machineConfig.y, this.machine.height*this.scale, this.inspectButton.height*this.scale),
         };
-        this.inspectButtonAnchors = {
-            x: space.getCenteredChildX(this.machineAnchors.x, this.machine.width*this.scale, this.inspectButton.width*this.scale),
-            y: space.getCenteredChildY(this.machineAnchors.y, this.machine.height*this.scale, this.inspectButton.height*this.scale),
-        };
-        this._setup();
+
+
+        this._addEventListeners();
     }
 
-    _setup() {
+    _addEventListeners() {
         // inspect button click
         this.inspectButton.interactive = true;
         this.inspectButton.buttonMode = true;
@@ -37,34 +37,18 @@ export default class {
 
     draw() {
         this.machine.scale.set(this.scale);
-        this.machine.y = this.machineAnchors.y;
-        this.machine.x = this.machineAnchors.x;
+        this.machine.y = this.machineConfig.y;
+        this.machine.x = this.machineConfig.x;
         pixiApp.stage.addChild(this.machine);
 
-        this.scanRay.scale.set(this.scale);
-        this.scanRay.y = this.scanRayAnchors.y;
-        this.scanRay.x = this.scanRayAnchors.x;
-        this.scanRay.loop = false;
-        this.scanRay.gotoAndStop(0);
-        pixiApp.stage.addChild(this.scanRay);
-
-
         this.inspectButton.scale.set(this.scale);
-        this.inspectButton.y = this.inspectButtonAnchors.y;
-        this.inspectButton.x = this.inspectButtonAnchors.x;
+        this.inspectButton.y = this.inspectButtonConfig.y;
+        this.inspectButton.x = this.inspectButtonConfig.x;
         pixiApp.stage.addChild(this.inspectButton);
     }
 
-    hideRay() {
-        this.scanRay.visible = false;
-    }
-
-    showRay() {
-        this.scanRay.visible = true;
-    }
-
-    getSprite() {
-        return this.scanRay;
+    getMachineConfig() {
+        return this.machineConfig;
     }
 
     _inspectButtonClickHandler() {

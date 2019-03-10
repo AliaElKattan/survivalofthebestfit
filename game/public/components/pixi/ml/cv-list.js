@@ -23,6 +23,7 @@ export default class {
     createTween() {
         const tween = PIXI.tweenManager.createTween(this._resumeContainer);
         tween.from({x: this._resumeContainer.x}).to({x: this._resumeContainer.x+this.resumeXOffset});
+        tween.delay = 300;
         tween.time = 500;
         return tween;
     }

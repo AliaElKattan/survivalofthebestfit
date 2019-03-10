@@ -152,13 +152,17 @@ body.Page--Game {
     background: #7DA6BE; }
   .Resume:after {
     background: #CDE4F1; }
-  .Resume__scanline {
+  .Resume__scanline, .Resume__mask {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100%; }
+  .Resume__scanline {
     background-color: #FFADA3;
     height: 5px; }
+  .Resume__mask {
+    background-color: #e8e8e8ad;
+    height: 0; }
 
 .cv-category__name {
   padding: 10px 0; }
