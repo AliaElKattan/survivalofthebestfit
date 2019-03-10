@@ -11,7 +11,7 @@
     "test": "test scrip include from karma website",
     "dev": "nodemon app.js",
     "dev-all": "npm-run-all --parallel clean-dist watch:* dev ",
-    "clean-dist": "mkdir public/dist ; del-cli public/dist/*",
+    "clean-dist": "cd public && del-cli dist && mkdir dist",
     "build:css": "node-sass --include-path node_modules/sass-mq public/scss/main.scss public/css/main.css",
     "watch:css": "nodemon -e scss -x \"npm run build:css\"",
     "watch:main-js": "watchify public/controllers/game/gameEntry.js -t babelify --outfile public/dist/main-bundle.js -v --debug"
