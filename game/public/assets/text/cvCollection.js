@@ -65,38 +65,6 @@ const cvCollection = {
         {
             name: '9 Kobe Gough',
             qualifications: [8, 4, 5, 1],
-        },
-        {
-            name: '10 Maximilian Merritt',
-            qualifications: [10, 9, 9, 1],
-        },
-        {
-            name: '11 Minahil Maldonado',
-            qualifications: [8, 8, 8, 1],
-        },
-        {
-            name: '12 Danyaal Acevedo',
-            qualifications: [10, 4, 5, 2],
-        },
-        {
-            name: '13 Jacqueline Page',
-            qualifications: [8, 4, 5, 10],
-        },
-        {
-            name: '14 Laibah Croft',
-            qualifications: [9, 9, 5, 10],
-        },
-        {
-            name: '15 Katrina Roberts',
-            qualifications: [3, 9, 10, 1],
-        },
-        {
-            name: '16 Ottilie Bright',
-            qualifications: [8, 4, 5, 1],
-        },
-        {
-            name: '17 Jesus Hibbert',
-            qualifications: [10, 10, 10, 10],
         }
     ],
 };
