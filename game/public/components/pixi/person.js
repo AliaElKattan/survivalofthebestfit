@@ -19,18 +19,13 @@ class PersonController {
     }
 }
 
-/*eslint-disable */
-function onPersonDragStart(event) {
-    /* 
-    first block executed when person is clicked
-    */
+function onPersonHover(event) {
     eventEmitter.emit('person-clicked', {});
     candidateInScope = this.id;
-    console.log("GLOBAL Candidate id: " + candidateInScope);
-
-    /* 
-    second block executed when person is dragged
-    */
+    console.log("Current Candidate ID: " + candidateInScope);
+}
+/*eslint-disable */
+function onPersonDragStart(event) {
     if (this.controller.isSeated()) {
         this.dragging = false;
         return;
@@ -97,6 +92,7 @@ function createPerson(x, y, office, id, texture) {
     person.type = 'person';
     person.anchor.set(0.5);
     person
+        .on('mouseover', onPersonHover)
         .on('pointerupoutside', onPersonDragEnd)
         .on('pointerdown', onPersonDragStart)
         .on('pointermove', onPersonDragMove)
