@@ -10,7 +10,7 @@ export default class extends UIBase {
     constructor(options) {
         super();
         this._removeEventListeners();
-        this.$el = $('.js-resume'); // This should be a single element
+        this.$el = $('#js-resume');
         this.$nameEl = this.$el.find('.Resume__title');
         this.$taglineEl = this.$el.find('.Resume__tagline');
         this.$scanline = this.$el.find('.Resume__scanline');
@@ -55,12 +55,12 @@ export default class extends UIBase {
     }
 
     createScanTween() {
-        return TweenMax.to('.Resume__scanline', this.scanlineAnimDuration, {top: '100%', ease: Power0.easeNone})
+        return TweenMax.to('#js-resume > .Resume__scanline', this.scanlineAnimDuration, {top: '100%', ease: Power0.easeNone})
             .pause();
     }
 
     createMaskTween() {
-        return TweenMax.to('.Resume__mask', this.scanlineAnimDuration, {height: '100%', ease: Power0.easeNone})
+        return TweenMax.to('#js-resume > .Resume__mask', this.scanlineAnimDuration, {height: '100%', ease: Power0.easeNone})
             .pause();
     }
 

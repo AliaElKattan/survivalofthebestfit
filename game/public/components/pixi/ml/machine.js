@@ -52,6 +52,6 @@ export default class {
     }
 
     _inspectButtonClickHandler() {
-        eventEmitter.emit(EVENTS.INSPECT_ALGORITHM, {});
+        eventEmitter.emit(EVENTS.INSPECT_DATASET, {});
     }
 }

@@ -33,6 +33,19 @@ button {
   to {
     opacity: 0; } }
 
+.is-inactive {
+  opacity: 0;
+  display: none; }
+
+.is-invisible {
+  opacity: 0; }
+
+.u-fade-in {
+  animation: fadein 0.3s ease-in-out; }
+
+.u-fade-out {
+  animation: fadeout 0.3s ease-in-out; }
+
 body.Page--Game {
   overflow: hidden; }
 
@@ -152,6 +165,12 @@ body.Page--Game {
     background: #7DA6BE; }
   .Resume:after {
     background: #CDE4F1; }
+  .Resume--dataset {
+    display: block;
+    opacity: 1;
+    transform: translateX(10px);
+    top: unset;
+    right: unset; }
   .Resume__scanline, .Resume__mask {
     position: absolute;
     top: 0;
@@ -401,6 +420,64 @@ body.Page--Game {
       line-height: 1;
       border-right: solid #B2B2B2 2px; }
 
+.DatasetOverlay {
+  background-color: #F9F0E3; }
+  .DatasetOverlay__x-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background-color: red;
+    right: 10px;
+    top: 10px;
+    background: url("../../assets/img/x-icon.png") no-repeat center;
+    background-size: contain; }
+  .DatasetOverlay__header {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 20px 0; }
+
+.ViewLayout {
+  height: 80vh;
+  overflow-y: auto;
+  width: 80%;
+  margin: 0 auto;
+  display: grid;
+  grid-display-rows: 1fr;
+  grid-template-columns: auto 300px auto;
+  grid-gap: 5px;
+  padding-bottom: 40px; }
+  .ViewLayout::-webkit-scrollbar {
+    width: 0 !important; }
+  .ViewLayout-item {
+    grid-column: span 1; }
+
+.DatasetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-auto-rows: 100px;
+  gap: 25px 10px; }
+  .DatasetGrid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+
+.PersonCard {
+  flex-direction: column; }
+  .PersonCard-item {
+    width: 100%;
+    flex-direction: start; }
+  .PersonCard-cv {
+    height: 80px;
+    width: 50%;
+    background: url("../../assets/img/cv-flat.png");
+    background-size: contain;
+    background-repeat: no-repeat; }
+  .PersonCard-name {
+    text-align: center; }
+
 .choiceButton {
   width: 250px;
   height: 30px; }
@@ -449,16 +526,3 @@ body.Page--Game {
   @media (max-width: 23.115em) {
     .MobileNofication {
       display: block; } }
-
-.is-inactive {
-  opacity: 0;
-  display: none; }
-
-.is-invisible {
-  opacity: 0; }
-
-.u-fade-in {
-  animation: fadein 0.3s ease-in-out; }
-
-.u-fade-out {
-  animation: fadeout 0.3s ease-in-out; }

@@ -5,6 +5,7 @@ block content
   #gameCanvas
   include ../../../public/components/interface/ui-textbox/ui-textbox.pug
   include ../../../public/components/interface/ui-resume/ui-resume.pug
+  +resume()(id="js-resume")
   include ../../../public/components/interface/ui-task/ui-task.pug
   include ../../../public/components/interface/ml/algorithm-inspector/algorithm-inspector.pug
   include ../../../public/components/interface/ml/news-feed/news-feed.pug
@@ -12,6 +13,7 @@ block content
   +MlResumeViewer('accepted')(class="MlResumeViewer--accepted")
   +MlResumeViewer('rejected')(class="MlResumeViewer--rejected")
   
+  include ../../../public/components/interface/ml/dataset-view/dataset-view.pug
   include ../../../public/components/interface/transition/overlay/overlay.pug
   +transitionOverlay()
 

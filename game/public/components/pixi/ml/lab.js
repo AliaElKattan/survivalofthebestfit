@@ -1,6 +1,4 @@
-import * as PIXI from 'pixi.js';
 import {uv2px, clamp, spacingUtils as space} from '../../../controllers/common/utils.js';
-import {createPerson} from '../person.js';
 import {cvCollection} from '../../../assets/text/cvCollection.js';
 import Machine from './machine';
 import Resumes from './cv-list';
@@ -10,6 +8,7 @@ import Door from '../door';
 import ResumeUI from '../../interface/ui-resume/ui-resume';
 import NewsFeedUI from '../../interface/ml/news-feed/news-feed.js';
 import AlgorithmInspectorUI from '../../interface/ml/algorithm-inspector/algorithm-inspector.js';
+import DatasetView from '../../interface/ml/dataset-view/dataset-view';
 import ScanRay from './scan-ray.js';
 import DataServer from './data-server.js';
 import MLPeople from './people.js';
@@ -25,6 +24,7 @@ export default class MLLab {
 
         this.newsFeed = new NewsFeedUI({show: true});
         this.algorithmInspector = new AlgorithmInspectorUI({});
+        this.datasetView = new DatasetView({});
         this.floors = [
             new Floor({y: uv2px(0.6, 'h')}),
             new Floor({y: space.absMinusSize(0, 'h')}),
@@ -74,7 +74,7 @@ export default class MLLab {
         this.people.draw();
         this.animate();
     }
-    
+
     animate() {
         this.tweens.resumesTween.start();
     }
