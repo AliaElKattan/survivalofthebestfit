@@ -29,10 +29,15 @@ export default class {
     }
 
     _addEventListeners() {
-        // inspect button click
         this.inspectButton.interactive = true;
         this.inspectButton.buttonMode = true;
         this.inspectButton.on('click', this._inspectButtonClickHandler);
+        // eventEmitter.on(EVENTS.RESIZE, this._resize);
+    }
+
+    _removeEventListeners() {
+        this.inspectButton.off('click', this._inspectButtonClickHandler);
+        // eventEmitter.off(EVENTS.RESIZE, this._resize);
     }
 
     draw() {
@@ -45,6 +50,9 @@ export default class {
         this.inspectButton.y = this.inspectButtonConfig.y;
         this.inspectButton.x = this.inspectButtonConfig.x;
         pixiApp.stage.addChild(this.inspectButton);
+    }
+
+    resize() {
     }
 
     getMachineConfig() {

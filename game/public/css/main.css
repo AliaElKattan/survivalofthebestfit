@@ -377,6 +377,7 @@ body.Page--Game {
   position: absolute;
   top: 10px;
   width: 100%;
+  transition: opacity 0.5s ease-in-out;
   font-size: 1.5rem; }
   .NewsFeed:before, .NewsFeed:after {
     content: "";

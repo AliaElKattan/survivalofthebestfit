@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import {TweenLite} from 'gsap/TweenMax';
 import CLASSES from '../../../../controllers/constants/classes';
 import EVENTS from '../../../../controllers/constants/events';
 import UIBase from '../../ui-base/ui-base';
@@ -51,16 +52,17 @@ export default class extends UIBase {
     }
 
     hide() {
-        this.$el.removeClass(CLASSES.FADE_IN)
-            .addClass(CLASSES.FADE_OUT)
-            .addClass(CLASSES.IS_INACTIVE);
-        // TODO you might need a delayed call for this
+        this.$el.addClass(CLASSES.FADE_OUT);
+        TweenLite.delayedCall(0.3, () => {
+            this.$el.addClass(CLASSES.IS_INACTIVE)
+                .removeClass(CLASSES.FADE_IN);
+        });
     }
 
     destroy() {
         super.dispose();
         this.hide();
         this._removeEventListeners();
-        // this.$el.destroy();
+        this.$el.destroy();
     }
 }

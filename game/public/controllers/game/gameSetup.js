@@ -1,9 +1,7 @@
 import * as PIXI from 'pixi.js';
 import * as tweenManager from 'pixi-tween';
-// console.log(PIXI);
 const debounce = require('debounce');
-
-let DRAW_STACK = [];
+import EVENTS from '../constants/events';
 
 // make fullscreen app
 const pixiApp = new PIXI.Application(
@@ -14,7 +12,7 @@ const pixiApp = new PIXI.Application(
 pixiApp.renderer.autoResize = true;
 
 
-//TODO - should these be pre-defined here?
+// TODO - should these be pre-defined here?
 const officeStageContainer = new PIXI.Container();
 const mlLabStageContainer = new PIXI.Container();
 const timerContainer = new PIXI.Container();
@@ -45,7 +43,8 @@ window.addEventListener('resize', debounce(resize, 200));
 
 function resize() {
     pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
+    // eventEmitter.emit(EVENTS.RESIZE, {});
     // TODO redraw all the elements!
 }
 
-export {pixiApp, beltContainer, officeStageContainer, mlLabStageContainer, timerContainer, eventEmitter, startTweenManager, stopTweenManager, DRAW_STACK};
+export {pixiApp, beltContainer, officeStageContainer, mlLabStageContainer, timerContainer, eventEmitter, startTweenManager, stopTweenManager};
