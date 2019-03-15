@@ -5,7 +5,6 @@ export default class {
         this.person = new PIXI.Sprite(bluePersonTexture);
         this.x = x;
         this.parentContainer = parent;
-        // console.log(parentContainer);
     }
 
     draw() {

@@ -1,14 +1,13 @@
 import * as PIXI from 'pixi.js';
-import {pixiApp} from '../../../controllers/game/gameSetup';
+import {mlLabStageContainer} from '../../../controllers/game/gameSetup';
 import {cvTexture} from '../../../controllers/common/textures.js';
-import {animateTo} from '../../../controllers/common/utils.js';
 
 
 export default class {
     constructor(options) {
         this.xAnchor = options.x;
         this.yAnchor = options.y;
-        this.parent = options.parent || pixiApp.stage;
+        this.parent = options.parent || mlLabStageContainer;
         this.scale = 0.4;
         this.texture = cvTexture;
         this.cv = null;

@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import Resume from './cv';
 import {uv2px} from '../../../controllers/common/utils.js';
-import {pixiApp} from '../../../controllers/game/gameSetup';
+import {mlLabStageContainer} from '../../../controllers/game/gameSetup';
 
 export default class {
     constructor(options) {
@@ -17,7 +17,7 @@ export default class {
     draw() {
         this._resumeContainer.x = this.xAnchor;
         this._resumeContainer.y = this.yAnchor;
-        pixiApp.stage.addChild(this._resumeContainer);
+        mlLabStageContainer.addChild(this._resumeContainer);
     }
 
     createTween() {

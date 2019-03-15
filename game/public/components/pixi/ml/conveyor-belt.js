@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import {pixiApp} from '../../../controllers/game/gameSetup';
+import {mlLabStageContainer} from '../../../controllers/game/gameSetup';
 import {uv2px} from '../../../controllers/common/utils.js';
 import {beltTexture} from '../../../controllers/common/textures.js';
 
@@ -20,7 +20,7 @@ export default class {
             belt.scale.set(this.scale);
             belt.y = this.yAnchor;
             belt.x = this.xAnchor + (this.xOffset* j);
-            pixiApp.stage.addChild(belt);
+            mlLabStageContainer.addChild(belt);
         }
     }
 };

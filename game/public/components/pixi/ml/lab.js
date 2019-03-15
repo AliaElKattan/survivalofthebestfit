@@ -1,4 +1,4 @@
-import {uv2px, clamp, spacingUtils as space} from '../../../controllers/common/utils.js';
+import {uv2px, spacingUtils as space} from '../../../controllers/common/utils.js';
 import {cvCollection} from '../../../assets/text/cvCollection.js';
 import Machine from './machine';
 import Resumes from './cv-list';
@@ -43,15 +43,15 @@ export default class MLLab {
         this.machine = new Machine({});
         this.dataServers = [
             new DataServer({
-                machineConfig: this.machine.getMachineConfig(),
+                machine: this.machine,
                 side: 'left',
             }),
             new DataServer({
-                machineConfig: this.machine.getMachineConfig(),
+                machine: this.machine,
                 side: 'right',
             }),
         ];
-        this.scanRay = new ScanRay(this.machine.getMachineConfig());
+        this.scanRay = new ScanRay({machine: this.machine});
         this.belt = new ConveyorBelt({
             y: uv2px(.43, 'h'),
         });
@@ -66,11 +66,11 @@ export default class MLLab {
     draw() {
         this.floors.forEach((floor) => floor.draw());
         this.doors.forEach((door) => door.draw());
-        this.machine.draw();
-        this.dataServers.forEach((server) => server.draw());
+        this.machine.addToPixi();
+        this.dataServers.forEach((server) => server.addToPixi());
         this.belt.draw();
         this.resumeList.draw();
-        this.scanRay.draw();
+        this.scanRay.addToPixi();
         this.people.draw();
         this.animate();
     }

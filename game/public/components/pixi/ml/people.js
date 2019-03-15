@@ -1,5 +1,4 @@
-import {pixiApp, eventEmitter} from '../../../controllers/game/gameSetup.js';
-import {bluePersonTexture} from '../../../controllers/common/textures.js';
+import {mlLabStageContainer} from '../../../controllers/game/gameSetup.js';
 import {uv2px} from '../../../controllers/common/utils.js';
 import MLPerson from './person';
 
@@ -16,7 +15,7 @@ export default class {
         this.container.x = uv2px(0.15, 'w');
         this.container.y = uv2px(0.96, 'h');
         console.log(this.container);
-        pixiApp.stage.addChild(this.container);
+        mlLabStageContainer.addChild(this.container);
     }
 
     _createPeople() {

@@ -21,6 +21,7 @@ const beltContainer = new PIXI.Container();
 pixiApp.stage.addChild(officeStageContainer);
 pixiApp.stage.addChild(timerContainer);
 pixiApp.stage.addChild(beltContainer);
+pixiApp.stage.addChild(mlLabStageContainer);
 
 // shared eventEmitter across components
 const eventEmitter = new PIXI.utils.EventEmitter();
@@ -43,7 +44,7 @@ window.addEventListener('resize', debounce(resize, 200));
 
 function resize() {
     pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
-    // eventEmitter.emit(EVENTS.RESIZE, {});
+    eventEmitter.emit(EVENTS.RESIZE, {});
     // TODO redraw all the elements!
 }
 

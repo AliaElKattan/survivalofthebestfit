@@ -1,33 +1,66 @@
-import {pixiApp} from '../../../controllers/game/gameSetup.js';
+import {mlLabStageContainer} from '../../../controllers/game/gameSetup.js';
 import {spacingUtils as space} from '../../../controllers/common/utils.js';
 import {SPRITES} from '../../../controllers/common/textures.js';
+import EVENTS from '../../../controllers/constants/events.js';
+import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
 export default class {
-    constructor({machineConfig, side}) {
+    constructor({machine, side}) {
         this.dataServer = side === 'left' ? SPRITES.dataServerRejected : SPRITES.dataServerAccepted;
-        console.log(side);
         this.dataServerScale = 0.22;
         this.directionVector = side === 'left' ? -1 : 1;
-        console.log(this.directionVector);
-        this.machineConfig = machineConfig;
+        this.machine = machine;
+        this.machineDim = undefined;
+        this.centerX = undefined;
+        this.serverConfig = undefined;
 
-        this.centerX = space.getCenteredChildX(this.machineConfig.x, this.machineConfig.width, this.dataServer.width*this.dataServerScale);
-
-        this.serverConfig = {
-            x: this.centerX + this.directionVector*1.6*(this.dataServer.width*this.dataServerScale),
-            y: this.machineConfig.y - 10,
-        };
-        console.log(this.serverConfig.x);
+        this._resizeHandler = this._resizeHandler.bind(this);
+        this._addEventListeners();
     }
 
-    draw() {
-        this.dataServer.scale.set(this.dataServerScale);
-        this.dataServer.y = this.serverConfig.y;
-        this.dataServer.x = this.serverConfig.x;
+    // initialization function
+
+    addToPixi() {
+        this._initParams();
+        this._computeParams();
+        this._draw();
+        mlLabStageContainer.addChild(this.dataServer);
+    }
+
+    // sprite parameter, set once
+
+    _initParams() {
         this.dataServer.loop = false;
         this.dataServer.animationSpeed = 0.17;
         this.dataServer.gotoAndStop(0);
-        pixiApp.stage.addChild(this.dataServer);
+    }
+
+    // sprite parameters (re)computed on canvas resizing
+
+    _computeParams() {
+        this.machineDim = this.machine.getMachineDimensions();
+        this.centerX = space.getCenteredChildX(this.machineDim.x, this.machineDim.width, this.dataServer.width*this.dataServerScale);
+    }
+
+    // draw based on dimension parameters
+
+    _draw() {
+        this.dataServer.scale.set(this.dataServerScale);
+        this.dataServer.x = this.centerX + this.directionVector*1.6*this.dataServer.width;
+        this.dataServer.y = this.machineDim.y - 10;
+    }
+
+    // add event listeners
+
+    _addEventListeners() {
+        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler);
+    }
+
+    // resize event handler
+
+    _resizeHandler() {
+        this._computeParams();
+        this._draw();
     }
 
     getSprite() {
