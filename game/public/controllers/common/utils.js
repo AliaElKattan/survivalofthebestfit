@@ -1,6 +1,6 @@
 import {pixiApp} from '../game/gameSetup.js';
 
-const {width, height} = pixiApp.screen;
+// let {pixiApp.screen.width, pixiApp.screen.height} = pixiApp.screen;
 
 const spacingUtils = {
     getCenteredChildX(parentX, parentWidth, childWidth) {
@@ -15,9 +15,9 @@ const spacingUtils = {
     getTwoThirdsChildY(parentY, parentHeight, childHeight) {
         return parentY + 2 * ((parentHeight - childHeight) / 3);
     },
-    // absolute height/width minus a value
+    // absolute pixiApp.screen.height/pixiApp.screen.width minus a value
     absMinusSize(px, axis) {
-        return axis === 'w' ? width - px : height - px;
+        return axis === 'w' ? pixiApp.screen.width - px : pixiApp.screen.height - px;
     },
     screenCenterX(childWidth) {
         return this.getCenteredChildX(0, uv2px(1, 'w'), childWidth);
@@ -26,28 +26,30 @@ const spacingUtils = {
         return this.getCenteredChildY(0, uv2px(1, 'h'), childHeight);
     },
 };
-// convert uv coordinates to screen pixels
-/*
-start drawing at the center of the screen
 
-var coorObj = uv2px({x: 0.5, y: 0.5}); // if you prefer objects
-var coorArray = uv2px([0.5,0.5]); // if you prefer arrays
-*/
+/**
+ * convert uv coordinates to screen pixels
+ * start drawing at the center of the screen
+ *
+ * var coorObj = uv2px({x: 0.5, y: 0.5}); // if you prefer objects
+ * var coorArray = uv2px([0.5,0.5]); // if you prefer arrays
+ */
+
 const uv2px = (uv, axis = null) => {
     // input is object
     if (typeof uv === 'object' && uv !== null) {
-        const scaled_x = uv.x !== undefined ? uv.x * width : null;
-        const scaled_y = uv.y !== undefined ? uv.y * height : null;
+        const scaled_x = uv.x !== undefined ? uv.x * pixiApp.screen.width : null;
+        const scaled_y = uv.y !== undefined ? uv.y * pixiApp.screen.height : null;
         return {
             x: scaled_x,
             y: scaled_y,
         };
     // input is number + axis
     } else if (typeof uv === 'number' && axis !== null && /^(w|h)$/.test(axis)) {
-        return axis === 'w' ? uv * width : uv * height;
+        return axis === 'w' ? uv * pixiApp.screen.width : uv * pixiApp.screen.height;
     // input is array
     } else if (Array.isArray(uv)) {
-        return [uv[0] * width, uv[1] * height];
+        return [uv[0] * pixiApp.screen.width, uv[1] * pixiApp.screen.height];
     } else {
         throw 'You supplied an invalid value to the function, check utils file for valid inputs';
     };
@@ -56,18 +58,18 @@ const uv2px = (uv, axis = null) => {
 const px2uv = (px, axis = null) => {
     // input is object
     if (typeof px === 'object' && px !== null) {
-        const uvX = px.x !== undefined ? px.x/width : null;
-        const uvY = px.y !== undefined ? px.y/height : null;
+        const uvX = px.x !== undefined ? px.x/pixiApp.screen.width : null;
+        const uvY = px.y !== undefined ? px.y/pixiApp.screen.height : null;
         return {
             x: uvX,
             y: uvY,
         };
     // input is number + axis
     } else if (typeof px === 'number' && axis !== null && /^(w|h)$/.test(axis)) {
-        return axis === 'w' ? px/width : px/height;
+        return axis === 'w' ? px/pixiApp.screen.width : px/pixiApp.screen.height;
     // input is array
     } else if (Array.isArray(px)) {
-        return [px[0] * width, px[1] * height];
+        return [px[0] * pixiApp.screen.width, px[1] * pixiApp.screen.height];
     } else {
         throw 'You supplied an invalid value to the function, check utils file for valid inputs';
     };
@@ -83,14 +85,15 @@ const clamp = (val, minVal, maxVal) => {
 };
 
 // convenience function to animate object, parameter default to not moving anywhere
-function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), time=1000} = {}) {
+function animateTo({target, x, y, scale=1, scaleY, easing=PIXI.tween.Easing.inQuart(), time=1000} = {}) {
     const X = x === undefined ? target.x : uv2px(x, 'w');
     const Y = y === undefined ? target.y : uv2px(y, 'h');
+    const yScale = scaleY === undefined ? scale : scaleY;
 
     const tween = PIXI.tweenManager.createTween(target);
     tween.easing = easing;
     tween.time = time;
-    tween.expire = true;
+    tween.expire = false;
     tween.from({
         'x': target.x,
         'y': target.y,
@@ -99,7 +102,7 @@ function animateTo({target, x, y, scale=1, easing=PIXI.tween.Easing.inQuart(), t
     tween.to({
         'x': X,
         'y': Y,
-        'scale': {'x': target.scale.x*scale, 'y': target.scale.y*scale},
+        'scale': {'x': target.scale.x*scale, 'y': target.scale.y*yScale},
     });
     return tween;
 }

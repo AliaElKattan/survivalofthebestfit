@@ -13,6 +13,32 @@
   min-height: 300px;
   max-height: 700px;
   max-width: 500px;
+  
+  &--dataset {
+    display: block;
+    opacity: 1;
+    transform: translateX(10px);
+    top: unset;
+    right: unset;
+  }
+  
+  &__scanline, &__mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+  }
+  
+  &__scanline {
+    background-color: color(shadow-rose-light);
+    height: 5px;
+  }
+  
+  &__mask {
+    background-color: color(resume-mask);
+    height: 0;
+  }
+
 
 }
 

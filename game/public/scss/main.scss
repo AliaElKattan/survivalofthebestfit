@@ -8,19 +8,25 @@
 @import 'base/_typography';
 @import 'base/_base';
 @import 'base/_animations';
+// Util classes
+@import 'util/_util';
 // pages
 @import 'pages/game-page';
 // components -- ui
 @import '../components/universal/button/button';
-@import '../components/interface/ui-instruction/ui-instruction';
+@import '../components/interface/ui-textbox/ui-textbox';
 @import '../components/interface/ui-resume/ui-resume';
 @import '../components/interface/ui-task/ui-task';
+@import '../components/interface/ui-overlay/ui-overlay';
+// components ml
+@import '../components/interface/ml/resume-viewer/resume-viewer';
+@import '../components/interface/ml/algorithm-inspector/algorithm-inspector';
+@import '../components/interface/ml/news-feed/news-feed';
+@import '../components/interface/ml/dataset-view/dataset-view';
 // components -- transition page
-@import '../components/interface/choice-button/choice-button';
-@import '../components/interface/replica/replica';
-@import '../components/interface/conversation-box/conversation-box';
+@import '../components/interface/transition/choice-button/choice-button';
+@import '../components/interface/transition/replica/replica';
+@import '../components/interface/transition/overlay/overlay';
 // components -- mobile // warning
 @import '../../views/pages/game/mobile-notification/mobile-notification';
 
-// Util classes
-@import 'util/_util';

@@ -1,6 +1,7 @@
+import {pixiApp, eventEmitter} from '../../controllers/game/gameSetup.js';
 import {bluePersonTexture} from '../../controllers/common/textures.js';
-import {pixiApp, personContainer, deskContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
 import {uv2px} from '../../controllers/common/utils.js';
+import {Office} from './office';
 
 class PersonController {
     constructor(parent, office) {
@@ -18,9 +19,14 @@ class PersonController {
     }
 }
 
+function onPersonHover(event) {
+    eventEmitter.emit('person-clicked', {});
+    candidateInScope = this.id;
+    console.log("Current Candidate ID: " + candidateInScope);
+}
+/*eslint-disable */
 function onPersonDragStart(event) {
     if (this.controller.isSeated()) {
-        // ToDo: replace this with person leaving a desk. Remove from desk object, and decrease office fullness counter
         this.dragging = false;
         return;
     }
@@ -31,60 +37,68 @@ function onPersonDragStart(event) {
     this.dragging = true;
 }
 
-// BUG: double click outside the app on text and click on character and drag it around. This can cause a lot of issues.
-// BUG: sometimes if people are overlapping, it thinks the bottom one was dropped and it pops the guy back to the original position
 
 function onPersonDragEnd() {
     if (this.dragging) {
-        const hitDesk = pixiApp.renderer.plugins.interaction.hitTest(new PIXI.Point(this.x, this.y), deskContainer);
-        if (hitDesk == null || hitDesk.controller.isTaken()) {
+        let hitDesk = null;
+        // going through each floor and checking if the person overlaps with any of the desks
+        this.controller.office.container.children.some((floor) => {
+            hitDesk = pixiApp.renderer.plugins.interaction.hitTest(new PIXI.Point(this.x, this.y), floor);
+            if (hitDesk !== null && hitDesk.type === 'desk' && !hitDesk.isTaken) {
+                this.scale.set(this.scale.x*(1/hitDesk.scale.x));
+                this.controller.setDesk(hitDesk);
+                this.x = 0;
+                this.y = 0;
+
+                hitDesk.addChild(this);
+                sendAssigned();
+                
+                return true;
+            }
+        });
+
+        if (hitDesk === null) {
             this.x = this.origX;
             this.y = this.origY;
-        } else {
-            this.x = hitDesk.x+hitDesk.height/2;
-            this.y = hitDesk.y+hitDesk.width/2;
-            hitDesk.controller.setPerson(this);
-            this.controller.setDesk(hitDesk);
-            sendAssigned();
         }
-        this.alpha = 1;
         this.dragging = false;
         this.data = null;
+        this.alpha = 1;
     }
 }
-
 function onPersonDragMove() {
     if (this.dragging) {
-        // this.x += this.data.originalEvent.movementX/officeContainer.scale.x;
-        // this.y += this.data.originalEvent.movementY/officeContainer.scale.y;
-
         const newPosition = this.data.getLocalPosition(this.parent);
         this.position.x = newPosition.x;
         this.position.y = newPosition.y;
     }
 }
+/* eslint-enable */
 
 function sendAssigned() {
     eventEmitter.emit('assigned-desk', {});
 }
 
-function createPerson(x, y, office) {
-    const person = new PIXI.Sprite(bluePersonTexture);
+function createPerson(x, y, office, id, texture) {
+    const person = new PIXI.Sprite(texture);
     person.controller = new PersonController(person, office);
+    const scale = office instanceof Office ? office.getScale() : 1;
+    person.scale.set(0.15 * scale);
     person.interactive = true;
     person.buttonMode = true;
-    person.type = 'person';
-    person.anchor.set(0.5);
-    person.scale.set(0.15);
+    person.id = id;
     person.x = uv2px(x, 'w');
     person.y = uv2px(y, 'h');
+    person.type = 'person';
+    person.anchor.set(0.5);
     person
-        .on('pointerdown', onPersonDragStart)
-        .on('pointerup', onPersonDragEnd)
+        .on('mouseover', onPersonHover)
         .on('pointerupoutside', onPersonDragEnd)
-        .on('pointermove', onPersonDragMove);
+        .on('pointerdown', onPersonDragStart)
+        .on('pointermove', onPersonDragMove)
+        .on('pointerup', onPersonDragEnd);
 
-    personContainer.addChild(person);
+    office.personContainer.addChild(person);
     return person;
 }
 

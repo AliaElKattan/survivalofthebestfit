@@ -33,6 +33,19 @@ button {
   to {
     opacity: 0; } }
 
+.is-inactive {
+  opacity: 0;
+  display: none; }
+
+.is-invisible {
+  opacity: 0; }
+
+.u-fade-in {
+  animation: fadein 0.3s ease-in-out; }
+
+.u-fade-out {
+  animation: fadeout 0.3s ease-in-out; }
+
 body.Page--Game {
   overflow: hidden; }
 
@@ -87,7 +100,7 @@ body.Page--Game {
     .button.is-clicked:after {
       background: #FFADA3; }
 
-.Instruction {
+.Textbox {
   color: inherit;
   background-color: #FAFAFA;
   padding: 20px;
@@ -97,27 +110,27 @@ body.Page--Game {
   transform: translate(-50%, -50%);
   max-height: 500px;
   max-width: 600px; }
-  .Instruction:before, .Instruction:after {
+  .Textbox:before, .Textbox:after {
     content: "";
     display: inline-block;
     position: absolute; }
-  .Instruction:before {
+  .Textbox:before {
     left: 0;
     width: 100%;
     height: 5px;
     bottom: -5px;
     transform: translateX(5px) skewX(65deg); }
-  .Instruction:after {
+  .Textbox:after {
     top: 0;
     height: 100%;
     width: 10px;
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
-  .Instruction:before {
+  .Textbox:before {
     background: #919191; }
-  .Instruction:after {
+  .Textbox:after {
     background: #B9B9B9; }
-  .Instruction__head {
+  .Textbox__head {
     color: #B2B2B2; }
 
 .Resume {
@@ -152,6 +165,23 @@ body.Page--Game {
     background: #7DA6BE; }
   .Resume:after {
     background: #CDE4F1; }
+  .Resume--dataset {
+    display: block;
+    opacity: 1;
+    transform: translateX(10px);
+    top: unset;
+    right: unset; }
+  .Resume__scanline, .Resume__mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; }
+  .Resume__scanline {
+    background-color: #FFADA3;
+    height: 5px; }
+  .Resume__mask {
+    background-color: #e8e8e8ad;
+    height: 0; }
 
 .cv-category__name {
   padding: 10px 0; }
@@ -215,6 +245,240 @@ body.Page--Game {
     height: inherit;
     background-color: #F29488; }
 
+.Overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  background-color: #F9F0E3; }
+
+.MlResumeViewer {
+  color: inherit;
+  background-color: #FAFAFA;
+  padding: 10px;
+  position: absolute;
+  transform: translate(-50%, -50%); }
+  .MlResumeViewer:before, .MlResumeViewer:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .MlResumeViewer:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .MlResumeViewer:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .MlResumeViewer:before {
+    background: #919191; }
+  .MlResumeViewer:after {
+    background: #B9B9B9; }
+  .MlResumeViewer__title {
+    text-align: center;
+    text-transform: uppercase; }
+  .MlResumeViewer--accepted {
+    left: 30%;
+    top: 21%; }
+  .MlResumeViewer--rejected {
+    left: 70%;
+    top: 21%; }
+
+.ResumeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px; }
+  .ResumeGrid-item {
+    background-color: #CDE4F1;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; }
+  .ResumeGrid-item:hover .ResumeGrid-tooltip {
+    visibility: visible; }
+  .ResumeGrid-tooltip {
+    position: absolute;
+    visibility: hidden;
+    z-index: 1;
+    min-width: 100px;
+    background-color: #FECCC7;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0; }
+
+.AlgorithmInspector {
+  color: inherit;
+  background-color: #FAFAFA;
+  box-shadow: inset 0 0 0 2px #FFADA3;
+  padding: 10px 20px 40px 20px;
+  z-index: 3;
+  position: absolute;
+  right: 20px;
+  top: 2%;
+  width: 250px;
+  min-height: 300px;
+  max-height: 700px; }
+  .AlgorithmInspector:before, .AlgorithmInspector:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .AlgorithmInspector:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .AlgorithmInspector:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .AlgorithmInspector:before {
+    background: #F29488; }
+  .AlgorithmInspector:after {
+    background: #FFADA3; }
+  .AlgorithmInspector__x-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background-color: red;
+    right: 10px;
+    top: 10px;
+    background: url("../../assets/img/x-icon.png") no-repeat center;
+    background-size: contain; }
+  .AlgorithmInspector__title {
+    text-transform: uppercase;
+    font-size: 1.7rem; }
+  .AlgorithmInspector__description {
+    color: #B2B2B2; }
+
+.ParamList {
+  padding-top: 10px; }
+
+.Param {
+  font-size: 1.3rem;
+  text-transform: uppercase; }
+  .Param__value {
+    padding-left: 10px;
+    color: #B2B2B2; }
+
+.NewsFeed {
+  color: inherit;
+  background-color: #FAFAFA;
+  padding: 2px 20px 2px 20px;
+  z-index: 2;
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  transition: opacity 0.5s ease-in-out;
+  font-size: 1.5rem; }
+  .NewsFeed:before, .NewsFeed:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .NewsFeed:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .NewsFeed:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .NewsFeed:before {
+    background: #919191; }
+  .NewsFeed:after {
+    background: #B9B9B9; }
+  .NewsFeed__title {
+    position: absolute;
+    text-transform: uppercase;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #B2B2B2;
+    padding: 0 20px; }
+  .NewsFeed__title, .NewsFeed .NewsList, .NewsFeed .NewsList-item {
+    display: inline-block; }
+  .NewsFeed .NewsList {
+    transform: translateX(100px);
+    padding: 2px;
+    width: 150%;
+    display: flex;
+    align-items: center;
+    overflow: hidden; }
+    .NewsFeed .NewsList-item {
+      padding: 0 20px;
+      line-height: 1;
+      border-right: solid #B2B2B2 2px; }
+
+.DatasetOverlay {
+  background-color: #F9F0E3; }
+  .DatasetOverlay__x-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background-color: red;
+    right: 10px;
+    top: 10px;
+    background: url("../../assets/img/x-icon.png") no-repeat center;
+    background-size: contain; }
+  .DatasetOverlay__header {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 20px 0; }
+
+.ViewLayout {
+  height: 80vh;
+  overflow-y: auto;
+  width: 80%;
+  margin: 0 auto;
+  display: grid;
+  grid-display-rows: 1fr;
+  grid-template-columns: auto 300px auto;
+  grid-gap: 5px;
+  padding-bottom: 40px; }
+  .ViewLayout::-webkit-scrollbar {
+    width: 0 !important; }
+  .ViewLayout-item {
+    grid-column: span 1; }
+
+.DatasetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-auto-rows: 100px;
+  gap: 25px 10px; }
+  .DatasetGrid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+
+.PersonCard {
+  flex-direction: column; }
+  .PersonCard-item {
+    width: 100%;
+    flex-direction: start; }
+  .PersonCard-cv {
+    height: 80px;
+    width: 50%;
+    background: url("../../assets/img/cv-flat.png");
+    background-size: contain;
+    background-repeat: no-repeat; }
+  .PersonCard-name {
+    text-align: center; }
+
 .choiceButton {
   width: 250px;
   height: 30px; }
@@ -263,13 +527,3 @@ body.Page--Game {
   @media (max-width: 23.115em) {
     .MobileNofication {
       display: block; } }
-
-.is-inactive {
-  opacity: 0;
-  display: none; }
-
-.u-fade-in {
-  animation: fadein 0.3s ease-in-out; }
-
-.u-fade-out {
-  animation: fadeout 0.3s ease-in-out; }

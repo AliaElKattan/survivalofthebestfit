@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import * as tweenManager from 'pixi-tween';
-// console.log(PIXI);
 const debounce = require('debounce');
+import EVENTS from '../constants/events';
 
 // make fullscreen app
 const pixiApp = new PIXI.Application(
@@ -12,21 +12,16 @@ const pixiApp = new PIXI.Application(
 pixiApp.renderer.autoResize = true;
 
 
-//TODO - should these be pre-defined here?
-const officeContainer = new PIXI.Container();
-const personContainer = new PIXI.Container();
-const deskContainer = new PIXI.Container();
+// TODO - should these be pre-defined here?
+const officeStageContainer = new PIXI.Container();
+const mlLabStageContainer = new PIXI.Container();
 const timerContainer = new PIXI.Container();
-
 const beltContainer = new PIXI.Container();
 
-pixiApp.stage.addChild(officeContainer);
+pixiApp.stage.addChild(officeStageContainer);
 pixiApp.stage.addChild(timerContainer);
-
 pixiApp.stage.addChild(beltContainer);
-
-officeContainer.addChild(deskContainer);
-officeContainer.addChild(personContainer);
+pixiApp.stage.addChild(mlLabStageContainer);
 
 // shared eventEmitter across components
 const eventEmitter = new PIXI.utils.EventEmitter();
@@ -49,22 +44,8 @@ window.addEventListener('resize', debounce(resize, 200));
 
 function resize() {
     pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
+    eventEmitter.emit(EVENTS.RESIZE, {});
     // TODO redraw all the elements!
 }
 
-//TODO - should these be pre-defined here?
-function clearOfficeContainerGlobal() {
-    officeContainer.parent.removeChild(officeContainer);
-    console.log("Removed: " + officeContainer);
-
-    officeContainer = new PIXI.Container();
-    deskContainer = new PIXI.Container();
-    personContainer = new PIXI.Container();
-
-    officeContainer.addChild(deskContainer);
-    officeContainer.addChild(personContainer);
-} 
-
-
-export {pixiApp, beltContainer, officeContainer, personContainer, deskContainer,
-    timerContainer, eventEmitter, startTweenManager, stopTweenManager};
+export {pixiApp, beltContainer, officeStageContainer, mlLabStageContainer, timerContainer, eventEmitter, startTweenManager, stopTweenManager};

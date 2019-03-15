@@ -1,22 +1,31 @@
+import {TweenLite} from 'gsap/TweenMax';
 import $ from 'jquery';
 import CLASSES from '../../../controllers/constants/classes';
 import EVENTS from '../../../controllers/constants/events';
-import UIBase from '../old-pixi-components-demise/ui-base';
-import { eventEmitter } from '../../../controllers/game/gameSetup.js';
+import UIBase from '../ui-base/ui-base';
+import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
 
 export default class extends UIBase {
     constructor(options) {
         super();
         this._removeEventListeners();
-        this.$el = $('.js-resume'); // This should be a single element
+        this.$el = $('#js-resume');
         this.$nameEl = this.$el.find('.Resume__title');
         this.$taglineEl = this.$el.find('.Resume__tagline');
+        this.$scanline = this.$el.find('.Resume__scanline');
+        this.$mask = this.$el.find('.Resume__mask');
+        this.scanlineAnimDuration = 1.8;
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
         this._resumeFeatures = options ? options.features : undefined;
         this._resumes = options ? options.scores : undefined;
-        this._candidateNum = 0;
+        this._candidateId = options.candidateId || 0;
+        this.type = options.type || null;
         // this.setContent(); // set content
+
+        if (this.type === 'ml') {
+            this.$scanline.removeClass(CLASSES.IS_INACTIVE);
+        }
         if (options && options.show) {
             this.show();
             this.newCV();
@@ -27,12 +36,13 @@ export default class extends UIBase {
         if (this._resumes === undefined || this._resumeFeatures === undefined) {
             throw new Error('You need to pass CV scores to the CV viewer upon instantiation');
         };
-        if (this._candidateNum === this._resumes.length) alert('we have no CVs left');
-        this.showCV(this._resumes[this._candidateNum]);
-        this._candidateNum++;
+        if (this._candidateId === this._resumes.length) alert('we have no CVs left');
+        else this.showCV(this._resumes[this._candidateId]);
+        //this._candidateId++;
     }
 
     showCV(cv) {
+        // console.log(cv);
         this.$nameEl.html(cv.name);
         this.$taglineEl.html('personal tagline comes here');
         this._resumeFeatures.forEach((feature, index) => {
@@ -44,24 +54,32 @@ export default class extends UIBase {
         });
     }
 
-    _testLog() {
-        console.log('test emitter works!');
+    createScanTween() {
+        return TweenMax.to('#js-resume > .Resume__scanline', this.scanlineAnimDuration, {top: '100%', ease: Power0.easeNone})
+            .pause();
     }
 
-    _buttonIsClicked(e) {
-        this.$button.addClass(CLASSES.BUTTON_CLICKED);
-        eventEmitter.emit('instructionAcked', {});
-        this.hide();
+    createMaskTween() {
+        return TweenMax.to('#js-resume > .Resume__mask', this.scanlineAnimDuration, {height: '100%', ease: Power0.easeNone})
+            .pause();
+    }
+
+    showScanline() {
+        this.$scanline.removeClass(CLASSES.IS_INACTIVE);
+        this.$mask.removeClass(CLASSES.IS_INACTIVE);
+    }
+
+    hideScanline() {
+        this.$scanline.addClass(CLASSES.IS_INACTIVE);
+        this.$scanline.css('top', '0');
+        this.$mask.addClass(CLASSES.IS_INACTIVE);
+        this.$mask.css('height', '0');
     }
 
     _addEventListeners() {
-        eventEmitter.on(EVENTS.EMITTER_TEST, this._testLog());
-        this.$button.click(this._buttonIsClicked.bind(this));
     }
 
     _removeEventListeners() {
-        eventEmitter.off(EVENTS.EMITTER_TEST, this._testLog());
-        //this.$button.off(this._buttonIsClicked.bind(this));
     }
 
     show() {
@@ -74,7 +92,6 @@ export default class extends UIBase {
         this.$el.removeClass(CLASSES.FADE_IN)
             .addClass(CLASSES.FADE_OUT)
             .addClass(CLASSES.IS_INACTIVE);
-
         // TODO you might need a delayed call for this
     }
 
