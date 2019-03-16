@@ -5,7 +5,10 @@
   "main": "app.js",
   "config": {},
   "nodemonConfig": {
-    "ignore": ["**/fontawesome-free/*", "node_modules/*"]
+    "ignore": [
+      "**/fontawesome-free/*",
+      "node_modules/*"
+    ]
   },
   "scripts": {
     "test": "test scrip include from karma website",
@@ -22,6 +25,7 @@
     "@babel/preset-env": "^7.3.1",
     "babelify": "^10.0.0",
     "browserify": "^16.2.3",
+    "browsernizr": "^2.3.0",
     "component-loader-js": "^4.0.0",
     "debounce": "^1.2.0",
     "express": "^4.16.4",
@@ -37,6 +41,7 @@
     "pixi-tween": "^0.2.0",
     "pixi.js": "^4.8.5",
     "pug": "^2.0.3",
+    "requirejs": "^2.3.6",
     "sass-mq": "^5.0.0",
     "watchify": "^3.11.1"
   },
