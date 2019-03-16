@@ -10,5 +10,6 @@ export default {
     CV_WORK: 'work',
     CV_AMBITION: 'ambition',
     CV_SCHOOL: 'school',
-    NEWS_FEED_ITEM: 'NewsList-item'
+    NEWS_FEED_ITEM: 'NewsList-item',
+    ML_RESUME: 'Resume--ml',
 };

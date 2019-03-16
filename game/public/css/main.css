@@ -51,7 +51,7 @@ body.Page--Game {
 
 #gameCanvas {
   display: block; }
-  @media (max-width: 23.115em) {
+  @media (max-width: 23.74em) {
     #gameCanvas {
       display: none; } }
 
@@ -87,12 +87,10 @@ body.Page--Game {
     right: -5px;
     transform: translateY(1px) skewY(25deg); }
   .button:before {
-    background: #919191;
-   }
+    background: #919191; }
   .button:after {
     background: #B9B9B9; }
   .button:hover {
-    color: #111111;
     cursor: pointer; }
   .button.is-clicked {
     color: #000000;
@@ -167,6 +165,8 @@ body.Page--Game {
     background: #7DA6BE; }
   .Resume:after {
     background: #CDE4F1; }
+  .Resume--ml {
+    top: 5%; }
   .Resume--dataset {
     display: block;
     opacity: 1;
@@ -526,6 +526,6 @@ body.Page--Game {
 
 .MobileNofication {
   display: none; }
-  @media (max-width: 23.115em) {
+  @media (max-width: 23.74em) {
     .MobileNofication {
       display: block; } }
