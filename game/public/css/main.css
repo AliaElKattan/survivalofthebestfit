@@ -87,8 +87,7 @@ body.Page--Game {
     right: -5px;
     transform: translateY(1px) skewY(25deg); }
   .button:before {
-    background: #919191;
-   }
+    background: #919191; }
   .button:after {
     background: #B9B9B9; }
   .button:hover {
@@ -138,7 +137,7 @@ body.Page--Game {
 .Resume {
   color: inherit;
   background-color: #FAFAFA;
-  box-shadow: inset 0 0 0 2px #CDE4F1;
+  /* box-shadow: inset 0 0 0 2px #CDE4F1; */
   padding: 20px 20px 40px 20px;
   position: absolute;
   right: 20px;
@@ -163,10 +162,23 @@ body.Page--Game {
     width: 10px;
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
-  .Resume:before {
+  .Resume--blue:before {
     background: #7DA6BE; }
-  .Resume:after {
-    background: #CDE4F1; }
+    .Resume--yellow:before {
+      background: #E8C67B; }
+  .Resume--blue:after {
+    background: #CDE4F1;
+  }
+  .Resume--yellow:after {
+    background: #FFDB8C;
+  }
+  .Resume--yellow {
+    box-shadow: inset 0 0 0 2px #FFDB8C;
+
+  }
+  .Resume--blue {
+box-shadow: inset 0 0 0 2px #CDE4F1;
+  }
   .Resume--dataset {
     display: block;
     opacity: 1;
