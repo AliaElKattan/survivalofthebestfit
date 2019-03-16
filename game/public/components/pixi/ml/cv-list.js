@@ -8,7 +8,7 @@ export default class {
         this.xAnchor = options.x || 20;
         this.yAnchor = options.y;
         this.numOfResumes = options.num || 15; // TODO fix that
-        this.resumeXOffset = uv2px(1/this.numOfResumes, 'w');
+        this.resumeXOffset = uv2px(1/this.numOfResumes,'w');
         this.resumeList = [];
         this._resumeContainer = new PIXI.Container();
         this._initalizeResumes();
@@ -32,11 +32,10 @@ export default class {
         for (let i = 0; i < this.numOfResumes; i++) {
             const resume = new Resume({
                 parent: this._resumeContainer,
-                x: i*this.resumeXOffset,
+                x: i*this.resumeXOffset + uv2px(.02, 'w'),
                 y: 0,
             });
             this.resumeList.push(resume);
         }
     }
 }
-
