@@ -8,11 +8,15 @@ loader
     .add('scanRay', 'assets/img/scan-ray.png')
     .add('rayAnim', 'assets/spritesheets/machine-ray/ray_spritesheet.json')
     .add('dataServerRejected', 'assets/spritesheets/data-server-rejected/data-server.json')
-    .add('dataServerAccepted', 'assets/spritesheets/data-server-accepted/data-server.json');
+    .add('dataServerAccepted', 'assets/spritesheets/data-server-accepted/data-server.json')
+    .add('doorAccepted', 'assets/img/door-accepted.png')
+    .add('doorRejected', 'assets/img/door-rejected.png');
 
 async function loadAssets() {
     await new Promise((resolve, reject) => {
         loader.load((loader, resources) => {
+            SPRITES.doorAccepted = new PIXI.Sprite(resources.doorAccepted.texture);
+            SPRITES.doorRejected = new PIXI.Sprite(resources.doorRejected.texture);
             SPRITES.machine = new PIXI.Sprite(resources.machine.texture);
             SPRITES.scanRay = new PIXI.Sprite(resources.scanRay.texture);
             SPRITES.inspectButton = new PIXI.Sprite(resources.inspectButton.texture);

@@ -32,7 +32,7 @@ export default class MLLab {
         this.doors = [
             new Door({
                 x: uv2px(0.03, 'w'),
-                y: uv2px(0.7, 'h'),
+                y: uv2px(0.66, 'h'), // TODO: better way of drawing doors
             }), // ground floor door
         ];
         this.resumeList = new Resumes({
@@ -92,6 +92,10 @@ export default class MLLab {
             this.tweens.resumesTween.reset();
             // play machine ray animation
             setTimeout(()=> {
+                // show the new CV
+                const person = this.people.getFirstPerson();
+                if (person) this.resumeUI.showCV(person.getData());
+                // play the animation
                 this.tweens.rayAnim.visible = true;
                 this.tweens.rayAnim.animationSpeed = 0.5;
                 this.tweens.rayAnim.play();
@@ -106,6 +110,7 @@ export default class MLLab {
 
         // once the scanline animation is done ...
         this.tweens.resumeScanline.eventCallback('onComplete', () => {
+            this.makeDecision();
             // hide the scaneline and reset its position
             this.resumeUI.hideScanline();
             // start animating the data servers
@@ -123,6 +128,15 @@ export default class MLLab {
             this.tweens.resumesTween.start();
             this.animLoopCount++;
         });
+    }
+
+    makeDecision() {
+        console.log('change candidate!');
+        this.people.evaluateFirstPerson();
+        // 1. decide if the candidate was accepted or rejected
+        // 2. add a new CV to the dataset inspector
+        // 3. animate the people and update the CVs
+        // remove the candidate you've just evaluated
     }
 
     destroyTweens() {
