@@ -1,9 +1,9 @@
-import { TweenLite } from 'gsap/TweenMax';
+import {TweenLite} from 'gsap/TweenMax';
 import $ from 'jquery';
 import CLASSES from '../../../controllers/constants/classes';
 import EVENTS from '../../../controllers/constants/events';
 import UIBase from '../ui-base/ui-base';
-import { eventEmitter } from '../../../controllers/game/gameSetup.js';
+import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
 export default class extends UIBase {
     constructor(options) {
@@ -19,8 +19,10 @@ export default class extends UIBase {
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
         this._resumeFeatures = options ? options.features : undefined;
         this._resumes = options ? options.scores : undefined;
+        this._candidateId = options.candidateId || 0;
         this.type = options.type || null;
         // this.setContent(); // set content
+
 
         if (this.type === 'ml') {
             this.$el.addClass(CLASSES.ML_RESUME);
@@ -31,6 +33,7 @@ export default class extends UIBase {
             this.newCV();
         }
     }
+
 
     newCV() {
         if (this._resumes === undefined || this._resumeFeatures === undefined) {
@@ -48,7 +51,7 @@ export default class extends UIBase {
         this.$nameEl.html(cv.name);
         this.$taglineEl.html('personal tagline comes here');
         this._resumeFeatures.forEach((feature, index) => {
-            const skillScore = cv.qualifications[index] * 10;
+            const skillScore = cv.qualifications[index]*10;
             const skillClass = `.${CLASSES.CV_CATEGORY}--${feature.class}`;
             const $skillEl = this.$el.find(skillClass);
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__name`).html(feature.name);
@@ -69,12 +72,12 @@ export default class extends UIBase {
     }
 
     createScanTween() {
-        return TweenMax.to('#js-resume > .Resume__scanline', this.scanlineAnimDuration, { top: '100%', ease: Power0.easeNone })
+        return TweenMax.to('#js-resume > .Resume__scanline', this.scanlineAnimDuration, {top: '100%', ease: Power0.easeNone})
             .pause();
     }
 
     createMaskTween() {
-        return TweenMax.to('#js-resume > .Resume__mask', this.scanlineAnimDuration, { height: '100%', ease: Power0.easeNone })
+        return TweenMax.to('#js-resume > .Resume__mask', this.scanlineAnimDuration, {height: '100%', ease: Power0.easeNone})
             .pause();
     }
 
