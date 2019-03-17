@@ -1,17 +1,18 @@
 import * as machina from 'machina';
-import {incubator} from '../common/textures.js';
-import {pixiApp, eventEmitter} from './gameSetup.js';
-import {Office} from '../../components/pixi/office.js';
+import { incubator } from '../common/textures.js';
+import { pixiApp, eventEmitter } from './gameSetup.js';
+import { Office } from '../../components/pixi/office.js';
 import MLLab from '../../components/pixi/ml/lab.js';
+import TitlePageUI from '../../components/interface/ui-title/ui-title';
 import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
-import {cvCollection} from '../../assets/text/cvCollection.js';
-
+import { cvCollection } from '../../assets/text/cvCollection.js';
 
 let office;
 let transitionOverlay;
+let titlePageUI;
 
 /**
  * MINIMIZE GAME SETUP CODE HERE. Try to shift setup into other files respective to stage
@@ -21,33 +22,59 @@ const gameFSM = new machina.Fsm({
     namespace: 'game-fsm',
     states: {
         uninitialized: {
-            startGame: function() {
-
+            startGame: function () {
+                this.transition('titleStage');
                 // this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
-                this.transition('mlLabStage');
+                // this.transition('mlLabStage');
             },
         },
 
         /* ///////////////////
-        // Welcome image
+        // Title stage
         */// /////////////////
-        welcomeStage: {
-            _onEnter: function() {
-                this.timer = setTimeout(() => {
-                    this.handle('timeout');
-                }, 300);
+        titleStage: {
+            _onEnter: function () {
+                titlePageUI = new TitlePageUI({
+                    headerText: txt.titleStage.header,
+                    content: txt.titleStage.instruction,
+                    responses: txt.titleStage.responses,
+                    show: true,
+                });
 
-                this.image = new PIXI.Sprite(incubator);
-                pixiApp.stage.addChild(this.image);
-                this.image.scale.set(0.7);
+                eventEmitter.on('first-start-button-clicked', () => {
+                    this.handle('nextStage');
+                });
             },
 
-            timeout: 'smallOfficeStage',
+            nextStage: 'tutorialStage',
 
-            _onExit: function() {
-                clearTimeout(this.timer);
-                this.image.parent.removeChild(this.image);
+            _onExit: function () {
+
+            },
+        },
+
+        /* ///////////////////
+        // Tutorial stage
+        */// /////////////////
+        tutorialStage: {
+            _onEnter: function () {
+                titlePageUI.updateContent({
+                    headerText: txt.tutorialStage.header,
+                    content: txt.tutorialStage.instruction,
+                    responses: txt.tutorialStage.responses,
+                    show: true,
+                });
+
+                eventEmitter.on('second-start-button-clicked', () => {
+                    this.handle('nextStage');
+                });
+            },
+
+            nextStage: 'smallOfficeStage',
+            
+            _onExit: function () {
+
             },
         },
 
@@ -56,7 +83,7 @@ const gameFSM = new machina.Fsm({
         */// /////////////////
 
         smallOfficeStage: {
-            _onEnter: function() {
+            _onEnter: function () {
                 new TextBoxUI({
                     content: txt.smallOfficeStage.messageFromVc,
                     responses: txt.smallOfficeStage.responses,
@@ -67,11 +94,11 @@ const gameFSM = new machina.Fsm({
                 });
             },
 
-            setupOffice: function() {
+            setupOffice: function () {
                 office = new Office();
-                new TaskUI({show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription});
+                new TaskUI({ show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription });
 
-                eventEmitter.on('person-clicked', () => {
+                eventEmitter.on('person-hovered', () => {
                     new ResumeUI({
                         show: true,
                         features: cvCollection.cvFeatures,
@@ -83,7 +110,7 @@ const gameFSM = new machina.Fsm({
 
             nextStage: 'mediumOfficeStage',
 
-            _onExit: function() {
+            _onExit: function () {
 
             },
         },
@@ -92,7 +119,7 @@ const gameFSM = new machina.Fsm({
         // Big office, city level view
         */// /////////////////
         mediumOfficeStage: {
-            _onEnter: function() {
+            _onEnter: function () {
                 new TextBoxUI({
                     content: txt.mediumOfficeStage.messageFromVc,
                     responses: txt.mediumOfficeStage.responses,
@@ -107,14 +134,14 @@ const gameFSM = new machina.Fsm({
                 });
             },
 
-            expandOffice: function() {
+            expandOffice: function () {
                 office.expandOffice();
-                new TaskUI({show: true, hires: 10, duration: 30, content: txt.mediumOfficeStage.taskDescription});
+                new TaskUI({ show: true, hires: 10, duration: 30, content: txt.mediumOfficeStage.taskDescription });
             },
 
             nextStage: 'bigOfficeStage',
 
-            _onExit: function() {
+            _onExit: function () {
 
             },
         },
@@ -123,32 +150,32 @@ const gameFSM = new machina.Fsm({
         // Huge office, ccountry level view
         */// /////////////////
         bigOfficeStage: {
-            _onEnter: function() {
+            _onEnter: function () {
                 office.expandOffice();
             },
 
             nextStage: 'mlTransitionStage',
 
-            _onExit: function() {
+            _onExit: function () {
 
             },
         },
 
         mlTransitionStage: {
-            _onEnter: function() {
+            _onEnter: function () {
                 if (office) office.delete();
-                transitionOverlay = new TransitionOverlay({show: true});
+                transitionOverlay = new TransitionOverlay({ show: true });
             },
 
             nextStage: 'mlLabStage',
 
-            _onExit: function() {
+            _onExit: function () {
                 transitionOverlay.destroy();
             },
         },
 
         mlLabStage: {
-            _onEnter: function() {
+            _onEnter: function () {
                 new MLLab();
             },
             // TODO destroy the lab!
@@ -160,12 +187,12 @@ const gameFSM = new machina.Fsm({
     },
 
 
-    startGame: function() {
+    startGame: function () {
         this.handle('startGame');
     },
-    nextStage: function() {
+    nextStage: function () {
         this.handle('nextStage');
     },
 });
 
-export {gameFSM};
+export { gameFSM };

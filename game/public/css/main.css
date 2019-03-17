@@ -133,6 +133,70 @@ body.Page--Game {
   .Textbox__head {
     color: #B2B2B2; }
 
+.Titlepage {
+  color: inherit;
+  background-color: #FAFAFA;
+  padding: 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 800px;
+  max-width: 1200px; }
+  .Titlepage:before, .Titlepage:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .Titlepage:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .Titlepage:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .Titlepage:before {
+    background: #919191; }
+  .Titlepage:after {
+    background: #B9B9B9; }
+  .Titlepage__head {
+    color: #B2B2B2; }
+
+.title-blue-person {
+  max-height: 150px;
+  margin: auto;
+  display: inherit; }
+
+.Titlepage__wrapper {
+  background: url("../../assets/img/landing-graphic.png") no-repeat center;
+  width: 100%;
+  height: auto;
+  background-attachment: scroll;
+  background-size: cover; }
+
+h1 {
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: 700; }
+
+h2 {
+  text-align: center;
+  font-size: 1.2rem; }
+
+.title-buttons {
+  display: inherit;
+  width: 200px;
+  height: 60px;
+  margin: auto;
+  margin-top: 1rem;
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-weight: 700; }
+
 .Resume {
   color: inherit;
   background-color: #FAFAFA;

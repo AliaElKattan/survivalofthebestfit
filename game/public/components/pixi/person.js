@@ -20,7 +20,7 @@ class PersonController {
 }
 
 function onPersonHover(event) {
-    eventEmitter.emit('person-clicked', {});
+    eventEmitter.emit('person-hovered', {});
     candidateInScope = this.id;
     console.log("Current Candidate ID: " + candidateInScope);
 }

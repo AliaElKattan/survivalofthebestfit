@@ -23,6 +23,7 @@ export default class {
             const person = new MLPerson({
                 parent: this.container,
                 x: i*this.personXoffset,
+                id: i
             });
             person.draw();
             this.peopleLine.push(person);
