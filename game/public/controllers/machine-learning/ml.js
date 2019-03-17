@@ -12,24 +12,32 @@ const options = {
 const classifier = new RandomForestClassifier(options);
 
 const trainClf = (trainingSet) => {
-    [featureArr, labelArr] = cvPreproc(trainingSet);
-    [trainX, trainY, validX, validY] = splitTrainTest(featureArr, labelArr, 0.2);
+    const [featureArr, labelArr] = cvPreproc(trainingSet);
+    const [trainX, trainY, validX, validY] = splitTrainTest(featureArr, labelArr, 0.2);
     classifier.train(trainX, trainY);
     testClf(validX, validY);
 };
 
-const predictClf = () => {
-    let result = classifier.predict(trainingSet);
+const predictClf = (inputSet) => {
+    return classifier.predict(inputSet);
 };
 
-const testClf = () => {
+const testClf = (validX, validY) => {
+    const prediction = predictClf(validX);
+    let hits = 0;
+    prediction.forEach((element, index) => {
+        if (element == validY[index]) {
+            hits++;
+        }
+    });
+    console.log('Accuracy: ' + hits/validY.length);
 
 };
 
 const splitTrainTest = (featureArr, labelArr, ratio) => {
-    const breakPoint = Math.floor(featureArr.size() * ratio);
-    const trainX = featureArr.slice(breakPoint, featureArr.size());
-    const trainY = labelArr.slice(breakPoint, featureArr.size());
+    const breakPoint = Math.floor(featureArr.length * ratio);
+    const trainX = featureArr.slice(breakPoint, featureArr.length);
+    const trainY = labelArr.slice(breakPoint, featureArr.length);
     const validX = featureArr.slice(0, breakPoint);
     const validY = labelArr.slice(0, breakPoint);
     return [trainX, trainY, validX, validY];
@@ -43,7 +51,7 @@ const cvPreproc = (json) => {
     const features = [];
     const labels = [];
     shuffle(json);
-    for (let i = 0; i < json.size(); i++) {
+    for (let i = 0; i < json.length; i++) {
         let cv = [];
         cv = cv.concat(json[i]['qualifications']);
         cv.push(json[i]['city']);
