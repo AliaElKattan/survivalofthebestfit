@@ -51,7 +51,7 @@ body.Page--Game {
 
 #gameCanvas {
   display: block; }
-  @media (max-width: 23.115em) {
+  @media (max-width: 23.74em) {
     #gameCanvas {
       display: none; } }
 
@@ -91,7 +91,6 @@ body.Page--Game {
   .button:after {
     background: #B9B9B9; }
   .button:hover {
-    color: #111111;
     cursor: pointer; }
   .button.is-clicked {
     color: #000000;
@@ -137,7 +136,7 @@ body.Page--Game {
 .Resume {
   color: inherit;
   background-color: #FAFAFA;
-  /* box-shadow: inset 0 0 0 2px #CDE4F1; */
+  box-shadow: inset 0 0 0 2px #CDE4F1;
   padding: 20px 20px 40px 20px;
   position: absolute;
   right: 20px;
@@ -162,23 +161,12 @@ body.Page--Game {
     width: 10px;
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
-  .Resume--blue:before {
+  .Resume:before {
     background: #7DA6BE; }
-    .Resume--yellow:before {
-      background: #E8C67B; }
-  .Resume--blue:after {
-    background: #CDE4F1;
-  }
-  .Resume--yellow:after {
-    background: #FFDB8C;
-  }
-  .Resume--yellow {
-    box-shadow: inset 0 0 0 2px #FFDB8C;
-
-  }
-  .Resume--blue {
-box-shadow: inset 0 0 0 2px #CDE4F1;
-  }
+  .Resume:after {
+    background: #CDE4F1; }
+  .Resume--ml {
+    top: 5%; }
   .Resume--dataset {
     display: block;
     opacity: 1;
@@ -538,6 +526,6 @@ box-shadow: inset 0 0 0 2px #CDE4F1;
 
 .MobileNofication {
   display: none; }
-  @media (max-width: 23.115em) {
+  @media (max-width: 23.74em) {
     .MobileNofication {
       display: block; } }

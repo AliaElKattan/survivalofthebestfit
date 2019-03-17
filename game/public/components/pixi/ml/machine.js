@@ -1,7 +1,10 @@
+import mq from 'browsernizr/lib/mq';
 import {mlLabStageContainer} from '../../../controllers/game/gameSetup';
 import {SPRITES} from '../../../controllers/common/textures.js';
-import {uv2px, spacingUtils as space} from '../../../controllers/common/utils.js';
+import {screenSizeDetector, uv2px, spacingUtils as space} from '../../../controllers/common/utils.js';
 import EVENTS from '../../../controllers/constants/events.js';
+import BREAKPOINTS from '../../../controllers/constants/breakpoints.js';
+import SCALES from '../../../controllers/constants/pixi-scales.js';
 import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
 
@@ -9,7 +12,7 @@ export default class {
     constructor(options) {
         this.machine = SPRITES.machine;
         this.inspectButton = SPRITES.inspectButton;
-        this.scale = 0.7;
+        this.scale = SCALES.MACHINE[screenSizeDetector()];
         this._resizeHandler = this._resizeHandler.bind(this);
         this._addEventListeners();
     }
@@ -36,14 +39,14 @@ export default class {
 
     // (re)compute draw parameter values
 
-    _computeParams() {
-
+    _recomputeParams() {
+        this.scale = SCALES.MACHINE[screenSizeDetector()];
     }
 
     // resize function
 
     _resizeHandler() {
-        this._computeParams();
+        this._recomputeParams();
         this._draw();
     }
 

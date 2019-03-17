@@ -1,13 +1,14 @@
 import {mlLabStageContainer} from '../../../controllers/game/gameSetup.js';
-import {spacingUtils as space} from '../../../controllers/common/utils.js';
+import {screenSizeDetector, spacingUtils as space} from '../../../controllers/common/utils.js';
 import {SPRITES} from '../../../controllers/common/textures.js';
 import EVENTS from '../../../controllers/constants/events.js';
+import SCALES from '../../../controllers/constants/pixi-scales.js';
 import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
 export default class {
     constructor({machine, side}) {
         this.dataServer = side === 'left' ? SPRITES.dataServerRejected : SPRITES.dataServerAccepted;
-        this.dataServerScale = 0.22;
+        this.dataServerScale = SCALES.DATA_SERVER[screenSizeDetector()];
         this.directionVector = side === 'left' ? -1 : 1;
         this.machine = machine;
         this.machineDim = undefined;
@@ -22,7 +23,6 @@ export default class {
 
     addToPixi() {
         this._initParams();
-        this._computeParams();
         this._draw();
         mlLabStageContainer.addChild(this.dataServer);
     }
@@ -33,13 +33,16 @@ export default class {
         this.dataServer.loop = false;
         this.dataServer.animationSpeed = 0.17;
         this.dataServer.gotoAndStop(0);
+        this.machineDim = this.machine.getMachineDimensions();
+        this.centerX = space.getCenteredChildX(this.machineDim.x, this.machineDim.width, this.dataServer.width*this.dataServerScale);
     }
 
     // sprite parameters (re)computed on canvas resizing
 
-    _computeParams() {
+    _recomputeParams() {
+        this.dataServerScale = SCALES.DATA_SERVER[screenSizeDetector()];
         this.machineDim = this.machine.getMachineDimensions();
-        this.centerX = space.getCenteredChildX(this.machineDim.x, this.machineDim.width, this.dataServer.width*this.dataServerScale);
+        this.centerX = space.getCenteredChildX(this.machineDim.x, this.machineDim.width, this.dataServer.width);
     }
 
     // draw based on dimension parameters
@@ -59,7 +62,7 @@ export default class {
     // resize event handler
 
     _resizeHandler() {
-        this._computeParams();
+        this._recomputeParams();
         this._draw();
     }
 

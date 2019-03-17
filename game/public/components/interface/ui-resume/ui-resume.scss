@@ -9,10 +9,18 @@
   position: absolute;
   right: margin(sm);
   top: 45%;
+  &--ml {
+    top: 5%;
+  }
   min-width: 250px;
   min-height: 300px;
   max-height: 700px;
   max-width: 500px;
+
+  // @include mq($until: mobile) {
+  //     width: 300px !important;
+  //     height: 300px;
+  // }
 
   &--dataset {
     display: block;

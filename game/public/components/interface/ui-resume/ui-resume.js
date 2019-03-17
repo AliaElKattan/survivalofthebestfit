@@ -38,6 +38,7 @@ export default class extends UIBase {
 
 
         if (this.type === 'ml') {
+            this.$el.addClass(CLASSES.ML_RESUME);
             this.$scanline.removeClass(CLASSES.IS_INACTIVE);
         }
         if (options && options.show) {
