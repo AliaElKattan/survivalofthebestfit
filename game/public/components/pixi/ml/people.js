@@ -37,8 +37,8 @@ export default class {
     }
 
     evaluateFirstPerson() {
-        this.people[0].status = Math.random() < 0.5 ? 'accepted' : 'rejected';
-        this.people.removeFirstPerson();
+        this.peopleLine[0].status = Math.random() < 0.5 ? 'accepted' : 'rejected';
+        this.removeFirstPerson();
     }
 
     removeFirstPerson() {

@@ -207,7 +207,7 @@ h2 {
   min-width: 250px;
   min-height: 300px;
   max-height: 700px;
-  max-width: 500px; }
+  max-width: 400px; }
   .Resume:before, .Resume:after {
     content: "";
     display: inline-block;
@@ -246,6 +246,8 @@ h2 {
       background: #CDE4F1; }
   .Resume--ml {
     top: 5%; }
+  .Resume__title {
+    font-size: 2rem; }
   .Resume--dataset {
     display: block;
     opacity: 1;
