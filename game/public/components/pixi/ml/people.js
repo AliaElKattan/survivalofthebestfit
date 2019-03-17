@@ -25,6 +25,7 @@ export default class {
                 parent: this.container,
                 x: i*this.personXoffset,
                 personData: cvCollection.smallOfficeStage[i],
+                id: i,
             });
             person.draw();
             this.peopleLine.push(person);

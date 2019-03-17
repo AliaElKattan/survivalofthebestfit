@@ -3,15 +3,16 @@ import {incubator} from '../common/textures.js';
 import {pixiApp, eventEmitter} from './gameSetup.js';
 import {Office} from '../../components/pixi/office.js';
 import MLLab from '../../components/pixi/ml/lab.js';
+import TitlePageUI from '../../components/interface/ui-title/ui-title';
 import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
 import {cvCollection} from '../../assets/text/cvCollection.js';
 
-
 let office;
 let transitionOverlay;
+let titlePageUI;
 
 /**
  * MINIMIZE GAME SETUP CODE HERE. Try to shift setup into other files respective to stage
@@ -22,32 +23,58 @@ const gameFSM = new machina.Fsm({
     states: {
         uninitialized: {
             startGame: function() {
-
-                // this.transition('smallOfficeStage');
+                // this.transition('titleStage');
+                this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
-                this.transition('mlLabStage');
+                // this.transition('mlLabStage');
             },
         },
 
         /* ///////////////////
-        // Welcome image
+        // Title stage
         */// /////////////////
-        welcomeStage: {
+        titleStage: {
             _onEnter: function() {
-                this.timer = setTimeout(() => {
-                    this.handle('timeout');
-                }, 300);
+                titlePageUI = new TitlePageUI({
+                    headerText: txt.titleStage.header,
+                    content: txt.titleStage.instruction,
+                    responses: txt.titleStage.responses,
+                    show: true,
+                });
 
-                this.image = new PIXI.Sprite(incubator);
-                pixiApp.stage.addChild(this.image);
-                this.image.scale.set(0.7);
+                eventEmitter.on('first-start-button-clicked', () => {
+                    this.handle('nextStage');
+                });
             },
 
-            timeout: 'smallOfficeStage',
+            nextStage: 'tutorialStage',
 
             _onExit: function() {
-                clearTimeout(this.timer);
-                this.image.parent.removeChild(this.image);
+
+            },
+        },
+
+        /* ///////////////////
+        // Tutorial stage
+        */// /////////////////
+        tutorialStage: {
+            _onEnter: function() {
+                titlePageUI.updateContent({
+                    headerText: txt.tutorialStage.header,
+                    content: txt.tutorialStage.instruction,
+                    responses: txt.tutorialStage.responses,
+                    show: true,
+                });
+
+                eventEmitter.on('second-start-button-clicked', () => {
+                    this.handle('nextStage');
+                });
+            },
+
+            nextStage: 'smallOfficeStage',
+
+            _onExit: function() {
+
             },
         },
 
@@ -71,14 +98,14 @@ const gameFSM = new machina.Fsm({
                 office = new Office();
                 new TaskUI({show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription});
 
-                eventEmitter.on('person-clicked', () => {
+                eventEmitter.on('person-hovered', () => {
                     new ResumeUI({
                         show: true,
                         features: cvCollection.cvFeatures,
                         scores: cvCollection.smallOfficeStage,
-                        candidateId: candidateInScope
+                        candidateId: candidateInScope,
                     });
-                })
+                });
             },
 
             nextStage: 'mediumOfficeStage',

@@ -55,7 +55,14 @@ export default class MLLab {
         this.belt = new ConveyorBelt({
             y: uv2px(.43, 'h'),
         });
-        this.resumeUI = new ResumeUI({show: true, type: 'ml', features: cvCollection.cvFeatures, scores: cvCollection.smallOfficeStage});
+        //TODO change the scores and candidateId logic -> we can handle with event emitter
+        //is the cv shown based on the person clicked? 
+        this.resumeUI = new ResumeUI({
+            show: true, type: 'ml', 
+            features: cvCollection.cvFeatures, 
+            scores: cvCollection.smallOfficeStage,
+            candidateId: candidateInScope
+        });
         this.tweens = {};
         this.animLoopCount = 0;
 
