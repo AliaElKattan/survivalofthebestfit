@@ -101,9 +101,11 @@ class Office {
         let texture = bluePersonTexture;
 
         for (let i = 0; i < count; i++) {
-            //TODO handle diff textures
-            let color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
-            texture = (color === "yellow") ? yellowPersonTexture : bluePersonTexture; 
+            // TODO handle diff textures
+            const color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
+            const name = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].name;
+            console.log(`${name}: ${color}`);
+            texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
             createPerson(x, (Math.random() * 0.1) + 0.8, this, this.uniqueCandidateIndex, texture);
             this.uniqueCandidateIndex++;
             x += 0.05;

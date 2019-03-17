@@ -10,14 +10,7 @@ export default class extends UIBase {
         super();
         this._removeEventListeners();
 
-        this._candidateId = options.candidateId || 0;
-        this.$el = $('.js-resume'); // This should be a single element
-
-        if (options.show) {
-            this.color = options.scores[this._candidateId].color;
-            this.$el = (this.color === "yellow") ? $('#js-resume-y') : $('#js-resume-b');
-        }
-        
+        this.$el = $('#js-resume');
         this.$nameEl = this.$el.find('.Resume__title');
         this.$taglineEl = this.$el.find('.Resume__tagline');
         this.$scanline = this.$el.find('.Resume__scanline');
@@ -46,10 +39,12 @@ export default class extends UIBase {
         if (this._candidateId === this._resumes.length) alert('we have no CVs left');
         else {
             this.showCV(this._resumes[this._candidateId]);
+        // this._candidateId++;
         }
     }
 
     showCV(cv) {
+        this.setColor(cv.color);
         this.$nameEl.html(cv.name);
         this.$taglineEl.html('personal tagline comes here');
         this._resumeFeatures.forEach((feature, index) => {
@@ -59,7 +54,18 @@ export default class extends UIBase {
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__name`).html(feature.name);
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__progress`).css('width', `${skillScore}%`);
         });
+    }
 
+    setColor(color) {
+        if (color === 'yellow') {
+            this.$el
+                .addClass(CLASSES.RESUME_YELLOW)
+                .removeClass(CLASSES.RESUME_BLUE);
+        } else {
+            this.$el
+                .addClass(CLASSES.RESUME_BLUE)
+                .removeClass(CLASSES.RESUME_YELLOW);
+        };
     }
 
     createScanTween() {
