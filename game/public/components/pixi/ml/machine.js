@@ -1,73 +1,86 @@
-import * as PIXI from 'pixi.js';
-import {pixiApp} from '../../../controllers/game/gameSetup';
+import mq from 'browsernizr/lib/mq';
+import {mlLabStageContainer} from '../../../controllers/game/gameSetup';
 import {SPRITES} from '../../../controllers/common/textures.js';
-import {uv2px, spacingUtils as space} from '../../../controllers/common/utils.js';
+import {screenSizeDetector, uv2px, spacingUtils as space} from '../../../controllers/common/utils.js';
 import EVENTS from '../../../controllers/constants/events.js';
+import BREAKPOINTS from '../../../controllers/constants/breakpoints.js';
+import SCALES from '../../../controllers/constants/pixi-scales.js';
 import {eventEmitter} from '../../../controllers/game/gameSetup.js';
+
 
 export default class {
     constructor(options) {
         this.machine = SPRITES.machine;
         this.inspectButton = SPRITES.inspectButton;
-        this.scale = 0.7;
-        this.scanRay = SPRITES.rayAnim;
-        // this.rayAnim = SPRITES.rayAnim;
-        // console.log(this.rayAnim);
-        this.machineAnchors = {
-            x: space.screenCenterX(this.machine.width*this.scale),
-            y: space.screenCenterY(this.machine.height*this.scale) - uv2px(0.27, 'h'),
-        };
-        this.scanRayAnchors = {
-            x: space.getCenteredChildX(this.machineAnchors.x, this.machine.width*this.scale, this.scanRay.width*this.scale),
-            y: this.machineAnchors.y + this.machine.height*this.scale,
-        };
-        this.inspectButtonAnchors = {
-            x: space.getCenteredChildX(this.machineAnchors.x, this.machine.width*this.scale, this.inspectButton.width*this.scale),
-            y: space.getCenteredChildY(this.machineAnchors.y, this.machine.height*this.scale, this.inspectButton.height*this.scale),
-        };
-        this._setup();
+        this.scale = SCALES.MACHINE[screenSizeDetector()];
+        this._resizeHandler = this._resizeHandler.bind(this);
+        this._addEventListeners();
     }
 
-    _setup() {
-        // inspect button click
+    // add element to pixi container
+
+    addToPixi() {
+        this._draw();
+        mlLabStageContainer.addChild(this.machine);
+        mlLabStageContainer.addChild(this.inspectButton);
+    }
+
+    // draw based on current dimensions
+
+    _draw() {
+        this.machine.scale.set(this.scale);
+        this.machine.x = space.screenCenterX(this.machine.width);
+        this.machine.y = space.screenCenterY(this.machine.height) - uv2px(0.27, 'h');
+
+        this.inspectButton.scale.set(this.scale);
+        this.inspectButton.x = space.getCenteredChildX(this.machine.x, this.machine.width, this.inspectButton.width);
+        this.inspectButton.y = space.getCenteredChildY(this.machine.y, this.machine.height, this.inspectButton.height);
+    }
+
+    // (re)compute draw parameter values
+
+    _recomputeParams() {
+        this.scale = SCALES.MACHINE[screenSizeDetector()];
+    }
+
+    // resize function
+
+    _resizeHandler() {
+        this._recomputeParams();
+        this._draw();
+    }
+
+    // add event listeners
+
+    _addEventListeners() {
         this.inspectButton.interactive = true;
         this.inspectButton.buttonMode = true;
         this.inspectButton.on('click', this._inspectButtonClickHandler);
+        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler);
     }
 
-    draw() {
-        this.machine.scale.set(this.scale);
-        this.machine.y = this.machineAnchors.y;
-        this.machine.x = this.machineAnchors.x;
-        pixiApp.stage.addChild(this.machine);
+    // remove event listeners
 
-        this.scanRay.scale.set(this.scale);
-        this.scanRay.y = this.scanRayAnchors.y;
-        this.scanRay.x = this.scanRayAnchors.x;
-        this.scanRay.loop = false;
-        this.scanRay.gotoAndStop(0);
-        pixiApp.stage.addChild(this.scanRay);
-
-
-        this.inspectButton.scale.set(this.scale);
-        this.inspectButton.y = this.inspectButtonAnchors.y;
-        this.inspectButton.x = this.inspectButtonAnchors.x;
-        pixiApp.stage.addChild(this.inspectButton);
+    _removeEventListeners() {
+        this.inspectButton.off('click', this._inspectButtonClickHandler);
+        eventEmitter.off(EVENTS.RESIZE, this._resizeHandler);
     }
 
-    hideRay() {
-        this.scanRay.visible = false;
-    }
-
-    showRay() {
-        this.scanRay.visible = true;
-    }
-
-    getSprite() {
-        return this.scanRay;
-    }
+    // click handler
 
     _inspectButtonClickHandler() {
-        eventEmitter.emit(EVENTS.INSPECT_ALGORITHM, {});
+        eventEmitter.emit(EVENTS.INSPECT_DATASET, {});
+    }
+
+    // util function to pass machine dimensions to data server/scan ray
+
+    getMachineDimensions() {
+        return {
+            scale: this.scale,
+            width: this.machine.width,
+            height: this.machine.height,
+            x: space.screenCenterX(this.machine.width),
+            y: space.screenCenterY(this.machine.height) - uv2px(0.27, 'h'),
+        };
     }
 }

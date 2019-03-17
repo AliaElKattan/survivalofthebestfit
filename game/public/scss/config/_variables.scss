@@ -22,6 +22,8 @@ $colors: (
   txt-black: #000000,
   rose-light: #FECCC7,
   grey-main: #F2F2F2,
+  resume-mask: #e8e8e8ad,
+  dark-mode-bg: #ff8d8d,
   // box shadows
   shadow-rose-light: #FFADA3, 
   shadow-rose-dark: #F29488,
@@ -39,7 +41,7 @@ $colors: (
 );
 
 $mq-breakpoints: (
-    mobile:  370px,
+    mobile:  380px,
     tablet:  740px,
     desktop: 1024px,
     wide:    1300px

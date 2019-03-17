@@ -70,8 +70,8 @@ export default class extends UIBase {
 
     //
     _removeEventListeners() {
-        eventEmitter.on(EVENTS.ASSIGNED_DESK, () => {});
-        eventEmitter.on(EVENTS.STAGE_ONE_COMPLETED, () => {});
+        eventEmitter.off(EVENTS.ASSIGNED_DESK, () => {});
+        eventEmitter.off(EVENTS.STAGE_ONE_COMPLETED, () => {});
     }
 
     show() {

@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import {pixiApp} from '../../../controllers/game/gameSetup.js';
+import {mlLabStageContainer} from '../../../controllers/game/gameSetup.js';
 import {uv2px, clamp} from '../../../controllers/common/utils.js';
 import COLORS from '../../../controllers/constants/pixi-colors.js';
 
@@ -28,7 +28,7 @@ export default class {
         side.y = this.yAnchor;
         // add the floor to the container
         // TODO change this to mlLabStageContainer
-        pixiApp.stage.addChild(surface);
-        pixiApp.stage.addChild(side);
+        mlLabStageContainer.addChild(surface);
+        mlLabStageContainer.addChild(side);
     }
 }

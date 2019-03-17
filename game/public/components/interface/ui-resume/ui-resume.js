@@ -5,39 +5,62 @@ import EVENTS from '../../../controllers/constants/events';
 import UIBase from '../ui-base/ui-base';
 import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
-
 export default class extends UIBase {
     constructor(options) {
         super();
         this._removeEventListeners();
-        this.$el = $('.js-resume'); // This should be a single element
+
+        if (options.show) {
+          //debugging, will move this elsewhere
+          this.color = options.scores[options.candidateId].color;
+          console.log(this.color);
+          if (this.color == "yellow") {
+            this.$el = $('#js-resume-y');
+          }
+          if (this.color == "blue") {
+          this.$el = $('#js-resume-b');}
+          ////////
+        }
+        // this.$el = $('#js-resume-y');
         this.$nameEl = this.$el.find('.Resume__title');
         this.$taglineEl = this.$el.find('.Resume__tagline');
         this.$scanline = this.$el.find('.Resume__scanline');
+        this.$mask = this.$el.find('.Resume__mask');
+        this.scanlineAnimDuration = 1.8;
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
         this._resumeFeatures = options ? options.features : undefined;
         this._resumes = options ? options.scores : undefined;
-        this._candidateId = options ? options.candidateId : "";
+        this._candidateId = options.candidateId || 0;
         this.type = options.type || null;
         // this.setContent(); // set content
 
+
+
+
         if (this.type === 'ml') {
+            this.$el.addClass(CLASSES.ML_RESUME);
             this.$scanline.removeClass(CLASSES.IS_INACTIVE);
         }
         if (options && options.show) {
             this.show();
             this.newCV();
         }
+
     }
 
+
     newCV() {
+
         if (this._resumes === undefined || this._resumeFeatures === undefined) {
             throw new Error('You need to pass CV scores to the CV viewer upon instantiation');
         };
         if (this._candidateId === this._resumes.length) alert('we have no CVs left');
-        else this.showCV(this._resumes[this._candidateId]);
+        else {
+
+          this.showCV(this._resumes[this._candidateId]);
         //this._candidateId++;
     }
+  }
 
     showCV(cv) {
         this.$nameEl.html(cv.name);
@@ -49,19 +72,29 @@ export default class extends UIBase {
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__name`).html(feature.name);
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__progress`).css('width', `${skillScore}%`);
         });
+
     }
 
-    createTween() {
-        return new TweenMax('.Resume__scanline', 2, {top: '100%'}).pause();
+    createScanTween() {
+        return TweenMax.to('#js-resume > .Resume__scanline', this.scanlineAnimDuration, {top: '100%', ease: Power0.easeNone})
+            .pause();
+    }
+
+    createMaskTween() {
+        return TweenMax.to('#js-resume > .Resume__mask', this.scanlineAnimDuration, {height: '100%', ease: Power0.easeNone})
+            .pause();
     }
 
     showScanline() {
         this.$scanline.removeClass(CLASSES.IS_INACTIVE);
+        this.$mask.removeClass(CLASSES.IS_INACTIVE);
     }
 
     hideScanline() {
         this.$scanline.addClass(CLASSES.IS_INACTIVE);
         this.$scanline.css('top', '0');
+        this.$mask.addClass(CLASSES.IS_INACTIVE);
+        this.$mask.css('height', '0');
     }
 
     _addEventListeners() {

@@ -23,8 +23,9 @@ const gameFSM = new machina.Fsm({
         uninitialized: {
             startGame: function() {
 
-                this.transition('smallOfficeStage');
-                // this.transition('mlLabStage');
+                // this.transition('smallOfficeStage');
+                // this.transition('mlTransitionStage');
+                this.transition('mlLabStage');
             },
         },
 
@@ -72,8 +73,8 @@ const gameFSM = new machina.Fsm({
 
                 eventEmitter.on('person-clicked', () => {
                     new ResumeUI({
-                        show: true, 
-                        features: cvCollection.cvFeatures, 
+                        show: true,
+                        features: cvCollection.cvFeatures,
                         scores: cvCollection.smallOfficeStage,
                         candidateId: candidateInScope
                     });

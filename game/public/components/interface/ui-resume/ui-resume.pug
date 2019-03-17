@@ -1,20 +1,22 @@
-div.Resume.js-resume.is-inactive.Resume--blue
-  div.Resume__scanline.is-inactive
-  h1.Resume__title John Doe
-  p.Resume__tagline Father of one trying a career change
-  div.cv-category.cv-category--skill
-    h3.cv-category__name
-    div.cv-category__skillbar
-      div.cv-category__progress
-  div.cv-category.cv-category--school
-    h3.cv-category__name
-    div.cv-category__skillbar
-      div.cv-category__progress
-  div.cv-category.cv-category--work
-    h3.cv-category__name
-    div.cv-category__skillbar
-      div.cv-category__progress
-  div.cv-category.cv-category--ambition
-    h3.cv-category__name
-    div.cv-category__skillbar
-      div.cv-category__progress
+mixin resume(type)
+  div.Resume.is-inactive&attributes(attributes)
+    div.Resume__mask.is_inactive
+    div.Resume__scanline.is-inactive
+    h1.Resume__title John Doe
+    p.Resume__tagline Father of one trying a career change
+    div.cv-category.cv-category--skill
+      h3.cv-category__name
+      div.cv-category__skillbar
+        div.cv-category__progress
+    div.cv-category.cv-category--school
+      h3.cv-category__name
+      div.cv-category__skillbar
+        div.cv-category__progress
+    div.cv-category.cv-category--work
+      h3.cv-category__name
+      div.cv-category__skillbar
+        div.cv-category__progress
+    div.cv-category.cv-category--ambition
+      h3.cv-category__name
+      div.cv-category__skillbar
+        div.cv-category__progress
