@@ -10,18 +10,7 @@ export default class extends UIBase {
         super();
         this._removeEventListeners();
 
-        if (options.show) {
-          //debugging, will move this elsewhere
-          this.color = options.scores[options.candidateId].color;
-          console.log(this.color);
-          if (this.color == "yellow") {
-            this.$el = $('#js-resume-y');
-          }
-          if (this.color == "blue") {
-          this.$el = $('#js-resume-b');}
-          ////////
-        }
-        // this.$el = $('#js-resume-y');
+        this.$el = $('#js-resume');
         this.$nameEl = this.$el.find('.Resume__title');
         this.$taglineEl = this.$el.find('.Resume__tagline');
         this.$scanline = this.$el.find('.Resume__scanline');
@@ -35,8 +24,6 @@ export default class extends UIBase {
         // this.setContent(); // set content
 
 
-
-
         if (this.type === 'ml') {
             this.$el.addClass(CLASSES.ML_RESUME);
             this.$scanline.removeClass(CLASSES.IS_INACTIVE);
@@ -45,24 +32,22 @@ export default class extends UIBase {
             this.show();
             this.newCV();
         }
-
     }
 
 
     newCV() {
-
         if (this._resumes === undefined || this._resumeFeatures === undefined) {
             throw new Error('You need to pass CV scores to the CV viewer upon instantiation');
         };
         if (this._candidateId === this._resumes.length) alert('we have no CVs left');
         else {
-
-          this.showCV(this._resumes[this._candidateId]);
-        //this._candidateId++;
+            this.showCV(this._resumes[this._candidateId]);
+        // this._candidateId++;
+        }
     }
-  }
 
     showCV(cv) {
+        this.setColor(cv.color);
         this.$nameEl.html(cv.name);
         this.$taglineEl.html('personal tagline comes here');
         this._resumeFeatures.forEach((feature, index) => {
@@ -72,7 +57,18 @@ export default class extends UIBase {
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__name`).html(feature.name);
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__progress`).css('width', `${skillScore}%`);
         });
+    }
 
+    setColor(color) {
+        if (color === 'yellow') {
+            this.$el
+                .addClass(CLASSES.RESUME_YELLOW)
+                .removeClass(CLASSES.RESUME_BLUE);
+        } else {
+            this.$el
+                .addClass(CLASSES.RESUME_BLUE)
+                .removeClass(CLASSES.RESUME_YELLOW);
+        };
     }
 
     createScanTween() {

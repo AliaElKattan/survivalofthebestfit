@@ -12,4 +12,6 @@ export default {
     CV_SCHOOL: 'school',
     NEWS_FEED_ITEM: 'NewsList-item',
     ML_RESUME: 'Resume--ml',
+    RESUME_YELLOW: 'Resume--yellow',
+    RESUME_BLUE: 'Resume--blue',
 };

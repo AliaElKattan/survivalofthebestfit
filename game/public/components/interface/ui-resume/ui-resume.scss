@@ -1,8 +1,16 @@
 // UI instruction box
 .Resume {
   @include textBox();
-  @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'blue');
-  box-shadow: inset 0 0 0 2px color(shadow-blue-light);
+  @include boxColors($bg-color: color(bg-washed-white));
+  &--yellow {
+    box-shadow: inset 0 0 0 2px color(shadow-yellow-light);
+    @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'yellow');
+  }
+  &--blue {
+    box-shadow: inset 0 0 0 2px color(shadow-blue-light);
+    @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'blue');
+  }
+  
 
   padding: padding(sm) padding(sm) padding(md) padding(sm);
 

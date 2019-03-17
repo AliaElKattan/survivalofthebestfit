@@ -136,7 +136,6 @@ body.Page--Game {
 .Resume {
   color: inherit;
   background-color: #FAFAFA;
-  box-shadow: inset 0 0 0 2px #CDE4F1;
   padding: 20px 20px 40px 20px;
   position: absolute;
   right: 20px;
@@ -162,9 +161,25 @@ body.Page--Game {
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
   .Resume:before {
-    background: #7DA6BE; }
+    background: #919191; }
   .Resume:after {
-    background: #CDE4F1; }
+    background: #B9B9B9; }
+  .Resume--yellow {
+    box-shadow: inset 0 0 0 2px #FFDB8C;
+    color: inherit;
+    background-color: #FAFAFA; }
+    .Resume--yellow:before {
+      background: #F4AB0B; }
+    .Resume--yellow:after {
+      background: #FFDB8C; }
+  .Resume--blue {
+    box-shadow: inset 0 0 0 2px #CDE4F1;
+    color: inherit;
+    background-color: #FAFAFA; }
+    .Resume--blue:before {
+      background: #7DA6BE; }
+    .Resume--blue:after {
+      background: #CDE4F1; }
   .Resume--ml {
     top: 5%; }
   .Resume--dataset {
