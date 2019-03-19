@@ -68,6 +68,12 @@
 
 .PersonCard {
   flex-direction: column;
+  // transition: transform 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-3px);
+    // background-color: red;
+  }
   
   &-item {
     width: 100%;
@@ -77,11 +83,13 @@
     height: 80px;
     width: 50%;
     background: url('../../assets/img/cv-flat.png');
+    background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
   }
   
   &-name {
+    width: 100%;
     text-align:center;
   }
 }

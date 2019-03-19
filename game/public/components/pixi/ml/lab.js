@@ -39,7 +39,6 @@ export default class MLLab {
             y: uv2px(.43, 'h'),
             xOffset: uv2px(0.1, 'w'),
         });
-        this.people = new MLPeople();
         this.machine = new Machine({});
         this.dataServers = [
             new DataServer({
@@ -63,6 +62,7 @@ export default class MLLab {
             scores: cvCollection.smallOfficeStage,
             candidateId: candidateInScope,
         });
+        this.people = new MLPeople();
         this.tweens = {};
         this.animLoopCount = 0;
 
@@ -101,7 +101,7 @@ export default class MLLab {
             setTimeout(()=> {
                 // show the new CV
                 const person = this.people.getFirstPerson();
-                if (person) this.resumeUI.showCV(person.getData());
+                if (person !== undefined) this.resumeUI.showCV(person.getData());
                 // play the animation
                 this.tweens.rayAnim.visible = true;
                 this.tweens.rayAnim.animationSpeed = 0.5;
@@ -117,9 +117,10 @@ export default class MLLab {
 
         // once the scanline animation is done ...
         this.tweens.resumeScanline.eventCallback('onComplete', () => {
-            this.makeDecision();
+            if (this.people.getCount() > 0) this.makeDecision();
             // hide the scaneline and reset its position
             this.resumeUI.hideScanline();
+            this.resumeUI.hide();
             // start animating the data servers
             setTimeout(()=> {
                 this.tweens.serverDummyAnim.gotoAndStop(0);
@@ -138,7 +139,6 @@ export default class MLLab {
     }
 
     makeDecision() {
-        console.log('change candidate!');
         this.people.evaluateFirstPerson();
         // 1. decide if the candidate was accepted or rejected
         // 2. add a new CV to the dataset inspector

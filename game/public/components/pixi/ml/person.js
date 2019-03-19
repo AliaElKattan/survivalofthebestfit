@@ -8,6 +8,7 @@ export default class {
         this.x = x;
         this.parentContainer = parent;
         this.id = id;
+        this.personData.id = this.id;
     }
 
     draw() {

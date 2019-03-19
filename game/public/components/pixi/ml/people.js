@@ -1,12 +1,14 @@
 import {mlLabStageContainer} from '../../../controllers/game/gameSetup.js';
 import {cvCollection} from '../../../assets/text/cvCollection.js';
 import {uv2px} from '../../../controllers/common/utils.js';
+import EVENTS from '../../../controllers/constants/events';
+import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 import MLPerson from './person';
 
 export default class {
     constructor() {
         this.container = new PIXI.Container();
-        this.numOfPeople = 15;
+        this.numOfPeople = 6;
         this.peopleLine = [];
         this.personXoffset = 70;
         this._createPeople();
@@ -36,8 +38,16 @@ export default class {
         return this.peopleLine.length > 0 ? this.peopleLine[0] : undefined;
     }
 
+    getCount() {
+        return this.peopleLine.length;
+    }
+
     evaluateFirstPerson() {
-        this.peopleLine[0].status = Math.random() < 0.5 ? 'accepted' : 'rejected';
+        const status = Math.random() < 0.5 ? 'accepted' : 'rejected';
+        eventEmitter.emit(EVENTS.DATASET_VIEW_NEW_CV, {
+            status: status,
+            data: this.peopleLine[0].getData(),
+        });
         this.removeFirstPerson();
     }
 

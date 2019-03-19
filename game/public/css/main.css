@@ -245,7 +245,7 @@ h2 {
     .Resume--blue:after {
       background: #CDE4F1; }
   .Resume--ml {
-    top: 5%; }
+    top: 70px; }
   .Resume__title {
     font-size: 2rem; }
   .Resume--dataset {
@@ -550,6 +550,8 @@ h2 {
 
 .PersonCard {
   flex-direction: column; }
+  .PersonCard:hover {
+    transform: translateY(-3px); }
   .PersonCard-item {
     width: 100%;
     flex-direction: start; }
@@ -557,9 +559,11 @@ h2 {
     height: 80px;
     width: 50%;
     background: url("../../assets/img/cv-flat.png");
+    background-position: center;
     background-size: contain;
     background-repeat: no-repeat; }
   .PersonCard-name {
+    width: 100%;
     text-align: center; }
 
 .choiceButton {
