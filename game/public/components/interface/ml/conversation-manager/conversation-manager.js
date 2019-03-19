@@ -21,7 +21,7 @@ export default class {
             show: true,
             type: CLASSES.ML,
             content: this.messages[0],
-            responses: ['yes', 'no'],
+            responses: ['option 1', 'option 2'],
         });
         this._updateMessageDeck();
     }

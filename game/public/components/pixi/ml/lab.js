@@ -27,15 +27,16 @@ export default class MLLab {
         this.newsFeed = new NewsFeedUI({show: true});
         this.algorithmInspector = new AlgorithmInspectorUI({});
         this.datasetView = new DatasetView({});
-        this.floors = [
-            new Floor({y: uv2px(0.6, 'h')}),
-            new Floor({y: space.absMinusSize(0, 'h')}),
-        ];
+        this.floors = {
+            ground_floor: new Floor({type: 'ground_floor'}),
+            first_floor: new Floor({type: 'first_floor'}),
+        };
         this.doors = [
             new Door({
-                x: uv2px(0.03, 'w'),
-                y: uv2px(0.66, 'h'), // TODO: better way of drawing doors
-            }), // ground floor door
+                floor: 'ground_floor',
+                floorParent: this.floors.ground_floor,
+                xAnchor: uv2px(0.03, 'w'),
+            }),
         ];
         this.resumeList = new Resumes({
             y: uv2px(.43, 'h'),
@@ -73,8 +74,12 @@ export default class MLLab {
     }
 
     draw() {
-        this.floors.forEach((floor) => floor.draw());
-        this.doors.forEach((door) => door.draw());
+        for (const floor in this.floors) {
+            if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
+                this.floors[floor].addToPixi();
+            }
+        };
+        this.doors.forEach((door) => door.addToPixi());
         this.machine.addToPixi();
         this.dataServers.forEach((server) => server.addToPixi());
         this.belt.draw();

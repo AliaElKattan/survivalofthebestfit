@@ -1,22 +1,59 @@
-import * as PIXI from 'pixi.js';
-import {SPRITES} from '../../controllers/common/textures.js';
-import {pixiApp} from '../../controllers/game/gameSetup';
-
+import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
+import {SPRITES} from '~/public/controllers/common/textures.js';
+import ANCHORS from '~/public/controllers/constants/pixi-anchors';
+import EVENTS from '~/public/controllers/constants/events.js';
+import SCALES from '~/public/controllers/constants/pixi-scales.js';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
+import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/controllers/common/utils.js';
 
 export default class {
-    constructor(options) {
-        this.doorType = options.type === 'rejected' ? 'doorRejected' : 'doorAccepted';
-        this.xAnchor = options.x;
-        this.yAnchor = options.y;
-        this.scale = 0.5;
+    constructor({type, floor, floorParent, xAnchor}) {
+        this.doorType = type === 'rejected' ? 'doorRejected' : 'doorAccepted';
+        this.floorParent = floorParent;
+        this.xAnchor = xAnchor;
+        this.yAnchorUV = floor === 'first_floor' ? ANCHORS.FLOORS.FIRST_FLOOR.y : ANCHORS.FLOORS.GROUND_FLOOR.y;
+        this.yAnchor = uv2px(this.yAnchorUV, 'h');
+        this.scale = SCALES.DOOR[screenSizeDetector()];
         this.door = null;
+        this._resizeHandler = this._resizeHandler.bind(this);
+        this._addEventListeners();
     }
 
-    draw() {
+    addToPixi() {
         this.door = SPRITES[this.doorType];
-        this.door.x = this.xAnchor;
-        this.door.y = this.yAnchor;
+        this._draw();
+        mlLabStageContainer.addChild(this.door);
+    }
+
+    _draw() {
         this.door.scale.set(this.scale);
-        pixiApp.stage.addChild(this.door);
+        this.door.x = this.xAnchor;
+        this.door.y = this.yAnchor - this.door.height - this.floorParent.getHeight() + 5;
+    }
+
+    // (re)compute draw parameter values
+
+    _recomputeParams() {
+        this.scale = SCALES.DOOR[screenSizeDetector()];
+        this.yAnchor = uv2px(this.yAnchorUV, 'h');
+    }
+
+    // resize function
+
+    _resizeHandler() {
+        this._recomputeParams();
+        this._draw();
+    }
+
+    // add event listeners
+
+    _addEventListeners() {
+        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler);
+    }
+
+    // remove event listeners
+
+    _removeEventListeners() {
+        eventEmitter.off(EVENTS.RESIZE, this._resizeHandler);
     }
 }
