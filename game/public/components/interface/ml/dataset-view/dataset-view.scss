@@ -37,7 +37,7 @@
   // min-height: 200px;
   display: grid;
   grid-display-rows: 1fr;
-  grid-template-columns: auto 300px auto;
+  grid-template-columns: 1fr 300px 1fr;
   grid-gap: 5px;
   padding-bottom: padding(md);
   
@@ -54,7 +54,8 @@
 
 .DatasetGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
+  grid-auto-flow: dense;
   grid-auto-rows: 100px;
   gap: 25px 10px;
   
