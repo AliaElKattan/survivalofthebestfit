@@ -23,18 +23,15 @@
     justify-content: center;
     align-items: center;
     margin: margin(sm) 0 margin(sm) 0;
-    // background-color: cyan;
   }
 
 }
 
 .ViewLayout {
-  // background-color: cyan;
   height: 80vh;
   overflow-y: auto;
   width: 80%;
   margin: 0 auto;
-  // min-height: 200px;
   display: grid;
   grid-display-rows: 1fr;
   grid-template-columns: 1fr 300px 1fr;
@@ -60,38 +57,9 @@
   gap: 25px 10px;
   
   &-item {
-    // background-color: cyan;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-}
-
-.PersonCard {
-  flex-direction: column;
-  // transition: transform 0.2s ease-in-out;
-  
-  &:hover {
-    transform: translateY(-3px);
-    // background-color: red;
-  }
-  
-  &-item {
-    width: 100%;
-    flex-direction: start;
-  }
-  &-cv {
-    height: 80px;
-    width: 50%;
-    background: url('../../assets/img/cv-flat.png');
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-  
-  &-name {
-    width: 100%;
-    text-align:center;
   }
 }
 

@@ -1,3 +1,25 @@
-div.DatasetGrid-item.PersonCard
-  div.PersonCard-item.PersonCard-cv
-  p.PersonCard-item.PersonCard-name Miha Klasinc
+.PersonCard {
+  flex-direction: column;
+  
+  &:hover {
+    transform: translateY(-3px) !important;
+  }
+  
+  &-item {
+    width: 100%;
+    flex-direction: start;
+  }
+  &-cv {
+    height: 80px;
+    width: 50%;
+    background: url('../../assets/img/cv-flat.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  
+  &-name {
+    width: 100%;
+    text-align:center;
+  }
+}

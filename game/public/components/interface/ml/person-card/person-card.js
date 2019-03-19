@@ -9,7 +9,6 @@ export default class {
         this.$el = null;
         this.personData = resume.data;
         this.id = resume.data.id;
-        console.log(this.id);
         this.status = resume.status;
 
         this.createCard();
@@ -34,23 +33,11 @@ export default class {
         return this.personData;
     }
 
-    // add event listeners
-
-    _addEventListeners() {
-
-    }
-
     show() {
-        let cardClass = `.PersonCard[data-id="${this.id}"]`;
-        TweenLite.set(cardClass, {y: 10}); // set the Y transform before animating it
+        const cardClass = `.PersonCard[data-id="${this.id}"]`;
+        TweenLite.set(cardClass, {y: 10});
         this.$el.removeClass(CLASSES.IS_INACTIVE);
         TweenLite.to(cardClass, 0.3, {y: 0});
-    }
-
-    // remove event listeners
-
-    _removeEventListeners() {
-
     }
 
     // destroy the instance

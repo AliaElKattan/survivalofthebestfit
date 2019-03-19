@@ -552,7 +552,7 @@ h2 {
 .PersonCard {
   flex-direction: column; }
   .PersonCard:hover {
-    transform: translateY(-3px); }
+    transform: translateY(-3px) !important; }
   .PersonCard-item {
     width: 100%;
     flex-direction: start; }
