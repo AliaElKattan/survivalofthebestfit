@@ -16,4 +16,5 @@ export default {
     RESUME_BLUE: 'Resume--blue',
     PERSON_CARD: 'PersonCard',
     DATASET_GRID_ITEM: 'DatasetGrid-item',
+    ML: 'ml',
 };

@@ -1,7 +1,6 @@
 import $ from 'jquery';
-import CLASSES from '../../../../controllers/constants/classes';
-import EVENTS from '../../../../controllers/constants/events';
-import {eventEmitter} from '../../../../controllers/game/gameSetup.js';
+import EVENTS from '~/public/controllers/constants/events';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 export default class {
     constructor(options) {
@@ -11,6 +10,8 @@ export default class {
             6,
         ];
         this.isActive = true;
+        this.scheduleNewsUpdate = this.scheduleNewsUpdate.bind(this);
+        this._addEventListeners();
     }
 
     // launch timeline: once it starts it runs on its own
@@ -29,14 +30,15 @@ export default class {
 
     scheduleNewsUpdate() {
         if (this.timelineSchedule.length === 0 || !this.isActive) return;
-        console.log(this.timelineSchedule);
 
         this.waitForSeconds(this.timelineSchedule[0])
             .then(() => {
                 this.updateSchedule();
-                this.timelineSchedule.length === 0 ? console.log(`news update! next news in: ${this.timelineSchedule[0]} seconds`) : console.log('we are done with the news updates!');
                 eventEmitter.emit(EVENTS.UPDATE_NEWS_FEED, {});
-                this.scheduleNewsUpdate(); // do it again
+                return this.waitForSeconds(2);
+            })
+            .then(() => {
+                eventEmitter.emit(EVENTS.SHOW_MESSAGE_FROM_BOSS, {});
             }).catch((err) => {
                 console.log(err);
             });
@@ -62,13 +64,13 @@ export default class {
     // add event listeners
 
     _addEventListeners() {
-
+        eventEmitter.on(EVENTS.RESUME_NEWS_TIMELINE, this.scheduleNewsUpdate);
     }
 
     // remove event listeners
 
     _removeEventListeners() {
-
+        eventEmitter.off(EVENTS.RESUME_NEWS_TIMELINE, this.scheduleNewsUpdate);
     }
 
     // destroy the instance

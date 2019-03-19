@@ -1,9 +1,8 @@
 import $ from 'jquery';
-import CLASSES from '../../../controllers/constants/classes';
-import EVENTS from '../../../controllers/constants/events';
-
-import UIBase from '../ui-base/ui-base';
-import {eventEmitter} from '../../../controllers/game/gameSetup.js';
+import CLASSES from '~/public/controllers/constants/classes';
+import EVENTS from '~/public/controllers/constants/events';
+import UIBase from '~/public/components/interface/ui-base/ui-base';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 export default class extends UIBase {
     constructor(options) {
@@ -12,14 +11,15 @@ export default class extends UIBase {
         this.$el = $('.js-textbox'); // This should be a single element
         this.$textEl = this.$el.find('.Textbox__content');
         this.$buttons = this.$el.find('.TextboxButton');
-        console.log(this.$buttons);
-        this._addEventListeners();
         this.setContent = this.setContent.bind(this);
         this._mainContent = options.content || 'dummy text'; // TODO: change this to null
         this._responseContent = options.responses || ['OKK'];
         this.overlay = options.overlay || null; // TODO think about the overlay
+        this.type = options.type || '';
+        console.log(this.type);
         if (options.show) this.show();
         this.setContent(); // set content
+        this._addEventListeners();
     }
 
     setContent() {
@@ -31,14 +31,26 @@ export default class extends UIBase {
         });
     }
 
-    _buttonIsClicked(e) {
+    _mlStageButtonHandler(e) {
+        this.$buttons.addClass(CLASSES.BUTTON_CLICKED);
+        console.log('resume news timeline!');
+        eventEmitter.emit(EVENTS.RESUME_NEWS_TIMELINE, {});
+        this.destroy();
+    }
+
+    _manualStageButtonHandler(e) {
         this.$buttons.addClass(CLASSES.BUTTON_CLICKED);
         eventEmitter.emit('instructionAcked', {});
         this.destroy();
     }
 
     _addEventListeners() {
-        this.$buttons.click(this._buttonIsClicked.bind(this));
+        if (this.type === CLASSES.ML) {
+            console.log('add ml button handler');
+            this.$buttons.click(this._mlStageButtonHandler.bind(this));
+        } else {
+            this.$buttons.click(this._manualStageButtonHandler.bind(this));
+        }
     }
 
     _removeEventListeners() {
@@ -56,8 +68,6 @@ export default class extends UIBase {
         this.$el.removeClass(CLASSES.FADE_IN)
             .addClass(CLASSES.FADE_OUT)
             .addClass(CLASSES.IS_INACTIVE);
-
-        // TODO you might need a delayed call for this
     }
 
     destroy() {

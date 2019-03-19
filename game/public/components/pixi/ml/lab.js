@@ -6,6 +6,7 @@ import Floor from './floor';
 import ConveyorBelt from './conveyor-belt';
 import Door from '../door';
 import ResumeUI from '../../interface/ui-resume/ui-resume';
+import ConversationManager from '~/public/components/interface/ml/conversation-manager/conversation-manager.js';
 import NewsFeedUI from '../../interface/ml/news-feed/news-feed.js';
 import AlgorithmInspectorUI from '../../interface/ml/algorithm-inspector/algorithm-inspector.js';
 import DatasetView from '../../interface/ml/dataset-view/dataset-view';
@@ -22,6 +23,7 @@ export default class MLLab {
         this.size = 0;
         this.scale = 1;
 
+        this.conversationManager = new ConversationManager();
         this.newsFeed = new NewsFeedUI({show: true});
         this.algorithmInspector = new AlgorithmInspectorUI({});
         this.datasetView = new DatasetView({});

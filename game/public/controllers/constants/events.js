@@ -6,5 +6,6 @@ export default {
     INSPECT_ALGORITHM: 'inspect-algorithm',
     DATASET_VIEW_INSPECT: 'inspect-dataset',
     DATASET_VIEW_NEW_CV: 'dataset-new-cv',
+    RESUME_NEWS_TIMELINE: 'resume-timeline',
     RESIZE: 'resize',
 };

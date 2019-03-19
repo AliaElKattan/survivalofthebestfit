@@ -1,10 +1,10 @@
 import $ from 'jquery';
 import {TweenLite} from 'gsap/TweenMax';
-import CLASSES from '../../../../controllers/constants/classes';
-import EVENTS from '../../../../controllers/constants/events';
-import UIBase from '../../ui-base/ui-base';
-import NewsTimeline from '../news-timeline/news-timeline';
-import {eventEmitter} from '../../../../controllers/game/gameSetup.js';
+import CLASSES from '~/public/controllers/constants/classes';
+import EVENTS from '~/public/controllers/constants/events';
+import UIBase from '~/public/components/interface/ui-base/ui-base';
+import NewsTimeline from '~/public/components/interface/ml/news-timeline/news-timeline';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 
 export default class extends UIBase {
@@ -17,21 +17,14 @@ export default class extends UIBase {
             'Technoradar: Amazon Algorithm Discriminates Against Women',
             '@CITIZEN: #TechCompanies should be held accountable!! #justice',
         ];
-        this.setContent = this.setContent.bind(this);
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
         this._newsTimeline = new NewsTimeline();
 
-        this.setContent();
         this._addEventListeners();
         // instead of showing the news feed right away launch the news updates timeline
         if (options && options.show) {
             this._newsTimeline.start();
         }
-    }
-
-    // set content
-
-    setContent() {
     }
 
     // public method to launch news updates
@@ -48,8 +41,7 @@ export default class extends UIBase {
         $news.appendTo(this.$newsList); // append the element to the news feed parent container
         this._updateNewsArray(); // pop the news update from the scheduled posts array
         this.show(); // show the updated news feed
-        // TODO tweak this if needed
-        // schedule to hide the news feed after some time
+        // TODO tweak this if needed - schedule to hide the news after some time
         this.waitForSeconds(3).then(() => {
             setTimeout(this.hide(), 3000);
         }).catch((err) => {
