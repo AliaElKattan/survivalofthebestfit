@@ -9,6 +9,7 @@ export default class {
     constructor() {
         this.container = new PIXI.Container();
         this.numOfPeople = 6;
+        this.personCount = 0;
         this.peopleLine = [];
         this.personXoffset = 70;
         this._createPeople();
@@ -23,15 +24,32 @@ export default class {
 
     _createPeople() {
         for (let i = 0; i < this.numOfPeople; i++) {
-            const person = new MLPerson({
-                parent: this.container,
-                x: i*this.personXoffset,
-                personData: cvCollection.smallOfficeStage[i],
-                id: i,
-            });
-            person.draw();
-            this.peopleLine.push(person);
+            this._addNewPerson();
         }
+    }
+
+    _addNewPerson() {
+        const person = new MLPerson({
+            parent: this.container,
+            x: this.personCount*this.personXoffset,
+            personData: cvCollection.smallOfficeStage[this.personCount],
+            id: this.personCount,
+        });
+        person.draw();
+        this.peopleLine.push(person);
+        this.personCount++;
+    }
+
+    createTween() {
+        const tween = PIXI.tweenManager.createTween(this.container);
+        tween.from({x: this.container.x}).to({x: this.container.x-this.personXoffset});
+        tween.delay = 200;
+        tween.time = 700;
+        return tween;
+    }
+
+    recalibrateTween(tween) {
+        tween.from({x: this.container.x}).to({x: this.container.x-this.personXoffset});
     }
 
     getFirstPerson() {
@@ -49,9 +67,12 @@ export default class {
             data: this.peopleLine[0].getData(),
         });
         this.removeFirstPerson();
+        this._addNewPerson();
     }
 
     removeFirstPerson() {
+        this.peopleLine[0].remove();
+        delete this.peopleLine[0];
         this.peopleLine = this.peopleLine.slice(1);
     }
 }

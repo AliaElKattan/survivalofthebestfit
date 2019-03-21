@@ -99,6 +99,7 @@ export default class MLLab {
         this.tweens.resumeScanline = this.resumeUI.createScanTween();
         this.tweens.resumeMask = this.resumeUI.createMaskTween();
         this.tweens.serverDummyAnim = this.dataServers[0].getSprite();
+        this.tweens.peopleLine = this.people.createTween();
 
         // once the conveyor belt animation is done ...
         this.tweens.resumesTween.on('end', () => {
@@ -124,7 +125,11 @@ export default class MLLab {
 
         // once the scanline animation is done ...
         this.tweens.resumeScanline.eventCallback('onComplete', () => {
-            if (this.people.getCount() > 0) this.makeDecision();
+            if (this.people.getCount() > 0) {
+                this.people.evaluateFirstPerson();
+                this.people.recalibrateTween(this.tweens.peopleLine);
+                this.tweens.peopleLine.start();
+            }
             // hide the scaneline and reset its position
             this.resumeUI.hideScanline();
             this.resumeUI.hide();
@@ -143,14 +148,10 @@ export default class MLLab {
             this.tweens.resumesTween.start();
             this.animLoopCount++;
         });
-    }
 
-    makeDecision() {
-        this.people.evaluateFirstPerson();
-        // 1. decide if the candidate was accepted or rejected
-        // 2. add a new CV to the dataset inspector
-        // 3. animate the people and update the CVs
-        // remove the candidate you've just evaluated
+        this.tweens.peopleLine.on('end', () => {
+            this.tweens.peopleLine.reset();
+        });
     }
 
     destroyTweens() {

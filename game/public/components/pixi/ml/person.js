@@ -24,6 +24,10 @@ export default class {
     getData() {
         return this.personData;
     }
+
+    remove() {
+        this.parentContainer.removeChild(this.person);
+    }
 }
 // function onPersonHover(event) {
 //     eventEmitter.emit('ml-person-hovered', {});

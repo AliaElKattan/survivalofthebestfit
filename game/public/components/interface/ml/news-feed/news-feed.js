@@ -39,11 +39,12 @@ export default class extends UIBase {
         const $news = this._createNewsElement(); // create a new news feed element
         if (!$news) return; // if there is no news left to add to the feed, exit the method
         $news.appendTo(this.$newsList); // append the element to the news feed parent container
+        // this.animateNews();
         this._updateNewsArray(); // pop the news update from the scheduled posts array
         this.show(); // show the updated news feed
         // TODO tweak this if needed - schedule to hide the news after some time
         this.waitForSeconds(3).then(() => {
-            setTimeout(this.hide(), 3000);
+            // setTimeout(this.hide(), 3000);
         }).catch((err) => {
             console.log(err);
         });
@@ -58,7 +59,8 @@ export default class extends UIBase {
     // create new news element
 
     _createNewsElement() {
-        const newsEl = document.createElement(`p.${CLASSES.NEWS_FEED_ITEM}`);
+        const newsEl = document.createElement('p');
+        newsEl.classList.add(`${CLASSES.NEWS_FEED_ITEM}`);
         return this._newsArray.length !== 0 ? $(newsEl).text(this._newsArray[0]) : undefined;
     }
 
@@ -82,6 +84,11 @@ export default class extends UIBase {
         TweenLite.set('#news-feed', {y: -50}); // set the Y transform before animating it
         this.$el.removeClass(CLASSES.IS_INACTIVE);
         TweenLite.to('#news-feed', 0.3, {y: 0});
+    }
+
+
+    animateNews() {
+        TweenLite.to('.NewsList-item', 3, {x: 300, ease: Power0.easeNone});
     }
 
     // hide the news feed
