@@ -11,12 +11,13 @@ const options = {
 const classifier = new RandomForestClassifier(options);
 
 const trainClf = (trainingSet) => {
+    console.log("why isn't this asynch??");
     return new Promise((resolve) => {
         console.log('Model training started');
         const [featureArr, labelArr] = _cvPreproc(trainingSet);
         const [trainX, trainY, validX, validY] = _splitTrainTest(featureArr, labelArr, 0.2);
         classifier.train(trainX, trainY);
-        const results = _testClf(validX, validY);
+        _testClf(validX, validY);
         console.log('Model training finished');
     });
 };
@@ -41,7 +42,6 @@ const _testClf = (validX, validY) => {
         }
     });
     console.log('Accuracy: ' + hits/validY.length);
-    return hits/validY.length;
 };
 
 const _splitTrainTest = (featureArr, labelArr, ratio) => {
