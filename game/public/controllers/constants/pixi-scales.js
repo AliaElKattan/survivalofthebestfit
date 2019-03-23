@@ -11,4 +11,8 @@ export default {
         mobile: 0.3,
         desktop: 0.52,
     },
+    BELT: {
+        mobile: 0.3,
+        desktop: 0.45,
+    },
 };

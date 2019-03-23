@@ -31,7 +31,12 @@ app.get('/game', routes.GAME);
 /**
  * Start Express server.
  */
-app.listen(3000);
-console.log('Express started on port 3000');
+
+// app.listen(3000);
+// console.log('Express started on port 3000');
+
+app.listen(3000, '0.0.0.0', function() {
+    console.log('Listening to port:  ' + 3000);
+});
 
 module.exports = app;

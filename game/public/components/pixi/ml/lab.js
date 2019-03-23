@@ -82,7 +82,7 @@ export default class MLLab {
         this.doors.forEach((door) => door.addToPixi());
         this.machine.addToPixi();
         this.dataServers.forEach((server) => server.addToPixi());
-        this.belt.draw();
+        this.belt._draw();
         this.resumeList.draw();
         this.scanRay.addToPixi();
         this.people.draw();

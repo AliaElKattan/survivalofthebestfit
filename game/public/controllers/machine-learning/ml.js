@@ -1,5 +1,4 @@
 import {RandomForestClassifier} from 'ml-random-forest';
-
 const testDataSet = require('../../assets/text/manualStageData.json').manualStageCandidates;
 
 const options = {
@@ -31,7 +30,6 @@ const testClf = (validX, validY) => {
         }
     });
     console.log('Accuracy: ' + hits/validY.length);
-
 };
 
 const splitTrainTest = (featureArr, labelArr, ratio) => {
@@ -43,9 +41,6 @@ const splitTrainTest = (featureArr, labelArr, ratio) => {
     return [trainX, trainY, validX, validY];
 };
 
-const testRun = () => {
-    trainClf(testDataSet);
-};
 
 const cvPreproc = (json) => {
     const features = [];
@@ -67,8 +62,12 @@ const shuffle = (a) => {
         [a[i], a[j]] = [a[j], a[i]];
     }
     return a;
-}
+};
 
-testRun();
+
+const testRun = () => {
+    trainClf(testDataSet);
+};
+// testRun();
 
 export {trainClf, predictClf};

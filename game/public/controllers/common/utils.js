@@ -1,11 +1,16 @@
 import mq from 'browsernizr/lib/mq';
 import BREAKPOINTS from '../constants/breakpoints.js';
 import {pixiApp} from '../game/gameSetup.js';
+import SCALES from '~/public/controllers/constants/pixi-scales.js';
 
 // let {pixiApp.screen.width, pixiApp.screen.height} = pixiApp.screen;
 
 const screenSizeDetector = () => {
     return mq(BREAKPOINTS.PHONE_LANDSCAPE) ? 'mobile' : 'desktop';
+};
+
+const getScale = (elem) => {
+    return SCALES[elem][screenSizeDetector()];
 };
 
 const spacingUtils = {
@@ -113,4 +118,4 @@ function animateTo({target, x, y, scale=1, scaleY, easing=PIXI.tween.Easing.inQu
     return tween;
 }
 
-export {spacingUtils, uv2px, px2uv, clamp, animateTo, lerp, screenSizeDetector};
+export {spacingUtils, getScale, uv2px, px2uv, clamp, animateTo, lerp, screenSizeDetector};
