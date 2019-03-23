@@ -6,6 +6,7 @@ import Floor from './floor';
 import ConveyorBelt from './conveyor-belt';
 import Door from '../door';
 import ResumeUI from '../../interface/ui-resume/ui-resume';
+import ConversationManager from '~/public/components/interface/ml/conversation-manager/conversation-manager.js';
 import NewsFeedUI from '../../interface/ml/news-feed/news-feed.js';
 import AlgorithmInspectorUI from '../../interface/ml/algorithm-inspector/algorithm-inspector.js';
 import DatasetView from '../../interface/ml/dataset-view/dataset-view';
@@ -22,24 +23,25 @@ export default class MLLab {
         this.size = 0;
         this.scale = 1;
 
+        this.conversationManager = new ConversationManager();
         this.newsFeed = new NewsFeedUI({show: true});
         this.algorithmInspector = new AlgorithmInspectorUI({});
         this.datasetView = new DatasetView({});
-        this.floors = [
-            new Floor({y: uv2px(0.6, 'h')}),
-            new Floor({y: space.absMinusSize(0, 'h')}),
-        ];
+        this.floors = {
+            ground_floor: new Floor({type: 'ground_floor'}),
+            first_floor: new Floor({type: 'first_floor'}),
+        };
         this.doors = [
             new Door({
-                x: uv2px(0.03, 'w'),
-                y: uv2px(0.66, 'h'), // TODO: better way of drawing doors
-            }), // ground floor door
+                floor: 'ground_floor',
+                floorParent: this.floors.ground_floor,
+                xAnchor: uv2px(0.03, 'w'),
+            }),
         ];
         this.resumeList = new Resumes({
             y: uv2px(.43, 'h'),
             xOffset: uv2px(0.1, 'w'),
         });
-        this.people = new MLPeople();
         this.machine = new Machine({});
         this.dataServers = [
             new DataServer({
@@ -63,6 +65,7 @@ export default class MLLab {
             scores: cvCollection.smallOfficeStage,
             candidateId: candidateInScope,
         });
+        this.people = new MLPeople();
         this.tweens = {};
         this.animLoopCount = 0;
 
@@ -71,8 +74,12 @@ export default class MLLab {
     }
 
     draw() {
-        this.floors.forEach((floor) => floor.draw());
-        this.doors.forEach((door) => door.draw());
+        for (const floor in this.floors) {
+            if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
+                this.floors[floor].addToPixi();
+            }
+        };
+        this.doors.forEach((door) => door.addToPixi());
         this.machine.addToPixi();
         this.dataServers.forEach((server) => server.addToPixi());
         this.belt.draw();
@@ -92,6 +99,7 @@ export default class MLLab {
         this.tweens.resumeScanline = this.resumeUI.createScanTween();
         this.tweens.resumeMask = this.resumeUI.createMaskTween();
         this.tweens.serverDummyAnim = this.dataServers[0].getSprite();
+        this.tweens.peopleLine = this.people.createTween();
 
         // once the conveyor belt animation is done ...
         this.tweens.resumesTween.on('end', () => {
@@ -101,7 +109,7 @@ export default class MLLab {
             setTimeout(()=> {
                 // show the new CV
                 const person = this.people.getFirstPerson();
-                if (person) this.resumeUI.showCV(person.getData());
+                if (person !== undefined) this.resumeUI.showCV(person.getData());
                 // play the animation
                 this.tweens.rayAnim.visible = true;
                 this.tweens.rayAnim.animationSpeed = 0.5;
@@ -117,9 +125,14 @@ export default class MLLab {
 
         // once the scanline animation is done ...
         this.tweens.resumeScanline.eventCallback('onComplete', () => {
-            this.makeDecision();
+            if (this.people.getCount() > 0) {
+                this.people.evaluateFirstPerson();
+                this.people.recalibrateTween(this.tweens.peopleLine);
+                this.tweens.peopleLine.start();
+            }
             // hide the scaneline and reset its position
             this.resumeUI.hideScanline();
+            this.resumeUI.hide();
             // start animating the data servers
             setTimeout(()=> {
                 this.tweens.serverDummyAnim.gotoAndStop(0);
@@ -135,15 +148,10 @@ export default class MLLab {
             this.tweens.resumesTween.start();
             this.animLoopCount++;
         });
-    }
 
-    makeDecision() {
-        console.log('change candidate!');
-        this.people.evaluateFirstPerson();
-        // 1. decide if the candidate was accepted or rejected
-        // 2. add a new CV to the dataset inspector
-        // 3. animate the people and update the CVs
-        // remove the candidate you've just evaluated
+        this.tweens.peopleLine.on('end', () => {
+            this.tweens.peopleLine.reset();
+        });
     }
 
     destroyTweens() {

@@ -8,6 +8,7 @@ export default class {
         this.x = x;
         this.parentContainer = parent;
         this.id = id;
+        this.personData.id = this.id;
     }
 
     draw() {
@@ -22,6 +23,10 @@ export default class {
 
     getData() {
         return this.personData;
+    }
+
+    remove() {
+        this.parentContainer.removeChild(this.person);
     }
 }
 // function onPersonHover(event) {

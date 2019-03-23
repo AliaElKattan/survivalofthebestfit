@@ -57,6 +57,7 @@ export default class extends UIBase {
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__name`).html(feature.name);
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__progress`).css('width', `${skillScore}%`);
         });
+        if (this.$el.hasClass(CLASSES.IS_INACTIVE)) this.show();
     }
 
     setColor(color) {
@@ -100,16 +101,16 @@ export default class extends UIBase {
     }
 
     show() {
-        this.$el.removeClass(CLASSES.IS_INACTIVE)
-            .removeClass(CLASSES.FADE_OUT)
-            .addClass(CLASSES.FADE_IN);
+        this.$el.removeClass(CLASSES.IS_INACTIVE);
+        TweenLite.set('#js-resume', {x: 20, opacity: 0});
+        TweenLite.to('#js-resume', 0.3, {x: 0, opacity: 1, ease: Power1.easeInOut});
     }
 
     hide() {
-        this.$el.removeClass(CLASSES.FADE_IN)
-            .addClass(CLASSES.FADE_OUT)
-            .addClass(CLASSES.IS_INACTIVE);
-        // TODO you might need a delayed call for this
+        TweenLite.to('#js-resume', 0.3, {x: 50, opacity: 0});
+        TweenLite.delayedCall(0.4, () => {
+            this.$el.addClass(CLASSES.IS_INACTIVE);
+        });
     }
 
     destroy() {

@@ -23,21 +23,18 @@
     justify-content: center;
     align-items: center;
     margin: margin(sm) 0 margin(sm) 0;
-    // background-color: cyan;
   }
 
 }
 
 .ViewLayout {
-  // background-color: cyan;
   height: 80vh;
   overflow-y: auto;
   width: 80%;
   margin: 0 auto;
-  // min-height: 200px;
   display: grid;
   grid-display-rows: 1fr;
-  grid-template-columns: auto 300px auto;
+  grid-template-columns: 1fr 300px 1fr;
   grid-gap: 5px;
   padding-bottom: padding(md);
   
@@ -54,35 +51,15 @@
 
 .DatasetGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
+  grid-auto-flow: dense;
   grid-auto-rows: 100px;
   gap: 25px 10px;
   
   &-item {
-    // background-color: cyan;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-}
-
-.PersonCard {
-  flex-direction: column;
-  
-  &-item {
-    width: 100%;
-    flex-direction: start;
-  }
-  &-cv {
-    height: 80px;
-    width: 50%;
-    background: url('../../assets/img/cv-flat.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-  
-  &-name {
-    text-align:center;
   }
 }
 

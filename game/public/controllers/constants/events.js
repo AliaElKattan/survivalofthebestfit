@@ -4,6 +4,8 @@ export default {
     ASSIGNED_DESK: 'assigned-desk',
     STAGE_ONE_COMPLETED: 'stage-one-task-completed',
     INSPECT_ALGORITHM: 'inspect-algorithm',
-    INSPECT_DATASET: 'inspect-dataset',
-    RESIZE: 'resize'
+    DATASET_VIEW_INSPECT: 'inspect-dataset',
+    DATASET_VIEW_NEW_CV: 'dataset-new-cv',
+    RESUME_NEWS_TIMELINE: 'resume-timeline',
+    RESIZE: 'resize',
 };

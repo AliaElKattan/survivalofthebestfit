@@ -1,11 +1,9 @@
-import mq from 'browsernizr/lib/mq';
-import {mlLabStageContainer} from '../../../controllers/game/gameSetup';
-import {SPRITES} from '../../../controllers/common/textures.js';
-import {screenSizeDetector, uv2px, spacingUtils as space} from '../../../controllers/common/utils.js';
-import EVENTS from '../../../controllers/constants/events.js';
-import BREAKPOINTS from '../../../controllers/constants/breakpoints.js';
-import SCALES from '../../../controllers/constants/pixi-scales.js';
-import {eventEmitter} from '../../../controllers/game/gameSetup.js';
+import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
+import {SPRITES} from '~/public/controllers/common/textures.js';
+import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/controllers/common/utils.js';
+import EVENTS from '~/public/controllers/constants/events.js';
+import SCALES from '~/public/controllers/constants/pixi-scales.js';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 
 export default class {
@@ -69,7 +67,7 @@ export default class {
     // click handler
 
     _inspectButtonClickHandler() {
-        eventEmitter.emit(EVENTS.INSPECT_DATASET, {});
+        eventEmitter.emit(EVENTS.DATASET_VIEW_INSPECT, {});
     }
 
     // util function to pass machine dimensions to data server/scan ray

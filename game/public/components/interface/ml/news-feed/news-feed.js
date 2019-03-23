@@ -1,10 +1,10 @@
 import $ from 'jquery';
 import {TweenLite} from 'gsap/TweenMax';
-import CLASSES from '../../../../controllers/constants/classes';
-import EVENTS from '../../../../controllers/constants/events';
-import UIBase from '../../ui-base/ui-base';
-import NewsTimeline from '../news-timeline/news-timeline';
-import {eventEmitter} from '../../../../controllers/game/gameSetup.js';
+import CLASSES from '~/public/controllers/constants/classes';
+import EVENTS from '~/public/controllers/constants/events';
+import UIBase from '~/public/components/interface/ui-base/ui-base';
+import NewsTimeline from '~/public/components/interface/ml/news-timeline/news-timeline';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 
 export default class extends UIBase {
@@ -17,21 +17,14 @@ export default class extends UIBase {
             'Technoradar: Amazon Algorithm Discriminates Against Women',
             '@CITIZEN: #TechCompanies should be held accountable!! #justice',
         ];
-        this.setContent = this.setContent.bind(this);
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
         this._newsTimeline = new NewsTimeline();
 
-        this.setContent();
         this._addEventListeners();
         // instead of showing the news feed right away launch the news updates timeline
         if (options && options.show) {
             this._newsTimeline.start();
         }
-    }
-
-    // set content
-
-    setContent() {
     }
 
     // public method to launch news updates
@@ -46,12 +39,12 @@ export default class extends UIBase {
         const $news = this._createNewsElement(); // create a new news feed element
         if (!$news) return; // if there is no news left to add to the feed, exit the method
         $news.appendTo(this.$newsList); // append the element to the news feed parent container
+        // this.animateNews();
         this._updateNewsArray(); // pop the news update from the scheduled posts array
         this.show(); // show the updated news feed
-        // TODO tweak this if needed
-        // schedule to hide the news feed after some time
+        // TODO tweak this if needed - schedule to hide the news after some time
         this.waitForSeconds(3).then(() => {
-            setTimeout(this.hide(), 3000);
+            // setTimeout(this.hide(), 3000);
         }).catch((err) => {
             console.log(err);
         });
@@ -66,7 +59,8 @@ export default class extends UIBase {
     // create new news element
 
     _createNewsElement() {
-        const newsEl = document.createElement(`p.${CLASSES.NEWS_FEED_ITEM}`);
+        const newsEl = document.createElement('p');
+        newsEl.classList.add(`${CLASSES.NEWS_FEED_ITEM}`);
         return this._newsArray.length !== 0 ? $(newsEl).text(this._newsArray[0]) : undefined;
     }
 
@@ -90,6 +84,11 @@ export default class extends UIBase {
         TweenLite.set('#news-feed', {y: -50}); // set the Y transform before animating it
         this.$el.removeClass(CLASSES.IS_INACTIVE);
         TweenLite.to('#news-feed', 0.3, {y: 0});
+    }
+
+
+    animateNews() {
+        TweenLite.to('.NewsList-item', 3, {x: 300, ease: Power0.easeNone});
     }
 
     // hide the news feed

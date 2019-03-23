@@ -7,4 +7,8 @@ export default {
         mobile: 0.4,
         desktop: 0.7,
     },
+    DOOR: {
+        mobile: 0.3,
+        desktop: 0.52,
+    },
 };
