@@ -15,4 +15,8 @@ export default {
         mobile: 0.3,
         desktop: 0.45,
     },
+    RESUME: {
+        mobile: 0.3,
+        desktop: 0.5,
+    },
 };

@@ -5,23 +5,34 @@ const options = {
     seed: 3,
     maxFeatures: 0.8,
     replacement: true,
-    nEstimators: 50,
+    nEstimators: 70,
 };
 
 const classifier = new RandomForestClassifier(options);
 
 const trainClf = (trainingSet) => {
-    const [featureArr, labelArr] = cvPreproc(trainingSet);
-    const [trainX, trainY, validX, validY] = splitTrainTest(featureArr, labelArr, 0.2);
-    classifier.train(trainX, trainY);
-    testClf(validX, validY);
+    return new Promise((resolve) => {
+        console.log('Model training started');
+        const [featureArr, labelArr] = _cvPreproc(trainingSet);
+        const [trainX, trainY, validX, validY] = _splitTrainTest(featureArr, labelArr, 0.2);
+        classifier.train(trainX, trainY);
+        const results = _testClf(validX, validY);
+        console.log('Model training finished');
+    });
+};
+
+const trainDefaultClf = async () => {
+    trainClf(testDataSet);
 };
 
 const predictClf = (inputSet) => {
     return classifier.predict(inputSet);
 };
 
-const testClf = (validX, validY) => {
+/*
+* Internal helper functions
+*/
+const _testClf = (validX, validY) => {
     const prediction = predictClf(validX);
     let hits = 0;
     prediction.forEach((element, index) => {
@@ -30,9 +41,10 @@ const testClf = (validX, validY) => {
         }
     });
     console.log('Accuracy: ' + hits/validY.length);
+    return hits/validY.length;
 };
 
-const splitTrainTest = (featureArr, labelArr, ratio) => {
+const _splitTrainTest = (featureArr, labelArr, ratio) => {
     const breakPoint = Math.floor(featureArr.length * ratio);
     const trainX = featureArr.slice(breakPoint, featureArr.length);
     const trainY = labelArr.slice(breakPoint, featureArr.length);
@@ -42,10 +54,10 @@ const splitTrainTest = (featureArr, labelArr, ratio) => {
 };
 
 
-const cvPreproc = (json) => {
+const _cvPreproc = (json) => {
     const features = [];
     const labels = [];
-    shuffle(json);
+    _shuffle(json);
     for (let i = 0; i < json.length; i++) {
         let cv = [];
         cv = cv.concat(json[i]['qualifications']);
@@ -56,7 +68,7 @@ const cvPreproc = (json) => {
     return [features, labels];
 };
 
-const shuffle = (a) => {
+const _shuffle = (a) => {
     for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [a[i], a[j]] = [a[j], a[i]];
@@ -64,10 +76,7 @@ const shuffle = (a) => {
     return a;
 };
 
+// trainDefaultClf();
+// console.log("why isn't this asynch??")
 
-const testRun = () => {
-    trainClf(testDataSet);
-};
-// testRun();
-
-export {trainClf, predictClf};
+export {trainDefaultClf, predictClf};

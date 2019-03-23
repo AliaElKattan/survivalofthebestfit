@@ -10,11 +10,12 @@ export default class {
         this.texture = beltTexture;
         this.yAnchor = options.y;
         this.xAnchor = 0;
-        this._addEventListeners();
+        eventEmitter.on(EVENTS.RESIZE, this.draw.bind(this));
     }
 
-    _draw() {
+    draw() {
         this._recomputeParams();
+
         // remove previous sprites
         for (let i = mlLabStageContainer.children.length - 1; i >= 0; i--) {
             if (mlLabStageContainer.children[i].type && mlLabStageContainer.children[i].type === 'belt') {
@@ -29,6 +30,7 @@ export default class {
             belt.x = this.xAnchor + (belt.width * j);
             belt.type = 'belt';
             mlLabStageContainer.addChild(belt);
+            mlLabStageContainer.setChildIndex(belt, mlLabStageContainer.length);
         }
     }
 
@@ -37,11 +39,14 @@ export default class {
         this.numOfPieces = Math.floor(uv2px(1, 'w') / (beltTexture.width * this.scale)) + 1;
     }
 
-    _addEventListeners() {
-        eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
-    }
+    // it is dangerous to not remove the event listener when destroying sprites
+    destroy() {
+        eventEmitter.off(EVENTS.RESIZE, this.draw.bind(this));
 
-    _destroy() {
-        eventEmitter.off(EVENTS.RESIZE, this._draw);
+        for (let i = mlLabStageContainer.children.length - 1; i >= 0; i--) {
+            if (mlLabStageContainer.children[i].type && mlLabStageContainer.children[i].type === 'belt') {
+                mlLabStageContainer.removeChild(mlLabStageContainer.children[i]);
+            }
+        }
     }
 };
