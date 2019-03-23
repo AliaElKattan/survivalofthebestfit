@@ -4,17 +4,23 @@ import {bluePersonTexture, yellowPersonTexture} from '../../controllers/common/t
 import {gameFSM} from '../../controllers/game/stateManager.js';
 import {createPerson} from '../../components/pixi/person.js';
 import {animateTo} from '../../controllers/common/utils.js';
-import {Floor} from './floor.js';
+import Floor from './ml/floor.js';
 import {cvCollection} from '../../assets/text/cvCollection.js';
+import {uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
+import Door from './door.js';
+import TaskUI from '../../components/interface/ui-task/ui-task';
+import ResumeUI from '../../components/interface/ui-resume/ui-resume';
+import {deskTexture} from '../../controllers/common/textures.js';
+import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 
 const officeHeight = 0.6;
 const officeWidth = 0.6;
 const officeOffsetY = 0.1;
 
 const config = [
-    {row: 1, col: 5, scale: 1, newPeople: 5},
-    {row: 2, col: 8, scale: 0.8, newPeople: 10},
-    {row: 4, col: 10, scale: 0.7, newPeople: 10},
+    {row: 1, col: 5, scale: 1, newPeople: 10},
+    {row: 2, col: 8, scale: 0.8, newPeople: 15},
+    {row: 4, col: 10, scale: 0.7, newPeople: 15},
 ];
 
 class Office {
@@ -27,10 +33,122 @@ class Office {
         this.takenDesks = 0;
         this.container = new PIXI.Container();
         this.personContainer = new PIXI.Container();
+        this.entryDoorX = 0.1;
+        this.exitDoorX = 0.6;
+        this.personStartX = 0.22;
+        this.personStartY = 0.85;
+        this.xOffset = 0.05;
+        this.peopleLine = [];
+
+        this.floors = {
+            ground_floor: new Floor({type: 'ground_floor'}),
+            first_floor: new Floor({type: 'first_floor'}),
+        };
+
+        this.doors = [
+            new Door({
+                type: 'doorAccepted',
+                floor: 'first_floor',
+                floorParent: this.floors.first_floor,
+                xAnchor: uv2px(this.entryDoorX, 'w'),
+            }),
+            new Door({
+                type: 'doorRejected',
+                floor: 'first_floor',
+                floorParent: this.floors.first_floor,
+                xAnchor: uv2px(this.exitDoorX, 'w'),
+            }),
+            new Door({
+                type: 'doorEntry',
+                floor: 'ground_floor',
+                floorParent: this.floors.ground_floor,
+                xAnchor: uv2px(this.entryDoorX, 'w'),
+            })
+        ];
+
+        new TaskUI({show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription});
+
+        eventEmitter.on('person-hovered', () => {
+            new ResumeUI({
+                show: true,
+                features: cvCollection.cvFeatures,
+                scores: cvCollection.smallOfficeStage,
+                candidateId: candidateInScope,
+            });
+        });
+
+        this.listenerSetup();
+        //this._setupTweens();
+        this.draw(officeStageContainer);
+                
         officeStageContainer.addChild(this.container);
         officeStageContainer.addChild(this.personContainer);
-        this.listenerSetup();
-        this.expandOffice();
+        // this.expandOffice();
+    }
+
+    draw(parentContainer) {
+        for (const floor in this.floors) {
+            if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
+                this.floors[floor].addToPixi(parentContainer);
+            }
+        };
+        this.doors.forEach((door) => door.addToPixi(parentContainer));
+        this.addPeople(config[this.size].newPeople);
+        const desk = this.createInterviewDesk(0.4, ANCHORS.FLOORS.FIRST_FLOOR.y);
+    }
+    _setupTweens() {
+        this.tweens.peopleLine = this.createTween();
+
+        this.tweens.peopleLine.on('end', () => {
+            this.tweens.peopleLine.reset();
+        });
+    }
+
+    createPeopleLineTween() {
+        const tween = PIXI.tweenManager.createTween(this.personContainer);
+        tween.from({x: this.personStartX}).to({x: this.personStartX-this.xOffset});
+        
+        return tween;
+    }
+
+    animate() {
+        this.tweens.peopleLine.start();
+    }
+
+    moveTweenHorizontally(tween, oldX, newX) {
+        tween.from(
+            {x: oldX})
+            .to({x: newX});
+    }
+
+    movePersonToSpotlight(tween) {
+        tween.from(
+            {x: this.personStartX})
+            .to({x: this.spotlightX, y: this.spotlightY});
+    }
+
+    evaluateFirstPerson() {
+        const status = Math.random() < 0.5 ? 'accepted' : 'rejected';
+        eventEmitter.emit(EVENTS.DATASET_VIEW_NEW_CV, {
+            status: status,
+            data: this.peopleLine[0].getData(),
+        });
+        this.removeFirstPerson();
+        this._addNewPerson();
+    }
+
+    createInterviewDesk(x, y) {
+        const desk = new PIXI.Sprite(deskTexture);
+        desk.type = 'desk';
+        desk.isTaken = false;
+        desk.anchor.set(0.5);
+        desk.x = uv2px(x, 'w');
+        desk.y = uv2px(y - 0.12, 'h');
+        desk.interactive = true;
+        desk.scale.set(0.25);
+        officeStageContainer.addChild(desk);
+
+        return desk;
     }
 
     expandOffice() {
@@ -59,7 +177,7 @@ class Office {
             if (this.floorList.length > i) {
                 moveTweenList = moveTweenList.concat(this.floorList[i].resizeFloor(this, currentY));
             } else {
-                const newFloor = new Floor(-officeWidth, currentY, this);
+                //const newFloor = new Floor(-officeWidth, currentY, this);
                 newTweenList.push(animateTo({target: newFloor.sprite, x: 0}));
                 this.floorList.push(newFloor);
             }
@@ -97,19 +215,23 @@ class Office {
     }
 
     addPeople(count) {
-        let x = (Math.random() * 0.1) + 0.1;
         let texture = bluePersonTexture;
 
         for (let i = 0; i < count; i++) {
-            // TODO handle diff textures
             const color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
             const name = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].name;
             console.log(`${name}: ${color}`);
             texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
-            createPerson(x, (Math.random() * 0.1) + 0.8, this, this.uniqueCandidateIndex, texture);
+            const person = createPerson(this.personStartX + this.xOffset*i, this.personStartY, this, this.uniqueCandidateIndex, texture);
+            this.peopleLine.push(person);
             this.uniqueCandidateIndex++;
-            x += 0.05;
         }
+
+        console.log("first person id is: " + this.peopleLine[0].id);
+    }
+
+    getFirstPerson() {
+        return this.peopleLine.length > 0 ? this.peopleLine[0] : undefined;
     }
 
     resizePeople() {

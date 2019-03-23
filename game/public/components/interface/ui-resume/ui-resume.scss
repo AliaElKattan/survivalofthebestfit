@@ -16,7 +16,9 @@
 
   position: absolute;
   right: margin(sm);
-  top: 45%;
+  //Change the y of resume viewer to dynamic if you need it!
+  //Otherwise changing it to be in top half for manual stage
+  top: 7%;
   &--ml {
     top: 70px;
   }

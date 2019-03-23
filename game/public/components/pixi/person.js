@@ -83,7 +83,7 @@ function createPerson(x, y, office, id, texture) {
     const person = new PIXI.Sprite(texture);
     person.controller = new PersonController(person, office);
     const scale = office instanceof Office ? office.getScale() : 1;
-    person.scale.set(0.15 * scale);
+    person.scale.set(0.2);
     person.interactive = true;
     person.buttonMode = true;
     person.id = id;

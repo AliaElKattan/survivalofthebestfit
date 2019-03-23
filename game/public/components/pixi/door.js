@@ -8,7 +8,8 @@ import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/control
 
 export default class {
     constructor({type, floor, floorParent, xAnchor}) {
-        this.doorType = type === 'rejected' ? 'doorRejected' : 'doorAccepted';
+        // this.doorType = type === 'rejected' ? 'doorRejected' : 'doorAccepted';
+        this.doorType = type;
         this.floorParent = floorParent;
         this.xAnchor = xAnchor;
         this.yAnchorUV = floor === 'first_floor' ? ANCHORS.FLOORS.FIRST_FLOOR.y : ANCHORS.FLOORS.GROUND_FLOOR.y;
@@ -19,10 +20,11 @@ export default class {
         this._addEventListeners();
     }
 
-    addToPixi() {
+    addToPixi(parentContainer) {
         this.door = SPRITES[this.doorType];
+        console.log(SPRITES[this.doorType])
         this._draw();
-        mlLabStageContainer.addChild(this.door);
+        parentContainer.addChild(this.door);
     }
 
     _draw() {

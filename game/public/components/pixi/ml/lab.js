@@ -13,6 +13,7 @@ import DatasetView from '../../interface/ml/dataset-view/dataset-view';
 import ScanRay from './scan-ray.js';
 import DataServer from './data-server.js';
 import MLPeople from './people.js';
+import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
 
 
 // import ResumeViewerUI from '../../interface/ml/resume-viewer/resume-viewer.js';
@@ -33,6 +34,7 @@ export default class MLLab {
         };
         this.doors = [
             new Door({
+                type: 'doorEntry',
                 floor: 'ground_floor',
                 floorParent: this.floors.ground_floor,
                 xAnchor: uv2px(0.03, 'w'),
@@ -76,10 +78,10 @@ export default class MLLab {
     draw() {
         for (const floor in this.floors) {
             if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
-                this.floors[floor].addToPixi();
+                this.floors[floor].addToPixi(mlLabStageContainer);
             }
         };
-        this.doors.forEach((door) => door.addToPixi());
+        this.doors.forEach((door) => door.addToPixi(mlLabStageContainer));
         this.machine.addToPixi();
         this.dataServers.forEach((server) => server.addToPixi());
         this.belt.draw();

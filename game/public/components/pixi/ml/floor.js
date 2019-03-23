@@ -19,11 +19,11 @@ export default class {
         this._addEventListeners();
     }
 
-    addToPixi() {
+    addToPixi(parentContainer) {
         this._initParams();
         this._draw();
-        mlLabStageContainer.addChild(this.surface);
-        mlLabStageContainer.addChild(this.side);
+        parentContainer.addChild(this.surface);
+        parentContainer.addChild(this.side);
     }
 
     _initParams() {

@@ -203,7 +203,7 @@ h2 {
   padding: 20px 20px 40px 20px;
   position: absolute;
   right: 20px;
-  top: 45%;
+  top: 7%;
   min-width: 250px;
   min-height: 300px;
   max-height: 700px;
@@ -291,7 +291,7 @@ h2 {
   background-color: #FAFAFA;
   padding: 10px 20px;
   position: absolute;
-  left: 50%;
+  left: 14%;
   top: 5%;
   transform: translateX(-50%);
   min-width: 200px; }
