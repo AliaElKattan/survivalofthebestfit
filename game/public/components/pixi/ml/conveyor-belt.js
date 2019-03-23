@@ -15,13 +15,18 @@ export default class {
 
     draw() {
         this._recomputeParams();
-
-        // remove previous sprites
-        for (let i = mlLabStageContainer.children.length - 1; i >= 0; i--) {
-            if (mlLabStageContainer.children[i].type && mlLabStageContainer.children[i].type === 'belt') {
-                mlLabStageContainer.removeChild(mlLabStageContainer.children[i]);
+        if (this.beltContainer) {
+            // remove previous sprites
+            for (let i = this.beltContainer.children.length - 1; i >= 0; i--) {
+                if (this.beltContainer.children[i].type && this.beltContainer.children[i].type === 'belt') {
+                    this.beltContainer.removeChild(this.beltContainer.children[i]);
+                }
             }
+        } else {
+            this.beltContainer = new PIXI.Container();
+            mlLabStageContainer.addChild(this.beltContainer);
         }
+
         // redraw new ones
         for (let j = 0; j<this.numOfPieces; j++) {
             const belt = new PIXI.Sprite(beltTexture);
@@ -29,8 +34,7 @@ export default class {
             belt.y = this.yAnchor;
             belt.x = this.xAnchor + (belt.width * j);
             belt.type = 'belt';
-            mlLabStageContainer.addChild(belt);
-            mlLabStageContainer.setChildIndex(belt, mlLabStageContainer.length);
+            this.beltContainer.addChild(belt);
         }
     }
 
@@ -43,9 +47,9 @@ export default class {
     destroy() {
         eventEmitter.off(EVENTS.RESIZE, this.draw.bind(this));
 
-        for (let i = mlLabStageContainer.children.length - 1; i >= 0; i--) {
-            if (mlLabStageContainer.children[i].type && mlLabStageContainer.children[i].type === 'belt') {
-                mlLabStageContainer.removeChild(mlLabStageContainer.children[i]);
+        for (let i = this.beltContainer.children.length - 1; i >= 0; i--) {
+            if (this.beltContainer.children[i].type && this.beltContainer.children[i].type === 'belt') {
+                this.beltContainer.removeChild(this.beltContainer.children[i]);
             }
         }
     }
