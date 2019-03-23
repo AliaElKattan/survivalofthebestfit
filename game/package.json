@@ -44,6 +44,7 @@
     "pug": "^2.0.3",
     "requirejs": "^2.3.6",
     "sass-mq": "^5.0.0",
+    "screenfull": "^4.1.0",
     "watchify": "^3.11.1"
   },
   "devDependencies": {

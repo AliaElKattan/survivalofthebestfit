@@ -21,6 +21,7 @@ export default class {
 
     addToPixi() {
         this.door = SPRITES[this.doorType];
+        this.door.name = this.doorType;
         this._draw();
         mlLabStageContainer.addChild(this.door);
     }

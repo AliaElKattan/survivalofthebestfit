@@ -18,7 +18,6 @@ export default class {
     draw() {
         this.container.x = uv2px(0.15, 'w');
         this.container.y = uv2px(0.96, 'h');
-        console.log(this.container);
         mlLabStageContainer.addChild(this.container);
     }
 
@@ -71,8 +70,9 @@ export default class {
     }
 
     removeFirstPerson() {
-        this.peopleLine[0].remove();
-        delete this.peopleLine[0];
+        let door = mlLabStageContainer.getChildByName('doorAccepted');
+        this.peopleLine[0].removeFromLine();
+        // delete this.peopleLine[0];
         this.peopleLine = this.peopleLine.slice(1);
     }
 }
