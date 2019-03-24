@@ -9,6 +9,11 @@
   text-align: center;
 }
 
+.disabled {
+  opacity: .65;
+  pointer-events: none;
+}
+
 .btn {
   display: inline-block;
   font-weight: 400;

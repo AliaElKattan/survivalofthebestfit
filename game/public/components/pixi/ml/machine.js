@@ -9,6 +9,7 @@ import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 export default class {
     constructor(options) {
         this.machine = SPRITES.machine;
+        this.machine.name = 'machine';
         this.inspectButton = SPRITES.inspectButton;
         this.scale = SCALES.MACHINE[screenSizeDetector()];
         this._resizeHandler = this._resizeHandler.bind(this);

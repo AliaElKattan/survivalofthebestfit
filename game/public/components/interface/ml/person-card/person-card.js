@@ -10,7 +10,7 @@ export default class {
         this.personData = resume.data;
         this.id = resume.data.id;
         this.status = resume.status;
-
+        this.color = resume.data.color;
         this.createCard();
     }
 
@@ -21,6 +21,7 @@ export default class {
             .attr('data-id', this.id)
             .addClass(CLASSES.DATASET_GRID_ITEM);
         this.$el.find('.PersonCard-name').html(this.personData.name);
+        this.$el.addClass(`PersonCard--${this.color}`);
         this.status === 'accepted' ? this.$el.appendTo(this.$acceptedDataset) : this.$el.appendTo(this.$rejectedDataset);
         this.show();
     }

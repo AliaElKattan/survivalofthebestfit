@@ -33,7 +33,7 @@ export default class {
         this.person.x = x;
         this.person.y = y;
         const door = mlLabStageContainer.getChildByName('doorAccepted');
-        console.log(door.x);
+        // console.log(door.x);
         const tween = PIXI.tweenManager.createTween(this.person);
         tween.to({x: door.x});
         tween.time = 700;

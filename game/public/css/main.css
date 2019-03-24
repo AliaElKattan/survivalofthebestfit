@@ -35,7 +35,7 @@ button {
 
 .is-inactive {
   opacity: 0;
-  display: none; }
+  display: none !important; }
 
 .is-invisible {
   opacity: 0; }
@@ -337,6 +337,10 @@ h2 {
   min-width: 300px;
   text-align: center; }
 
+.disabled {
+  opacity: .65;
+  pointer-events: none; }
+
 .btn {
   display: inline-block;
   font-weight: 400;
@@ -389,6 +393,25 @@ h2 {
   top: 0;
   z-index: 4;
   background-color: #F9F0E3; }
+
+.Tooltip {
+  position: fixed;
+  top: 100px;
+  left: 50px; }
+  .Tooltip:hover {
+    cursor: pointer; }
+  .Tooltip-icon {
+    width: 30px;
+    height: 30px;
+    background: url("../assets/img/info-icon.png") no-repeat center;
+    background-size: contain; }
+  .Tooltip-text {
+    position: absolute;
+    min-width: 200px;
+    padding: 10px;
+    top: -5px;
+    left: 40px;
+    background-color: white; }
 
 .Footer {
   position: absolute;
@@ -620,6 +643,10 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center; }
+  .DatasetGrid-title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px; }
 
 .PersonCard {
   flex-direction: column; }
@@ -630,14 +657,27 @@ h2 {
     flex-direction: start; }
   .PersonCard-cv {
     height: 80px;
-    width: 50%;
-    background: url("../../assets/img/cv-flat.png");
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat; }
+    width: 50%; }
+    .PersonCard--yellow .PersonCard-cv {
+      background: url("../../assets/img/cv-flat-yellow.png");
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat; }
+    .PersonCard--blue .PersonCard-cv {
+      background: url("../../assets/img/cv-flat-blue.png");
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat; }
   .PersonCard-name {
     width: 100%;
     text-align: center; }
+
+.EndgameOverlay {
+  display: flex;
+  z-index: 10;
+  background-color: #FFADA3;
+  justify-content: center;
+  align-items: center; }
 
 .choiceButton {
   width: 250px;

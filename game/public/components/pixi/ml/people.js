@@ -1,6 +1,6 @@
 import {mlLabStageContainer} from '../../../controllers/game/gameSetup.js';
 import {cvCollection} from '../../../assets/text/cvCollection.js';
-import {uv2px} from '../../../controllers/common/utils.js';
+import {uv2px, px2uv} from '../../../controllers/common/utils.js';
 import EVENTS from '../../../controllers/constants/events';
 import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 import MLPerson from './person';
@@ -8,7 +8,8 @@ import MLPerson from './person';
 export default class {
     constructor() {
         this.container = new PIXI.Container();
-        this.numOfPeople = 6;
+        this.numOfPeople = Math.floor(uv2px(0.85, 'w')/70);
+        console.log(this.numOfPeople);
         this.personCount = 0;
         this.peopleLine = [];
         this.personXoffset = 70;
@@ -70,7 +71,7 @@ export default class {
     }
 
     removeFirstPerson() {
-        let door = mlLabStageContainer.getChildByName('doorAccepted');
+        const door = mlLabStageContainer.getChildByName('doorAccepted');
         this.peopleLine[0].removeFromLine();
         // delete this.peopleLine[0];
         this.peopleLine = this.peopleLine.slice(1);

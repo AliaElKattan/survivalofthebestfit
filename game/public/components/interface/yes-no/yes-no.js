@@ -28,6 +28,10 @@ export default class extends UIBase {
     }
 
     _addEventListeners() {
+
+        eventEmitter.on('spot-empty', this.disableButtons());
+        eventEmitter.on('spot-filled', this.enableButtons());
+
         this.$yesButton.click(this._acceptClicked.bind(this));
         this.$noButton.click(this._rejectClicked.bind(this));
     };
@@ -40,6 +44,17 @@ export default class extends UIBase {
         this.$el.removeClass(CLASSES.IS_INACTIVE)
             .removeClass(CLASSES.FADE_OUT)
             .addClass(CLASSES.FADE_IN);
+    }
+
+    disableButtons(){
+        // TODO - dynamically change?!?!
+        this.$yesButton.addClass('disabled');
+            this.$noButton.addClass('disabled');
+    }
+
+    enableButtons(){
+        this.$yesButton.removeClass('disabled');
+        this.$noButton.removeClass('disabled');
     }
 
     hide() {

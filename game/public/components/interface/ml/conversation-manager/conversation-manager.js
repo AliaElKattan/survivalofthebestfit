@@ -2,32 +2,46 @@ import $ from 'jquery';
 import EVENTS from '~/public/controllers/constants/events';
 import CLASSES from '~/public/controllers/constants/classes';
 import TextboxUI from '~/public/components/interface/ui-textbox/ui-textbox';
+import TooltipUI from '~/public/components/interface/ui-tooltip/ui-tooltip';
+import EndGameOverlay from '~/public/components/interface/ml/endgame-overlay/endgame-overlay';
+
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 export default class {
     constructor(options) {
-        this.messages = [
-            'this is message 1',
-            'this is message 2',
-            'this is message 3',
-        ];
-
+        this.tooltip = null;
         this._addEventListeners();
     }
 
-    _showNewMessage() {
-        console.log('show the new message from boss!');
+    _showNewMessage(msg) {
+        if (!msg.hasOwnProperty('messageFromVc') || !msg.hasOwnProperty('responses')) throw new Error('message object does not have valid properties!');
+
+        // clear tooltip if one exists
+        if (this.tooltip) {
+            this.tooltip.destroy();
+            delete this.tooltip;
+        }
+
+        // if we have a last
+        if (msg.hasOwnProperty('isLastMessage')) {
+            console.log('LAST MESSAGE!');
+            new EndGameOverlay();
+        };
+
+        // show new textbox
         new TextboxUI({
             show: true,
             type: CLASSES.ML,
-            content: this.messages[0],
-            responses: ['option 1', 'option 2'],
+            content: msg.messageFromVc,
+            responses: msg.responses,
+            hasTooltip: msg.hasOwnProperty('tooltip'),
+            isLastMessage: msg.hasOwnProperty('isLastMessage'),
         });
-        this._updateMessageDeck();
-    }
 
-    _updateMessageDeck() {
-        this.messages = this.messages.slice(1);
+        // if there is a tooltip linked to the message object, set up the tooltip object
+        if (msg.tooltip) {
+            this.tooltip = new TooltipUI(msg.tooltip);
+        }
     }
 
     // add event listeners

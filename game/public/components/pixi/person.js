@@ -76,18 +76,23 @@ function onPersonDragMove() {
 
 function moveCandidate() {
     if (!this.inSpotlight && spotOpen) {
+        //move candidate to spotlight
         this.position.x = spotlight.x;
         this.position.y = spotlight.y;
         spotOpen = false;
         this.inSpotlight = true;
         candidateInSpot = this.id;
+        eventEmitter.emit('spot-filled', {});
     }
     else if (this.inSpotlight) {
+        //move candidate back to line
         this.position.x = this.originalX;
         this.position.y = this.originalY;
         spotOpen = true;
         this.inSpotlight = false;
         candidateInSpot = null;
+        eventEmitter.emit('spot-empty', {});
+
     }
 }
 

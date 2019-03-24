@@ -1,11 +1,11 @@
-import {uv2px, spacingUtils as space} from '../../../controllers/common/utils.js';
-import {cvCollection} from '../../../assets/text/cvCollection.js';
-import Machine from './machine';
-import Resumes from './cv-list';
-import Floor from './floor';
-import ConveyorBelt from './conveyor-belt';
-import Door from '../door';
-import ResumeUI from '../../interface/ui-resume/ui-resume';
+import {uv2px, spacingUtils as space} from '~/public/controllers/common/utils.js';
+import {cvCollection} from '~/public/assets/text/cvCollection.js';
+import Machine from '~/public/components/pixi/ml/machine';
+import Resumes from '~/public/components/pixi/ml/cv-list';
+import Floor from '~/public/components/pixi/ml/floor';
+import ConveyorBelt from '~/public/components/pixi/ml/conveyor-belt';
+import Door from '~/public/components/pixi/door';
+import ResumeUI from '~/public/components/interface/ui-resume/ui-resume';
 import ConversationManager from '~/public/components/interface/ml/conversation-manager/conversation-manager.js';
 import NewsFeedUI from '../../interface/ml/news-feed/news-feed.js';
 import AlgorithmInspectorUI from '../../interface/ml/algorithm-inspector/algorithm-inspector.js';
@@ -14,9 +14,7 @@ import ScanRay from './scan-ray.js';
 import DataServer from './data-server.js';
 import MLPeople from './people.js';
 import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
-
-
-// import ResumeViewerUI from '../../interface/ml/resume-viewer/resume-viewer.js';
+import TimelineManager from '~/public/components/interface/ml/timeline-manager/timeline-manager';
 
 
 export default class MLLab {
@@ -63,11 +61,13 @@ export default class MLLab {
             candidateId: candidateHovered,
         });
         this.people = new MLPeople();
+        this.timeline = new TimelineManager();
         this.tweens = {};
         this.animLoopCount = 0;
 
         this._setupTweens();
         this.draw();
+        this.timeline.start();
     }
 
     draw() {

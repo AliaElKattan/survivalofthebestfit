@@ -61,5 +61,11 @@
     justify-content: center;
     align-items: center;
   }
+  
+  &-title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: margin(sm);
+  }
 }
 

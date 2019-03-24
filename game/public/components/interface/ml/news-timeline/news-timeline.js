@@ -6,7 +6,7 @@ export default class {
     constructor(options) {
         this.timelineSchedule = [
             2,
-            7,
+            3,
             6,
         ];
         this.isActive = true;
@@ -61,19 +61,13 @@ export default class {
         });
     }
 
-    // add event listeners
-
     _addEventListeners() {
         eventEmitter.on(EVENTS.RESUME_NEWS_TIMELINE, this.scheduleNewsUpdate);
     }
 
-    // remove event listeners
-
     _removeEventListeners() {
         eventEmitter.off(EVENTS.RESUME_NEWS_TIMELINE, this.scheduleNewsUpdate);
     }
-
-    // destroy the instance
 
     destroy() {
     }

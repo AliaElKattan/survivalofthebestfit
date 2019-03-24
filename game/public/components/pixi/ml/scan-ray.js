@@ -7,6 +7,7 @@ import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 export default class {
     constructor({machine}) {
         this.scanRay = SPRITES.rayAnim;
+        this.scanRay.name = 'scanray';
         this.machineContainer = machine;
         this.machineDim = undefined;
         this._resizeHandler = this._resizeHandler.bind(this);
