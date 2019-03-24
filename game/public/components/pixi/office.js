@@ -75,9 +75,6 @@ class Office {
             })
         ];
 
-        new TaskUI({show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription});
-        new YesNo({show: true});
-
         this.listenerSetup();
         //this._setupTweens();
         this.draw(officeStageContainer);
@@ -97,6 +94,7 @@ class Office {
         this.addPeople(config[this.size].newPeople);
         //const desk = this.createInterviewDesk(0.4, ANCHORS.FLOORS.FIRST_FLOOR.y);
     }
+
     moveTweenHorizontally(tween, newX) {
         tween.to({x: newX});
         tween.time = 600;
@@ -175,7 +173,12 @@ class Office {
                 this.resetSpot();
 
                 if (this.takenDesks == 5) {
-                    eventEmitter.emit('task-complete', {});
+                    eventEmitter.emit(EVENTS.STAGE_ONE_COMPLETED, {});
+                    gameFSM.nextStage();
+                }
+
+                if (this.takenDesks == 10) {
+                    eventEmitter.emit(EVENTS.STAGE_TWO_COMPLETED, {});
                     gameFSM.nextStage();
                 }
             }

@@ -22,6 +22,7 @@ export default class extends UIBase {
         this.$yesButton.addClass(CLASSES.ACCEPTED);
         eventEmitter.emit(EVENTS.ACCEPTED, {});
     }
+
     _rejectClicked(e) {
         this.$noButton.addClass(CLASSES.REJECTED);
         eventEmitter.emit(EVENTS.REJECTED, {});
@@ -29,15 +30,24 @@ export default class extends UIBase {
 
     _addEventListeners() {
 
-        eventEmitter.on('spot-empty', this.disableButtons());
-        eventEmitter.on('spot-filled', this.enableButtons());
+        // eventEmitter.on('spot-empty', this.disableButtons());
+        // eventEmitter.on('spot-filled', this.enableButtons());
 
         this.$yesButton.click(this._acceptClicked.bind(this));
         this.$noButton.click(this._rejectClicked.bind(this));
+
+        eventEmitter.on(EVENTS.STAGE_ONE_COMPLETED, (data) => {
+            this.destroy();
+        });
     };
     
     _removeEventListeners() {
-        this.$el.off();
+        this.$yesButton.off();
+        this.$noButton.off();
+
+        eventEmitter.off(EVENTS.ACCEPTED, () => {});
+        eventEmitter.off(EVENTS.REJECTED, () => {});
+        eventEmitter.off(EVENTS.STAGE_ONE_COMPLETED, () => {});
     }
 
     show() {

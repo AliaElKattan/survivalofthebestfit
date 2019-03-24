@@ -9,6 +9,7 @@ import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
 import {cvCollection} from '../../assets/text/cvCollection.js';
+import YesNo from '../../components/interface/yes-no/yes-no';
 
 let office;
 let transitionOverlay;
@@ -89,15 +90,18 @@ const gameFSM = new machina.Fsm({
                     responses: txt.smallOfficeStage.responses,
                     show: true,
                 });
+
                 eventEmitter.on('instructionAcked', () => {
                     office = new Office();
+                    new TaskUI({show: true, hires: 5, duration: 60, content: txt.smallOfficeStage.taskDescription});
+                    new YesNo({show: true});
                 });
             },
 
             nextStage: 'mediumOfficeStage',
 
             _onExit: function() {
-
+                
             },
         },
 
@@ -112,32 +116,13 @@ const gameFSM = new machina.Fsm({
                     show: true,
                 });
                 eventEmitter.on('instructionAcked', () => {
-                    this.handle('expandOffice');
+                    new TaskUI({show: true, hires: 10, duration: 60, content: txt.mediumOfficeStage.taskDescription});
+                    new YesNo({show: true});
                 });
 
-                eventEmitter.on('time-up', () => {
-                    this.handle('retryStage');
-                });
-            },
-
-            expandOffice: function() {
-                office.expandOffice();
-                new TaskUI({show: true, hires: 10, duration: 30, content: txt.mediumOfficeStage.taskDescription});
-            },
-
-            nextStage: 'bigOfficeStage',
-
-            _onExit: function() {
-
-            },
-        },
-
-        /* ///////////////////
-        // Huge office, ccountry level view
-        */// /////////////////
-        bigOfficeStage: {
-            _onEnter: function() {
-                office.expandOffice();
+                // eventEmitter.on('time-up', () => {
+                //     this.handle('retryStage');
+                // });
             },
 
             nextStage: 'mlTransitionStage',
@@ -146,6 +131,21 @@ const gameFSM = new machina.Fsm({
 
             },
         },
+
+        // /* ///////////////////
+        // // Huge office, ccountry level view
+        // */// /////////////////
+        // bigOfficeStage: {
+        //     _onEnter: function() {
+        //         office.expandOffice();
+        //     },
+
+        //     nextStage: 'mlTransitionStage',
+
+        //     _onExit: function() {
+
+        //     },
+        // },
 
         mlTransitionStage: {
             _onEnter: function() {
