@@ -7,11 +7,11 @@ export default class {
         this.$el = $('#dataset-view-resume');
         this.$nameEl = this.$el.find('.Resume__title');
         this.$taglineEl = this.$el.find('.Resume__tagline');
+        this.$el.removeClass(CLASSES.IS_INACTIVE);
         this._resumeFeatures = cvCollection.cvFeatures;
     }
 
     previewNewPerson(cv) {
-        console.log(cv);
         this.setColor(cv.color);
         this.$nameEl.html(cv.name);
         this.$taglineEl.html('Lorem Ipsum tagline');

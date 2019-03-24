@@ -3,7 +3,7 @@ import {TweenLite} from 'gsap/TweenMax';
 import CLASSES from '~/public/controllers/constants/classes';
 import EVENTS from '~/public/controllers/constants/events';
 import UIBase from '~/public/components/interface/ui-base/ui-base';
-import NewsTimeline from '~/public/components/interface/ml/news-timeline/news-timeline';
+// import NewsTimeline from '~/public/components/interface/ml/news-timeline/news-timeline';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 
@@ -18,12 +18,12 @@ export default class extends UIBase {
             '@CITIZEN: #TechCompanies should be held accountable!! #justice',
         ];
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
-        this._newsTimeline = new NewsTimeline();
+        // this._newsTimeline = new NewsTimeline();
 
         this._addEventListeners();
         // instead of showing the news feed right away launch the news updates timeline
         if (options && options.show) {
-            this._newsTimeline.start();
+            // this._newsTimeline.start();
         }
     }
 

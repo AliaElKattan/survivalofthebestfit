@@ -16,7 +16,8 @@ export default class extends UIBase {
         this._responseContent = options.responses || ['OKK'];
         this.overlay = options.overlay || null; // TODO think about the overlay
         this.type = options.type || '';
-        console.log(this.type);
+        this.hasTooltip = options.hasTooltip;
+        this.isLastMessage = options.isLastMessage;
         if (options.show) this.show();
         this.setContent(); // set content
         this._addEventListeners();
@@ -24,6 +25,7 @@ export default class extends UIBase {
 
     setContent() {
         this.$textEl.html(this._mainContent);
+        this.$buttons.addClass(CLASSES.IS_INACTIVE);
         this._responseContent.forEach((response, index) => {
             const $responseButton = $(this.$buttons[index]);
             $responseButton.removeClass(CLASSES.IS_INACTIVE);
@@ -33,8 +35,13 @@ export default class extends UIBase {
 
     _mlStageButtonHandler(e) {
         this.$buttons.addClass(CLASSES.BUTTON_CLICKED);
-        console.log('resume news timeline!');
-        eventEmitter.emit(EVENTS.RESUME_NEWS_TIMELINE, {});
+        if (this.isLastMessage) {
+            eventEmitter.emit(EVENTS.SHOW_ENDGAME_OVERLAY, {});
+        } else if (this.hasTooltip) {
+            eventEmitter.emit(EVENTS.SHOW_TOOLTIP, {});
+        } else {
+            eventEmitter.emit(EVENTS.RESUME_TIMELINE, {});
+        }
         this.destroy();
     }
 
@@ -46,7 +53,6 @@ export default class extends UIBase {
 
     _addEventListeners() {
         if (this.type === CLASSES.ML) {
-            console.log('add ml button handler');
             this.$buttons.click(this._mlStageButtonHandler.bind(this));
         } else {
             this.$buttons.click(this._manualStageButtonHandler.bind(this));

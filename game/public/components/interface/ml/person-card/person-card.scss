@@ -9,13 +9,31 @@
     width: 100%;
     flex-direction: start;
   }
+  
+  // &--blue {
+  //   background: url('../../assets/img/cv-flat-blue.png');
+  // }
+  // 
+  // &--yellow {
+  //   background: url('../../assets/img/cv-yellow.png');
+  // }
+  
   &-cv {
     height: 80px;
     width: 50%;
-    background: url('../../assets/img/cv-flat.png');
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
+    .PersonCard--yellow & {
+      background: url('../../assets/img/cv-flat-yellow.png');
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .PersonCard--blue & {
+      background: url('../../assets/img/cv-flat-blue.png');
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  
   }
   
   &-name {

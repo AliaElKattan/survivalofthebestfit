@@ -12,14 +12,14 @@ const english = {
         header: 'Survival of the Best Fit',
         instruction: 'Congratulations! You just secured 2 million dollar funding to turn your startup idea into reality. Are you ready to grow a company?',
         responses: [
-            'Start Game'
+            'Start Game',
         ],
     },
     tutorialStage: {
         header: 'Tutorial',
         instruction: 'As the CEO, your goal is to hire the best and the brightest talent that will help your startup grow.\n\nYou can hover over each candidate to view their CV and drag to the desk to hire.\nYou have a hired headcount KPI for each stage so try to meet them and make your investors happy!',
         responses: [
-            'Got it'
+            'Got it',
         ],
     },
     smallOfficeStage: {
@@ -76,6 +76,66 @@ const english = {
             ],
         },
     ],
+    mlLabStage: {
+        conversation: [
+            {
+                delay: 2,
+                messageFromVc: 'We’ve been able to both hire at 10x our past rate and cut down costs! Great job, this seems to be working!',
+                responses: [
+                    'Great to hear!',
+                ],
+            },
+            {
+                delay: 5,
+                messageFromVc: 'Hello, I just got a complaint from a past applicant who’s looking for feedback on why she was rejected. Can you look into it and let me know?',
+                responses: [
+                    'I\'m on it!',
+                    'Ok, but where should I look?',
+                ],
+                tooltip: {
+                    parent: 'machine',
+                    text: 'Decisions have been made in a “black box”. Machine is unable to track back specific reasons.',
+                },
+            },
+            {
+                delay: 4,
+                messageFromVc: 'Hello, just checking in on the hiring process so far. Can you look into the decisions it’s made?',
+                responses: [
+                    'Sure, I can do that!',
+                ],
+            },
+            {
+                delay: 5,
+                messageFromVc: 'Hey, some reporters have been talking about bias in recruitment, but I guess we’re off the hook since we’ve switched to automated hiring anyway! Is that right?',
+                responses: [
+                    'Yes, we dodged that bullet.',
+                    'Not sure, I’ll look into it.',
+                ],
+                tooltip: {
+                    parent: 'scanray',
+                    text: 'The algorithm doesn’t work in a vacuum. Incoming CVs are judged in context of previous CVs, replicating historical trends',
+                },
+            },
+            {
+                delay: 5,
+                messageFromVc: 'I’m hearing that we may be involved with this bias story, and reporters are asking us to make our process more transparent. Could you double check our evaluation metrics to see if we can go public?',
+                responses: [
+                    'I\'ll give it a shot!',
+                ],
+                tooltip: {
+                    parent: 'scanray',
+                    text: 'Bias could originate with the metrics we use to evaluate applicants. They often fit within gendered stereotypes and historical biases.',
+                },
+            },
+            {
+                delay: 5,
+                messageFromVc: 'Hey, we are all over the news for biased hiring, all the investors are pulling out! We have to turn this story around, so I\'m sending you to AI debiasing seminar in Blueville. Think of it as paid vacation.',
+                responses: [
+                    'Start learning about bias',
+                ],
+            },
+        ],
+    },
 };
 
 const language = 'hungarian';
@@ -86,7 +146,7 @@ const language = 'hungarian';
 let txt;
 
 // defining a global variable candidateInScope to access the ID globally without having to emit a value
-let candidateInScope = 0;
+const candidateInScope = 0;
 
 function setLang(dictionary) {
     if (typeof module !== 'undefined') {

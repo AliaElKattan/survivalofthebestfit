@@ -113,4 +113,15 @@ function animateTo({target, x, y, scale=1, scaleY, easing=PIXI.tween.Easing.inQu
     return tween;
 }
 
-export {spacingUtils, uv2px, px2uv, clamp, animateTo, lerp, screenSizeDetector};
+// create a new countdown timer
+
+const waitForSeconds = (duration) => {
+    const durationInMS = duration*1000;
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, durationInMS);
+    });
+};
+
+export {spacingUtils, uv2px, px2uv, clamp, animateTo, lerp, screenSizeDetector, waitForSeconds};

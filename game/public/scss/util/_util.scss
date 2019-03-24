@@ -1,7 +1,7 @@
 // util
 .is-inactive {
   opacity: 0;
-  display: none;
+  display: none !important;
 }
 
 .is-invisible {

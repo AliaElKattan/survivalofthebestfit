@@ -2,13 +2,17 @@ include ../../ui-overlay/ui-overlay.pug
 +overlay()(id="dataset-overlay" class="DatasetOverlay")
   div.DatasetOverlay__x-icon.js-x-icon
   div.DatasetOverlay__header
-    h1.DatasetOverlay__title This is the dataset view
+    h1.DatasetOverlay__title Dataset Inspector
   div.ViewLayout
-    div.ViewLayout-item.DatasetGrid#dataset-accepted
+    div.ViewLayout-item
+      h3.DatasetGrid-title Accepted Candidates
+      div.DatasetGrid#dataset-accepted
     div.ViewLayout-item.CVPreview
       include ../../ui-resume/ui-resume.pug
       +resume()(id="dataset-view-resume" class="Resume--dataset")
-    div.ViewLayout-item.DatasetGrid#dataset-rejected
-      div.PersonCard.is-inactive.is-parent#person-card-template
-        div.PersonCard-item.PersonCard-cv.has-parent
-        p.PersonCard-item.PersonCard-name.has-parent Jane Doe
+    div.ViewLayout-item
+      h3.DatasetGrid-title Rejected Candidates
+      div.DatasetGrid#dataset-rejected
+        div.PersonCard.is-inactive.is-parent#person-card-template
+          div.PersonCard-item.PersonCard-cv.has-parent
+          p.PersonCard-item.PersonCard-name.has-parent

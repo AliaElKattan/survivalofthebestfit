@@ -58,7 +58,6 @@ export default class extends UIBase {
     }
 
     _handlePersonCardHover(event) {
-        console.log('hover works!');
         let personID;
         if (event.target.matches('.PersonCard.is-parent')) {
             personID = $(event.target).attr('data-id');
