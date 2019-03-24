@@ -60,7 +60,7 @@ export default class MLLab {
             show: true, type: 'ml',
             features: cvCollection.cvFeatures,
             scores: cvCollection.smallOfficeStage,
-            candidateId: candidateInScope,
+            candidateId: candidateHovered,
         });
         this.people = new MLPeople();
         this.tweens = {};

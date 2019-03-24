@@ -41,12 +41,5 @@ export default class {
             mlLabStageContainer.removeChild(this.person);
         });
         tween.start();
-
-        // console.log(this.person.x);
     }
 }
-// function onPersonHover(event) {
-//     eventEmitter.emit('ml-person-hovered', {});
-//     candidateInScope = this.id;
-//     console.log('Current Candidate ID: ' + candidateInScope);
-// }

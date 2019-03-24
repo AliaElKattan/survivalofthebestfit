@@ -85,8 +85,10 @@ const language = 'hungarian';
 // when loading in the ES6 application, there is no module provided so it is undefined
 let txt;
 
-// defining a global variable candidateInScope to access the ID globally without having to emit a value
-let candidateInScope = 0;
+// defining a global variable candidateHovered to access the ID globally without having to emit a value
+let candidateHovered = 0;
+let spotOpen = true;
+let candidateInSpot = null;
 
 function setLang(dictionary) {
     if (typeof module !== 'undefined') {

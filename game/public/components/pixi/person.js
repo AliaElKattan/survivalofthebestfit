@@ -1,7 +1,7 @@
 import {pixiApp, eventEmitter} from '../../controllers/game/gameSetup.js';
 import {bluePersonTexture} from '../../controllers/common/textures.js';
 import {uv2px} from '../../controllers/common/utils.js';
-import {Office} from './office';
+import {Office, spotlight} from './office';
 
 class PersonController {
     constructor(parent, office) {
@@ -21,8 +21,7 @@ class PersonController {
 
 function onPersonHover(event) {
     eventEmitter.emit('person-hovered', {});
-    candidateInScope = this.id;
-    console.log("Current Candidate ID: " + candidateInScope);
+    candidateHovered = this.id;
 }
 /*eslint-disable */
 function onPersonDragStart(event) {
@@ -75,28 +74,44 @@ function onPersonDragMove() {
 }
 /* eslint-enable */
 
-function sendAssigned() {
-    eventEmitter.emit('assigned-desk', {});
+function moveCandidate() {
+    if (!this.inSpotlight && spotOpen) {
+        this.position.x = spotlight.x;
+        this.position.y = spotlight.y;
+        spotOpen = false;
+        this.inSpotlight = true;
+        candidateInSpot = this.id;
+    }
+    else if (this.inSpotlight) {
+        this.position.x = this.originalX;
+        this.position.y = this.originalY;
+        spotOpen = true;
+        this.inSpotlight = false;
+        candidateInSpot = null;
+    }
 }
 
 function createPerson(x, y, office, id, texture) {
     const person = new PIXI.Sprite(texture);
     person.controller = new PersonController(person, office);
-    const scale = office instanceof Office ? office.getScale() : 1;
     person.scale.set(0.2);
     person.interactive = true;
     person.buttonMode = true;
+    person.inSpotlight = false;
     person.id = id;
     person.x = uv2px(x, 'w');
     person.y = uv2px(y, 'h');
+    person.originalX = person.x;
+    person.originalY = person.y;
     person.type = 'person';
     person.anchor.set(0.5);
+    person.tween = PIXI.tweenManager.createTween(person);
     person
         .on('mouseover', onPersonHover)
-        .on('pointerupoutside', onPersonDragEnd)
-        .on('pointerdown', onPersonDragStart)
-        .on('pointermove', onPersonDragMove)
-        .on('pointerup', onPersonDragEnd);
+        // .on('pointerupoutside', onPersonDragEnd)
+        .on('pointerdown', moveCandidate)
+        // .on('pointermove', onPersonDragMove)
+        // .on('pointerup', onPersonDragEnd);
 
     office.personContainer.addChild(person);
     return person;

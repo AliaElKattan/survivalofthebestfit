@@ -328,6 +328,59 @@ h2 {
     height: inherit;
     background-color: #F29488; }
 
+.YesNo {
+  padding: 10px 20px;
+  position: absolute;
+  left: 40%;
+  top: 10%;
+  transform: translateX(-50%);
+  min-width: 300px;
+  text-align: center; }
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 2rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  margin: 0.5rem;
+  font-weight: 700;
+  border-width: medium; }
+
+.btn-outline-danger:hover {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545; }
+
+.btn-outline-danger {
+  color: #dc3545;
+  background-color: white;
+  background-image: none;
+  border-color: #dc3545; }
+
+.btn:focus, .btn:hover {
+  text-decoration: none; }
+
+.btn-outline-success:hover {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745; }
+
+.btn-outline-success {
+  color: #28a745;
+  background-color: white;
+  background-image: none;
+  border-color: #28a745; }
+
 .Overlay {
   position: fixed;
   width: 100vw;

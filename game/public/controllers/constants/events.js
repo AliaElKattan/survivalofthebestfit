@@ -8,4 +8,6 @@ export default {
     DATASET_VIEW_NEW_CV: 'dataset-new-cv',
     RESUME_NEWS_TIMELINE: 'resume-timeline',
     RESIZE: 'resize',
+    ACCEPTED: 'accepted',
+    REJECTED: 'rejected',
 };

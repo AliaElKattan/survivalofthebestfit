@@ -34,7 +34,7 @@ export default class extends UIBase {
     }
 
     _addEventListeners() {
-        eventEmitter.on(EVENTS.ASSIGNED_DESK, (data) => {
+        eventEmitter.on(EVENTS.ACCEPTED, (data) => {
             this.hiresNum += 1;
             this.updateCounter();
         });
@@ -70,7 +70,7 @@ export default class extends UIBase {
 
     //
     _removeEventListeners() {
-        eventEmitter.off(EVENTS.ASSIGNED_DESK, () => {});
+        eventEmitter.off(EVENTS.ACCEPTED, () => {});
         eventEmitter.off(EVENTS.STAGE_ONE_COMPLETED, () => {});
     }
 

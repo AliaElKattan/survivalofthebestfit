@@ -23,8 +23,8 @@ const gameFSM = new machina.Fsm({
     states: {
         uninitialized: {
             startGame: function() {
-                this.transition('titleStage');
-                // this.transition('smallOfficeStage');
+                // this.transition('titleStage');
+                this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
                 //this.transition('mlLabStage');
             },
@@ -90,13 +90,8 @@ const gameFSM = new machina.Fsm({
                     show: true,
                 });
                 eventEmitter.on('instructionAcked', () => {
-                    this.handle('setupOffice');
+                    office = new Office();
                 });
-            },
-
-            setupOffice: function() {
-                office = new Office();
-
             },
 
             nextStage: 'mediumOfficeStage',
@@ -176,7 +171,6 @@ const gameFSM = new machina.Fsm({
 
 
     },
-
 
     startGame: function() {
         this.handle('startGame');

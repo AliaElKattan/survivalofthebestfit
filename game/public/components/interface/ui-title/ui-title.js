@@ -14,8 +14,6 @@ export default class extends UIBase {
         this.$headerEl = this.$el.find('.Titlepage__header');
         this.$textEl = this.$el.find('.Titlepage__content');
         this.$buttons = this.$el.find('.TextboxButton');
-        console.log("Title page created");
-        console.log(this.$buttons);
         this._addEventListeners();
         this.setContent = this.setContent.bind(this);
         this._headerText = options.headerText;

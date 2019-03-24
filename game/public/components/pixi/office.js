@@ -10,15 +10,21 @@ import {uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
 import Door from './door.js';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
+import YesNo from '../../components/interface/yes-no/yes-no';
 import {deskTexture} from '../../controllers/common/textures.js';
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
+import EVENTS from '../../controllers/constants/events';
 
 const officeHeight = 0.6;
 const officeWidth = 0.6;
 const officeOffsetY = 0.1;
 
+const spotlight = {
+    x: uv2px(0.4, 'w'),
+    y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.15, 'h')
+}
 const config = [
-    {row: 1, col: 5, scale: 1, newPeople: 10},
+    {row: 1, col: 5, scale: 1, newPeople: 15},
     {row: 2, col: 8, scale: 0.8, newPeople: 15},
     {row: 4, col: 10, scale: 0.7, newPeople: 15},
 ];
@@ -38,7 +44,9 @@ class Office {
         this.personStartX = 0.22;
         this.personStartY = 0.85;
         this.xOffset = 0.05;
+        // IMPORTANT: probably going to store people by index so can't delete array
         this.peopleLine = [];
+        this.hiredPeople = [];
 
         this.floors = {
             ground_floor: new Floor({type: 'ground_floor'}),
@@ -67,15 +75,7 @@ class Office {
         ];
 
         new TaskUI({show: true, hires: 5, duration: 30, content: txt.smallOfficeStage.taskDescription});
-
-        eventEmitter.on('person-hovered', () => {
-            new ResumeUI({
-                show: true,
-                features: cvCollection.cvFeatures,
-                scores: cvCollection.smallOfficeStage,
-                candidateId: candidateInScope,
-            });
-        });
+        new YesNo({show: true});
 
         this.listenerSetup();
         //this._setupTweens();
@@ -94,61 +94,18 @@ class Office {
         };
         this.doors.forEach((door) => door.addToPixi(parentContainer));
         this.addPeople(config[this.size].newPeople);
-        const desk = this.createInterviewDesk(0.4, ANCHORS.FLOORS.FIRST_FLOOR.y);
+        //const desk = this.createInterviewDesk(0.4, ANCHORS.FLOORS.FIRST_FLOOR.y);
     }
-    _setupTweens() {
-        this.tweens.peopleLine = this.createTween();
-
-        this.tweens.peopleLine.on('end', () => {
-            this.tweens.peopleLine.reset();
-        });
-    }
-
-    createPeopleLineTween() {
-        const tween = PIXI.tweenManager.createTween(this.personContainer);
-        tween.from({x: this.personStartX}).to({x: this.personStartX-this.xOffset});
-        
-        return tween;
-    }
-
-    animate() {
-        this.tweens.peopleLine.start();
-    }
-
-    moveTweenHorizontally(tween, oldX, newX) {
-        tween.from(
-            {x: oldX})
-            .to({x: newX});
+    moveTweenHorizontally(tween, newX) {
+        tween.to({x: newX});
+        tween.time = 600;
+        tween.start();
     }
 
     movePersonToSpotlight(tween) {
         tween.from(
             {x: this.personStartX})
             .to({x: this.spotlightX, y: this.spotlightY});
-    }
-
-    evaluateFirstPerson() {
-        const status = Math.random() < 0.5 ? 'accepted' : 'rejected';
-        eventEmitter.emit(EVENTS.DATASET_VIEW_NEW_CV, {
-            status: status,
-            data: this.peopleLine[0].getData(),
-        });
-        this.removeFirstPerson();
-        this._addNewPerson();
-    }
-
-    createInterviewDesk(x, y) {
-        const desk = new PIXI.Sprite(deskTexture);
-        desk.type = 'desk';
-        desk.isTaken = false;
-        desk.anchor.set(0.5);
-        desk.x = uv2px(x, 'w');
-        desk.y = uv2px(y - 0.12, 'h');
-        desk.interactive = true;
-        desk.scale.set(0.25);
-        officeStageContainer.addChild(desk);
-
-        return desk;
     }
 
     expandOffice() {
@@ -199,19 +156,42 @@ class Office {
     }
 
     listenerSetup() {
-        eventEmitter.on('assigned-desk', (data)=>{
-            this.takenDesks += 1;
-            if (this.takenDesks == 3) {
-                eventEmitter.emit('task-complete', {});
-                gameFSM.nextStage();
-            }
-            if (this.takenDesks == 6) {
-                gameFSM.nextStage();
-            }
-            if (this.takenDesks == 9) {
-                gameFSM.nextStage();
+        eventEmitter.on('person-hovered', () => {
+            new ResumeUI({
+                show: true,
+                features: cvCollection.cvFeatures,
+                scores: cvCollection.smallOfficeStage,
+                candidateId: candidateHovered,
+            });
+        });
+
+        eventEmitter.on(EVENTS.ACCEPTED, () => {
+            if (candidateInSpot != null) {
+                this.takenDesks += 1;
+                let hiredPerson = this.peopleLine[candidateInSpot];
+                this.hiredPeople.push(hiredPerson)
+                this.moveTweenHorizontally(hiredPerson.tween, uv2px(this.entryDoorX + 0.04, 'w'))
+                this.resetSpot();
+
+                if (this.takenDesks == 5) {
+                    eventEmitter.emit('task-complete', {});
+                    gameFSM.nextStage();
+                }
             }
         });
+
+        eventEmitter.on(EVENTS.REJECTED, () => {
+            if (candidateInSpot != null) {
+                let rejectedPerson = this.peopleLine[candidateInSpot];
+                this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'))
+                this.resetSpot();
+            }
+        });
+    }
+
+    resetSpot() {
+        spotOpen = true;
+        candidateInSpot = null;
     }
 
     addPeople(count) {
@@ -228,10 +208,6 @@ class Office {
         }
 
         console.log("first person id is: " + this.peopleLine[0].id);
-    }
-
-    getFirstPerson() {
-        return this.peopleLine.length > 0 ? this.peopleLine[0] : undefined;
     }
 
     resizePeople() {
@@ -264,4 +240,4 @@ class Office {
     }
 }
 
-export {Office};
+export {Office, spotlight};
