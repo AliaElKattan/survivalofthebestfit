@@ -128,7 +128,7 @@ const english = {
                 },
             },
             {
-                delay: 8,
+                delay: 6,
                 messageFromVc: 'Hey, we are all over the news for biased hiring, all the investors are pulling out! We have to turn this story around, so I\'m sending you to AI debiasing seminar in Blueville. Think of it as paid vacation.',
                 responses: [
                     'Start learning about bias',
