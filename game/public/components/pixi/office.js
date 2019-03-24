@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import $ from 'jquery';
 import {officeStageContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
 import {bluePersonTexture, yellowPersonTexture} from '../../controllers/common/textures.js';
 import {gameFSM} from '../../controllers/game/stateManager.js';
@@ -123,6 +124,7 @@ class Office {
     delete() {
         officeStageContainer.removeChild(this.container);
         officeStageContainer.removeChild(this.personContainer);
+        $( '.js-task-timer' ).remove();
     }
 
     getExpansionScale() {
