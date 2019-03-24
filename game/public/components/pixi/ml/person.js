@@ -1,5 +1,6 @@
-import {bluePersonTexture} from '../../../controllers/common/textures.js';
-import {yellowPersonTexture} from '../../../controllers/common/textures.js';
+import {mlLabStageContainer} from '~/public/controllers/game/gameSetup.js';
+import {bluePersonTexture} from '~/public/controllers/common/textures.js';
+import {yellowPersonTexture} from '~/public/controllers/common/textures.js';
 
 export default class {
     constructor({x, parent, personData, id}) {
@@ -25,8 +26,23 @@ export default class {
         return this.personData;
     }
 
-    remove() {
-        this.parentContainer.removeChild(this.person);
+    removeFromLine() {
+        // this.person.setParent(mlLabStageContainer);
+        const {x, y} = this.person.getGlobalPosition();
+        mlLabStageContainer.addChild(this.person);
+        this.person.x = x;
+        this.person.y = y;
+        const door = mlLabStageContainer.getChildByName('doorAccepted');
+        console.log(door.x);
+        const tween = PIXI.tweenManager.createTween(this.person);
+        tween.to({x: door.x});
+        tween.time = 700;
+        tween.on('end', () => {
+            mlLabStageContainer.removeChild(this.person);
+        });
+        tween.start();
+
+        // console.log(this.person.x);
     }
 }
 // function onPersonHover(event) {

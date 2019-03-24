@@ -22,7 +22,7 @@ export default class {
 
     addToPixi(parentContainer) {
         this.door = SPRITES[this.doorType];
-        console.log(SPRITES[this.doorType])
+        this.door.name = this.doorType;
         this._draw();
         parentContainer.addChild(this.door);
     }

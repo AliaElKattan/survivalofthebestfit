@@ -1,41 +1,66 @@
 import * as PIXI from 'pixi.js';
 import Resume from './cv';
-import {uv2px} from '../../../controllers/common/utils.js';
 import {mlLabStageContainer} from '../../../controllers/game/gameSetup';
+import {beltTexture, cvTexture} from '../../../controllers/common/textures.js';
+import {screenSizeDetector, uv2px} from '~/public/controllers/common/utils.js';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
+import EVENTS from '~/public/controllers/constants/events.js';
+import SCALES from '~/public/controllers/constants/pixi-scales.js';
+import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 
 export default class {
-    constructor(options) {
-        this.xAnchor = options.x || 20;
-        this.yAnchor = options.y;
-        this.numOfResumes = options.num || 15; // TODO fix that
-        this.resumeXOffset = uv2px(1/this.numOfResumes,'w');
+    constructor() {
         this.resumeList = [];
-        this._resumeContainer = new PIXI.Container();
-        this._initalizeResumes();
+        this.resumeContainer = new PIXI.Container();
+        this.resumeContainer.type = 'resumeContainer';
+        eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
+        this._recomputeParams();
     }
 
-    draw() {
-        this._resumeContainer.x = this.xAnchor;
-        this._resumeContainer.y = this.yAnchor;
-        mlLabStageContainer.addChild(this._resumeContainer);
+    addToPixi() {
+        mlLabStageContainer.addChild(this.resumeContainer);
+        this._draw();
+    }
+
+    _draw() {
+        this._recomputeParams();
+        for (let j = this.resumeList.length - 1; j >= 0; j--) {
+            this.resumeList[j].destroy();
+        }
+
+        for (let i = 0; i <= this.numOfResumes + 1; i++) {
+            const resume = new Resume({
+                parent: this.resumeContainer,
+                x: i*this.resumeXOffset,
+                scale: this.scale,
+            });
+            this.resumeList.push(resume);
+        }
     }
 
     createTween() {
-        const tween = PIXI.tweenManager.createTween(this._resumeContainer);
-        tween.from({x: this._resumeContainer.x}).to({x: this._resumeContainer.x+this.resumeXOffset});
+        const tween = PIXI.tweenManager.createTween(this.resumeContainer);
+        tween.from({x: this.resumeContainer.x}).to({x: this.resumeContainer.x - 2*this.resumeXOffset});
         tween.delay = 300;
         tween.time = 700;
         return tween;
     }
 
-    _initalizeResumes() {
-        for (let i = 0; i < this.numOfResumes; i++) {
-            const resume = new Resume({
-                parent: this._resumeContainer,
-                x: i*this.resumeXOffset + uv2px(.02, 'w'),
-                y: 0,
-            });
-            this.resumeList.push(resume);
+    _recomputeParams() {
+        this.scale = SCALES.RESUME[screenSizeDetector()];
+        this.resumeWidth = cvTexture.width * this.scale;
+        const halfOfBeltWidth = uv2px(0.5, 'w');
+        const halfOfNumOfResumes = Math.floor( halfOfBeltWidth / (2 * this.resumeWidth));
+        this.resumeXOffset = halfOfBeltWidth / (halfOfNumOfResumes-1);
+        this.numOfResumes = halfOfNumOfResumes * 2;
+        this.resumeContainer.x = -1 * this.resumeWidth/2;
+        this.resumeContainer.y = uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y, 'h') - this.scale*beltTexture.height*1.05;
+    }
+
+    destroy() {
+        for (let i = this.resumeList.length - 1; i >= 0; i--) {
+            this.resumeList[i].destroy();
         }
+        mlLabStageContainer.removeChild(this.resumeContainer);
     }
 }
