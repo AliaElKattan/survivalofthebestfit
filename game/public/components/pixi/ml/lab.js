@@ -36,10 +36,8 @@ export default class MLLab {
                 xAnchor: uv2px(0.03, 'w'),
             }),
         ];
-        this.resumeList = new Resumes({
-            y: uv2px(.43, 'h'),
-            xOffset: uv2px(0.1, 'w'),
-        });
+        this.resumeList = new Resumes();
+        this.belt = new ConveyorBelt();
         this.machine = new Machine({});
         this.dataServers = [
             new DataServer({
@@ -52,9 +50,6 @@ export default class MLLab {
             }),
         ];
         this.scanRay = new ScanRay({machine: this.machine});
-        this.belt = new ConveyorBelt({
-            y: uv2px(.43, 'h'),
-        });
         // TODO change the scores and candidateId logic -> we can handle with event emitter
         // is the cv shown based on the person clicked?
         this.resumeUI = new ResumeUI({
@@ -82,8 +77,8 @@ export default class MLLab {
         this.doors.forEach((door) => door.addToPixi());
         this.machine.addToPixi();
         this.dataServers.forEach((server) => server.addToPixi());
-        this.belt.draw();
-        this.resumeList.draw();
+        this.belt.addToPixi();
+        this.resumeList.addToPixi();
         this.scanRay.addToPixi();
         this.people.draw();
         this.animate();

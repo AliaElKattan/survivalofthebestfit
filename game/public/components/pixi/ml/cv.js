@@ -1,35 +1,24 @@
 import * as PIXI from 'pixi.js';
-import {mlLabStageContainer} from '../../../controllers/game/gameSetup';
 import {cvTexture} from '../../../controllers/common/textures.js';
-
+import {screenSizeDetector} from '~/public/controllers/common/utils.js';
+import SCALES from '~/public/controllers/constants/pixi-scales.js';
 
 export default class {
     constructor(options) {
         this.xAnchor = options.x;
-        this.yAnchor = options.y;
-        this.parent = options.parent || mlLabStageContainer;
-        this.scale = 0.4;
-        this.texture = cvTexture;
-        this.cv = null;
+        this.parent = options.parent;
         this.draw();
     }
 
     draw() {
-        this.cv = new PIXI.Sprite(cvTexture);
-        this.cv.scale.set(this.scale);
-        this.cv.y = this.yAnchor;
-        this.cv.x = this.xAnchor;
-        this.parent.addChild(this.cv);
-        // pixiApp.stage.addChild(this.cv);
+        this.resume = new PIXI.Sprite(cvTexture);
+        this.resume.scale.set(SCALES.RESUME[screenSizeDetector()]);
+        this.resume.x = this.xAnchor;
+        this.resume.type = 'resume-on-belt';
+        this.parent.addChild(this.resume);
     }
 
-    animate() {
-        console.log('animate pixi!');
-        const tween = PIXI.tweenManager.createTween(this.cv);
-        tween.from({x: this.cv.x}).to({x: this.cv.x+300});
-        tween.time = 500;
-        // tween.repeat = 20;
-        setTimeout(tween.start(), 1000);
-        // animateTo({target: this.cv, x: 100, y: 0, easing: PIXI.tween.Easing.inExpo()});
+    destroy() {
+        this.parent.removeChild(this.resume);
     }
 }
