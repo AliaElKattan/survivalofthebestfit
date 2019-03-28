@@ -28,12 +28,13 @@ export default class {
 
     removeFromLine() {
         // this.person.setParent(mlLabStageContainer);
+        console.log(this.person);
         const {x, y} = this.person.getGlobalPosition();
         mlLabStageContainer.addChild(this.person);
         this.person.x = x;
         this.person.y = y;
-        const door = mlLabStageContainer.getChildByName('doorAccepted');
-        // console.log(door.x);
+        const door = mlLabStageContainer.getChildByName('doorEntry');
+         console.log(door);
         const tween = PIXI.tweenManager.createTween(this.person);
         tween.to({x: door.x});
         tween.time = 700;

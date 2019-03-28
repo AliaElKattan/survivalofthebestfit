@@ -20,7 +20,7 @@ export default class extends UIBase {
         this._resumeFeatures = options ? options.features : undefined;
         this._resumes = options ? options.scores : undefined;
         this._candidateId = options.candidateId || 0;
-        this.type = options.type || null;
+        this.type = options.type || 'manual';
         // this.setContent(); // set content
 
 
@@ -102,15 +102,21 @@ export default class extends UIBase {
 
     show() {
         this.$el.removeClass(CLASSES.IS_INACTIVE);
-        TweenLite.set('#js-resume', {x: 20, opacity: 0});
-        TweenLite.to('#js-resume', 0.3, {x: 0, opacity: 1, ease: Power1.easeInOut});
+        if (this.type === 'ml') {
+            TweenLite.set('#js-resume', {x: 20, opacity: 0});
+            TweenLite.to('#js-resume', 0.3, {x: 0, opacity: 1, ease: Power1.easeInOut});
+        }
     }
 
     hide() {
-        TweenLite.to('#js-resume', 0.3, {x: 50, opacity: 0});
-        TweenLite.delayedCall(0.4, () => {
+        if (this.type === 'ml') {
+            TweenLite.to('#js-resume', 0.3, {x: 50, opacity: 0});
+            TweenLite.delayedCall(0.4, () => {
+                this.$el.addClass(CLASSES.IS_INACTIVE);
+            });
+        } else {
             this.$el.addClass(CLASSES.IS_INACTIVE);
-        });
+        }
     }
 
     destroy() {

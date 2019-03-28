@@ -71,9 +71,7 @@ export default class {
     }
 
     removeFirstPerson() {
-        const door = mlLabStageContainer.getChildByName('doorAccepted');
         this.peopleLine[0].removeFromLine();
-        // delete this.peopleLine[0];
         this.peopleLine = this.peopleLine.slice(1);
     }
 }

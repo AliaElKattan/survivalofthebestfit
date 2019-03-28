@@ -32,19 +32,19 @@ export default class extends UIBase {
     _handleIconHover() {
         if (!this.isActive) {
             this.isActive = true;
-            this.$text.removeClass(CLASSES.IS_INACTIVE);
             eventEmitter.emit(EVENTS.RESUME_TIMELINE, {});
-        }
+        };
+        this.$text.toggleClass(CLASSES.IS_INACTIVE);
     }
 
     _addEventListeners() {
-        this.$el.on( 'mouseover', this._handleIconHover);
+        this.$el.on( 'mouseover', this._handleIconHover).mouseleave( 'mouseout', this._handleIconHover);
         eventEmitter.on(EVENTS.SHOW_TOOLTIP, this.show.bind(this));
         eventEmitter.on(EVENTS.DESTROY_TOOLTIP, this.destroy.bind(this));
     }
 
     _removeEventListeners() {
-        this.$el.off( 'mouseover', this._handleIconHover);
+        this.$el.off();
         eventEmitter.off(EVENTS.SHOW_TOOLTIP, this.show.bind(this));
         eventEmitter.off(EVENTS.DESTROY_TOOLTIP, this.destroy.bind(this));
     }
