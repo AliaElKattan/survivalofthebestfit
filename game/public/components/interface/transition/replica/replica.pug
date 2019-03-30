@@ -1,7 +1,8 @@
 mixin replica(index, prompt, totalSteps)
   div(class=index === 0 ? '' : 'is-inactive', class="replica replica--"+index, data-step=index, data-component="Replica")
     p(class="replica__paragraph") #{prompt.text}
-    if prompt.answer_choice
-      each choice in prompt.answer_choice
-        include ../choice-button/choice-button.pug
-        +choiceButton(index, choice.text, totalSteps)
+    div(class="replica__buttons")
+      if prompt.answer_choice
+        each choice in prompt.answer_choice
+          include ../choice-button/choice-button.pug
+          +choiceButton(index, choice.text, totalSteps)

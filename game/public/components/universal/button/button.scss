@@ -1,7 +1,15 @@
 .button {
-  @include buttonBox($width: 200px, $height: 30px);
-  @include boxColors($txt-color: color(txt-light-grey), $bg-color: color(grey-main), $shadow-color: 'grey');
+  @include buttonBox();
+  @include boxColors($txt-color: color(txt-dark-grey), $bg-color: color(grey-main), $shadow-color: 'grey');
   
+  font-size: font(base);
+  padding: 3px padding(sm);
+  
+  &__wrapper {
+    padding-right: padding(sm);
+  }
+  
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,6 +17,7 @@
   
   &:hover {
     cursor: pointer;
+    @include boxColors($txt-color:color(txt-black), $bg-color: color(grey-main), $shadow-color: 'rose');
   }
   
   &.is-clicked {

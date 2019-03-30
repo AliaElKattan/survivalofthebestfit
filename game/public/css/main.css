@@ -69,33 +69,28 @@ body.Page--Game {
       display: none; } }
 
 .button {
-  height: inherit;
-  width: inherit;
-  position: relative;
-  color: #B2B2B2;
+  color: #696969;
   background-color: #F2F2F2;
+  font-size: 1.1rem;
+  padding: 3px 20px;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center; }
-  .button__wrapper {
-    display: inline-block;
-    margin-right: 20px;
-    width: 200px;
-    height: 30px; }
   .button:before, .button:after {
     content: "";
     display: inline-block;
     position: absolute; }
   .button:before {
     left: 0;
-    width: inherit;
+    width: 100%;
     height: 4px;
     bottom: -4px;
     transform: translate(3px, -1px) skewX(55deg); }
   .button:after {
     top: 0;
-    height: inherit;
+    height: 100%;
     width: 5px;
     right: -5px;
     transform: translateY(1px) skewY(25deg); }
@@ -103,8 +98,16 @@ body.Page--Game {
     background: #919191; }
   .button:after {
     background: #B9B9B9; }
+  .button__wrapper {
+    padding-right: 20px; }
   .button:hover {
-    cursor: pointer; }
+    cursor: pointer;
+    color: #000000;
+    background-color: #F2F2F2; }
+    .button:hover:before {
+      background: #F29488; }
+    .button:hover:after {
+      background: #FFADA3; }
   .button.is-clicked {
     color: #000000;
     background-color: #FECCC7; }
@@ -117,7 +120,9 @@ body.Page--Game {
   color: inherit;
   background-color: #FAFAFA;
   padding: 20px;
+  font-size: 1.1rem;
   position: absolute;
+  z-index: 2;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -143,10 +148,21 @@ body.Page--Game {
     background: #919191; }
   .Textbox:after {
     background: #B9B9B9; }
+  @media (max-width: 23.74em) {
+    .Textbox {
+      min-width: 400px; } }
   .Textbox__content {
-    margin-bottom: 20px; }
+    margin-bottom: 20px;
+    font-size: 1.1rem; }
   .Textbox__head {
     color: #B2B2B2; }
+  .Textbox__buttons {
+    display: flex; }
+
+.TextboxButton {
+  color: red; }
+  .TextboxButton:hover {
+    color: red; }
 
 .Titlepage {
   color: inherit;
@@ -726,8 +742,7 @@ h2 {
   align-items: center; }
 
 .choiceButton {
-  width: 250px;
-  height: 30px; }
+  padding-right: 20px; }
 
 .replica {
   display: block;
@@ -735,6 +750,8 @@ h2 {
   .replica__paragraph {
     font-size: 1.2rem;
     margin-bottom: 15px; }
+  .replica__buttons {
+    display: flex; }
 
 .conversationBox {
   color: inherit;

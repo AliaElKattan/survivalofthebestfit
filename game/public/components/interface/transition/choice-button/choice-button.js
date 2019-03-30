@@ -14,6 +14,7 @@ export default class ChoiceButton extends Component {
         this._step = parseInt(this.el.dataset.step);
         this._replica = this.el.closest('.replica');
         this._textContainer = this.el.querySelector('p');
+        this._btn = this.el.querySelector('.button');
         this._onBtnClick = this._onBtnClick.bind(this);
         this._hideBtn = this._hideBtn.bind(this);
         this._clicked = false;
@@ -29,7 +30,7 @@ export default class ChoiceButton extends Component {
             gameFSM.nextStage();
             return;
         };
-        e.target.classList.add(CLASSES.BUTTON_CLICKED);
+        this._btn.classList.add(CLASSES.BUTTON_CLICKED);
         // hide the other choice button
         this.publish('hide-other-choice', this._step);
         // show next replica
@@ -53,7 +54,7 @@ export default class ChoiceButton extends Component {
     // hide the unchosen button
 
     _hideBtn(conversation_step) {
-        if (this._step === conversation_step && !this._textContainer.classList.contains(CLASSES.BUTTON_CLICKED)) {
+        if (this._step === conversation_step && !this._btn.classList.contains(CLASSES.BUTTON_CLICKED)) {
             this.el.classList.add(CLASSES.IS_INACTIVE);
             this._removeEventListeners();
             super.destroy();
