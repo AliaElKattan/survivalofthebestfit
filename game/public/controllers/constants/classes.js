@@ -18,4 +18,5 @@ export default {
     DATASET_GRID_ITEM: 'DatasetGrid-item',
     FULLSCREEN_ICON_EXPANDED: 'FullscreenIcon--expanded',
     ML: 'ml',
+    OSCILLATE: 'u-oscillate',
 };

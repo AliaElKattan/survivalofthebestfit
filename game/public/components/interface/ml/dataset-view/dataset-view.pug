@@ -6,10 +6,12 @@ include ../../ui-overlay/ui-overlay.pug
   div.ViewLayout
     div.ViewLayout-item
       h3.DatasetGrid-title Accepted Candidates
+      //- h3.DatasetGrid-scroller Scroll for more
       div.DatasetGrid#dataset-accepted
     div.ViewLayout-item.CVPreview
       include ../../ui-resume/ui-resume.pug
       +resume()(id="dataset-view-resume" class="Resume--dataset")
+      //- p.ViewLayout-scroller#dataset-scroller.u-oscillate.is-inactive Scroll for more
     div.ViewLayout-item
       h3.DatasetGrid-title Rejected Candidates
       div.DatasetGrid#dataset-rejected

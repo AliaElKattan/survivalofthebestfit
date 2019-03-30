@@ -16,3 +16,11 @@
 .u-fade-out {
     animation: fadeout 0.3s ease-in-out;
 }
+
+.u-oscillate {
+  animation-name: oscillate;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+}

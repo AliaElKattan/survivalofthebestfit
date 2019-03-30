@@ -1,0 +1,6 @@
+.MobileOrientationOverlay {
+  display: none;
+  @include mq($until: mobile, $and: '(orientation: portrait)') {
+      display: block;
+  }
+}
