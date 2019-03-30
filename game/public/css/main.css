@@ -406,12 +406,34 @@ h2 {
     background: url("../assets/img/info-icon.png") no-repeat center;
     background-size: contain; }
   .Tooltip-text {
+    color: inherit;
+    background-color: #FAFAFA;
     position: absolute;
     min-width: 200px;
     padding: 10px;
     top: -5px;
     left: 40px;
     background-color: white; }
+    .Tooltip-text:before, .Tooltip-text:after {
+      content: "";
+      display: inline-block;
+      position: absolute; }
+    .Tooltip-text:before {
+      left: 0;
+      width: 100%;
+      height: 5px;
+      bottom: -5px;
+      transform: translateX(5px) skewX(65deg); }
+    .Tooltip-text:after {
+      top: 0;
+      height: 100%;
+      width: 10px;
+      right: -10px;
+      transform: translateY(3px) skewY(25deg); }
+    .Tooltip-text:before {
+      background: #919191; }
+    .Tooltip-text:after {
+      background: #B9B9B9; }
 
 .Footer {
   position: absolute;
@@ -619,9 +641,7 @@ h2 {
     margin: 20px 0 20px 0; }
 
 .ViewLayout {
-  height: 80vh;
-  overflow-y: auto;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
   display: grid;
   grid-display-rows: 1fr;
@@ -635,6 +655,8 @@ h2 {
 
 .DatasetGrid {
   display: grid;
+  height: 80vh;
+  overflow-y: auto;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   grid-auto-flow: dense;
   grid-auto-rows: 100px;
@@ -647,6 +669,11 @@ h2 {
     width: 100%;
     text-align: center;
     margin-bottom: 20px; }
+    .DatasetGrid-title--resume {
+      color: #F2F2F2; }
+
+.CVPreview {
+  margin-top: 40px; }
 
 .PersonCard {
   flex-direction: column; }
