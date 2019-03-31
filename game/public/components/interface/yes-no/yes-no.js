@@ -20,23 +20,23 @@ export default class extends UIBase {
 
     _acceptClicked(e) {
         this.$yesButton.addClass(CLASSES.ACCEPTED);
-        eventEmitter.emit(EVENTS.ACCEPTED, {});
+        if (candidateInSpot != null) {
+            eventEmitter.emit(EVENTS.ACCEPTED, {});
+        }
     }
 
     _rejectClicked(e) {
         this.$noButton.addClass(CLASSES.REJECTED);
-        eventEmitter.emit(EVENTS.REJECTED, {});
+        if (candidateInSpot != null) {
+            eventEmitter.emit(EVENTS.REJECTED, {});
+        }
     }
 
     _addEventListeners() {
-
-        // eventEmitter.on('spot-empty', this.disableButtons());
-        // eventEmitter.on('spot-filled', this.enableButtons());
-
         this.$yesButton.click(this._acceptClicked.bind(this));
         this.$noButton.click(this._rejectClicked.bind(this));
 
-        eventEmitter.on(EVENTS.STAGE_ONE_COMPLETED, (data) => {
+        eventEmitter.on(EVENTS.STAGE_TWO_COMPLETED, (data) => {
             this.destroy();
         });
     };
@@ -47,7 +47,7 @@ export default class extends UIBase {
 
         eventEmitter.off(EVENTS.ACCEPTED, () => {});
         eventEmitter.off(EVENTS.REJECTED, () => {});
-        eventEmitter.off(EVENTS.STAGE_ONE_COMPLETED, () => {});
+        eventEmitter.off(EVENTS.STAGE_TWO_COMPLETED, () => {});
     }
 
     show() {
@@ -59,7 +59,7 @@ export default class extends UIBase {
     disableButtons(){
         // TODO - dynamically change?!?!
         this.$yesButton.addClass('disabled');
-            this.$noButton.addClass('disabled');
+        this.$noButton.addClass('disabled');
     }
 
     enableButtons(){
@@ -71,8 +71,6 @@ export default class extends UIBase {
         this.$el.removeClass(CLASSES.FADE_IN)
             .addClass(CLASSES.FADE_OUT)
             .addClass(CLASSES.IS_INACTIVE);
-
-        // TODO you might need a delayed call for this
     }
 
     destroy() {

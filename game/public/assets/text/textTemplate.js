@@ -25,7 +25,7 @@ const english = {
     smallOfficeStage: {
         messageFromVc: 'Hi,\n\nCongrats again on your seed round. Very impressive.\nNow time to execute the idea. Hire the best people, fast. Hiring good talent is a war these days...\n\nKeep us updated.\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
         responses: ['Let\'s do this'],
-        taskDescription: 'Task: Hire 5 new employees',
+        taskDescription: 'Task: Hire 3 new employees',
         retryMessage: 'You are too slow at hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.',
     },
     mediumOfficeStage: {
@@ -149,6 +149,7 @@ let txt;
 let candidateHovered = 0;
 let spotOpen = true;
 let candidateInSpot = null;
+const hiringGoals = {"smallStage": 3, "mediumStage": 10};
 
 function setLang(dictionary) {
     if (typeof module !== 'undefined') {

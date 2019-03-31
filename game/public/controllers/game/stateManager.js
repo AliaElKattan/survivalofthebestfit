@@ -11,7 +11,8 @@ import TransitionOverlay from '../../components/interface/transition/overlay/ove
 import {cvCollection} from '../../assets/text/cvCollection.js';
 import YesNo from '../../components/interface/yes-no/yes-no';
 
-let office;
+let office = new Office();
+let task;
 let transitionOverlay;
 let titlePageUI;
 
@@ -80,7 +81,7 @@ const gameFSM = new machina.Fsm({
         },
 
         /* ///////////////////
-        // Small office, hiring from the street
+        // Small office, hiring 5
         */// /////////////////
 
         smallOfficeStage: {
@@ -89,12 +90,14 @@ const gameFSM = new machina.Fsm({
                     content: txt.smallOfficeStage.messageFromVc,
                     responses: txt.smallOfficeStage.responses,
                     show: true,
+                    isSmallStage: true
                 });
 
-                eventEmitter.on('instructionAcked', () => {
-                    office = new Office();
-                    new TaskUI({show: true, hires: 5, duration: 60, content: txt.smallOfficeStage.taskDescription});
-                    new YesNo({show: true});
+                eventEmitter.on('instructionAcked', (data) => {
+                    if (data.isSmallStage) {
+                        office.draw(0);
+                        task = new TaskUI({show: true, hires: hiringGoals['smallStage'], duration: 60, content: txt.smallOfficeStage.taskDescription});
+                    }
                 });
             },
 
@@ -106,7 +109,7 @@ const gameFSM = new machina.Fsm({
         },
 
         /* ///////////////////
-        // Big office, city level view
+        // Medium office, hiring 15
         */// /////////////////
         mediumOfficeStage: {
             _onEnter: function() {
@@ -115,14 +118,13 @@ const gameFSM = new machina.Fsm({
                     responses: txt.mediumOfficeStage.responses,
                     show: true,
                 });
-                eventEmitter.on('instructionAcked', () => {
-                    new TaskUI({show: true, hires: 10, duration: 60, content: txt.mediumOfficeStage.taskDescription});
-                    new YesNo({show: true});
+                
+                eventEmitter.on('instructionAcked', (data) => {
+                    if (!data.isSmallStage) {
+                        office.draw(1);
+                        task = new TaskUI({ show: true, hires: hiringGoals['mediumStage'], duration: 60, content: txt.mediumOfficeStage.taskDescription });
+                    }
                 });
-
-                // eventEmitter.on('time-up', () => {
-                //     this.handle('retryStage');
-                // });
             },
 
             nextStage: 'mlTransitionStage',
@@ -131,21 +133,6 @@ const gameFSM = new machina.Fsm({
 
             },
         },
-
-        // /* ///////////////////
-        // // Huge office, ccountry level view
-        // */// /////////////////
-        // bigOfficeStage: {
-        //     _onEnter: function() {
-        //         office.expandOffice();
-        //     },
-
-        //     nextStage: 'mlTransitionStage',
-
-        //     _onExit: function() {
-
-        //     },
-        // },
 
         mlTransitionStage: {
             _onEnter: function() {
