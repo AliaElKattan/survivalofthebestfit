@@ -3,8 +3,6 @@ import Resume from './cv';
 import {mlLabStageContainer} from '../../../controllers/game/gameSetup';
 import {beltTexture, cvTexture} from '../../../controllers/common/textures.js';
 import {screenSizeDetector, uv2px} from '~/public/controllers/common/utils.js';
-import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
-import EVENTS from '~/public/controllers/constants/events.js';
 import SCALES from '~/public/controllers/constants/pixi-scales.js';
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 
@@ -13,16 +11,15 @@ export default class {
         this.resumeList = [];
         this.resumeContainer = new PIXI.Container();
         this.resumeContainer.type = 'resumeContainer';
-        eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
         this._recomputeParams();
     }
 
     addToPixi() {
         mlLabStageContainer.addChild(this.resumeContainer);
-        this._draw();
+        this.draw();
     }
 
-    _draw() {
+    draw() {
         this._recomputeParams();
         for (let j = this.resumeList.length - 1; j >= 0; j--) {
             this.resumeList[j].destroy();
@@ -40,7 +37,7 @@ export default class {
 
     createTween() {
         const tween = PIXI.tweenManager.createTween(this.resumeContainer);
-        tween.from({x: this.resumeContainer.x}).to({x: this.resumeContainer.x - 2*this.resumeXOffset});
+        tween.from({x: this.resumeContainer.x}).to({x: this.resumeContainer.x - 2 * this.resumeXOffset});
         tween.delay = 300;
         tween.time = 700;
         return tween;
@@ -54,7 +51,7 @@ export default class {
         this.resumeXOffset = halfOfBeltWidth / (halfOfNumOfResumes-1);
         this.numOfResumes = halfOfNumOfResumes * 2;
         this.resumeContainer.x = -1 * this.resumeWidth/2;
-        this.resumeContainer.y = uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y, 'h') - this.scale*beltTexture.height*1.05;
+        this.resumeContainer.y = uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y, 'h') - this.scale*beltTexture.height*1.07;
     }
 
     destroy() {

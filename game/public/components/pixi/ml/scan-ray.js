@@ -9,42 +9,23 @@ export default class {
         this.scanRay = SPRITES.rayAnim;
         this.scanRay.name = 'scanray';
         this.machineContainer = machine;
-        this.machineDim = undefined;
-        this._resizeHandler = this._resizeHandler.bind(this);
-        this._addEventListeners();
-    }
 
-    addToPixi() {
-        this._initParams();
-        this._computeParams();
-        this._draw();
-        mlLabStageContainer.addChild(this.scanRay);
-    }
-
-    _draw() {
-        this.scanRay.scale.set(this.machineDim.scale);
-        this.scanRay.x = space.getCenteredChildX(this.machineDim.x, this.machineDim.width, this.scanRay.width);
-        this.scanRay.y = this.machineDim.y + this.machineDim.height;
-    }
-
-    _initParams() {
         this.scanRay.loop = false;
         this.scanRay.animationSpeed = 0.5;
         this.scanRay.gotoAndStop(0);
         this.scanRay.visible = false;
     }
 
-    _computeParams() {
+    addToPixi() {
+        this.draw();
+        mlLabStageContainer.addChild(this.scanRay);
+    }
+
+    draw() {
         this.machineDim = this.machineContainer.getMachineDimensions();
-    }
-
-    _addEventListeners() {
-        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler);
-    }
-
-    _resizeHandler() {
-        this._computeParams();
-        this._draw();
+        this.scanRay.scale.set(this.machineDim.scale);
+        this.scanRay.x = space.getCenteredChildX(this.machineDim.x, this.machineDim.width, this.scanRay.width);
+        this.scanRay.y = this.machineDim.y + this.machineDim.height;
     }
 
     hideRay() {
@@ -59,11 +40,7 @@ export default class {
         return this.scanRay;
     }
 
-    _removeEventListeners() {
-        eventEmitter.off(EVENTS.RESIZE, this._resizeHandler);
-    }
-
     destroy() {
-        this._removeEventListeners();
+        // implement
     }
 }
