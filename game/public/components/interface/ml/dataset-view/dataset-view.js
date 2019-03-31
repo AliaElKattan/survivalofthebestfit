@@ -16,6 +16,7 @@ export default class extends UIBase {
         this.$xIcon = this.$el.find('.js-x-icon');
         this.dataset = [];
         this.resumePreview = new DatasetResumePreview();
+        this.scrollIsActive = false;
         this._handleIconClick = this._handleIconClick.bind(this);
         this._handleInspectButtonClick = this._handleInspectButtonClick.bind(this);
         this._handleNewResume = this._handleNewResume.bind(this);
@@ -54,7 +55,19 @@ export default class extends UIBase {
             resume: resume,
             $parent: this.$el,
         });
+        // if (!this.scrollIsActive) this._checkForScroll();
         this.dataset.push(personCard);
+    }
+
+    _checkForScroll() {
+        const $resumeGrids = document.querySelectorAll('.DatasetGrid');
+        $resumeGrids.forEach((grid) => {
+            console.log(grid.scrollHeight - grid.clientHeight);
+            if (grid.scrollHeight > grid.clientHeight) {
+                $('#dataset-scroller').removeClass(CLASSES.IS_INACTIVE);
+                this.scrollIsActive = true;
+            }
+        });
     }
 
     _handlePersonCardHover(event) {

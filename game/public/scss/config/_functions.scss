@@ -10,3 +10,7 @@
 @function margin($key) {
 	@return map-get($margins, $key);
 }
+
+@function font($key) {
+	@return map-get($fonts, $key);
+}

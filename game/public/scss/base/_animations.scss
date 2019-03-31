@@ -15,3 +15,13 @@
     opacity: 0;
   }
 }
+
+@keyframes oscillate {
+  from {
+    transform: translateY(0);
+  }
+  
+   to {
+    transform: translateY(-5px);
+  }
+}

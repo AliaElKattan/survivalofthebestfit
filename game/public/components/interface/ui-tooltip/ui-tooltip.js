@@ -35,6 +35,7 @@ export default class extends UIBase {
             eventEmitter.emit(EVENTS.RESUME_TIMELINE, {});
         };
         this.$text.toggleClass(CLASSES.IS_INACTIVE);
+        this.$icon.toggleClass(CLASSES.OSCILLATE);
     }
 
     _addEventListeners() {

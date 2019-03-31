@@ -10,6 +10,8 @@ const pixiApp = new PIXI.Application(
     {backgroundColor: 0xf9f0e2}
 );
 pixiApp.renderer.autoResize = true;
+// pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
+// pixiApp.renderer.antialias = true;
 
 
 // TODO - should these be pre-defined here?

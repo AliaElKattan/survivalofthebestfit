@@ -22,6 +22,22 @@ export default class {
         this._draw();
         mlLabStageContainer.addChild(this.machine);
         mlLabStageContainer.addChild(this.inspectButton);
+        
+        
+
+        // const msg = new PIXI.Text(
+        //     'Hello',
+        //     {
+        //         fontFamily: 'VT323',
+        //         fontHeight: '10 px',
+        //         // strokeThickness: 5,
+        //     }
+        // );
+        // msg.resolution = 2;
+        // msg.x = this.machine.x + 50;
+        // msg.y = this.machine.y;
+
+        // mlLabStageContainer.addChild(msg);
     }
 
     // draw based on current dimensions

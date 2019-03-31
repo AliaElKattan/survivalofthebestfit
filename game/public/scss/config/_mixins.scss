@@ -1,16 +1,6 @@
 // BUTTON BOX
 
-@mixin buttonBox($width, $height) {
-  &__wrapper {
-     display: inline-block;
-     margin-right: 20px;
-     width: $width;
-     height: $height;
-   }
- 
-   height: inherit;
-   width: inherit;
-   position:relative;
+@mixin buttonBox() {
  
    &:before, &:after {
      content: "";
@@ -21,7 +11,7 @@
    // dark shadow: bottom
    &:before {
      left: 0;
-     width: inherit;
+     width: 100%;
      height: 4px;
      bottom: -4px;
      transform:  translate(3px, -1px) skewX(55deg);
@@ -30,7 +20,7 @@
    // lieght shadow: side
    &:after {
      top: 0;
-     height: inherit;
+     height: 100%;
      width: 5px;
      right: -5px;
      transform: translateY(1px) skewY(25deg);
