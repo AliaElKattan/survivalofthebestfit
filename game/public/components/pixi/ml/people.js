@@ -1,25 +1,31 @@
 import {mlLabStageContainer} from '../../../controllers/game/gameSetup.js';
 import {cvCollection} from '../../../assets/text/cvCollection.js';
-import {uv2px, px2uv} from '../../../controllers/common/utils.js';
-import EVENTS from '../../../controllers/constants/events';
-import {eventEmitter} from '../../../controllers/game/gameSetup.js';
+import {uv2px} from '../../../controllers/common/utils.js';
 import MLPerson from './person';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
+import EVENTS from '~/public/controllers/constants/events.js';
+
 
 export default class {
     constructor() {
         this.container = new PIXI.Container();
-        this.numOfPeople = Math.floor(uv2px(0.85, 'w')/70);
+        this.numOfPeople = Math.floor(uv2px(0.85, 'w')/70) * 2;
         console.log(this.numOfPeople);
         this.personCount = 0;
         this.peopleLine = [];
         this.personXoffset = 70;
         this._createPeople();
+        eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
     }
 
-    draw() {
-        this.container.x = uv2px(0.15, 'w');
-        this.container.y = uv2px(0.96, 'h');
+    addToPixi() {
         mlLabStageContainer.addChild(this.container);
+        this._draw();
+        this.container.x = uv2px(0.15, 'w');
+    }
+
+    _draw() {
+        this.container.y = uv2px(0.96, 'h');
     }
 
     _createPeople() {
@@ -35,7 +41,7 @@ export default class {
             personData: cvCollection.smallOfficeStage[this.personCount],
             id: this.personCount,
         });
-        person.draw();
+        person.addToPixi();
         this.peopleLine.push(person);
         this.personCount++;
     }

@@ -13,16 +13,15 @@ export default class {
         this.resumeList = [];
         this.resumeContainer = new PIXI.Container();
         this.resumeContainer.type = 'resumeContainer';
-        eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
         this._recomputeParams();
     }
 
     addToPixi() {
         mlLabStageContainer.addChild(this.resumeContainer);
-        this._draw();
+        this.draw();
     }
 
-    _draw() {
+    draw() {
         this._recomputeParams();
         for (let j = this.resumeList.length - 1; j >= 0; j--) {
             this.resumeList[j].destroy();

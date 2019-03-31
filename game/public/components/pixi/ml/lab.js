@@ -15,6 +15,8 @@ import DataServer from './data-server.js';
 import MLPeople from './people.js';
 import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
 import TimelineManager from '~/public/components/interface/ml/timeline-manager/timeline-manager';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
+import EVENTS from '~/public/controllers/constants/events.js';
 
 
 export default class MLLab {
@@ -65,6 +67,8 @@ export default class MLLab {
         this.tweens = {};
         this.animLoopCount = 0;
 
+        eventEmitter.on(EVENTS.RESIZE, this._resize.bind(this));
+
         this._setupTweens();
         this.draw();
         this.timeline.start();
@@ -82,7 +86,7 @@ export default class MLLab {
         this.belt.addToPixi();
         this.resumeList.addToPixi();
         this.scanRay.addToPixi();
-        this.people.draw();
+        this.people.addToPixi();
         this.animate();
     }
 
@@ -135,9 +139,6 @@ export default class MLLab {
                 this.tweens.serverDummyAnim.gotoAndStop(0);
                 this.tweens.serverDummyAnim.play();
             }, 200);
-            // hide the ray animation and reset its animation
-            // this.tweens.rayAnim.visible = false;
-            // this.tweens.rayAnim.gotoAndStop(5);
             // play the ray animation backwards
             this.tweens.rayAnim.animationSpeed = -0.7;
             this.tweens.rayAnim.play();
@@ -151,6 +152,17 @@ export default class MLLab {
         });
     }
 
+    // the properties between componenets are entangled and there are tweens and objects that need to be resized from here
+    // resume list: the tween needs to be updated once the conveyor belt expands
+    // servers: we need to make sure that the machine is resized before the servers because they get the y position from each other
+    _resize() {
+        this.resumeList.draw();
+        this.tweens.resumesTween.from({x: this.resumeList.resumeContainer.x}).to({x: this.resumeList.resumeContainer.x - 2*this.resumeList.resumeXOffset});
+        this.machine.draw();
+        this.dataServers.forEach((server) => server.draw());
+
+    }
+
     destroyTweens() {
         this.tweens.resumesTween.clear(); // PIXI TWEEN
         this.tweens.resumesTween.remove();
@@ -159,22 +171,21 @@ export default class MLLab {
         this.tweens.serverDummyAnim.destroy();
     };
 
-    _drawPeople() {
-        // create People in the office
-        // let x = uv2px(0.12, 'w');
-        // const xOffset = uv2px(0.05, 'w');
-        // const y = uv2px(0.85, 'h');
-        //
-        // for (let i = 0; i < 16; i++) {
-        //     const person = createPerson(x, y, office2);
-        //     person.interactive = false;
-        //     person.button = false;
-        //     personList2.push(person);
-        //     x += xOffset;
-        // }
-    }
-
     destroy() {
         this.destroyTweens();
+        this.conversationManager.destroy(); // unimplemented
+        this.newsFeed.destroy();
+        this.algorithmInspector.destroy(); // Is it half implemented?
+        this.datasetView.destroy();
+        this.floors.destroy();
+        this.doors.destroy(); // unimplemented
+        this.resumeList.destroy();
+        this.belt.destroy();
+        this.machine.destroy(); // unimplemented
+        this.dataServers.destroy(); // unimplemented
+        this.scanRay.destroy(); // half implemented
+        this.resumeUI.destroy();
+        this.people.destroy();
+        this.timeline.destroy();
     }
 }

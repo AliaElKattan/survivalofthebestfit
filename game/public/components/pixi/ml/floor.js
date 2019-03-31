@@ -42,9 +42,11 @@ export default class {
     _draw() {
         this.surface.x = 0;
         this.surface.y = this.yAnchor-this.heightMain;
+        this.surface.width = uv2px(1, 'w');
 
         this.side.x = 0;
         this.side.y = this.yAnchor;
+        this.side.width = uv2px(1, 'w');
     }
 
     // (re)compute draw parameter values

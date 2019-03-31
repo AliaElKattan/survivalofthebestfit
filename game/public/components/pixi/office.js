@@ -12,7 +12,6 @@ import Door from './door.js';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import YesNo from '../../components/interface/yes-no/yes-no';
-import {deskTexture} from '../../controllers/common/textures.js';
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '../../controllers/constants/events';
 
