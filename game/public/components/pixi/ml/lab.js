@@ -155,12 +155,13 @@ export default class MLLab {
     // the properties between componenets are entangled and there are tweens and objects that need to be resized from here
     // resume list: the tween needs to be updated once the conveyor belt expands
     // servers: we need to make sure that the machine is resized before the servers because they get the y position from each other
+    // scanray: it's coupled with the machine
     _resize() {
         this.resumeList.draw();
         this.tweens.resumesTween.from({x: this.resumeList.resumeContainer.x}).to({x: this.resumeList.resumeContainer.x - 2*this.resumeList.resumeXOffset});
         this.machine.draw();
         this.dataServers.forEach((server) => server.draw());
-
+        this.scanRay.draw();
     }
 
     destroyTweens() {

@@ -4,7 +4,7 @@ import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/control
 import EVENTS from '~/public/controllers/constants/events.js';
 import SCALES from '~/public/controllers/constants/pixi-scales.js';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
-
+import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 
 export default class {
     constructor(options) {
@@ -24,8 +24,8 @@ export default class {
         this.scale = SCALES.MACHINE[screenSizeDetector()];
         this.machine.scale.set(this.scale);
         this.machine.x = space.screenCenterX(this.machine.width);
-        this.machine.y = space.screenCenterY(this.machine.height) - uv2px(0.27, 'h');
-
+        const serverHeight = SPRITES.dataServerRejected.height / SPRITES.dataServerRejected.scale.x * SCALES.DATA_SERVER[screenSizeDetector()];
+        this.machine.y = uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y, 'h') - serverHeight*1.1;
         this.inspectButton.scale.set(this.scale);
         this.inspectButton.x = space.getCenteredChildX(this.machine.x, this.machine.width, this.inspectButton.width);
         this.inspectButton.y = space.getCenteredChildY(this.machine.y, this.machine.height, this.inspectButton.height);
@@ -51,8 +51,8 @@ export default class {
             scale: this.scale,
             width: this.machine.width,
             height: this.machine.height,
-            x: space.screenCenterX(this.machine.width),
-            y: space.screenCenterY(this.machine.height) - uv2px(0.27, 'h'),
+            x: this.machine.x,
+            y: this.machine.y,
         };
     }
 }

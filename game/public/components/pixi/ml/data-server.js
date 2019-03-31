@@ -6,7 +6,6 @@ import SCALES from '../../../controllers/constants/pixi-scales.js';
 export default class {
     constructor({machine, side}) {
         this.sprite = side === 'left' ? SPRITES.dataServerRejected : SPRITES.dataServerAccepted;
-        this.spriteScale = SCALES.DATA_SERVER[screenSizeDetector()];
         this.directionVector = side === 'left' ? -1 : 1;
         this.machine = machine;
     }
