@@ -1,15 +1,12 @@
 import * as machina from 'machina';
-import {incubator} from '../common/textures.js';
-import {pixiApp, eventEmitter} from './gameSetup.js';
+import {eventEmitter} from './gameSetup.js';
 import {Office} from '../../components/pixi/office.js';
 import MLLab from '../../components/pixi/ml/lab.js';
 import TitlePageUI from '../../components/interface/ui-title/ui-title';
 import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
-import ResumeUI from '../../components/interface/ui-resume/ui-resume';
+import PerfMetrics from '~/public/components/interface/perf-metrics/perf-metrics';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
-import {cvCollection} from '../../assets/text/cvCollection.js';
-import YesNo from '../../components/interface/yes-no/yes-no';
 
 let office = new Office();
 let task;
@@ -92,6 +89,8 @@ const gameFSM = new machina.Fsm({
                     show: true,
                     isSmallStage: true
                 });
+
+                new PerfMetrics();
 
                 eventEmitter.on('instructionAcked', (data) => {
                     if (data.isSmallStage) {

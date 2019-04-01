@@ -1,8 +1,6 @@
 import {mlLabStageContainer} from '../../../controllers/game/gameSetup.js';
 import {spacingUtils as space} from '../../../controllers/common/utils.js';
 import {SPRITES} from '../../../controllers/common/textures.js';
-import EVENTS from '../../../controllers/constants/events.js';
-import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
 export default class {
     constructor({machine}) {
