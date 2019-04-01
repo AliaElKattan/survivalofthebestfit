@@ -30,7 +30,7 @@ export default class {
         this._addEventListeners();
     }
 
-    playAnimation({direction}) {
+    playAnimation({direction, close=false}) {
         console.log('door works!');
         switch (direction) {
         case 'forward':

@@ -58,7 +58,7 @@ export default class MLLab {
             show: true, type: 'ml',
             features: cvCollection.cvFeatures,
             scores: cvCollection.smallOfficeStage,
-            candidateId: candidateHovered,
+            candidateId: candidateClicked,
         });
         this.people = new MLPeople();
         this.timeline = new TimelineManager();

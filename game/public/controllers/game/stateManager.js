@@ -90,7 +90,8 @@ const gameFSM = new machina.Fsm({
                     content: txt.smallOfficeStage.messageFromVc,
                     responses: txt.smallOfficeStage.responses,
                     show: true,
-                    isSmallStage: true
+                    isSmallStage: true,
+                    overlay: true
                 });
 
                 eventEmitter.on('instructionAcked', (data) => {
@@ -103,8 +104,33 @@ const gameFSM = new machina.Fsm({
 
             nextStage: 'mediumOfficeStage',
 
+            repeatStage: 'repeatSmallOfficeStage',
+            
             _onExit: function() {
                 
+            },
+        },
+
+        repeatSmallOfficeStage: {
+            _onEnter: function() {
+                new TextBoxUI({
+                    content: txt.smallOfficeStage.retryMessage,
+                    responses: txt.smallOfficeStage.retryResponses,
+                    show: true,
+                    isSmallStage: true,
+                    overlay: true
+
+                });
+
+                eventEmitter.on('instructionAcked', (data) => {
+                    this.handle('nextStage');
+                });
+            },
+
+            nextStage: 'smallOfficeStage',
+
+            _onExit: function() {
+
             },
         },
 
@@ -117,6 +143,7 @@ const gameFSM = new machina.Fsm({
                     content: txt.mediumOfficeStage.messageFromVc,
                     responses: txt.mediumOfficeStage.responses,
                     show: true,
+                    overlay: true
                 });
                 
                 eventEmitter.on('instructionAcked', (data) => {
@@ -128,6 +155,31 @@ const gameFSM = new machina.Fsm({
             },
 
             nextStage: 'mlTransitionStage',
+
+            repeatStage: 'repeatMediumOfficeStage',
+
+            _onExit: function() {
+
+            },
+        },
+
+        repeatMediumOfficeStage: {
+            _onEnter: function() {
+                new TextBoxUI({
+                    content: txt.mediumOfficeStage.retryMessage,
+                    responses: txt.mediumOfficeStage.retryResponses,
+                    show: true,
+                    isSmallStage: false,
+                    overlay: true
+
+                });
+
+                eventEmitter.on('instructionAcked', (data) => {
+                    this.handle('nextStage');
+                });
+            },
+
+            nextStage: 'smallOfficeStage',
 
             _onExit: function() {
 
@@ -164,6 +216,9 @@ const gameFSM = new machina.Fsm({
     },
     nextStage: function() {
         this.handle('nextStage');
+    },
+    repeatStage: function() {
+        this.handle('repeatStage');
     },
 });
 
