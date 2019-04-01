@@ -41,12 +41,13 @@ export default class {
         this.person.x = x;
         this.person.y = y;
         const door = mlLabStageContainer.getChildByName('doorEntry');
-        console.log(door);
+        // console.log(door);
         const tween = PIXI.tweenManager.createTween(this.person);
-        tween.to({x: door.x});
+        tween.to({x: door.x + 40});
         tween.time = 700;
         tween.on('end', () => {
             mlLabStageContainer.removeChild(this.person);
+            eventEmitter.emit(EVENTS.PLAY_DOOR_ANIMATION, {direction: 'reverse'});
         });
         tween.start();
     }

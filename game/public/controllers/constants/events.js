@@ -5,6 +5,7 @@ export default {
     ASSIGNED_DESK: 'assigned-desk',
     STAGE_ONE_COMPLETED: 'stage-one-task-completed',
     STAGE_TWO_COMPLETED: 'stage-two-task-completed',
+    PLAY_DOOR_ANIMATION: 'play-door-animation',
     INSPECT_ALGORITHM: 'inspect-algorithm',
     DATASET_VIEW_INSPECT: 'inspect-dataset',
     DATASET_VIEW_NEW_CV: 'dataset-new-cv',
