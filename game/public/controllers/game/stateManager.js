@@ -90,7 +90,8 @@ const gameFSM = new machina.Fsm({
                     content: txt.smallOfficeStage.messageFromVc,
                     responses: txt.smallOfficeStage.responses,
                     show: true,
-                    isSmallStage: true
+                    isSmallStage: true,
+                    overlay: true
                 });
 
                 eventEmitter.on('instructionAcked', (data) => {
@@ -116,7 +117,9 @@ const gameFSM = new machina.Fsm({
                     content: txt.smallOfficeStage.retryMessage,
                     responses: txt.smallOfficeStage.retryResponses,
                     show: true,
-                    isSmallStage: true
+                    isSmallStage: true,
+                    overlay: true
+
                 });
 
                 eventEmitter.on('instructionAcked', (data) => {
@@ -140,6 +143,7 @@ const gameFSM = new machina.Fsm({
                     content: txt.mediumOfficeStage.messageFromVc,
                     responses: txt.mediumOfficeStage.responses,
                     show: true,
+                    overlay: true
                 });
                 
                 eventEmitter.on('instructionAcked', (data) => {
@@ -165,7 +169,9 @@ const gameFSM = new machina.Fsm({
                     content: txt.mediumOfficeStage.retryMessage,
                     responses: txt.mediumOfficeStage.retryResponses,
                     show: true,
-                    isSmallStage: false
+                    isSmallStage: false,
+                    overlay: true
+
                 });
 
                 eventEmitter.on('instructionAcked', (data) => {
