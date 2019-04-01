@@ -72,10 +72,6 @@ class Office {
 
     draw(stageNum) {
         if (stageNum == 0) {
-            officeStageContainer.removeChild(this.personContainer);
-            this.personContainer = new PIXI.Container();
-            candidateInSpot = null;
-            this.takenDesks = 0;
 
             //SMALL STAGE - INITIAL SET UP
             for (const floor in this.floors) {
@@ -86,6 +82,15 @@ class Office {
             
             this.doors.forEach((door) => door.addToPixi(this.interiorContainer));    
             this.yesno = new YesNo({show: true});
+
+            if (this.personContainer.children.length > 0) {
+                //in case small stage was repeated, clear the office
+                officeStageContainer.removeChild(this.personContainer);
+                this.personContainer = new PIXI.Container();
+            }
+
+            candidateInSpot = null;
+            this.takenDesks = 0;
             
             //Adding people for small stage
             this.addPeople(0, config[this.currentStage].newPeople);
