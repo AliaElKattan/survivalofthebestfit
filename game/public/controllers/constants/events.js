@@ -14,4 +14,7 @@ export default {
     RESIZE: 'resize',
     ACCEPTED: 'accepted',
     REJECTED: 'rejected',
+    RETURN_CANDIDATE: 'return-candidate',
+    DISPLAY_THIS_CV: 'display-this-cv',
+    PERSON_HOVERED: 'person-hovered',
 };

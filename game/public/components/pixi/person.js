@@ -1,49 +1,53 @@
 import {pixiApp, eventEmitter} from '../../controllers/game/gameSetup.js';
-import {bluePersonTexture} from '../../controllers/common/textures.js';
 import {uv2px} from '../../controllers/common/utils.js';
-import {Office, spotlight} from './office';
+import {spotlight} from './office';
+import EVENTS from '../../controllers/constants/events';
 
 function onPersonHover(event) {
-    eventEmitter.emit('person-hovered', {});
     candidateHovered = this.id;
+    eventEmitter.emit(EVENTS.PERSON_HOVERED, {});
+}
+
+function animateThisCandidate(person, newX, newY) {
+    person.tween.stop().clear();
+    person.tween.to({
+            x: newX, 
+            y: newY
+        });
+        person.tween.easing=PIXI.tween.Easing.inOutSine();
+        person.tween.time = 500;
+        person.tween.start();
 }
 
 function moveCandidate() {
+
+    //display clicked person's CV
+    candidateClicked = this.id;
+    eventEmitter.emit(EVENTS.DISPLAY_THIS_CV, {});
+
+    //empty spotlight
     if (!this.inSpotlight && candidateInSpot == null) {
         //move candidate to spotlight
-        this.tween.stop().clear();
-        this.tween.to({
-            x: spotlight.x, 
-            y: spotlight.y
-        });
-        this.tween.easing=PIXI.tween.Easing.inQuart();
-        this.tween.time = 600;
-        this.tween.start();
+        animateThisCandidate(this, spotlight.x, spotlight.y);
 
-        spotOpen = false;
         this.inSpotlight = true;
         candidateInSpot = this.id;
     }
+    //candidate in spotlight clicked
     else if (this.inSpotlight) {
         //move candidate back to line
-        this.tween.stop().clear();
-        this.tween.to({
-            x: this.originalX, 
-            y: this.originalY
-        });
-        this.tween.easing=PIXI.tween.Easing.inQuart();
-        this.tween.time = 600;
-        this.tween.start();
+        animateThisCandidate(this, this.originalX, this.originalY);
 
-        spotOpen = true;
         this.inSpotlight = false;
         candidateInSpot = null;
     }
-    else {
-        console.log("some condition not satisfied")
-        console.log("inspotlight " + this.inSpotlight)
-        console.log("spotOpen " + spotOpen)
-
+    //candidate in line clicked and spotlight is filled
+    else if (!this.inSpotlight && candidateInSpot != null) {
+        eventEmitter.emit(EVENTS.RETURN_CANDIDATE, {});
+        animateThisCandidate(this, spotlight.x, spotlight.y);
+        
+        this.inSpotlight = true;
+        candidateInSpot = this.id;
     }
 }
 
@@ -68,4 +72,4 @@ function createPerson(x, y, id, texture) {
     return person;
 }
 
-export {createPerson};
+export {createPerson, animateThisCandidate};

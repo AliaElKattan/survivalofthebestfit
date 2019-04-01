@@ -26,7 +26,9 @@ const english = {
         messageFromVc: 'Hi,\n\nCongrats again on your seed round. Very impressive.\nNow time to execute the idea. Hire the best people, fast. Hiring good talent is a war these days...\n\nKeep us updated.\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
         responses: ['Let\'s do this'],
         taskDescription: 'Task: Hire 3 new employees',
-        retryMessage: 'You are too slow at hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.',
+        retryMessage: 'You are not hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.',
+        retryResponses: ["I will do better this time."],
+
     },
     mediumOfficeStage: {
         messageFromVc: 'Hi,\n\nGood progress but you are just not growing fast enough. You need to hire more aggressively to get all the talent and outgrow your competitors.\n\nQuadraple your headcount by next week and you can raise one more million in funding...\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
@@ -36,6 +38,7 @@ const english = {
         ],
         taskDescription: 'Task: Hire 10 new employees',
         retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.',
+        retryResponses: ["I will do better this time."],
     },
     conversation: [
         {
@@ -145,9 +148,10 @@ const language = 'hungarian';
 // when loading in the ES6 application, there is no module provided so it is undefined
 let txt;
 
-// defining a global variable candidateHovered to access the ID globally without having to emit a value
-let candidateHovered = 0;
-let spotOpen = true;
+// defining a global variable candidateClicked to access the ID globally without having to emit a value
+let candidateClicked = 0;
+let candidateHovered = null;
+
 let candidateInSpot = null;
 const hiringGoals = {"smallStage": 3, "mediumStage": 10};
 
