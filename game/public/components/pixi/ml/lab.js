@@ -33,7 +33,7 @@ export default class MLLab {
             first_floor: new Floor({type: 'first_floor'}),
         };
         this.door = new Door({
-            type: 'doorEntry',
+            type: 'doorAccepted',
             floor: 'ground_floor',
             floorParent: this.floors.ground_floor,
             xAnchor: uv2px(0.03, 'w'),

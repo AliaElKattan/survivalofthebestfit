@@ -22,7 +22,7 @@ export default class {
     addToPixi() {
         this.sprite = SPRITES[this.doorType];
         this.sprite.name = this.doorType;
-        if (this.doorType === 'doorEntry') {
+        if (this.doorType === 'doorAccepted') {
             this.sprite.loop = false;
         };
         this._draw();
@@ -31,7 +31,6 @@ export default class {
     }
 
     playAnimation({direction}) {
-        console.log(this.sprite);
         switch (direction) {
         case 'forward':
             this.sprite.animationSpeed = this.animSpeed;

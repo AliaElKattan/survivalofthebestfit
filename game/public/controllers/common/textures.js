@@ -19,8 +19,8 @@ async function loadAssets() {
     await new Promise((resolve, reject) => {
         loader.load((loader, resources) => {
             // SPRITES.doorEntry = new PIXI.Sprite(resources.doorAccepted.texture);
-            SPRITES.doorEntry = new PIXI.extras.AnimatedSprite(resources.officeDoor.spritesheet.animations['door']);
-            // SPRITES.doorAccepted = new PIXI.Sprite(resources.doorAccepted.texture);
+            SPRITES.doorAccepted = new PIXI.extras.AnimatedSprite(resources.officeDoor.spritesheet.animations['door']);
+            SPRITES.doorEntry = new PIXI.Sprite(resources.doorAccepted.texture);
             SPRITES.doorRejected = new PIXI.Sprite(resources.doorRejected.texture);
             SPRITES.machine = new PIXI.Sprite(resources.machine.texture);
             SPRITES.scanRay = new PIXI.Sprite(resources.scanRay.texture);

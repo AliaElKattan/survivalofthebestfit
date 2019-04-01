@@ -40,7 +40,7 @@ export default class {
         mlLabStageContainer.addChild(this.person);
         this.person.x = x;
         this.person.y = y;
-        const door = mlLabStageContainer.getChildByName('doorEntry');
+        const door = mlLabStageContainer.getChildByName('doorAccepted');
         // console.log(door);
         const tween = PIXI.tweenManager.createTween(this.person);
         tween.to({x: door.x + 40});
