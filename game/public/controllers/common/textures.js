@@ -13,15 +13,15 @@ loader
     .add('dataServerAccepted', 'assets/spritesheets/data-server-accepted/data-server-accepted.json')
     .add('doorAccepted', 'assets/img/door-accepted.png')
     .add('officeDoor', 'assets/spritesheets/office-door/office-door.json')
+    .add('wayOutDoor', 'assets/spritesheets/way-out-door/way-out-door.json')
     .add('doorRejected', 'assets/img/door-rejected.png');
 
 async function loadAssets() {
     await new Promise((resolve, reject) => {
         loader.load((loader, resources) => {
-            // SPRITES.doorEntry = new PIXI.Sprite(resources.doorAccepted.texture);
             SPRITES.doorAccepted = new PIXI.extras.AnimatedSprite(resources.officeDoor.spritesheet.animations['door']);
             SPRITES.doorEntry = new PIXI.Sprite(resources.doorAccepted.texture);
-            SPRITES.doorRejected = new PIXI.Sprite(resources.doorRejected.texture);
+            SPRITES.doorRejected = new PIXI.extras.AnimatedSprite(resources.wayOutDoor.spritesheet.animations['door']);
             SPRITES.machine = new PIXI.Sprite(resources.machine.texture);
             SPRITES.scanRay = new PIXI.Sprite(resources.scanRay.texture);
             SPRITES.inspectButton = new PIXI.Sprite(resources.inspectButton.texture);
