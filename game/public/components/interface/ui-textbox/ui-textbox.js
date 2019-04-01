@@ -41,6 +41,7 @@ export default class extends UIBase {
             eventEmitter.emit(EVENTS.SHOW_TOOLTIP, {});
         } else {
             eventEmitter.emit(EVENTS.RESUME_TIMELINE, {});
+            eventEmitter.emit(EVENTS.HIDE_NEWS_FEED, {});
         }
         this.destroy();
     }

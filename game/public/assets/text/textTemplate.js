@@ -79,10 +79,14 @@ const english = {
     mlLabStage: {
         conversation: [
             {
-                delay: 4,
+                delay: 7,
                 messageFromVc: 'We’ve been able to both hire at 10x our past rate and cut down costs! Great job, this seems to be working!',
                 responses: [
                     'Great to hear!',
+                ],
+                news: [
+                    'Does the future of hiring lie in algorithms? @dummy newspaper1',
+                    'Does the future of hiring lie in algorithms? @dummy newspaper2',
                 ],
             },
             {
@@ -115,6 +119,10 @@ const english = {
                     parent: 'scanray',
                     text: 'The algorithm doesn’t work in a vacuum. Incoming CVs are judged in context of previous CVs, replicating historical trends',
                 },
+                news: [
+                    'Recruitment is biased @dummy newspaper1',
+                    'Recruitment is biased? @dummy newspaper2',
+                ],
             },
             {
                 delay: 7,
@@ -146,9 +154,9 @@ const language = 'hungarian';
 let txt;
 
 // defining a global variable candidateHovered to access the ID globally without having to emit a value
-let candidateHovered = 0;
-let spotOpen = true;
-let candidateInSpot = null;
+const candidateHovered = 0;
+const spotOpen = true;
+const candidateInSpot = null;
 
 function setLang(dictionary) {
     if (typeof module !== 'undefined') {

@@ -19,4 +19,5 @@ export default {
     FULLSCREEN_ICON_EXPANDED: 'FullscreenIcon--expanded',
     ML: 'ml',
     OSCILLATE: 'u-oscillate',
+    PULSATE: 'u-pulsate',
 };

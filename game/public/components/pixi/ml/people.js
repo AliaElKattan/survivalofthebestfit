@@ -68,6 +68,7 @@ export default class {
         });
         this.removeFirstPerson();
         this._addNewPerson();
+        return status;
     }
 
     removeFirstPerson() {

@@ -6,10 +6,10 @@ import SCALES from '../../../controllers/constants/pixi-scales.js';
 import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
 export default class {
-    constructor({machine, side}) {
-        this.dataServer = side === 'left' ? SPRITES.dataServerRejected : SPRITES.dataServerAccepted;
+    constructor({machine, type}) {
+        this.dataServer = type === 'rejected' ? SPRITES.dataServerRejected : SPRITES.dataServerAccepted;
         this.dataServerScale = SCALES.DATA_SERVER[screenSizeDetector()];
-        this.directionVector = side === 'left' ? -1 : 1;
+        this.directionVector = type === 'rejected' ? -1 : 1;
         this.machine = machine;
         this.machineDim = undefined;
         this.centerX = undefined;
@@ -30,8 +30,8 @@ export default class {
     // sprite parameter, set once
 
     _initParams() {
-        this.dataServer.loop = false;
-        this.dataServer.animationSpeed = 0.17;
+        this.dataServer.loop = true;
+        this.dataServer.animationSpeed = 0.5;
         this.dataServer.gotoAndStop(0);
         this.machineDim = this.machine.getMachineDimensions();
         this.centerX = space.getCenteredChildX(this.machineDim.x, this.machineDim.width, this.dataServer.width*this.dataServerScale);
