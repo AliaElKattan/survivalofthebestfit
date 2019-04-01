@@ -13,8 +13,6 @@ export default class {
         this.yAnchor = uv2px(this.yAnchorUV, 'h');
         this.surface = null;
         this.side = null;
-        this._resizeHandler = this._resizeHandler.bind(this);
-        this._addEventListeners();
     }
 
     addToPixi(parentContainer) {
@@ -22,6 +20,7 @@ export default class {
         this._draw();
         parentContainer.addChild(this.surface);
         parentContainer.addChild(this.side);
+        this._addEventListeners();
     }
 
     _initParams() {
@@ -63,13 +62,13 @@ export default class {
     // add event listeners
 
     _addEventListeners() {
-        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler);
+        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler.bind(this));
     }
 
     // remove event listeners
 
     _removeEventListeners() {
-        eventEmitter.off(EVENTS.RESIZE, this._resizeHandler);
+        eventEmitter.off(EVENTS.RESIZE, this._resizeHandler.bind(this));
     }
 
     getHeight() {

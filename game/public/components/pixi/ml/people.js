@@ -21,7 +21,7 @@ export default class {
     addToPixi() {
         mlLabStageContainer.addChild(this.container);
         this._draw();
-        this.container.x = uv2px(0.15, 'w');
+        this.container.x = uv2px(0.25, 'w');
     }
 
     _draw() {
@@ -72,13 +72,9 @@ export default class {
             status: status,
             data: this.peopleLine[0].getData(),
         });
-        this.removeFirstPerson();
+        this.peopleLine[0].removeFromLine({decision: status});
+        this.peopleLine = this.peopleLine.slice(1);
         this._addNewPerson();
         return status;
-    }
-
-    removeFirstPerson() {
-        this.peopleLine[0].removeFromLine();
-        this.peopleLine = this.peopleLine.slice(1);
     }
 }
