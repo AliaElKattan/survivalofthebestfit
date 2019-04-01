@@ -53,7 +53,7 @@ button {
   opacity: 0; }
 
 .is-transparent {
-  background-color: #f9f0e300 !important; }
+  background-color: #f9f0e354 !important; }
 
 .u-fade-in {
   animation: fadein 0.3s ease-in-out; }
@@ -727,6 +727,7 @@ h2 {
   align-items: center; }
 
 .Tooltip {
+  color: white;
   transform: scale(1.1);
   position: fixed;
   top: 100px;
@@ -740,13 +741,12 @@ h2 {
     background-size: contain; }
   .Tooltip-text {
     color: inherit;
-    background-color: #FAFAFA;
+    background-color: #f56b6bf7;
     position: absolute;
     min-width: 200px;
     padding: 10px;
     top: -5px;
-    left: 40px;
-    background-color: white; }
+    left: 40px; }
     .Tooltip-text:before, .Tooltip-text:after {
       content: "";
       display: inline-block;
@@ -754,19 +754,19 @@ h2 {
     .Tooltip-text:before {
       left: 0;
       width: 100%;
-      height: 5px;
-      bottom: -5px;
-      transform: translateX(5px) skewX(65deg); }
+      height: 4px;
+      bottom: -4px;
+      transform: translate(3px, -1px) skewX(55deg); }
     .Tooltip-text:after {
       top: 0;
       height: 100%;
-      width: 10px;
-      right: -10px;
-      transform: translateY(3px) skewY(25deg); }
+      width: 5px;
+      right: -5px;
+      transform: translateY(1px) skewY(25deg); }
     .Tooltip-text:before {
-      background: #919191; }
+      background: #a52424; }
     .Tooltip-text:after {
-      background: #B9B9B9; }
+      background: #e05555; }
 
 .PersonTooltip {
   color: inherit;

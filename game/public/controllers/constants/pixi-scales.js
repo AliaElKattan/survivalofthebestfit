@@ -1,7 +1,7 @@
 export default {
     DATA_SERVER: {
         mobile: 0.13,
-        desktop: 0.22,
+        desktop: 0.26,
     },
     MACHINE: {
         mobile: 0.4,
@@ -9,7 +9,7 @@ export default {
     },
     DOOR: {
         mobile: 0.3,
-        desktop: 0.52,
+        desktop: 0.38,
     },
     BELT: {
         mobile: 0.3,
