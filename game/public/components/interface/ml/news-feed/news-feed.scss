@@ -21,6 +21,7 @@
     height: 100%;
     background: color(txt-light-grey);
     padding: 0 padding(sm);
+    z-index: 2;
   }
   
   &__title, .NewsList, .NewsList-item{
@@ -28,14 +29,23 @@
   }
   
   .NewsList {
+    // transform: translateX(-100vw);
     transform: translateX(100px);
     padding: 2px;
-    width: 150%;
+    width: 300vw;
+    @include mq($until: mobile) {
+        width: 400vw;
+    }
     display: flex;
     align-items: center;
     overflow: hidden;
     
     &-item {
+      // color: color(txt-dark-grey);
+      font-size: 1.4rem;
+      @include mq($until: mobile) {
+          font-size: 1.1rem;
+      };
       padding: 0 padding(sm);
       line-height: 1;
       border-right:solid color(txt-light-grey) 2px;

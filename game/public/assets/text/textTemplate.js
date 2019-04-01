@@ -79,10 +79,14 @@ const english = {
     mlLabStage: {
         conversation: [
             {
-                delay: 4,
+                delay: 7,
                 messageFromVc: 'We’ve been able to both hire at 10x our past rate and cut down costs! Great job, this seems to be working!',
                 responses: [
                     'Great to hear!',
+                ],
+                news: [
+                    'Does the future of hiring lie in algorithms? @dummy newspaper1',
+                    'Does the future of hiring lie in algorithms? @dummy newspaper2',
                 ],
             },
             {
@@ -115,6 +119,10 @@ const english = {
                     parent: 'scanray',
                     text: 'The algorithm doesn’t work in a vacuum. Incoming CVs are judged in context of previous CVs, replicating historical trends',
                 },
+                news: [
+                    'Recruitment is biased @dummy newspaper1',
+                    'Recruitment is biased? @dummy newspaper2',
+                ],
             },
             {
                 delay: 7,

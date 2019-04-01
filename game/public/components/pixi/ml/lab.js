@@ -1,4 +1,4 @@
-import {uv2px, spacingUtils as space} from '~/public/controllers/common/utils.js';
+import {uv2px, waitForSeconds, pacingUtils as space} from '~/public/controllers/common/utils.js';
 import {cvCollection} from '~/public/assets/text/cvCollection.js';
 import Machine from '~/public/components/pixi/ml/machine';
 import Resumes from '~/public/components/pixi/ml/cv-list';
@@ -46,11 +46,11 @@ export default class MLLab {
         this.dataServers = [
             new DataServer({
                 machine: this.machine,
-                side: 'left',
+                type: 'rejected',
             }),
             new DataServer({
                 machine: this.machine,
-                side: 'right',
+                type: 'accepted',
             }),
         ];
         this.scanRay = new ScanRay({machine: this.machine});
@@ -99,7 +99,10 @@ export default class MLLab {
         this.tweens.rayAnim = this.scanRay.getSprite();
         this.tweens.resumeScanline = this.resumeUI.createScanTween();
         this.tweens.resumeMask = this.resumeUI.createMaskTween();
-        this.tweens.serverDummyAnim = this.dataServers[0].getSprite();
+        this.tweens.serverAcceptedAnim = this.dataServers[0].getSprite(); // TODO refactor this to object based approach
+        this.tweens.serverRejectedAnim = this.dataServers[1].getSprite();
+        let serverAnim;
+
         this.tweens.peopleLine = this.people.createTween();
 
         // once the conveyor belt animation is done ...
@@ -127,18 +130,33 @@ export default class MLLab {
         // once the scanline animation is done ...
         this.tweens.resumeScanline.eventCallback('onComplete', () => {
             if (this.people.getCount() > 0) {
-                this.people.evaluateFirstPerson();
+                serverAnim = this.people.evaluateFirstPerson() === 'accepted' ? this.tweens.serverAcceptedAnim : this.tweens.serverRejectedAnim;
                 this.people.recalibrateTween(this.tweens.peopleLine);
                 this.tweens.peopleLine.start();
-            }
+            };
+
             // hide the scaneline and reset its position
             this.resumeUI.hideScanline();
             this.resumeUI.hide();
+
             // start animating the data servers
-            setTimeout(()=> {
-                this.tweens.serverDummyAnim.gotoAndStop(0);
-                this.tweens.serverDummyAnim.play();
-            }, 200);
+            waitForSeconds(0.2)
+                .then(() => {
+                    serverAnim.gotoAndStop(0);
+                    serverAnim.play();
+                    return waitForSeconds(1.5);
+                })
+                .then(() => {
+                    serverAnim.gotoAndStop(0);
+                });
+
+            // setTimeout(()=> {
+            //     this.tweens.serverDummyAnim.gotoAndStop(0);
+            //     this.tweens.serverDummyAnim.play();
+            // }, 200);
+            // hide the ray animation and reset its animation
+            // this.tweens.rayAnim.visible = false;
+            // this.tweens.rayAnim.gotoAndStop(5);
             // play the ray animation backwards
             this.tweens.rayAnim.animationSpeed = -0.7;
             this.tweens.rayAnim.play();

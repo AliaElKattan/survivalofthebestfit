@@ -2,6 +2,7 @@ export default {
     IS_INACTIVE: 'is-inactive',
     IS_ENABLED: 'is-enabled',
     IS_INVISIBLE: 'is-invisible',
+    IS_TRANSPARENT: 'is-transparent',
     FADE_IN: 'u-fade-in',
     FADE_OUT: 'u-fade-out',
     BUTTON_CLICKED: 'is-clicked',
@@ -19,4 +20,5 @@ export default {
     FULLSCREEN_ICON_EXPANDED: 'FullscreenIcon--expanded',
     ML: 'ml',
     OSCILLATE: 'u-oscillate',
+    PULSATE: 'u-pulsate',
 };

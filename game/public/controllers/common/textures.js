@@ -9,23 +9,25 @@ loader
     .add('inspectButton', 'assets/img/question-mark-icon.png')
     .add('scanRay', 'assets/img/scan-ray.png')
     .add('rayAnim', 'assets/spritesheets/machine-ray/ray_spritesheet.json')
-    .add('dataServerRejected', 'assets/spritesheets/data-server-rejected/data-server.json')
-    .add('dataServerAccepted', 'assets/spritesheets/data-server-accepted/data-server.json')
+    .add('dataServerRejected', 'assets/spritesheets/data-server-rejected/data-server-rejected.json')
+    .add('dataServerAccepted', 'assets/spritesheets/data-server-accepted/data-server-accepted.json')
     .add('doorAccepted', 'assets/img/door-accepted.png')
+    .add('officeDoor', 'assets/spritesheets/office-door/office-door.json')
     .add('doorRejected', 'assets/img/door-rejected.png');
 
 async function loadAssets() {
     await new Promise((resolve, reject) => {
         loader.load((loader, resources) => {
-            SPRITES.doorEntry = new PIXI.Sprite(resources.doorAccepted.texture);
-            SPRITES.doorAccepted = new PIXI.Sprite(resources.doorAccepted.texture);
+            // SPRITES.doorEntry = new PIXI.Sprite(resources.doorAccepted.texture);
+            SPRITES.doorEntry = new PIXI.extras.AnimatedSprite(resources.officeDoor.spritesheet.animations['door']);
+            // SPRITES.doorAccepted = new PIXI.Sprite(resources.doorAccepted.texture);
             SPRITES.doorRejected = new PIXI.Sprite(resources.doorRejected.texture);
             SPRITES.machine = new PIXI.Sprite(resources.machine.texture);
             SPRITES.scanRay = new PIXI.Sprite(resources.scanRay.texture);
             SPRITES.inspectButton = new PIXI.Sprite(resources.inspectButton.texture);
             SPRITES.rayAnim = new PIXI.extras.AnimatedSprite(resources.rayAnim.spritesheet.animations['ray']);
-            SPRITES.dataServerAccepted = new PIXI.extras.AnimatedSprite(resources.dataServerAccepted.spritesheet.animations['data-server']);
-            SPRITES.dataServerRejected = new PIXI.extras.AnimatedSprite(resources.dataServerRejected.spritesheet.animations['data-server']);
+            SPRITES.dataServerAccepted = new PIXI.extras.AnimatedSprite(resources.dataServerAccepted.spritesheet.animations['data-server-accepted']);
+            SPRITES.dataServerRejected = new PIXI.extras.AnimatedSprite(resources.dataServerRejected.spritesheet.animations['data-server-rejected']);
             SPRITES.dataServerAccepted.scale.set(SCALES.DATA_SERVER[screenSizeDetector()]);
             SPRITES.dataServerRejected.scale.set(SCALES.DATA_SERVER[screenSizeDetector()]);
             resolve();

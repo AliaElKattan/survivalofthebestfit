@@ -1,10 +1,12 @@
 import $ from 'jquery';
 import EVENTS from '~/public/controllers/constants/events';
+import {waitForSeconds, clamp} from '~/public/controllers/common/utils';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 export default class {
     constructor(options) {
         this.ML_TIMELINE = txt.mlLabStage.conversation;
+        this.newsTimeOffset = 6;
         this.isActive = false;
         this.scheduleTimelineUpdate = this.scheduleTimelineUpdate.bind(this);
         this._addEventListeners();
@@ -31,10 +33,23 @@ export default class {
         if (!this.ML_TIMELINE[0].hasOwnProperty('delay')) throw new Error('The ML message object needs to have a delay!');
         if ( this.ML_TIMELINE.length === 1) this.ML_TIMELINE[0].isLastMessage = true;
 
-        this.waitForSeconds(this.ML_TIMELINE[0].delay)
+        // MESSAGE FROM BOSS UPDATE
+
+        waitForSeconds(this.ML_TIMELINE[0].delay)
             .then(() => {
                 eventEmitter.emit(EVENTS.SHOW_MESSAGE_FROM_BOSS, this.ML_TIMELINE[0]);
                 this.updateTimeline();
+            }).catch((err) => {
+                console.log(err);
+            });
+
+        // NEWS UPDATE
+
+        if (!this.ML_TIMELINE[0].hasOwnProperty('news')) return;
+        const newsLaunch = clamp(this.ML_TIMELINE[0].delay - this.newsTimeOffset, 1, 5);
+        waitForSeconds(newsLaunch)
+            .then(() => {
+                eventEmitter.emit(EVENTS.UPDATE_NEWS_FEED, {news: this.ML_TIMELINE[0].news});
             }).catch((err) => {
                 console.log(err);
             });
@@ -44,17 +59,6 @@ export default class {
 
     updateTimeline() {
         this.ML_TIMELINE = this.ML_TIMELINE.slice(1);
-    }
-
-    // create a new countdown timer
-
-    waitForSeconds(duration) {
-        const durationInMS = duration*1000;
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve();
-            }, durationInMS);
-        });
     }
 
     _addEventListeners() {
