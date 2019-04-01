@@ -8,13 +8,13 @@ export default class extends UIBase {
     constructor(options) {
         super();
         this.options = options;
-        this.$el = $('.js-textbox'); // This should be a single element
+        this.$el = $('#js-textbox-overlay'); // This should be a single element
         this.$textEl = this.$el.find('.Textbox__content');
         this.$buttons = this.$el.find('.TextboxButton');
         this.setContent = this.setContent.bind(this);
         this._mainContent = options.content || 'dummy text'; // TODO: change this to null
         this._responseContent = options.responses || ['OKK'];
-        this.overlay = options.overlay || null; // TODO think about the overlay
+        this.overlay = options.overlay || false; // TODO think about the overlay
         this.type = options.type || '';
         this.hasTooltip = options.hasTooltip;
         this.isSmallStage = options.isSmallStage || false;
@@ -25,6 +25,7 @@ export default class extends UIBase {
     }
 
     setContent() {
+        if (!this.overlay) this.$el.addClass(CLASSES.IS_TRANSPARENT);
         this.$textEl.html(this._mainContent);
         this.$buttons.addClass(CLASSES.IS_INACTIVE);
         this._responseContent.forEach((response, index) => {
@@ -50,7 +51,7 @@ export default class extends UIBase {
     _manualStageButtonHandler(e) {
         this.$buttons.addClass(CLASSES.BUTTON_CLICKED);
         eventEmitter.emit('instructionAcked', {
-            isSmallStage: this.isSmallStage
+            isSmallStage: this.isSmallStage,
         });
         this.destroy();
     }

@@ -52,6 +52,9 @@ button {
 .is-invisible {
   opacity: 0; }
 
+.is-transparent {
+  background-color: #f9f0e300 !important; }
+
 .u-fade-in {
   animation: fadein 0.3s ease-in-out; }
 
@@ -441,7 +444,8 @@ h2 {
 .Footer {
   position: absolute;
   bottom: 20px;
-  right: 40px; }
+  right: 40px;
+  z-index: 5; }
   .Footer:hover {
     transform: scale(1.1); }
 

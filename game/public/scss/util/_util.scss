@@ -8,6 +8,10 @@
   opacity: 0;
 }
 
+.is-transparent {
+  background-color: color(bg-transparent) !important;
+}
+
 
 .u-fade-in {
   animation: fadein 0.3s ease-in-out;
