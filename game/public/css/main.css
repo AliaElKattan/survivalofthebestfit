@@ -33,6 +33,12 @@ button {
   to {
     opacity: 0; } }
 
+@keyframes pulse {
+  from {
+    transform: scale(1); }
+  to {
+    transform: scale(1.1); } }
+
 @keyframes oscillate {
   from {
     transform: translateY(0); }
@@ -46,6 +52,9 @@ button {
 .is-invisible {
   opacity: 0; }
 
+.is-transparent {
+  background-color: #f9f0e300 !important; }
+
 .u-fade-in {
   animation: fadein 0.3s ease-in-out; }
 
@@ -55,6 +64,13 @@ button {
 .u-oscillate {
   animation-name: oscillate;
   animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out; }
+
+.u-pulsate {
+  animation-name: pulse;
+  animation-duration: 0.7s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
   animation-timing-function: ease-in-out; }
@@ -150,7 +166,8 @@ body.Page--Game {
     background: #B9B9B9; }
   @media (max-width: 23.74em) {
     .Textbox {
-      min-width: 400px; } }
+      min-width: 400px;
+      background-color: red; } }
   .Textbox__content {
     margin-bottom: 20px;
     font-size: 1.1rem; }
@@ -424,51 +441,11 @@ h2 {
   z-index: 4;
   background-color: #F9F0E3; }
 
-.Tooltip {
-  position: fixed;
-  top: 100px;
-  left: 50px; }
-  .Tooltip:hover {
-    cursor: pointer; }
-  .Tooltip-icon {
-    width: 30px;
-    height: 30px;
-    background: url("../assets/img/info-icon.png") no-repeat center;
-    background-size: contain; }
-  .Tooltip-text {
-    color: inherit;
-    background-color: #FAFAFA;
-    position: absolute;
-    min-width: 200px;
-    padding: 10px;
-    top: -5px;
-    left: 40px;
-    background-color: white; }
-    .Tooltip-text:before, .Tooltip-text:after {
-      content: "";
-      display: inline-block;
-      position: absolute; }
-    .Tooltip-text:before {
-      left: 0;
-      width: 100%;
-      height: 5px;
-      bottom: -5px;
-      transform: translateX(5px) skewX(65deg); }
-    .Tooltip-text:after {
-      top: 0;
-      height: 100%;
-      width: 10px;
-      right: -10px;
-      transform: translateY(3px) skewY(25deg); }
-    .Tooltip-text:before {
-      background: #919191; }
-    .Tooltip-text:after {
-      background: #B9B9B9; }
-
 .Footer {
   position: absolute;
   bottom: 20px;
-  right: 40px; }
+  right: 40px;
+  z-index: 5; }
   .Footer:hover {
     transform: scale(1.1); }
 
@@ -636,20 +613,28 @@ h2 {
     top: 0;
     height: 100%;
     background: #B2B2B2;
-    padding: 0 20px; }
+    padding: 0 20px;
+    z-index: 2; }
   .NewsFeed__title, .NewsFeed .NewsList, .NewsFeed .NewsList-item {
     display: inline-block; }
   .NewsFeed .NewsList {
     transform: translateX(100px);
     padding: 2px;
-    width: 150%;
+    width: 300vw;
     display: flex;
     align-items: center;
     overflow: hidden; }
+    @media (max-width: 23.74em) {
+      .NewsFeed .NewsList {
+        width: 400vw; } }
     .NewsFeed .NewsList-item {
+      font-size: 1.4rem;
       padding: 0 20px;
       line-height: 1;
       border-right: solid #B2B2B2 2px; }
+      @media (max-width: 23.74em) {
+        .NewsFeed .NewsList-item {
+          font-size: 1.1rem; } }
 
 .DatasetOverlay {
   background-color: #F9F0E3; }
@@ -740,6 +725,75 @@ h2 {
   background-color: #FFADA3;
   justify-content: center;
   align-items: center; }
+
+.Tooltip {
+  transform: scale(1.1);
+  position: fixed;
+  top: 100px;
+  left: 50px; }
+  .Tooltip:hover {
+    cursor: pointer; }
+  .Tooltip-icon {
+    width: 30px;
+    height: 30px;
+    background: url("../assets/img/info-icon-white.png") no-repeat center;
+    background-size: contain; }
+  .Tooltip-text {
+    color: inherit;
+    background-color: #FAFAFA;
+    position: absolute;
+    min-width: 200px;
+    padding: 10px;
+    top: -5px;
+    left: 40px;
+    background-color: white; }
+    .Tooltip-text:before, .Tooltip-text:after {
+      content: "";
+      display: inline-block;
+      position: absolute; }
+    .Tooltip-text:before {
+      left: 0;
+      width: 100%;
+      height: 5px;
+      bottom: -5px;
+      transform: translateX(5px) skewX(65deg); }
+    .Tooltip-text:after {
+      top: 0;
+      height: 100%;
+      width: 10px;
+      right: -10px;
+      transform: translateY(3px) skewY(25deg); }
+    .Tooltip-text:before {
+      background: #919191; }
+    .Tooltip-text:after {
+      background: #B9B9B9; }
+
+.PersonTooltip {
+  color: inherit;
+  background-color: #FAFAFA;
+  position: fixed;
+  top: 100px;
+  left: 50px; }
+  .PersonTooltip:before, .PersonTooltip:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .PersonTooltip:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .PersonTooltip:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .PersonTooltip:before {
+    background: #919191; }
+  .PersonTooltip:after {
+    background: #B9B9B9; }
 
 .choiceButton {
   padding-right: 20px; }

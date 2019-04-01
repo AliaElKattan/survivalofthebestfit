@@ -4,15 +4,16 @@ import {SPRITES} from '../../../controllers/common/textures.js';
 import SCALES from '../../../controllers/constants/pixi-scales.js';
 
 export default class {
-    constructor({machine, side}) {
-        this.sprite = side === 'left' ? SPRITES.dataServerRejected : SPRITES.dataServerAccepted;
-        this.directionVector = side === 'left' ? -1 : 1;
+    constructor({machine, type}) {
+        this.sprite = type === 'rejected' ? SPRITES.dataServerRejected : SPRITES.dataServerAccepted;
+        this.dataServerScale = SCALES.DATA_SERVER[screenSizeDetector()];
+        this.directionVector = type === 'rejected' ? -1 : 1;
         this.machine = machine;
     }
 
     addToPixi() {
-        this.sprite.loop = false;
-        this.sprite.animationSpeed = 0.17;
+        this.sprite.loop = true;
+        this.sprite.animationSpeed = 0.5;
         this.sprite.gotoAndStop(0);
         this.draw();
         mlLabStageContainer.addChild(this.sprite);

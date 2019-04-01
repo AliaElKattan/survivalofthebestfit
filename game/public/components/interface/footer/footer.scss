@@ -2,6 +2,7 @@
   position: absolute;
   bottom: margin(sm);
   right: margin(md);
+  z-index: 5;
   
   &:hover {
     transform: scale(1.1);

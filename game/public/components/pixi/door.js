@@ -23,6 +23,11 @@ export default class {
     addToPixi(parentContainer) {
         this.door = SPRITES[this.doorType];
         this.door.name = this.doorType;
+        if (this.doorType === 'doorEntry') {
+            console.log('animate the door!');
+            this.door.loop = true;
+            this.door.animationSpeed = 0.5;
+        };
         this._draw();
         parentContainer.addChild(this.door);
     }

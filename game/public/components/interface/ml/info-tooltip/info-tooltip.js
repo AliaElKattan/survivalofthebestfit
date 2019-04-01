@@ -25,6 +25,7 @@ export default class extends UIBase {
             'top': `${y}px`,
             'left': `${x}px`,
         });
+        if (!this.$icon.hasClass(CLASSES.PULSATE)) this.$icon.addClass(CLASSES.PULSATE);
         this.$text.html(this.content);
         this.$text.addClass(CLASSES.IS_INACTIVE);
     }
@@ -32,14 +33,14 @@ export default class extends UIBase {
     _handleIconHover() {
         if (!this.isActive) {
             this.isActive = true;
+            this.$icon.removeClass(CLASSES.PULSATE);
             eventEmitter.emit(EVENTS.RESUME_TIMELINE, {});
         };
         this.$text.toggleClass(CLASSES.IS_INACTIVE);
-        this.$icon.toggleClass(CLASSES.OSCILLATE);
     }
 
     _addEventListeners() {
-        this.$el.on( 'mouseover', this._handleIconHover).mouseleave( 'mouseout', this._handleIconHover);
+        this.$el.on( 'mouseover', this._handleIconHover).mouseleave('mouseout', this._handleIconHover);
         eventEmitter.on(EVENTS.SHOW_TOOLTIP, this.show.bind(this));
         eventEmitter.on(EVENTS.DESTROY_TOOLTIP, this.destroy.bind(this));
     }
