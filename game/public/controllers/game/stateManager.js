@@ -87,7 +87,7 @@ const gameFSM = new machina.Fsm({
                     content: txt.smallOfficeStage.messageFromVc,
                     responses: txt.smallOfficeStage.responses,
                     show: true,
-                    isSmallStage: true
+                    isSmallStage: true,
                 });
 
                 new PerfMetrics();

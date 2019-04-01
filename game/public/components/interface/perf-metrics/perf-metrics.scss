@@ -1,18 +1,17 @@
 .PerfMetrics {
-    @include textBox();
+    // @include textBox();
     @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'rose');
       
     padding: padding(xs) padding(sm);
     position: absolute;
-    left: 14%;
+    left: 10%;
     top:15%;
-    transform: translateX(-50%);
     min-width: 200px;
     text-align: center;
     
     &__bar {
-        height: 7px;
-        width: 100%;
+        height: 180px;
+        width: 7px;
         margin: padding(xs) 0 5px 0;
         background-color: color(shadow-rose-light);
     }
