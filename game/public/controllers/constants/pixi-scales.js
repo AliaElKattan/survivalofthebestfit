@@ -19,4 +19,8 @@ export default {
         mobile: 0.3,
         desktop: 0.5,
     },
+    PEOPLE: {
+        mobile: 0.15,
+        desktop: 0.2,
+    },
 };

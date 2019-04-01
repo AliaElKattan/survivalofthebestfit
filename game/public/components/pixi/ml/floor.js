@@ -1,10 +1,8 @@
 import * as PIXI from 'pixi.js';
-import {mlLabStageContainer} from '~/public/controllers/game/gameSetup.js';
 import {uv2px, clamp} from '~/public/controllers/common/utils.js';
 import COLORS from '~/public/controllers/constants/pixi-colors.js';
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/controllers/constants/events.js';
-// import SCALES from '~/public/controllers/constants/pixi-scales.js';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 export default class {
@@ -42,9 +40,11 @@ export default class {
     _draw() {
         this.surface.x = 0;
         this.surface.y = this.yAnchor-this.heightMain;
+        this.surface.width = uv2px(1, 'w');
 
         this.side.x = 0;
         this.side.y = this.yAnchor;
+        this.side.width = uv2px(1, 'w');
     }
 
     // (re)compute draw parameter values

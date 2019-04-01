@@ -4,6 +4,7 @@ export default {
     HIDE_NEWS_FEED: 'hide-news-feed',
     ASSIGNED_DESK: 'assigned-desk',
     STAGE_ONE_COMPLETED: 'stage-one-task-completed',
+    STAGE_TWO_COMPLETED: 'stage-two-task-completed',
     INSPECT_ALGORITHM: 'inspect-algorithm',
     DATASET_VIEW_INSPECT: 'inspect-dataset',
     DATASET_VIEW_NEW_CV: 'dataset-new-cv',

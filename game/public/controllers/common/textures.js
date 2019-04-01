@@ -1,4 +1,6 @@
-// import * as PIXI from 'pixi.js';
+import SCALES from '~/public/controllers/constants/pixi-scales.js';
+import {screenSizeDetector} from '~/public/controllers/common/utils.js';
+
 const SPRITES = {};
 
 const loader = PIXI.loaders.shared;
@@ -26,6 +28,8 @@ async function loadAssets() {
             SPRITES.rayAnim = new PIXI.extras.AnimatedSprite(resources.rayAnim.spritesheet.animations['ray']);
             SPRITES.dataServerAccepted = new PIXI.extras.AnimatedSprite(resources.dataServerAccepted.spritesheet.animations['data-server-accepted']);
             SPRITES.dataServerRejected = new PIXI.extras.AnimatedSprite(resources.dataServerRejected.spritesheet.animations['data-server-rejected']);
+            SPRITES.dataServerAccepted.scale.set(SCALES.DATA_SERVER[screenSizeDetector()]);
+            SPRITES.dataServerRejected.scale.set(SCALES.DATA_SERVER[screenSizeDetector()]);
             resolve();
         });
     });

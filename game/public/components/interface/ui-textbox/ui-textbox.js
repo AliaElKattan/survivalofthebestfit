@@ -17,6 +17,7 @@ export default class extends UIBase {
         this.overlay = options.overlay || null; // TODO think about the overlay
         this.type = options.type || '';
         this.hasTooltip = options.hasTooltip;
+        this.isSmallStage = options.isSmallStage || false;
         this.isLastMessage = options.isLastMessage;
         if (options.show) this.show();
         this.setContent(); // set content
@@ -48,7 +49,9 @@ export default class extends UIBase {
 
     _manualStageButtonHandler(e) {
         this.$buttons.addClass(CLASSES.BUTTON_CLICKED);
-        eventEmitter.emit('instructionAcked', {});
+        eventEmitter.emit('instructionAcked', {
+            isSmallStage: this.isSmallStage
+        });
         this.destroy();
     }
 

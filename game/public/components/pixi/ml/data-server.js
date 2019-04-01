@@ -1,72 +1,33 @@
 import {mlLabStageContainer} from '../../../controllers/game/gameSetup.js';
 import {screenSizeDetector, spacingUtils as space} from '../../../controllers/common/utils.js';
 import {SPRITES} from '../../../controllers/common/textures.js';
-import EVENTS from '../../../controllers/constants/events.js';
 import SCALES from '../../../controllers/constants/pixi-scales.js';
-import {eventEmitter} from '../../../controllers/game/gameSetup.js';
 
 export default class {
     constructor({machine, type}) {
-        this.dataServer = type === 'rejected' ? SPRITES.dataServerRejected : SPRITES.dataServerAccepted;
+        this.sprite = type === 'rejected' ? SPRITES.dataServerRejected : SPRITES.dataServerAccepted;
         this.dataServerScale = SCALES.DATA_SERVER[screenSizeDetector()];
         this.directionVector = type === 'rejected' ? -1 : 1;
         this.machine = machine;
-        this.machineDim = undefined;
-        this.centerX = undefined;
-        this.serverConfig = undefined;
-
-        this._resizeHandler = this._resizeHandler.bind(this);
-        this._addEventListeners();
     }
-
-    // initialization function
 
     addToPixi() {
-        this._initParams();
-        this._draw();
-        mlLabStageContainer.addChild(this.dataServer);
+        this.sprite.loop = true;
+        this.sprite.animationSpeed = 0.5;
+        this.sprite.gotoAndStop(0);
+        this.draw();
+        mlLabStageContainer.addChild(this.sprite);
     }
 
-    // sprite parameter, set once
-
-    _initParams() {
-        this.dataServer.loop = true;
-        this.dataServer.animationSpeed = 0.5;
-        this.dataServer.gotoAndStop(0);
+    draw() {
+        this.sprite.scale.set(SCALES.DATA_SERVER[screenSizeDetector()]);
         this.machineDim = this.machine.getMachineDimensions();
-        this.centerX = space.getCenteredChildX(this.machineDim.x, this.machineDim.width, this.dataServer.width*this.dataServerScale);
-    }
-
-    // sprite parameters (re)computed on canvas resizing
-
-    _recomputeParams() {
-        this.dataServerScale = SCALES.DATA_SERVER[screenSizeDetector()];
-        this.machineDim = this.machine.getMachineDimensions();
-        this.centerX = space.getCenteredChildX(this.machineDim.x, this.machineDim.width, this.dataServer.width);
-    }
-
-    // draw based on dimension parameters
-
-    _draw() {
-        this.dataServer.scale.set(this.dataServerScale);
-        this.dataServer.x = this.centerX + this.directionVector*1.6*this.dataServer.width;
-        this.dataServer.y = this.machineDim.y - 10;
-    }
-
-    // add event listeners
-
-    _addEventListeners() {
-        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler);
-    }
-
-    // resize event handler
-
-    _resizeHandler() {
-        this._recomputeParams();
-        this._draw();
+        this.centerX = space.getCenteredChildX(this.machineDim.x, this.machineDim.width, this.sprite.width);
+        this.sprite.x = this.centerX + this.directionVector*1.6*this.sprite.width;
+        this.sprite.y = this.machineDim.y - 10;
     }
 
     getSprite() {
-        return this.dataServer;
+        return this.sprite;
     }
 }
