@@ -1,6 +1,8 @@
 .Tooltip {
-  
   // padding: padding(sm);
+  // background-color: color(shadow-red-dark); 
+  // color: color(shadow-red-dark);
+  color: white;
   transform: scale(1.1);
   
   position: fixed;
@@ -19,14 +21,15 @@
   }
   
   &-text {
-    @include textBox();
-    @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'grey');
+    @include buttonBox();
+    // @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'red');
+    @include boxColors($bg-color: #f56b6bf7, $shadow-color: 'darkred');
+    // border: 2px solid color(shadow-red-dark);
     position: absolute; 
     min-width: 200px;
     padding: 10px;
     top: -5px;
     left: 40px;
-    background-color: white;
   }
   
 
