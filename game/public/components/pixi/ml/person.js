@@ -35,20 +35,32 @@ export default class {
         return this.personData;
     }
 
-    removeFromLine() {
+    removeFromLine({decision}) {
+        this.decision = decision;
         const {x, y} = this.person.getGlobalPosition();
         mlLabStageContainer.addChild(this.person);
         this.person.x = x;
         this.person.y = y;
-        const door = mlLabStageContainer.getChildByName('doorAccepted');
-        // console.log(door);
         const tween = PIXI.tweenManager.createTween(this.person);
-        tween.to({x: door.x + 40});
-        tween.time = 700;
-        tween.on('end', () => {
-            mlLabStageContainer.removeChild(this.person);
-            eventEmitter.emit(EVENTS.PLAY_DOOR_ANIMATION, {direction: 'reverse'});
-        });
+        const velocity = 150; // 150 pixels per second
+        let destination;
+
+        if (decision === 'accepted') {
+            const door = mlLabStageContainer.getChildByName('doorAccepted');
+            destination = door.x + 40;
+        } else {
+            destination = -10;
+        };
+        tween.to({x: destination});
+        const distance = Math.abs(this.person.x - destination);
+        const duration = Math.floor((distance/velocity)*10)*100;
+        tween.time = duration;
+        tween.on('end', this.removeFromScreen.bind(this));
         tween.start();
+    }
+
+    removeFromScreen() {
+        mlLabStageContainer.removeChild(this.person);
+        if (this.decision === 'accepted') eventEmitter.emit(EVENTS.PLAY_DOOR_ANIMATION, {direction: 'reverse'});
     }
 }
