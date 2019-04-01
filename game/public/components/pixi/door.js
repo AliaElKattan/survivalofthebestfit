@@ -19,18 +19,19 @@ export default class {
         this.sprite = null;
     }
 
-    addToPixi() {
+    addToPixi(parentContainer = mlLabStageContainer) {
         this.sprite = SPRITES[this.doorType];
         this.sprite.name = this.doorType;
         if (this.doorType === 'doorAccepted') {
             this.sprite.loop = false;
         };
         this._draw();
-        mlLabStageContainer.addChild(this.sprite);
+        parentContainer.addChild(this.sprite);
         this._addEventListeners();
     }
 
     playAnimation({direction}) {
+        console.log('door works!');
         switch (direction) {
         case 'forward':
             this.sprite.animationSpeed = this.animSpeed;
