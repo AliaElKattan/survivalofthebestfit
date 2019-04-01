@@ -15,8 +15,8 @@ import EVENTS from '../../controllers/constants/events';
 
 const spotlight = {
     x: uv2px(0.4, 'w'),
-    y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.15, 'h')
-}
+    y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.15, 'h'),
+};
 
 const config = [
     {row: 1, col: 5, scale: 1, newPeople: 10},
@@ -65,7 +65,7 @@ class Office {
                 floor: 'ground_floor',
                 floorParent: this.floors.ground_floor,
                 xAnchor: uv2px(this.entryDoorX, 'w'),
-            })
+            }),
         ];
         this.listenerSetup();
     }
@@ -94,16 +94,16 @@ class Office {
             
             //Adding people for small stage
             this.addPeople(0, config[this.currentStage].newPeople);
-        }
-        
+
+        } 
         else if (stageNum == 1) {
-            //MEDIUM STAGE - REDRAW PEOPLE
+            // MEDIUM STAGE - REDRAW PEOPLE
             officeStageContainer.removeChild(this.personContainer);
             this.personContainer = new PIXI.Container();
             candidateInSpot = null;
             this.takenDesks = 0;
 
-            //empty the people line
+            // empty the people line
             this.currentStage++;
             this.addPeople(config[this.currentStage-1].newPeople, config[this.currentStage].newPeople);
         }
@@ -131,13 +131,16 @@ class Office {
 
         eventEmitter.on(EVENTS.ACCEPTED, () => {
             this.takenDesks += 1;
-            let hiredPerson = this.allPeople[candidateInSpot];
-            this.hiredPeople.push(hiredPerson)
-            this.moveTweenHorizontally(hiredPerson.tween, uv2px(this.entryDoorX + 0.04, 'w'))
+            const hiredPerson = this.allPeople[candidateInSpot];
+            this.hiredPeople.push(hiredPerson);
+            this.moveTweenHorizontally(hiredPerson.tween, uv2px(this.entryDoorX + 0.04, 'w'));
+            candidateInSpot = null;
+            this.doors[0].playAnimation({direction: 'forward'});
+
             hiredPerson.tween.on('end', () => {
                 this.personContainer.removeChild(hiredPerson);
+                this.doors[0].playAnimation({direction: 'reverse'});
             });
-            candidateInSpot = null;
 
             if (this.currentStage == 0 && this.takenDesks == hiringGoals['smallStage']) {
                 eventEmitter.emit(EVENTS.STAGE_ONE_COMPLETED, {});
@@ -147,16 +150,21 @@ class Office {
             if (this.currentStage == 1 && this.takenDesks == hiringGoals['mediumStage']) {
                 eventEmitter.emit(EVENTS.STAGE_TWO_COMPLETED, {});
                 gameFSM.nextStage();
-            } 
+            }
         });
 
         eventEmitter.on(EVENTS.REJECTED, () => {
-            let rejectedPerson = this.allPeople[candidateInSpot];
-            this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'))
+            const rejectedPerson = this.allPeople[candidateInSpot];
+            this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'));
+            
+            candidateInSpot = null;
+            // this.doors[1].playAnimation({direction: 'forward'});
+
             rejectedPerson.tween.on('end', () => {
                 this.personContainer.removeChild(rejectedPerson);
+                // this.doors[1].playAnimation({direction: 'reverse'});
+
             });
-            candidateInSpot = null;
 
             if (this.personContainer.children.length <= 1) {
                 gameFSM.repeatStage();
@@ -173,7 +181,7 @@ class Office {
         let texture = bluePersonTexture;
 
         for (let i = startIndex; i < startIndex + count; i++) {
-            let orderInLine = i - startIndex;
+            const orderInLine = i - startIndex;
             const color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
             const name = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].name;
             texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
