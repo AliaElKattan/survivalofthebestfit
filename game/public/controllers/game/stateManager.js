@@ -24,9 +24,21 @@ const gameFSM = new machina.Fsm({
         uninitialized: {
             startGame: function() {
                 // this.transition('titleStage');
+<<<<<<< HEAD
+<<<<<<< HEAD
+                // this.transition('smallOfficeStage');
+                // this.transition('mlTransitionStage');
+                this.transition('mlLabStage');
+=======
+            //    this.transition('smallOfficeStage');
+                 this.transition('mlTransitionStage');
+                // this.transition('mlLabStage');
+>>>>>>> 420c8a8a0f950f57a2a88ac451312c9e734ecf66
+=======
                // this.transition('smallOfficeStage');
                  // this.transition('mlTransitionStage');
                 this.transition('mlLabStage');
+>>>>>>> 78c14a7bbc20236501d7bdd90e2e5f330a2cfdbe
             },
         },
 
@@ -200,7 +212,13 @@ const gameFSM = new machina.Fsm({
 
         mlLabStage: {
             _onEnter: function() {
-                revenue.show();
+                if (revenue) {
+                    revenue.show();
+                } else {
+                    office.delete();
+                    new PerfMetrics().show();
+                }
+
                 new MLLab();
             },
             // TODO destroy the lab!
