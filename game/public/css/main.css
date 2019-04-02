@@ -370,10 +370,25 @@ h2 {
     height: 7px;
     width: 100%;
     margin: 10px 0 5px 0;
-    background-color: #FFADA3; }
+    background-color: lightgray; }
   .TaskTimer__timer-progress {
     height: inherit;
     background-color: #F29488; }
+  .TaskTimer .blinking-bar {
+    -webkit-animation: blink-animation 1s infinite;
+    /* Safari 4+ */
+    -moz-animation: blink-animation 1s infinite;
+    /* Fx 5+ */
+    -o-animation: blink-animation 1s infinite;
+    /* Opera 12+ */
+    animation: blink-animation 1s infinite;
+    /* IE 10+, Fx 29+ */ }
+
+@-webkit-keyframes blink-animation {
+  0%, 49% {
+    background-color: #F29488; }
+  50%, 100% {
+    background-color: #FFADA3; } }
 
 .PerfMetrics {
   color: inherit;
@@ -382,7 +397,7 @@ h2 {
   position: absolute;
   display: inline-block;
   right: 20px;
-  top: 6%;
+  top: 60px;
   min-width: 220px;
   text-align: center; }
   .PerfMetrics:before, .PerfMetrics:after {
@@ -411,7 +426,7 @@ h2 {
     height: 10px;
     width: 200px; }
   .PerfMetrics__background {
-    background-color: #FFADA3;
+    background-color: lightgray;
     width: 100%;
     height: 10px;
     position: absolute; }
@@ -419,15 +434,30 @@ h2 {
     width: 33%;
     height: 10px;
     background-color: transparent;
-    border-right: 7px solid darkgray;
+    border-right: 7px solid #202020;
     position: absolute; }
   .PerfMetrics__progress {
-    width: 50%;
+    width: 33%;
     height: 10px;
     background-color: #F29488;
     position: absolute; }
   .PerfMetrics__title {
     font-size: 2em; }
+  .PerfMetrics .blinking-bar {
+    -webkit-animation: blink-animation 0.5s infinite;
+    /* Safari 4+ */
+    -moz-animation: blink-animation 0.5s infinite;
+    /* Fx 5+ */
+    -o-animation: blink-animation 0.5s infinite;
+    /* Opera 12+ */
+    animation: blink-animation 0.5s infinite;
+    /* IE 10+, Fx 29+ */ }
+
+@-webkit-keyframes blink-animation {
+  0%, 49% {
+    background-color: #F29488; }
+  50%, 100% {
+    background-color: #FFADA3; } }
 
 .YesNo {
   padding: 10px 20px;

@@ -88,7 +88,7 @@ const gameFSM = new machina.Fsm({
                     responses: txt.smallOfficeStage.responses,
                     show: true,
                     isSmallStage: true,
-                    overlay: true
+                    overlay: true,
                 });
 
                 new PerfMetrics();
@@ -104,9 +104,9 @@ const gameFSM = new machina.Fsm({
             nextStage: 'mediumOfficeStage',
 
             repeatStage: 'repeatSmallOfficeStage',
-            
+
             _onExit: function() {
-                
+   
             },
         },
 
@@ -117,7 +117,7 @@ const gameFSM = new machina.Fsm({
                     responses: txt.smallOfficeStage.retryResponses,
                     show: true,
                     isSmallStage: true,
-                    overlay: true
+                    overlay: true,
 
                 });
 

@@ -6,7 +6,7 @@
     position: absolute;
     display: inline-block;
     right: 20px;
-    top: 6%;
+    top: 60px;
     min-width: 220px;
     text-align: center;
 
@@ -18,7 +18,7 @@
     }
     
     &__background {
-        background-color: color(shadow-rose-light);
+        background-color: lightgray;
         width: 100%;
         height: 10px;
         position: absolute;
@@ -28,12 +28,12 @@
         width: 33%;
         height: 10px;
         background-color: transparent;
-        border-right: 7px solid darkgray;
+        border-right: 7px solid rgb(32, 32, 32);
         position: absolute;
     }
     
     &__progress{
-        width: 50%;
+        width: 33%;
         height: 10px;
         background-color: color(shadow-rose-dark);
         position: absolute;
@@ -42,4 +42,21 @@
     &__title{
         font-size: 2em;
     }
+
+    .blinking-bar {
+        -webkit-animation: blink-animation 0.5s infinite;  /* Safari 4+ */
+        -moz-animation: blink-animation 0.5s infinite;  /* Fx 5+ */
+        -o-animation: blink-animation 0.5s infinite;  /* Opera 12+ */
+        animation: blink-animation 0.5s infinite;  /* IE 10+, Fx 29+ */
+    }
+    
+    @-webkit-keyframes blink-animation {
+        0%, 49% {
+        background-color: color(shadow-rose-dark);
+        }
+        50%, 100% {
+        background-color: color(shadow-rose-light);
+        }
+    }
+    
   }
