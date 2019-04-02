@@ -10,6 +10,7 @@ import {uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
 import Door from './door.js';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import YesNo from '../../components/interface/yes-no/yes-no';
+import PeopleTalkManager from '~/public/components/interface/ml/people-talk-manager/people-talk-manager';
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '../../controllers/constants/events';
 
@@ -47,6 +48,8 @@ class Office {
             first_floor: new Floor({type: 'first_floor'}),
         };
 
+        this.peopleTalkManager = new PeopleTalkManager({parent: this.personContainer});
+
         this.doors = [
             new Door({
                 type: 'doorAccepted',
@@ -72,31 +75,29 @@ class Office {
 
     draw(stageNum) {
         if (stageNum == 0) {
-
-            //SMALL STAGE - INITIAL SET UP
+            // SMALL STAGE - INITIAL SET UP
             for (const floor in this.floors) {
                 if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
                     this.floors[floor].addToPixi(this.interiorContainer);
                 }
             };
-            
-            this.doors.forEach((door) => door.addToPixi(this.interiorContainer));    
+
+            this.doors.forEach((door) => door.addToPixi(this.interiorContainer));
             this.yesno = new YesNo({show: true});
 
             if (this.personContainer.children.length > 0) {
-                //in case small stage was repeated, clear the office
+                // in case small stage was repeated, clear the office
                 officeStageContainer.removeChild(this.personContainer);
                 this.personContainer = new PIXI.Container();
             }
 
             candidateInSpot = null;
             this.takenDesks = 0;
-            
-            //Adding people for small stage
-            this.addPeople(0, config[this.currentStage].newPeople);
 
-        } 
-        else if (stageNum == 1) {
+            // Adding people for small stage
+            this.addPeople(0, config[this.currentStage].newPeople);
+            this.peopleTalkManager.startTimeline();
+        } else if (stageNum == 1) {
             // MEDIUM STAGE - REDRAW PEOPLE
             officeStageContainer.removeChild(this.personContainer);
             this.personContainer = new PIXI.Container();
@@ -156,14 +157,13 @@ class Office {
         eventEmitter.on(EVENTS.REJECTED, () => {
             const rejectedPerson = this.allPeople[candidateInSpot];
             this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'));
-            
+
             candidateInSpot = null;
             // this.doors[1].playAnimation({direction: 'forward'});
 
             rejectedPerson.tween.on('end', () => {
                 this.personContainer.removeChild(rejectedPerson);
                 // this.doors[1].playAnimation({direction: 'reverse'});
-
             });
 
             if (this.personContainer.children.length <= 1) {
@@ -195,6 +195,7 @@ class Office {
     delete() {
         officeStageContainer.removeChild(this.interiorContainer);
         officeStageContainer.removeChild(this.personContainer);
+        this.peopleTalkManager.destroy();
         $( '.js-task-timer' ).remove();
     }
 }
