@@ -160,11 +160,11 @@ class Office {
             this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'));
 
             candidateInSpot = null;
-            // this.doors[1].playAnimation({direction: 'forward'});
+            this.doors[1].playAnimation({direction: 'forward'});
 
             rejectedPerson.tween.on('end', () => {
                 this.personContainer.removeChild(rejectedPerson);
-                // this.doors[1].playAnimation({direction: 'reverse'});
+                this.doors[1].playAnimation({direction: 'reverse'});
             });
 
             if (this.personContainer.children.length <= 1) {
