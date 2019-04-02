@@ -3,7 +3,7 @@ import $ from 'jquery';
 import {officeStageContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
 import {bluePersonTexture, yellowPersonTexture} from '../../controllers/common/textures.js';
 import {gameFSM} from '../../controllers/game/stateManager.js';
-import {createPerson} from '../../components/pixi/person.js';
+import {createPerson, animateThisCandidate} from '../../components/pixi/person.js';
 import Floor from './ml/floor.js';
 import {cvCollection} from '../../assets/text/cvCollection.js';
 import {uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
@@ -31,7 +31,7 @@ class Office {
         this.deskList = [];
         this.floorList = [];
         this.takenDesks = 0;
-        this.container = new PIXI.Container();
+        this.interiorContainer = new PIXI.Container();
         this.personContainer = new PIXI.Container();
         this.entryDoorX = 0.1;
         this.exitDoorX = 0.6;
@@ -72,19 +72,31 @@ class Office {
 
     draw(stageNum) {
         if (stageNum == 0) {
-            // SMALL STAGE - INITIAL SET UP
+
+            //SMALL STAGE - INITIAL SET UP
             for (const floor in this.floors) {
                 if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
-                    this.floors[floor].addToPixi(officeStageContainer);
+                    this.floors[floor].addToPixi(this.interiorContainer);
                 }
             };
-
-            this.doors.forEach((door) => door.addToPixi(officeStageContainer));
+            
+            this.doors.forEach((door) => door.addToPixi(this.interiorContainer));    
             this.yesno = new YesNo({show: true});
 
-            // Adding people for small stage
+            if (this.personContainer.children.length > 0) {
+                //in case small stage was repeated, clear the office
+                officeStageContainer.removeChild(this.personContainer);
+                this.personContainer = new PIXI.Container();
+            }
+
+            candidateInSpot = null;
+            this.takenDesks = 0;
+            
+            //Adding people for small stage
             this.addPeople(0, config[this.currentStage].newPeople);
-        } else if (stageNum == 1) {
+
+        } 
+        else if (stageNum == 1) {
             // MEDIUM STAGE - REDRAW PEOPLE
             officeStageContainer.removeChild(this.personContainer);
             this.personContainer = new PIXI.Container();
@@ -95,7 +107,7 @@ class Office {
             this.currentStage++;
             this.addPeople(config[this.currentStage-1].newPeople, config[this.currentStage].newPeople);
         }
-        officeStageContainer.addChild(this.container);
+        officeStageContainer.addChild(this.interiorContainer);
         officeStageContainer.addChild(this.personContainer);
     }
 
@@ -108,12 +120,12 @@ class Office {
     }
 
     listenerSetup() {
-        eventEmitter.on('person-hovered', () => {
+        eventEmitter.on(EVENTS.DISPLAY_THIS_CV, () => {
             new ResumeUI({
                 show: true,
                 features: cvCollection.cvFeatures,
                 scores: cvCollection.smallOfficeStage,
-                candidateId: candidateHovered,
+                candidateId: candidateClicked,
             });
         });
 
@@ -122,10 +134,13 @@ class Office {
             const hiredPerson = this.allPeople[candidateInSpot];
             this.hiredPeople.push(hiredPerson);
             this.moveTweenHorizontally(hiredPerson.tween, uv2px(this.entryDoorX + 0.04, 'w'));
+            candidateInSpot = null;
+            this.doors[0].playAnimation({direction: 'forward'});
+
             hiredPerson.tween.on('end', () => {
                 this.personContainer.removeChild(hiredPerson);
+                this.doors[0].playAnimation({direction: 'reverse'});
             });
-            candidateInSpot = null;
 
             if (this.currentStage == 0 && this.takenDesks == hiringGoals['smallStage']) {
                 eventEmitter.emit(EVENTS.STAGE_ONE_COMPLETED, {});
@@ -141,10 +156,24 @@ class Office {
         eventEmitter.on(EVENTS.REJECTED, () => {
             const rejectedPerson = this.allPeople[candidateInSpot];
             this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'));
+            
+            candidateInSpot = null;
+            // this.doors[1].playAnimation({direction: 'forward'});
+
             rejectedPerson.tween.on('end', () => {
                 this.personContainer.removeChild(rejectedPerson);
+                // this.doors[1].playAnimation({direction: 'reverse'});
+
             });
-            candidateInSpot = null;
+
+            if (this.personContainer.children.length <= 1) {
+                gameFSM.repeatStage();
+            }
+        });
+
+        eventEmitter.on(EVENTS.RETURN_CANDIDATE, () => {
+            animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
+            this.allPeople[candidateInSpot].inSpotlight = false;
         });
     }
 
@@ -164,7 +193,7 @@ class Office {
     }
 
     delete() {
-        officeStageContainer.removeChild(this.container);
+        officeStageContainer.removeChild(this.interiorContainer);
         officeStageContainer.removeChild(this.personContainer);
         $( '.js-task-timer' ).remove();
     }

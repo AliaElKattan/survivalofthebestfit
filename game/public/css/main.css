@@ -251,7 +251,7 @@ h2 {
   padding: 20px 20px 40px 20px;
   position: absolute;
   right: 20px;
-  top: 7%;
+  top: 15%;
   min-width: 250px;
   min-height: 300px;
   max-height: 700px;
@@ -293,7 +293,7 @@ h2 {
     .Resume--blue:after {
       background: #CDE4F1; }
   .Resume--ml {
-    top: 70px; }
+    top: 150px; }
   .Resume__title {
     font-size: 2rem; }
   .Resume--dataset {
@@ -380,22 +380,54 @@ h2 {
   background-color: #FAFAFA;
   padding: 10px 20px;
   position: absolute;
-  left: 10%;
-  top: 15%;
-  min-width: 200px;
+  display: inline-block;
+  right: 20px;
+  top: 6%;
+  min-width: 220px;
   text-align: center; }
+  .PerfMetrics:before, .PerfMetrics:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .PerfMetrics:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .PerfMetrics:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
   .PerfMetrics:before {
     background: #F29488; }
   .PerfMetrics:after {
     background: #FFADA3; }
-  .PerfMetrics__bar {
-    height: 180px;
-    width: 7px;
-    margin: 10px 0 5px 0;
-    background-color: #FFADA3; }
-  .PerfMetrics__current {
-    height: inherit;
-    background-color: #F29488; }
+  .PerfMetrics__container {
+    margin: 3px 0 3px 0;
+    position: relative;
+    height: 10px;
+    width: 200px; }
+  .PerfMetrics__background {
+    background-color: #FFADA3;
+    width: 100%;
+    height: 10px;
+    position: absolute; }
+  .PerfMetrics__ticker {
+    width: 33%;
+    height: 10px;
+    background-color: transparent;
+    border-right: 7px solid darkgray;
+    position: absolute; }
+  .PerfMetrics__progress {
+    width: 50%;
+    height: 10px;
+    background-color: #F29488;
+    position: absolute; }
+  .PerfMetrics__title {
+    font-size: 2em; }
 
 .YesNo {
   padding: 10px 20px;

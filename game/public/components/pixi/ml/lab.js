@@ -36,7 +36,7 @@ export default class MLLab {
             type: 'doorAccepted',
             floor: 'ground_floor',
             floorParent: this.floors.ground_floor,
-            xAnchor: uv2px(0.03, 'w'),
+            xAnchor: uv2px(0.08, 'w'),
         });
         this.resumeList = new Resumes();
         this.belt = new ConveyorBelt();
@@ -58,7 +58,7 @@ export default class MLLab {
             show: true, type: 'ml',
             features: cvCollection.cvFeatures,
             scores: cvCollection.smallOfficeStage,
-            candidateId: candidateHovered,
+            candidateId: candidateClicked,
         });
         this.people = new MLPeople();
         this.timeline = new TimelineManager();
