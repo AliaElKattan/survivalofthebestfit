@@ -24,9 +24,9 @@ const gameFSM = new machina.Fsm({
         uninitialized: {
             startGame: function() {
                 // this.transition('titleStage');
-                this.transition('smallOfficeStage');
+                // this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
-                // this.transition('mlLabStage');
+                this.transition('mlLabStage');
             },
         },
 
@@ -107,7 +107,7 @@ const gameFSM = new machina.Fsm({
             repeatStage: function() {
                 revenue.destroy();
                 this.transition('repeatSmallOfficeStage');
-            },   
+            },
 
             _onExit: function() {
                 revenue.hide();
@@ -200,7 +200,13 @@ const gameFSM = new machina.Fsm({
 
         mlLabStage: {
             _onEnter: function() {
-                revenue.show();
+                if (revenue) {
+                    revenue.show();
+                } else {
+                    office.delete();
+                    new PerfMetrics().show();
+                }
+
                 new MLLab();
             },
             // TODO destroy the lab!
