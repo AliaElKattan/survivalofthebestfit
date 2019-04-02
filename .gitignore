@@ -1,0 +1,7 @@
+.ipynb_checkpoints
+node_modules/
+*.DS_Store
+**/.DS_Store
+.DS_Store
+*.log
+*.log.*

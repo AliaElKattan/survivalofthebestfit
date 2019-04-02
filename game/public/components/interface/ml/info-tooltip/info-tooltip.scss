@@ -1,0 +1,36 @@
+.Tooltip {
+  // padding: padding(sm);
+  // background-color: color(shadow-red-dark); 
+  // color: color(shadow-red-dark);
+  color: white;
+  transform: scale(1.1);
+  
+  position: fixed;
+  top: 100px;
+  left: 50px;
+  
+  &:hover {
+    cursor: pointer;
+  }
+  
+  &-icon {
+    width: 30px;
+    height:30px;
+    background: url('../assets/img/info-icon-white.png') no-repeat center;
+    background-size: contain;
+  }
+  
+  &-text {
+    @include buttonBox();
+    // @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'red');
+    @include boxColors($bg-color: #f56b6bf7, $shadow-color: 'darkred');
+    // border: 2px solid color(shadow-red-dark);
+    position: absolute; 
+    min-width: 200px;
+    padding: 10px;
+    top: -5px;
+    left: 40px;
+  }
+  
+
+}

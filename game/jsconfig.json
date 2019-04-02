@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "baseUrl": "./public/"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
