@@ -1,6 +1,9 @@
 .button {
   @include buttonBox();
   @include boxColors($txt-color: color(txt-dark-grey), $bg-color: color(grey-main), $shadow-color: 'grey');
+  .YesNoButton & {
+    @include boxColors($txt-color:color(txt-dark-grey), $bg-color: color(grey-main), $shadow-color: 'rose');
+  }
   
   font-size: font(base);
   padding: 3px padding(sm);
@@ -18,6 +21,20 @@
   &:hover {
     cursor: pointer;
     @include boxColors($txt-color:color(txt-black), $bg-color: color(grey-main), $shadow-color: 'rose');
+    
+    .YesNoButton & {
+      @include boxColors($txt-color:color(txt-black), $bg-color: color(rose-light), $shadow-color: 'rose');
+    }
+  }
+  
+  &__text {
+    .YesNoButton & {
+      font-size: 1.4rem;
+    }  
+  }
+  
+  &:active {
+    transform: translateY(2px);
   }
   
   &.is-clicked {

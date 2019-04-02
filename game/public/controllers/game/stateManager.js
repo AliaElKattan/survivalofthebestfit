@@ -24,9 +24,15 @@ const gameFSM = new machina.Fsm({
         uninitialized: {
             startGame: function() {
                 // this.transition('titleStage');
+<<<<<<< HEAD
                 // this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
                 this.transition('mlLabStage');
+=======
+            //    this.transition('smallOfficeStage');
+                 this.transition('mlTransitionStage');
+                // this.transition('mlLabStage');
+>>>>>>> 420c8a8a0f950f57a2a88ac451312c9e734ecf66
             },
         },
 
@@ -144,7 +150,7 @@ const gameFSM = new machina.Fsm({
                     show: true,
                     overlay: true
                 });
-                
+
                 eventEmitter.on('instructionAcked', (data) => {
                     if (!data.isSmallStage) {
                         revenue.show()

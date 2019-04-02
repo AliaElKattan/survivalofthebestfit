@@ -1,3 +1,5 @@
+//- div#spotlight-marker
 div.YesNo.js-yes-no.is-inactive
-  button.js-yes.btn.btn-primary.btn-mid.btn-outline-success Accept
-  button.js-no.btn.btn-primary.btn-mid.btn-outline-danger Reject
+  include ../../universal/button/button
+  +button('Accept')(class="js-yes YesNoButton")
+  +button('Reject')(class="js-no YesNoButton")

@@ -23,7 +23,7 @@ const english = {
         ],
     },
     smallOfficeStage: {
-        messageFromVc: 'Hi,\n\nCongrats again on your seed round. Very impressive.\nNow time to execute the idea. Hire the best people, fast. Hiring good talent is a war these days...\n\nKeep us updated.\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
+        messageFromVc: 'Congrats again on your latest investment.\n\nNow’s time to execute the idea. Hire the best people, fast.\n\nHiring good talent is a war these days...\n\nkeep us updated.\n\n\t\t\tThanks, Tim Partner, Linear Ventures (click to acknowledge)',
         responses: ['Let\'s do this'],
         taskDescription: 'Task: Hire 3 new employees',
         retryMessage: 'You are not hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.',
@@ -31,54 +31,102 @@ const english = {
 
     },
     mediumOfficeStage: {
-        messageFromVc: 'Hi,\n\nGood progress but you are just not growing fast enough. You need to hire more aggressively to get all the talent and outgrow your competitors.\n\nQuadraple your headcount by next week and you can raise one more million in funding...\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
+        messageFromVc: 'Hi,\n\nGood progress but you are just not growing quickly enough. You need to hire more aggressively to get top talent and outgrow your competitors.\n\nTry to quadraple your headcount by next week so you can get more funding...\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
         responses: [
             'I\'ll do my best',
             'Are you sure?',
         ],
         taskDescription: 'Task: Hire 10 new employees',
-        retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.',
-        retryResponses: ["I will do better this time."],
+       retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.',
+      retryResponses: ["I will do better this time."],
     },
+
+    //add transition here. e-mail from INVESTOR says:  We’ve made good progress, but the faster we grow, the more profit we’ll make. I suggest you use an automated program to help with hiring. Check with the software development team?
+
+    //email from SOFTWARE ENGINEER
     conversation: [
         {
             dialogue_step: 1,
-            text: 'Hey, could you send me the CVs of all the current employees? The algorithm cannot do anything without the raw data...',
+            text: 'We’re working on a new hiring program, and the software team wants to use machine learning. It’s a great solution, because it allows us to teach the automated software to hire just as our HR team would, but at a much faster pace...',
             answer_choice: [
                 {
-                    text: 'How will the algorithm work?',
-                    response: 'The algorithm will analyze a lot of CV samples (the CVs of all the people working at this company!) and try to figure out how a successful employee looks like - in numbers! ',
+                    text: 'How does that work?',
+                    response: '',
                 },
                 {
-                    text: 'Sure, makes sense.',
+                    text: 'Sure, that\'s fine.',
                     response: 'Great! ',
+                //  response: 'The algorithm will analyze a lot of CV samples (the CVs of all the people working at this company!) and try to figure out how a successful employee looks like - in numbers! ',
+
                 },
             ],
         },
         {
             dialogue_step: 2,
-            text: 'And here’s the cool part: most of the CVs fed to the algorithm are of the people you hired - so the program I wrote will essentially try to replicate your hiring strategy!',
+            text: 'The algorithm will analyze a lot of CV samples, like those of people already working here and in other big tech companies, and use that to figure out what a successful employee looks like - in numbers. Basically, it can replicate your hiring strategy!',
             answer_choice: [
                 {
-                    text: 'The program will think the way I do??',
-                    response: 'Thinking is a strong word, the program is not even close to thinking, it’s just really good at finding patterns in the data I give to it.',
+                    text: 'The program will think the way I do?',
+                    response: 'Thinking is a strong word; it’s just really good at finding patterns in the data I give to it, and copying that.\n',
                 },
                 {
-                    text: 'Sounds too good to be true.',
-                    response: 'That’s why machine learning is getting so much hype these days!',
+                    text: 'Sounds great, we should use that!',
+                    response: 'That’s why machine learning is getting so much hype these days!\n',
                 },
             ],
         },
         {
             dialogue_step: 3,
-            text: 'What matters is that the hiring algorithm will hire people just like you would, but at a much faster pace! Your role now is to sit back and supervise the algorithm.',
+            text: 'First, we need something to build off of. Can you send me the CVs of all current employees? Then, you can sit back and supervise the algorithm.\n',
             answer_choice: [
                 {
-                    text: 'OK',
+                    text: 'OK, will do',
                 },
             ],
         },
     ],
+
+    // conversation: [
+    //     {
+    //         dialogue_step: 1,
+    //         text: 'We’re working on a new hiring program, and the software team wants to use machine learning. It’s a great solution, because it allows us to teach the automated software to hire just as our HR team would, but at a much faster pace...',
+    //         answer_choice: [
+    //             {
+    //                 text: 'How does that work?',
+    //                 response: 'The algorithm will analyze a lot of CV samples (the CVs of all the people working at this company!) and try to figure out how a successful employee looks like - in numbers! ',
+    //             },
+    //             {
+    //                 text: 'Sure, that\'s fine.',
+    //               //  response: 'Great! ',
+    //               response: 'The algorithm will analyze a lot of CV samples (the CVs of all the people working at this company!) and try to figure out how a successful employee looks like - in numbers! ',
+    //
+    //             },
+    //         ],
+    //     },
+    //     {
+    //         dialogue_step: 2,
+    //         text: 'And here’s the cool part: most of the CVs fed to the algorithm are of the people you hired - so the program I wrote will essentially try to replicate your hiring strategy!',
+    //         answer_choice: [
+    //             {
+    //                 text: 'The program will think the way I do??',
+    //                 response: 'Thinking is a strong word, the program is not even close to thinking, it’s just really good at finding patterns in the data I give to it.',
+    //             },
+    //             {
+    //                 text: 'Sounds too good to be true.',
+    //                 response: 'That’s why machine learning is getting so much hype these days!',
+    //             },
+    //         ],
+    //     },
+    //     {
+    //         dialogue_step: 3,
+    //         text: 'What matters is that the hiring algorithm will hire people just like you would, but at a much faster pace! Your role now is to sit back and supervise the algorithm.',
+    //         answer_choice: [
+    //             {
+    //                 text: 'OK',
+    //             },
+    //         ],
+    //     },
+    // ],
     mlLabStage: {
         conversation: [
             {

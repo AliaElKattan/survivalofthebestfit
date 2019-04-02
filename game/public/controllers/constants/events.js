@@ -19,4 +19,5 @@ export default {
     RETURN_CANDIDATE: 'return-candidate',
     DISPLAY_THIS_CV: 'display-this-cv',
     PERSON_HOVERED: 'person-hovered',
+    CHANGE_SPOTLIGHT_STATUS: 'change-spotlight-status',
 };
