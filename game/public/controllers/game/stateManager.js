@@ -1,18 +1,16 @@
 import * as machina from 'machina';
-import {incubator} from '../common/textures.js';
-import {pixiApp, eventEmitter} from './gameSetup.js';
+import {eventEmitter} from './gameSetup.js';
 import {Office} from '../../components/pixi/office.js';
 import MLLab from '../../components/pixi/ml/lab.js';
 import TitlePageUI from '../../components/interface/ui-title/ui-title';
 import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
-import ResumeUI from '../../components/interface/ui-resume/ui-resume';
+import PerfMetrics from '~/public/components/interface/perf-metrics/perf-metrics';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
-import {cvCollection} from '../../assets/text/cvCollection.js';
-import YesNo from '../../components/interface/yes-no/yes-no';
 
 let office = new Office();
 let task;
+let revenue;
 let transitionOverlay;
 let titlePageUI;
 
@@ -26,8 +24,8 @@ const gameFSM = new machina.Fsm({
         uninitialized: {
             startGame: function() {
                 // this.transition('titleStage');
-                this.transition('smallOfficeStage');
-                // this.transition('mlTransitionStage');
+            //    this.transition('smallOfficeStage');
+                 this.transition('mlTransitionStage');
                 // this.transition('mlLabStage');
             },
         },
@@ -91,11 +89,13 @@ const gameFSM = new machina.Fsm({
                     responses: txt.smallOfficeStage.responses,
                     show: true,
                     isSmallStage: true,
-                    overlay: true
+                    overlay: true,
                 });
 
                 eventEmitter.on('instructionAcked', (data) => {
                     if (data.isSmallStage) {
+                        revenue = new PerfMetrics();
+                        revenue.show();
                         office.draw(0);
                         task = new TaskUI({show: true, hires: hiringGoals['smallStage'], duration: 60, content: txt.smallOfficeStage.taskDescription});
                     }
@@ -104,10 +104,13 @@ const gameFSM = new machina.Fsm({
 
             nextStage: 'mediumOfficeStage',
 
-            repeatStage: 'repeatSmallOfficeStage',
-            
+            repeatStage: function() {
+                revenue.destroy();
+                this.transition('repeatSmallOfficeStage');
+            },
+
             _onExit: function() {
-                
+                revenue.hide();
             },
         },
 
@@ -118,7 +121,7 @@ const gameFSM = new machina.Fsm({
                     responses: txt.smallOfficeStage.retryResponses,
                     show: true,
                     isSmallStage: true,
-                    overlay: true
+                    overlay: true,
 
                 });
 
@@ -128,15 +131,11 @@ const gameFSM = new machina.Fsm({
             },
 
             nextStage: 'smallOfficeStage',
-
-            _onExit: function() {
-
-            },
         },
 
-        /* ///////////////////
+        /* //////////////////
         // Medium office, hiring 15
-        */// /////////////////
+        *////////////////////
         mediumOfficeStage: {
             _onEnter: function() {
                 new TextBoxUI({
@@ -145,21 +144,25 @@ const gameFSM = new machina.Fsm({
                     show: true,
                     overlay: true
                 });
-                
+
                 eventEmitter.on('instructionAcked', (data) => {
                     if (!data.isSmallStage) {
+                        revenue.show()
                         office.draw(1);
-                        task = new TaskUI({ show: true, hires: hiringGoals['mediumStage'], duration: 60, content: txt.mediumOfficeStage.taskDescription });
+                        task = new TaskUI({show: true, hires: hiringGoals['mediumStage'], duration: 60, content: txt.mediumOfficeStage.taskDescription});
                     }
                 });
             },
 
             nextStage: 'mlTransitionStage',
 
-            repeatStage: 'repeatMediumOfficeStage',
+            repeatStage: function() {
+                revenue.hide();
+                this.transition('repeatMediumOfficeStage');
+            },
 
             _onExit: function() {
-
+                revenue.hide();
             },
         },
 
@@ -180,10 +183,6 @@ const gameFSM = new machina.Fsm({
             },
 
             nextStage: 'smallOfficeStage',
-
-            _onExit: function() {
-
-            },
         },
 
         mlTransitionStage: {
@@ -201,6 +200,7 @@ const gameFSM = new machina.Fsm({
 
         mlLabStage: {
             _onEnter: function() {
+                revenue.show();
                 new MLLab();
             },
             // TODO destroy the lab!

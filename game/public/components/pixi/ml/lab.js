@@ -152,6 +152,7 @@ export default class MLLab {
                 const candidateEval = this.people.evaluateFirstPerson();
                 // #2: set up server/door animations
                 if (candidateEval === 'accepted') {
+                    eventEmitter.emit(EVENTS.ACCEPTED, {});
                     serverAnim = this.tweens.serverAcceptedAnim;
                     this.door.playAnimation({direction: 'forward'});
                 } else {
