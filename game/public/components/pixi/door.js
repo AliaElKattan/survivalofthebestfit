@@ -30,7 +30,6 @@ export default class {
     }
 
     playAnimation({direction, close=false}) {
-        console.log('door works!');
         switch (direction) {
         case 'forward':
             this.sprite.animationSpeed = this.animSpeed;

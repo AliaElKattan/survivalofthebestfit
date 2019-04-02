@@ -1,44 +1,74 @@
 import $ from 'jquery';
+import {TweenLite} from 'gsap/TweenMax';
 import CLASSES from '~/public/controllers/constants/classes';
-// import EVENTS from '~/public/controllers/constants/events';
 import UIBase from '~/public/components/interface/ui-base/ui-base';
-// import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
-import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
+import {waitForSeconds} from '~/public/controllers/common/utils';
+
 
 export default class extends UIBase {
-    constructor({text, parent}) {
+    constructor() {
         super();
         this.$el = $('#js-person-tooltip');
-        this.content = text;
         this.isActive = false;
-        this._setContent();
-        this._addEventListeners();
     }
 
-    _setContent() {
-        const {x, y} = mlLabStageContainer.getChildByName(this.parent).getGlobalPosition();
+    // show new tooltip
+    // if the tooltip is still shown (=active)...
+    // then hide it first and show the new tooltip only once the old tooltip is hidden
+    // if no tooltip is active when the function is called then show new content immediately
+
+    showNewTooltip(...args) {
+        if (this.isActive) {
+            this.hide();
+            TweenLite.delayedCall(0.5, () => {
+                this.setContent(...args);
+                this.show();
+                this.scheduleDeactivation();
+            });
+        } else {
+            this.setContent(...args);
+            this.show();
+            this.scheduleDeactivation();
+        }
+    }
+
+    setContent({index, parentContainer, message}) {
+        let personContainer;
+        try {
+            personContainer = parentContainer.getChildAt(index);
+        } catch (error) {
+            personContainer = undefined;
+        };
+        if (personContainer === undefined) return;
+
+        const {x, y} = personContainer.getGlobalPosition();
+        const height = personContainer.height;
+        if (message) this.$el.text(message);
         this.$el.css({
-            'top': `${y}px`,
-            'left': `${x}px`,
-        }).html(this.content);
+            'top': `${y-height*0.8}px`,
+            'left': `${x+10}px`,
+        });
     }
 
-    _addEventListeners() {
-        // this.$el.on( 'mouseover', this._handleIconHover).mouseleave('mouseout', this._handleIconHover);
-        // eventEmitter.on(EVENTS.SHOW_TOOLTIP, this.show.bind(this));
-        // eventEmitter.on(EVENTS.DESTROY_TOOLTIP, this.destroy.bind(this));
-    }
-
-    _removeEventListeners() {
-        this.$el.off();
+    scheduleDeactivation() {
+        waitForSeconds(1).then(()=> {
+            if (this.isActive) this.hide();
+        });
     }
 
     show() {
+        TweenLite.set('#js-person-tooltip', {y: 5, opacity: 0});
         this.$el.removeClass(CLASSES.IS_INACTIVE);
+        TweenLite.to('#js-person-tooltip', 0.2, {y: 0, opacity: 1, ease: Power1.easeInOut});
+        this.isActive = true;
     }
 
     hide() {
-        this.$el.addClass(CLASSES.IS_INACTIVE);
+        TweenLite.to('#js-person-tooltip', 0.2, {y: 5, opacity: 0, ease: Power1.easeInOut});
+        TweenLite.delayedCall(0.4, () => {
+            this.$el.addClass(CLASSES.IS_INACTIVE);
+        });
+        this.isActive = false;
     }
 
     destroy() {

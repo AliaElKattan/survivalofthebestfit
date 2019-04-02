@@ -10,6 +10,7 @@ import {uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
 import Door from './door.js';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import YesNo from '../../components/interface/yes-no/yes-no';
+import PeopleTalkManager from '~/public/components/interface/ml/people-talk-manager/people-talk-manager';
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '../../controllers/constants/events';
 
@@ -46,6 +47,8 @@ class Office {
             ground_floor: new Floor({type: 'ground_floor'}),
             first_floor: new Floor({type: 'first_floor'}),
         };
+
+        this.peopleTalkManager = new PeopleTalkManager({parent: this.personContainer});
 
         this.doors = [
             new Door({
@@ -93,8 +96,8 @@ class Office {
 
             // Adding people for small stage
             this.addPeople(0, config[this.currentStage].newPeople);
-        }
-        else if (stageNum == 1) {
+            this.peopleTalkManager.startTimeline();
+        } else if (stageNum == 1) {
             // MEDIUM STAGE - REDRAW PEOPLE
             officeStageContainer.removeChild(this.personContainer);
             this.personContainer = new PIXI.Container();
@@ -201,6 +204,7 @@ class Office {
         officeStageContainer.removeChild(this.interiorContainer);
         officeStageContainer.removeChild(this.personContainer);
         this._removeEventListeners();
+        this.peopleTalkManager.destroy();
         $( '.js-task-timer' ).remove();
     }
 }

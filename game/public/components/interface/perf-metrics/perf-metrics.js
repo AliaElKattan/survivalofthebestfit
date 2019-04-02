@@ -12,12 +12,13 @@ export default class extends UIBase {
         this.$progressBar = this.$el.find('.PerfMetrics__progress');
         this.revenue = 33;
         this.hiresNum = 1;
-        eventEmitter.on(EVENTS.ACCEPTED, this.updateHandler.bind(this));
+        eventEmitter.on(EVENTS.ACCEPTED, this._updateBar.bind(this));
     }
 
     _updateBar(revenue) {
-        const randomIncrement = (Math.floor(Math.random() * 50) - 10) / this.hiresNum;
-        this.revenue = revenue === undefined ? this.revenue + randomIncrement : revenue;
+        this.hiresNum += 1;
+        const randomIncrement = ((Math.random() * 50) - 10) / this.hiresNum;
+        this.revenue = revenue === undefined || typeof revenue === 'object' ? this.revenue + randomIncrement : revenue;
         this.$progressBar.css('width', `${this.revenue}%`);
         if (this.revenue < 33) {
             this.$progressBar.addClass('blinking-bar');
@@ -26,14 +27,8 @@ export default class extends UIBase {
         }
     }
 
-    updateHandler() {
-        this.hiresNum += 1;
-        this._updateBar();
-    }
-
     _removeEventListeners() {
-        eventEmitter.removeListener(EVENTS.ACCEPTED, this.updateHandler.bind(this));
-        eventEmitter.off(EVENTS.ACCEPTED, this.updateHandler.bind(this));
+        eventEmitter.removeListener(EVENTS.ACCEPTED, this._updateBar.bind(this));
     }
 
     show() {
