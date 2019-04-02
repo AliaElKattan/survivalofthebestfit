@@ -29,6 +29,10 @@ pixiApp.stage.addChild(mlLabStageContainer);
 const eventEmitter = new PIXI.utils.EventEmitter();
 PIXI.settings.PRECISION_FRAGMENT = 'highp';
 
+// console.log(PIXI.Ticker);
+const ticker = pixiApp.ticker;
+ticker.autoStart = false;
+
 // setup for the pixi-tween manager  CALLED AT THE END OF MAIN.JS
 let raf;
 let startTweenManager = function() {
@@ -50,4 +54,4 @@ function resize() {
     // TODO redraw all the elements!
 }
 
-export {pixiApp, beltContainer, officeStageContainer, mlLabStageContainer, timerContainer, eventEmitter, startTweenManager, stopTweenManager};
+export {pixiApp, beltContainer, officeStageContainer, mlLabStageContainer, timerContainer, eventEmitter, startTweenManager, stopTweenManager, ticker};

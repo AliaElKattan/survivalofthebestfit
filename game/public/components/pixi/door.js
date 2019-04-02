@@ -15,7 +15,7 @@ export default class {
         this.yAnchorUV = floor === 'first_floor' ? ANCHORS.FLOORS.FIRST_FLOOR.y : ANCHORS.FLOORS.GROUND_FLOOR.y;
         this.yAnchor = uv2px(this.yAnchorUV, 'h');
         this.scale = SCALES.DOOR[screenSizeDetector()];
-        this.animSpeed = 0.3;
+        this.animSpeed = 0.35;
         this.sprite = null;
     }
 
