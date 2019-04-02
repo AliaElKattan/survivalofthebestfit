@@ -6,7 +6,7 @@ import {gameFSM} from '../../controllers/game/stateManager.js';
 import {createPerson, animateThisCandidate} from '../../components/pixi/person.js';
 import Floor from './ml/floor.js';
 import {cvCollection} from '../../assets/text/cvCollection.js';
-import {uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
+import {screenSizeDetector, uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
 import Door from './door.js';
 import ResumeUI from '../../components/interface/ui-resume/ui-resume';
 import YesNo from '../../components/interface/yes-no/yes-no';

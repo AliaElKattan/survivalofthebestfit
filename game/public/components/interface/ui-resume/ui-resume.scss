@@ -26,9 +26,20 @@
   min-height: 300px;
   max-height: 700px;
   max-width: 400px;
+
+  
   
   &__title {
     font-size: 2rem;
+  }
+
+  @include mq($until: mobile){
+    max-height: 240px;
+    max-width: 180px;
+    &__title {
+      font-size: 1rem;
+      
+    }
   }
 
   // @include mq($until: mobile) {

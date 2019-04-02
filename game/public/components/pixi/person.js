@@ -1,7 +1,8 @@
 import {pixiApp, eventEmitter} from '../../controllers/game/gameSetup.js';
-import {uv2px} from '../../controllers/common/utils.js';
+import {uv2px, screenSizeDetector} from '../../controllers/common/utils.js';
 import {spotlight} from './office';
 import EVENTS from '../../controllers/constants/events';
+import SCALES from '../../controllers/constants/pixi-scales.js';
 
 function onPersonHover(event) {
     candidateHovered = this.id;
@@ -53,7 +54,7 @@ function moveCandidate() {
 
 function createPerson(x, y, id, texture) {
     const person = new PIXI.Sprite(texture);
-    person.scale.set(0.2);
+    person.scale.set(SCALES.PEOPLE[screenSizeDetector()]);
     person.interactive = true;
     person.buttonMode = true;
     person.inSpotlight = false;

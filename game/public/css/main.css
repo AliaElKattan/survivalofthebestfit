@@ -296,6 +296,12 @@ h2 {
     top: 70px; }
   .Resume__title {
     font-size: 2rem; }
+  @media (max-width: 23.74em) {
+    .Resume {
+      max-height: 240px;
+      max-width: 180px; }
+      .Resume__title {
+        font-size: 1rem; } }
   .Resume--dataset {
     display: block;
     opacity: 1;
