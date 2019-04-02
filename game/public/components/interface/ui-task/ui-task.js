@@ -18,11 +18,11 @@ export default class extends UIBase {
         this.timer = pixiApp.ticker;
         this.hiresQuota = options.hires || undefined;
         this.hiresNum = 0;
-        this._content = options.content || 'lorem ipsum task'; // TODO: change this to null
+        this._content = options.content || null;
         this.setContent = this.setContent.bind(this);
         this._addEventListeners();
         if (options && options.show) {
-            this.setContent(); // set content
+            this.setContent();
             this.show();
             this.startTimer();
         };
@@ -37,10 +37,6 @@ export default class extends UIBase {
         eventEmitter.on(EVENTS.ACCEPTED, (data) => {
             this.hiresNum += 1;
             this.updateCounter();
-        });
-
-        eventEmitter.on(EVENTS.STAGE_ONE_COMPLETED, (data) => {
-            this.destroy();
         });
     };
 
@@ -68,25 +64,19 @@ export default class extends UIBase {
         }
     }
 
-    //
     _removeEventListeners() {
         eventEmitter.off(EVENTS.ACCEPTED, () => {});
         eventEmitter.off(EVENTS.STAGE_ONE_COMPLETED, () => {});
     }
 
     show() {
-        this.$el.removeClass(CLASSES.IS_INACTIVE)
-            .removeClass(CLASSES.FADE_OUT)
-            .addClass(CLASSES.FADE_IN);
-        this.startTimer();
+        this.$el.removeClass(CLASSES.IS_INACTIVE);
     }
 
     hide() {
         this.$el.removeClass(CLASSES.FADE_IN)
             .addClass(CLASSES.FADE_OUT)
             .addClass(CLASSES.IS_INACTIVE);
-
-        // TODO you might need a delayed call for this
     }
 
     destroy() {

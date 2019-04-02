@@ -8,7 +8,6 @@ import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/control
 
 export default class {
     constructor({type, floor, floorParent, xAnchor}) {
-        // this.doorType = type === 'rejected' ? 'doorRejected' : 'doorAccepted';
         this.doorType = type;
         this.floorParent = floorParent;
         this.xAnchor = xAnchor;
@@ -31,7 +30,6 @@ export default class {
     }
 
     playAnimation({direction, close=false}) {
-        console.log('door works!');
         switch (direction) {
         case 'forward':
             this.sprite.animationSpeed = this.animSpeed;
@@ -52,32 +50,29 @@ export default class {
         this.sprite.y = this.yAnchor - this.sprite.height - this.floorParent.getHeight() + 5;
     }
 
-    // (re)compute draw parameter values
-
     _recomputeParams() {
         this.scale = SCALES.DOOR[screenSizeDetector()];
         this.yAnchor = uv2px(this.yAnchorUV, 'h');
     }
-
-    // resize function
 
     _resizeHandler() {
         this._recomputeParams();
         this._draw();
     }
 
-    // add event listeners
-
     _addEventListeners() {
-        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler.bind(this));
+        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler);
         eventEmitter.on(EVENTS.PLAY_DOOR_ANIMATION, this.playAnimation.bind(this));
     }
-
-    // remove event listeners
 
     _removeEventListeners() {
         eventEmitter.off(EVENTS.RESIZE, this._resizeHandler.bind(this));
         eventEmitter.off(EVENTS.PLAY_DOOR_ANIMATION, this.playAnimation.bind(this));
+    }
+
+    destroy() {
+        this._removeEventListeners();
+        // rest unimplemented
     }
 
     getSprite() {

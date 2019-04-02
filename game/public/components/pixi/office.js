@@ -130,7 +130,7 @@ class Office {
             });
         });
 
-        eventEmitter.on(EVENTS.ACCEPTED, () => {
+        this.acceptedHandler = () => {
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
             this.hiredPeople.push(hiredPerson);
@@ -152,7 +152,8 @@ class Office {
                 eventEmitter.emit(EVENTS.STAGE_TWO_COMPLETED, {});
                 gameFSM.nextStage();
             }
-        });
+        };
+        eventEmitter.on(EVENTS.ACCEPTED, this.acceptedHandler);
 
         eventEmitter.on(EVENTS.REJECTED, () => {
             const rejectedPerson = this.allPeople[candidateInSpot];
@@ -177,6 +178,10 @@ class Office {
         });
     }
 
+    _removeEventListeners() {
+        eventEmitter.off(EVENTS.ACCEPTED, this.acceptedHandler);
+    }
+
     addPeople(startIndex, count) {
         let texture = bluePersonTexture;
 
@@ -193,8 +198,12 @@ class Office {
     }
 
     delete() {
+        this.doors.forEach((door) => {
+            door.destroy();
+        });
         officeStageContainer.removeChild(this.interiorContainer);
         officeStageContainer.removeChild(this.personContainer);
+        this._removeEventListeners();
         this.peopleTalkManager.destroy();
         $( '.js-task-timer' ).remove();
     }
