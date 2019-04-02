@@ -38,10 +38,6 @@ export default class extends UIBase {
             this.hiresNum += 1;
             this.updateCounter();
         });
-
-        eventEmitter.on(EVENTS.STAGE_ONE_COMPLETED, (data) => {
-            this.destroy();
-        });
     };
 
     updateCounter() {
@@ -74,18 +70,13 @@ export default class extends UIBase {
     }
 
     show() {
-        this.$el.removeClass(CLASSES.IS_INACTIVE)
-            .removeClass(CLASSES.FADE_OUT)
-            .addClass(CLASSES.FADE_IN);
-        this.startTimer();
+        this.$el.removeClass(CLASSES.IS_INACTIVE);
     }
 
     hide() {
         this.$el.removeClass(CLASSES.FADE_IN)
             .addClass(CLASSES.FADE_OUT)
             .addClass(CLASSES.IS_INACTIVE);
-
-        // TODO you might need a delayed call for this
     }
 
     destroy() {

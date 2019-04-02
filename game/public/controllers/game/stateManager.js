@@ -10,6 +10,7 @@ import TransitionOverlay from '../../components/interface/transition/overlay/ove
 
 let office = new Office();
 let task;
+let revenue;
 let transitionOverlay;
 let titlePageUI;
 
@@ -91,10 +92,10 @@ const gameFSM = new machina.Fsm({
                     overlay: true,
                 });
 
-                new PerfMetrics();
-
                 eventEmitter.on('instructionAcked', (data) => {
                     if (data.isSmallStage) {
+                        revenue = new PerfMetrics();
+                        revenue.show();
                         office.draw(0);
                         task = new TaskUI({show: true, hires: hiringGoals['smallStage'], duration: 60, content: txt.smallOfficeStage.taskDescription});
                     }
@@ -103,10 +104,13 @@ const gameFSM = new machina.Fsm({
 
             nextStage: 'mediumOfficeStage',
 
-            repeatStage: 'repeatSmallOfficeStage',
+            repeatStage: function() {
+                revenue.destroy();
+                this.transition('repeatSmallOfficeStage');
+            },   
 
             _onExit: function() {
-   
+                revenue.hide();
             },
         },
 
@@ -127,15 +131,11 @@ const gameFSM = new machina.Fsm({
             },
 
             nextStage: 'smallOfficeStage',
-
-            _onExit: function() {
-
-            },
         },
 
-        /* ///////////////////
+        /* //////////////////
         // Medium office, hiring 15
-        */// /////////////////
+        *////////////////////
         mediumOfficeStage: {
             _onEnter: function() {
                 new TextBoxUI({
@@ -147,18 +147,22 @@ const gameFSM = new machina.Fsm({
                 
                 eventEmitter.on('instructionAcked', (data) => {
                     if (!data.isSmallStage) {
+                        revenue.show()
                         office.draw(1);
-                        task = new TaskUI({ show: true, hires: hiringGoals['mediumStage'], duration: 60, content: txt.mediumOfficeStage.taskDescription });
+                        task = new TaskUI({show: true, hires: hiringGoals['mediumStage'], duration: 60, content: txt.mediumOfficeStage.taskDescription});
                     }
                 });
             },
 
             nextStage: 'mlTransitionStage',
 
-            repeatStage: 'repeatMediumOfficeStage',
+            repeatStage: function() {
+                revenue.hide();
+                this.transition('repeatMediumOfficeStage');
+            },
 
             _onExit: function() {
-
+                revenue.hide();
             },
         },
 
@@ -179,10 +183,6 @@ const gameFSM = new machina.Fsm({
             },
 
             nextStage: 'smallOfficeStage',
-
-            _onExit: function() {
-
-            },
         },
 
         mlTransitionStage: {
@@ -200,6 +200,7 @@ const gameFSM = new machina.Fsm({
 
         mlLabStage: {
             _onEnter: function() {
+                revenue.show();
                 new MLLab();
             },
             // TODO destroy the lab!

@@ -12,7 +12,7 @@ export default class extends UIBase {
         this.$progressBar = this.$el.find('.PerfMetrics__progress');
         this.revenue = 33;
         this.hiresNum = 1;
-        this._addEventListeners();
+        eventEmitter.on(EVENTS.ACCEPTED, this.updateHandler.bind(this));
     }
 
     _updateBar(revenue) {
@@ -26,33 +26,28 @@ export default class extends UIBase {
         }
     }
 
-    _addEventListeners() {
-        eventEmitter.on(EVENTS.ACCEPTED, (data) => {
-            this.hiresNum += 1;
-            this._updateBar();
-        });
-
-        eventEmitter.on(EVENTS.STAGE_ONE_COMPLETED, (data) => {
-            this.destroy();
-        });
-    };
+    updateHandler() {
+        this.hiresNum += 1;
+        this._updateBar();
+    }
 
     _removeEventListeners() {
-        eventEmitter.off(EVENTS.ACCEPTED, () => {});
-        eventEmitter.off(EVENTS.STAGE_ONE_COMPLETED, () => {});
+        eventEmitter.removeListener(EVENTS.ACCEPTED, this.updateHandler.bind(this));
+        eventEmitter.off(EVENTS.ACCEPTED, this.updateHandler.bind(this));
+    }
+
+    show() {
+        this.$el.removeClass(CLASSES.IS_INACTIVE);
     }
 
     hide() {
-        this.$el.removeClass(CLASSES.FADE_IN)
-            .addClass(CLASSES.FADE_OUT)
-            .addClass(CLASSES.IS_INACTIVE);
-
-        // TODO you might need a delayed call for this
+        this.$el.addClass(CLASSES.IS_INACTIVE);
     }
 
     destroy() {
         super.dispose();
         this.hide();
         this._removeEventListeners();
+        this.$el.remove();
     }
 }

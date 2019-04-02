@@ -72,30 +72,28 @@ class Office {
 
     draw(stageNum) {
         if (stageNum == 0) {
-
-            //SMALL STAGE - INITIAL SET UP
+            // SMALL STAGE - INITIAL SET UP
             for (const floor in this.floors) {
                 if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
                     this.floors[floor].addToPixi(this.interiorContainer);
                 }
             };
-            
-            this.doors.forEach((door) => door.addToPixi(this.interiorContainer));    
+
+            this.doors.forEach((door) => door.addToPixi(this.interiorContainer));
             this.yesno = new YesNo({show: true});
 
             if (this.personContainer.children.length > 0) {
-                //in case small stage was repeated, clear the office
+                // in case small stage was repeated, clear the office
                 officeStageContainer.removeChild(this.personContainer);
                 this.personContainer = new PIXI.Container();
             }
 
             candidateInSpot = null;
             this.takenDesks = 0;
-            
-            //Adding people for small stage
-            this.addPeople(0, config[this.currentStage].newPeople);
 
-        } 
+            // Adding people for small stage
+            this.addPeople(0, config[this.currentStage].newPeople);
+        }
         else if (stageNum == 1) {
             // MEDIUM STAGE - REDRAW PEOPLE
             officeStageContainer.removeChild(this.personContainer);
@@ -129,7 +127,7 @@ class Office {
             });
         });
 
-        eventEmitter.on(EVENTS.ACCEPTED, () => {
+        this.acceptedHandler = () => {
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
             this.hiredPeople.push(hiredPerson);
@@ -151,19 +149,19 @@ class Office {
                 eventEmitter.emit(EVENTS.STAGE_TWO_COMPLETED, {});
                 gameFSM.nextStage();
             }
-        });
+        };
+        eventEmitter.on(EVENTS.ACCEPTED, this.acceptedHandler);
 
         eventEmitter.on(EVENTS.REJECTED, () => {
             const rejectedPerson = this.allPeople[candidateInSpot];
             this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'));
-            
+
             candidateInSpot = null;
             // this.doors[1].playAnimation({direction: 'forward'});
 
             rejectedPerson.tween.on('end', () => {
                 this.personContainer.removeChild(rejectedPerson);
                 // this.doors[1].playAnimation({direction: 'reverse'});
-
             });
 
             if (this.personContainer.children.length <= 1) {
@@ -175,6 +173,10 @@ class Office {
             animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
             this.allPeople[candidateInSpot].inSpotlight = false;
         });
+    }
+
+    _removeEventListeners() {
+        eventEmitter.off(EVENTS.ACCEPTED, this.acceptedHandler);
     }
 
     addPeople(startIndex, count) {
@@ -193,8 +195,12 @@ class Office {
     }
 
     delete() {
+        this.doors.forEach((door) => {
+            door.destroy();
+        });
         officeStageContainer.removeChild(this.interiorContainer);
         officeStageContainer.removeChild(this.personContainer);
+        this._removeEventListeners();
         $( '.js-task-timer' ).remove();
     }
 }
