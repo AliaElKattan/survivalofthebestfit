@@ -107,7 +107,7 @@ const gameFSM = new machina.Fsm({
             repeatStage: function() {
                 revenue.destroy();
                 this.transition('repeatSmallOfficeStage');
-            },   
+            },
 
             _onExit: function() {
                 revenue.hide();
@@ -144,7 +144,7 @@ const gameFSM = new machina.Fsm({
                     show: true,
                     overlay: true
                 });
-                
+
                 eventEmitter.on('instructionAcked', (data) => {
                     if (!data.isSmallStage) {
                         revenue.show()
