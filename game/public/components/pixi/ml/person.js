@@ -5,6 +5,7 @@ import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 import SCALES from '~/public/controllers/constants/pixi-scales.js';
 import EVENTS from '~/public/controllers/constants/events.js';
 import {screenSizeDetector} from '~/public/controllers/common/utils.js';
+import {uv2px} from '~/public/controllers/common/utils';
 
 
 export default class {
@@ -44,14 +45,16 @@ export default class {
         const tween = PIXI.tweenManager.createTween(this.person);
         const velocity = 150; // 150 pixels per second
         let destination;
-
+        
         if (decision === 'accepted') {
             const door = mlLabStageContainer.getChildByName('doorAccepted');
             destination = door.x + 40;
+            tween.to({x: destination});
         } else {
             destination = -10;
+            tween.to({x: destination, y: uv2px(1.1, 'h')});
         };
-        tween.to({x: destination});
+
         const distance = Math.abs(this.person.x - destination);
         const duration = Math.floor((distance/velocity)*10)*100;
         tween.time = duration;

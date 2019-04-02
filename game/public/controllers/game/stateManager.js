@@ -200,7 +200,13 @@ const gameFSM = new machina.Fsm({
 
         mlLabStage: {
             _onEnter: function() {
-                revenue.show();
+                if (revenue) {
+                    revenue.show();
+                } else {
+                    office.delete();
+                    new PerfMetrics().show();
+                }
+
                 new MLLab();
             },
             // TODO destroy the lab!
