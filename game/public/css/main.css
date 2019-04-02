@@ -269,7 +269,7 @@ h2 {
   padding: 20px 20px 40px 20px;
   position: absolute;
   right: 20px;
-  top: 7%;
+  top: 15%;
   min-width: 250px;
   min-height: 300px;
   max-height: 700px;
@@ -311,7 +311,7 @@ h2 {
     .Resume--blue:after {
       background: #CDE4F1; }
   .Resume--ml {
-    top: 70px; }
+    top: 150px; }
   .Resume__title {
     font-size: 2rem; }
   .Resume--dataset {
@@ -357,7 +357,7 @@ h2 {
   padding: 10px 20px;
   position: absolute;
   left: 14%;
-  top: 5%;
+  top: 4%;
   transform: translateX(-50%);
   min-width: 200px; }
   .TaskTimer:before, .TaskTimer:after {
@@ -388,10 +388,94 @@ h2 {
     height: 7px;
     width: 100%;
     margin: 10px 0 5px 0;
-    background-color: #FFADA3; }
+    background-color: lightgray; }
   .TaskTimer__timer-progress {
     height: inherit;
     background-color: #d28b82; }
+  .TaskTimer .blinking-bar {
+    -webkit-animation: blink-animation 1s infinite;
+    /* Safari 4+ */
+    -moz-animation: blink-animation 1s infinite;
+    /* Fx 5+ */
+    -o-animation: blink-animation 1s infinite;
+    /* Opera 12+ */
+    animation: blink-animation 1s infinite;
+    /* IE 10+, Fx 29+ */ }
+
+@-webkit-keyframes blink-animation {
+  0%, 49% {
+    background-color: #d28b82; }
+  50%, 100% {
+    background-color: #FFADA3; } }
+
+.PerfMetrics {
+  color: inherit;
+  background-color: #FAFAFA;
+  padding: 10px 20px;
+  position: absolute;
+  display: inline-block;
+  right: 20px;
+  top: 4%;
+  min-width: 220px;
+  text-align: center; }
+  .PerfMetrics:before, .PerfMetrics:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .PerfMetrics:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .PerfMetrics:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .PerfMetrics:before {
+    background: #d28b82; }
+  .PerfMetrics:after {
+    background: #FFADA3; }
+  .PerfMetrics__container {
+    margin: 3px 0 3px 0;
+    position: relative;
+    height: 10px;
+    width: 200px; }
+  .PerfMetrics__background {
+    background-color: lightgray;
+    width: 100%;
+    height: 10px;
+    position: absolute; }
+  .PerfMetrics__ticker {
+    width: 33%;
+    height: 10px;
+    background-color: transparent;
+    border-right: 7px solid #202020;
+    position: absolute; }
+  .PerfMetrics__progress {
+    width: 33%;
+    height: 10px;
+    background-color: #d28b82;
+    position: absolute; }
+  .PerfMetrics__title {
+    font-size: 2em; }
+  .PerfMetrics .blinking-bar {
+    -webkit-animation: blink-animation 0.5s infinite;
+    /* Safari 4+ */
+    -moz-animation: blink-animation 0.5s infinite;
+    /* Fx 5+ */
+    -o-animation: blink-animation 0.5s infinite;
+    /* Opera 12+ */
+    animation: blink-animation 0.5s infinite;
+    /* IE 10+, Fx 29+ */ }
+
+@-webkit-keyframes blink-animation {
+  0%, 49% {
+    background-color: #d28b82; }
+  50%, 100% {
+    background-color: #FFADA3; } }
 
 .YesNo {
   display: flex;
