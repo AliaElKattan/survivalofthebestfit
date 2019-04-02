@@ -11,7 +11,7 @@
     ]
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "npm-run-all --parallel clean-dist watch:* dev ",
     "test": "test scrip include from karma website",
     "dev": "nodemon app.js",
     "dev-all": "npm-run-all --parallel clean-dist watch:* dev ",
