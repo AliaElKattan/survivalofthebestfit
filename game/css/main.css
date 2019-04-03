@@ -625,7 +625,7 @@ h2 {
     background-color: red;
     right: 10px;
     top: 10px;
-    background: url("../../assets/img/x-icon.png") no-repeat center;
+    background: url("../assets/img/x-icon.png") no-repeat center;
     background-size: contain; }
   .AlgorithmInspector__title {
     text-transform: uppercase;
@@ -712,7 +712,7 @@ h2 {
     background-color: red;
     right: 10px;
     top: 10px;
-    background: url("../../assets/img/x-icon.png") no-repeat center;
+    background: url("../assets/img/x-icon.png") no-repeat center;
     background-size: contain; }
   .DatasetOverlay__header {
     width: 100%;
@@ -773,12 +773,12 @@ h2 {
     height: 80px;
     width: 50%; }
     .PersonCard--yellow .PersonCard-cv {
-      background: url("../../assets/img/cv-flat-yellow.png");
+      background: url("../assets/img/cv-flat-yellow.png");
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat; }
     .PersonCard--blue .PersonCard-cv {
-      background: url("../../assets/img/cv-flat-blue.png");
+      background: url("../assets/img/cv-flat-blue.png");
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat; }
