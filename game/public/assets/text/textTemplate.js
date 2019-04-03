@@ -27,7 +27,7 @@ const english = {
         responses: ['Let\'s do this'],
         taskDescription: 'Task: Hire 3 new employees',
         retryMessage: 'You are not hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.',
-        retryResponses: ["I will do better this time."],
+        retryResponses: ['I will do better this time.'],
 
     },
     mediumOfficeStage: {
@@ -37,13 +37,13 @@ const english = {
             'Are you sure?',
         ],
         taskDescription: 'Task: Hire 10 new employees',
-       retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.',
-      retryResponses: ["I will do better this time."],
+        retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.',
+        retryResponses: ['I will do better this time.'],
     },
 
-    //add transition here. e-mail from INVESTOR says:  We’ve made good progress, but the faster we grow, the more profit we’ll make. I suggest you use an automated program to help with hiring. Check with the software development team?
+    // add transition here. e-mail from INVESTOR says:  We’ve made good progress, but the faster we grow, the more profit we’ll make. I suggest you use an automated program to help with hiring. Check with the software development team?
 
-    //email from SOFTWARE ENGINEER
+    // email from SOFTWARE ENGINEER
     conversation: [
         {
             dialogue_step: 1,
@@ -56,7 +56,7 @@ const english = {
                 {
                     text: 'Sure, that\'s fine.',
                     response: 'Great! ',
-                //  response: 'The algorithm will analyze a lot of CV samples (the CVs of all the people working at this company!) and try to figure out how a successful employee looks like - in numbers! ',
+                    //  response: 'The algorithm will analyze a lot of CV samples (the CVs of all the people working at this company!) and try to figure out how a successful employee looks like - in numbers! ',
 
                 },
             ],
@@ -86,47 +86,28 @@ const english = {
         },
     ],
 
-    // conversation: [
-    //     {
-    //         dialogue_step: 1,
-    //         text: 'We’re working on a new hiring program, and the software team wants to use machine learning. It’s a great solution, because it allows us to teach the automated software to hire just as our HR team would, but at a much faster pace...',
-    //         answer_choice: [
-    //             {
-    //                 text: 'How does that work?',
-    //                 response: 'The algorithm will analyze a lot of CV samples (the CVs of all the people working at this company!) and try to figure out how a successful employee looks like - in numbers! ',
-    //             },
-    //             {
-    //                 text: 'Sure, that\'s fine.',
-    //               //  response: 'Great! ',
-    //               response: 'The algorithm will analyze a lot of CV samples (the CVs of all the people working at this company!) and try to figure out how a successful employee looks like - in numbers! ',
-    //
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         dialogue_step: 2,
-    //         text: 'And here’s the cool part: most of the CVs fed to the algorithm are of the people you hired - so the program I wrote will essentially try to replicate your hiring strategy!',
-    //         answer_choice: [
-    //             {
-    //                 text: 'The program will think the way I do??',
-    //                 response: 'Thinking is a strong word, the program is not even close to thinking, it’s just really good at finding patterns in the data I give to it.',
-    //             },
-    //             {
-    //                 text: 'Sounds too good to be true.',
-    //                 response: 'That’s why machine learning is getting so much hype these days!',
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         dialogue_step: 3,
-    //         text: 'What matters is that the hiring algorithm will hire people just like you would, but at a much faster pace! Your role now is to sit back and supervise the algorithm.',
-    //         answer_choice: [
-    //             {
-    //                 text: 'OK',
-    //             },
-    //         ],
-    //     },
-    // ],
+    // conversation: [ { dialogue_step: 1, text: 'We’re working on a new hiring
+    // program, and the software team wants to use machine learning. It’s a
+    // great solution, because it allows us to teach the automated software to
+    // hire just as our HR team would, but at a much faster pace...',
+    // answer_choice: [ { text: 'How does that work?', response: 'The algorithm
+    // will analyze a lot of CV samples (the CVs of all the people working at
+    // this company!) and try to figure out how a successful employee looks like
+    // - in numbers! ', }, { text: 'Sure, that\'s fine.', //  response: 'Great!
+    // ', response: 'The algorithm will analyze a lot of CV samples (the CVs of
+    // all the people working at this company!) and try to figure out how a
+    // successful employee looks like - in numbers! ', // }, ], }, {
+    // dialogue_step: 2, text: 'And here’s the cool part: most of the CVs fed to
+    // the algorithm are of the people you hired - so the program I wrote will
+    // essentially try to replicate your hiring strategy!', answer_choice: [ {
+    // text: 'The program will think the way I do??', response: 'Thinking is a
+    // strong word, the program is not even close to thinking, it’s just really
+    // good at finding patterns in the data I give to it.', }, { text: 'Sounds
+    // too good to be true.', response: 'That’s why machine learning is getting
+    // so much hype these days!', }, ], }, { dialogue_step: 3, text: 'What
+    // matters is that the hiring algorithm will hire people just like you
+    // would, but at a much faster pace! Your role now is to sit back and
+    // supervise the algorithm.', answer_choice: [ { text: 'OK', }, ], }, ],
     mlLabStage: {
         conversation: [
             {
@@ -136,13 +117,13 @@ const english = {
                     'Great to hear!',
                 ],
                 news: [
-                    'Does the future of hiring lie in algorithms? @dummy newspaper1',
-                    'Does the future of hiring lie in algorithms? @dummy newspaper2',
+                    'Yellowville Review: Does the future of hiring lie in algorithms?',
+                    'Tech Junkies: Hiring algorithms are the next big thing',
                 ],
             },
             {
-                delay: 5,
-                messageFromVc: 'Hello, I just got a complaint from a past applicant who’s looking for feedback on why she was rejected. Can you look into it and let me know?',
+                delay: 7,
+                messageFromVc: 'I just got a complaint from a past applicant who’s looking for feedback on why she was rejected. Can you look into it and let me know?',
                 responses: [
                     'I\'m on it!',
                     'Ok, but where should I look?',
@@ -153,14 +134,14 @@ const english = {
                 },
             },
             {
-                delay: 6,
+                delay: 8,
                 messageFromVc: 'Hello, just checking in on the hiring process so far. Can you look into the decisions it’s made?',
                 responses: [
                     'Sure, I can do that!',
                 ],
             },
             {
-                delay: 5,
+                delay: 7,
                 messageFromVc: 'Hey, some reporters have been talking about bias in recruitment, but I guess we’re off the hook since we’ve switched to automated hiring anyway! Is that right?',
                 responses: [
                     'Yes, we dodged that bullet.',
@@ -171,12 +152,12 @@ const english = {
                     text: 'The algorithm doesn’t work in a vacuum. Incoming CVs are judged in context of previous CVs, replicating historical trends',
                 },
                 news: [
-                    'Recruitment is biased @dummy newspaper1',
-                    'Recruitment is biased? @dummy newspaper2',
+                    'Techountability: Research shows hiring algorithms may be biased towards minorities',
+                    'Tech Junkies: How do hiring algorithms work?',
                 ],
             },
             {
-                delay: 7,
+                delay: 10,
                 messageFromVc: 'I’m hearing that we may be involved with this bias story, and reporters are asking us to make our process more transparent. Could you double check our evaluation metrics to see if we can go public?',
                 responses: [
                     'I\'ll give it a shot!',
@@ -185,12 +166,21 @@ const english = {
                     parent: 'scanray',
                     text: 'Bias could originate with the metrics we use to evaluate applicants. They often fit within gendered stereotypes and historical biases.',
                 },
+                news: [
+                    'Blueville Gazette: Blueville residents treated unfairly by an algorithm?',
+                    'The justice: Yellow privilege in the tech industry',
+                ],
             },
             {
-                delay: 6,
+                delay: 8,
                 messageFromVc: 'Hey, we are all over the news for biased hiring, all the investors are pulling out! We have to turn this story around, so I\'m sending you to AI debiasing seminar in Blueville. Think of it as paid vacation.',
                 responses: [
                     'Start learning about bias',
+                ],
+                news: [
+                    'Blueville Daily: Hiring algorithm scandal blows out of proportions',
+                    'The Justice: Tech companies need to be held accountable',
+
                 ],
             },
         ],
@@ -209,7 +199,7 @@ let candidateClicked = 0;
 let candidateHovered = null;
 
 let candidateInSpot = null;
-const hiringGoals = {"smallStage": 3, "mediumStage": 10};
+let hiringGoals = {'smallStage': 3, 'mediumStage': 10};
 
 function setLang(dictionary) {
     if (typeof module !== 'undefined') {

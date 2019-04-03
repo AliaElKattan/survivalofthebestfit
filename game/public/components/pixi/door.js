@@ -59,7 +59,7 @@ export default class {
     }
 
     _addEventListeners() {
-        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler);
+        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler.bind(this));
         eventEmitter.on(EVENTS.PLAY_DOOR_ANIMATION, this.playAnimation.bind(this));
     }
 
