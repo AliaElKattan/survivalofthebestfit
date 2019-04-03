@@ -5,7 +5,7 @@
 
 @font-face {
   font-family: 'VT323';
-  src: url("../../assets/fonts/vt323-regular.woff") format("woff");
+  src: url("../assets/fonts/vt323-regular.woff") format("woff");
   font-weight: 400;
   font-style: normal; }
 
@@ -238,7 +238,7 @@ body.Page--Game {
   display: inherit; }
 
 .Titlepage__wrapper {
-  background: url("../../assets/img/landing-graphic.png") no-repeat center;
+  background: url("../assets/img/landing-graphic.png") no-repeat center;
   width: 100%;
   height: auto;
   background-attachment: scroll;
@@ -628,7 +628,7 @@ h2 {
     background-color: red;
     right: 10px;
     top: 10px;
-    background: url("../../assets/img/x-icon.png") no-repeat center;
+    background: url("../assets/img/x-icon.png") no-repeat center;
     background-size: contain; }
   .AlgorithmInspector__title {
     text-transform: uppercase;
@@ -715,7 +715,7 @@ h2 {
     background-color: red;
     right: 10px;
     top: 10px;
-    background: url("../../assets/img/x-icon.png") no-repeat center;
+    background: url("../assets/img/x-icon.png") no-repeat center;
     background-size: contain; }
   .DatasetOverlay__header {
     width: 100%;
@@ -776,12 +776,12 @@ h2 {
     height: 80px;
     width: 50%; }
     .PersonCard--yellow .PersonCard-cv {
-      background: url("../../assets/img/cv-flat-yellow.png");
+      background: url("../assets/img/cv-flat-yellow.png");
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat; }
     .PersonCard--blue .PersonCard-cv {
-      background: url("../../assets/img/cv-flat-blue.png");
+      background: url("../assets/img/cv-flat-blue.png");
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat; }
