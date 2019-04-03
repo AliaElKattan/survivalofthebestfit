@@ -1,5 +1,8 @@
 import {uv2px, waitForSeconds, pacingUtils as space} from '~/public/controllers/common/utils.js';
 import {cvCollection} from '~/public/assets/text/cvCollection.js';
+import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
+import EVENTS from '~/public/controllers/constants/events.js';
 import Machine from '~/public/components/pixi/ml/machine';
 import Resumes from '~/public/components/pixi/ml/cv-list';
 import Floor from '~/public/components/pixi/ml/floor';
@@ -7,17 +10,13 @@ import ConveyorBelt from '~/public/components/pixi/ml/conveyor-belt';
 import Door from '~/public/components/pixi/door';
 import ResumeUI from '~/public/components/interface/ui-resume/ui-resume';
 import ConversationManager from '~/public/components/interface/ml/conversation-manager/conversation-manager.js';
-import NewsFeedUI from '../../interface/ml/news-feed/news-feed.js';
-import AlgorithmInspectorUI from '../../interface/ml/algorithm-inspector/algorithm-inspector.js';
-import DatasetView from '../../interface/ml/dataset-view/dataset-view';
-import ScanRay from './scan-ray.js';
-import DataServer from './data-server.js';
-import MLPeople from './people.js';
-import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
+import NewsFeedUI from '~/public/components/interface/ml/news-feed/news-feed.js';
+import AlgorithmInspectorUI from '~/public/components/interface/ml/algorithm-inspector/algorithm-inspector.js';
+import DatasetView from '~/public/components/interface/ml/dataset-view/dataset-view';
+import ScanRay from '~/public/components/pixi/ml/scan-ray.js';
+import DataServer from '~/public/components/pixi/ml/data-server.js';
+import MLPeople from '~/public/components/pixi/ml/people.js';
 import TimelineManager from '~/public/components/interface/ml/timeline-manager/timeline-manager';
-import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
-import EVENTS from '~/public/controllers/constants/events.js';
-
 
 export default class MLLab {
     constructor() {
@@ -99,10 +98,11 @@ export default class MLLab {
         this.tweens.doorAnim = this.door.getSprite();
         this.tweens.resumeScanline = this.resumeUI.createScanTween();
         this.tweens.resumeMask = this.resumeUI.createMaskTween();
-        this.tweens.serverAcceptedAnim = this.dataServers[0].getSprite(); // TODO refactor this to object based approach
-        this.tweens.serverRejectedAnim = this.dataServers[1].getSprite();
+        // this.tweens.serverAcceptedAnim = this.dataServers[0].getSprite(); // TODO refactor this to object based approach
+        // this.tweens.serverRejectedAnim = this.dataServers[1].getSprite();
         this.tweens.peopleLine = this.people.createTween();
-        let serverAnim;
+        let activeServer;
+        // let serverAnim;
 
         // once the conveyor belt (resume tween) animation is done:
         // 1. reset the conveyor belt animation
@@ -125,6 +125,7 @@ export default class MLLab {
                     return waitForSeconds(0.4);
                 })
                 .then(() => {
+                    eventEmitter.emit(EVENTS.MAKE_ML_PEOPLE_TALK, {});
                     // #4 play resume scanline animation
                     this.resumeUI.showScanline();
                     if (this.animLoopCount === 0) {
@@ -153,24 +154,27 @@ export default class MLLab {
                 // #2: set up server/door animations
                 if (candidateEval === 'accepted') {
                     eventEmitter.emit(EVENTS.ACCEPTED, {});
-                    serverAnim = this.tweens.serverAcceptedAnim;
+                    activeServer = this.dataServers[1];
+                    // serverAnim = this.tweens.serverAcceptedAnim;
                     this.door.playAnimation({direction: 'forward'});
                 } else {
-                    serverAnim = this.tweens.serverRejectedAnim;
+                    activeServer = this.dataServers[0];
+                    // serverAnim = this.tweens.serverRejectedAnim;
                 };
                 // #3: play the people line animation
                 this.people.recalibrateTween(this.tweens.peopleLine);
                 this.tweens.peopleLine.start();
                 // #4: play the server animation
-                waitForSeconds(0.2)
-                    .then(() => {
-                        serverAnim.gotoAndStop(0);
-                        serverAnim.play();
-                        return waitForSeconds(1.5);
-                    })
-                    .then(() => {
-                        serverAnim.gotoAndStop(0);
-                    });
+                activeServer.updateServerCounter();
+                // waitForSeconds(0.2)
+                //     .then(() => {
+                //         serverAnim.gotoAndStop(0);
+                //         serverAnim.play();
+                //         return waitForSeconds(1.5);
+                //     })
+                //     .then(() => {
+                //         serverAnim.gotoAndStop(0);
+                //     });
             };
 
             // #5: hide the scanline and reset its position

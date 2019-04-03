@@ -3,17 +3,15 @@ import EVENTS from '~/public/controllers/constants/events';
 import PersonTooltip from '~/public/components/interface/ml/person-tooltip/person-tooltip';
 import {clamp} from '~/public/controllers/common/utils';
 import {ticker} from '~/public/controllers/game/gameSetup.js';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 export default class {
-    constructor({parent}) {
+    constructor({parent, stage}) {
         this.peopleContainer = parent;
-        // this.messages = content;
-        this.isActive = false;
+        this.stage = stage;
         this.elapsedTime = 0;
         this.nextTimeUpdate = 3000;
-        this._addEventListeners();
         this.personTooltip = new PersonTooltip();
-        this.startTimeline();
         // TODO change this to a more robust setup
         this.messages = [
             'Hire me!',
@@ -25,6 +23,7 @@ export default class {
             'Choose me!',
             'I\'m a nice person!',
         ];
+        if (this.stage === 'ml') this._addEventListeners();
     }
 
     // launch timeline: once it starts it runs on its own
@@ -50,8 +49,10 @@ export default class {
     }
 
     createTooltip() {
-        const childIndex = Math.floor(Math.random()*this.peopleContainer.children.length);
+        const maxIndex = this.stage === 'ml' ? clamp(this.peopleContainer.children.length, 0, 8) : this.peopleContainer.children.length;
+        const childIndex = Math.floor(Math.random()*maxIndex);
         const message = this.messages[Math.floor(Math.random()*this.messages.length)];
+        // console.log('show tooltip on child with index number: ', childIndex);
         this.personTooltip.showNewTooltip({
             parentContainer: this.peopleContainer,
             index: childIndex,
@@ -59,25 +60,19 @@ export default class {
         });
     }
 
-    // stop timeline: the next news update will not fire
-
-    stop() {
-        this.isActive = false;
-    }
-
-    // schedule a news update
-
-    scheduleTimelineUpdate() {
-    }
-
     _addEventListeners() {
-        // eventEmitter.on(EVENTS.RESUME_TIMELINE, this.scheduleTimelineUpdate);
+        console.log('people talk manager is listening to events!');
+        eventEmitter.on(EVENTS.MAKE_ML_PEOPLE_TALK, this.createTooltip.bind(this));
     }
 
     _removeEventListeners() {
-        // eventEmitter.off(EVENTS.RESUME_TIMELINE, this.scheduleTimelineUpdate);
+        eventEmitter.off(EVENTS.MAKE_ML_PEOPLE_TALK, this.createTooltip.bind(this));
     }
 
+
     destroy() {
+        this.stopTimeline();
+        this.personTooltip.destroy();
+        this._removeEventListeners();
     }
 }
