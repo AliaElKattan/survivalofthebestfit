@@ -23,10 +23,10 @@ const gameFSM = new machina.Fsm({
     states: {
         uninitialized: {
             startGame: function() {
-                this.transition('titleStage');
+                // this.transition('titleStage');
                 // this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
-                // this.transition('mlLabStage');
+                this.transition('mlLabStage');
             },
         },
 
@@ -218,14 +218,4 @@ const gameFSM = new machina.Fsm({
     },
 
     startGame: function() {
-        this.handle('startGame');
-    },
-    nextStage: function() {
-        this.handle('nextStage');
-    },
-    repeatStage: function() {
-        this.handle('repeatStage');
-    },
-});
-
 export {gameFSM};
