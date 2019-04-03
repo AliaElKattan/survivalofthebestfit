@@ -1,19 +1,20 @@
-import {mlLabStageContainer} from '../../../controllers/game/gameSetup.js';
-import {cvCollection} from '../../../assets/text/cvCollection.js';
-import {uv2px} from '../../../controllers/common/utils.js';
-import MLPerson from './person';
+import {mlLabStageContainer} from '~/public/controllers/game/gameSetup.js';
+import {cvCollection} from '~/public/assets/text/cvCollection.js';
+import {uv2px} from '~/public/controllers/common/utils.js';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 import EVENTS from '~/public/controllers/constants/events.js';
+import MLPerson from '~/public/components/pixi/ml/person';
+import PeopleTalkManager from '~/public/components/interface/ml/people-talk-manager/people-talk-manager';
 
 
 export default class {
     constructor() {
         this.container = new PIXI.Container();
         this.numOfPeople = Math.floor(uv2px(0.85, 'w')/70) * 2;
-        console.log(this.numOfPeople);
         this.personCount = 0;
         this.peopleLine = [];
         this.personXoffset = 70;
+        this.peopleTalkManager = new PeopleTalkManager({parent: this.container, stage: 'ml'});
         this._createPeople();
         eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
     }

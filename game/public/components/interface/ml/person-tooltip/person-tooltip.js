@@ -72,7 +72,6 @@ export default class extends UIBase {
     }
 
     destroy() {
-        this._removeEventListeners();
         super.dispose();
         this.hide();
     }
