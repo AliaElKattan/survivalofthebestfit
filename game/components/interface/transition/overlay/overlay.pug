@@ -1,0 +1,10 @@
+mixin transitionOverlay()
+  include ../../ui-overlay/ui-overlay.pug
+  +overlay()(class="TransitionOverlay")
+    div(class="conversationBox")
+      div(class="conversationBox__head")
+        p From: software-engineer@company.com
+        p Subject: Hiring Algorithm
+      each prompt,index in conversation
+        include ../replica/replica.pug
+        +replica(index, prompt, conversation.length)

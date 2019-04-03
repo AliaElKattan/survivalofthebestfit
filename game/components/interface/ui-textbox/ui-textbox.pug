@@ -1,0 +1,9 @@
+include ../ui-overlay/ui-overlay.pug
++overlay()(id="js-textbox-overlay" class="TextboxOverlay")
+  div.Textbox__wrapper
+    div.Textbox
+      p.Textbox__content
+        div.Textbox__buttons
+          include ../../universal/button/button
+          +button('OK').TextboxButton.is-inactive
+          +button('OK').TextboxButton.is-inactive
