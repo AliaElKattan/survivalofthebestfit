@@ -114,6 +114,13 @@ body.Page--Game {
     background: #919191; }
   .button:after {
     background: #B9B9B9; }
+  .YesNoButton .button {
+    color: #696969;
+    background-color: #F2F2F2; }
+    .YesNoButton .button:before {
+      background: #d28b82; }
+    .YesNoButton .button:after {
+      background: #FFADA3; }
   .button__wrapper {
     padding-right: 20px; }
   .button:hover {
@@ -121,14 +128,25 @@ body.Page--Game {
     color: #000000;
     background-color: #F2F2F2; }
     .button:hover:before {
-      background: #F29488; }
+      background: #d28b82; }
     .button:hover:after {
       background: #FFADA3; }
+    .YesNoButton .button:hover {
+      color: #000000;
+      background-color: #FECCC7; }
+      .YesNoButton .button:hover:before {
+        background: #d28b82; }
+      .YesNoButton .button:hover:after {
+        background: #FFADA3; }
+  .YesNoButton .button__text {
+    font-size: 1.4rem; }
+  .button:active {
+    transform: translateY(2px); }
   .button.is-clicked {
     color: #000000;
     background-color: #FECCC7; }
     .button.is-clicked:before {
-      background: #F29488; }
+      background: #d28b82; }
     .button.is-clicked:after {
       background: #FFADA3; }
 
@@ -339,7 +357,7 @@ h2 {
   padding: 10px 20px;
   position: absolute;
   left: 14%;
-  top: 5%;
+  top: 4%;
   transform: translateX(-50%);
   min-width: 200px; }
   .TaskTimer:before, .TaskTimer:after {
@@ -359,7 +377,7 @@ h2 {
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
   .TaskTimer:before {
-    background: #F29488; }
+    background: #d28b82; }
   .TaskTimer:after {
     background: #FFADA3; }
   .TaskTimer__task {
@@ -373,7 +391,7 @@ h2 {
     background-color: lightgray; }
   .TaskTimer__timer-progress {
     height: inherit;
-    background-color: #F29488; }
+    background-color: #d28b82; }
   .TaskTimer .blinking-bar {
     -webkit-animation: blink-animation 1s infinite;
     /* Safari 4+ */
@@ -386,7 +404,7 @@ h2 {
 
 @-webkit-keyframes blink-animation {
   0%, 49% {
-    background-color: #F29488; }
+    background-color: #d28b82; }
   50%, 100% {
     background-color: #FFADA3; } }
 
@@ -397,7 +415,7 @@ h2 {
   position: absolute;
   display: inline-block;
   right: 20px;
-  top: 60px;
+  top: 4%;
   min-width: 220px;
   text-align: center; }
   .PerfMetrics:before, .PerfMetrics:after {
@@ -417,7 +435,7 @@ h2 {
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
   .PerfMetrics:before {
-    background: #F29488; }
+    background: #d28b82; }
   .PerfMetrics:after {
     background: #FFADA3; }
   .PerfMetrics__container {
@@ -439,7 +457,7 @@ h2 {
   .PerfMetrics__progress {
     width: 33%;
     height: 10px;
-    background-color: #F29488;
+    background-color: #d28b82;
     position: absolute; }
   .PerfMetrics__title {
     font-size: 2em; }
@@ -455,66 +473,25 @@ h2 {
 
 @-webkit-keyframes blink-animation {
   0%, 49% {
-    background-color: #F29488; }
+    background-color: #d28b82; }
   50%, 100% {
     background-color: #FFADA3; } }
 
 .YesNo {
+  display: flex;
+  justify-content: center;
   padding: 10px 20px;
   position: absolute;
-  left: 40%;
-  top: 10%;
-  transform: translateX(-50%);
   min-width: 300px;
   text-align: center; }
 
-.disabled {
-  opacity: .65;
-  pointer-events: none; }
-
-.btn {
-  display: inline-block;
-  font-weight: 400;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 1px solid transparent;
-  padding: .375rem .75rem;
-  font-size: 2rem;
-  line-height: 1.5;
-  border-radius: .25rem;
-  margin: 0.5rem;
-  font-weight: 700;
-  border-width: medium; }
-
-.btn-outline-danger:hover {
-  color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545; }
-
-.btn-outline-danger {
-  color: #dc3545;
-  background-color: white;
-  background-image: none;
-  border-color: #dc3545; }
-
-.btn:focus, .btn:hover {
-  text-decoration: none; }
-
-.btn-outline-success:hover {
-  color: #fff;
-  background-color: #28a745;
-  border-color: #28a745; }
-
-.btn-outline-success {
-  color: #28a745;
-  background-color: white;
-  background-image: none;
-  border-color: #28a745; }
+#spotlight-marker {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  width: 5px;
+  height: 5px;
+  background-color: red; }
 
 .Overlay {
   position: fixed;
@@ -632,7 +609,7 @@ h2 {
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
   .AlgorithmInspector:before {
-    background: #F29488; }
+    background: #d28b82; }
   .AlgorithmInspector:after {
     background: #FFADA3; }
   .AlgorithmInspector__x-icon {

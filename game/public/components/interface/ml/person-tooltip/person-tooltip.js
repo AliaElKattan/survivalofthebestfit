@@ -43,7 +43,7 @@ export default class extends UIBase {
 
         const {x, y} = personContainer.getGlobalPosition();
         const height = personContainer.height;
-        if (message) this.$el.text(message);
+        if (message) this.$el.find('.PersonTooltip__text').text(message);
         this.$el.css({
             'top': `${y-height*0.8}px`,
             'left': `${x+10}px`,

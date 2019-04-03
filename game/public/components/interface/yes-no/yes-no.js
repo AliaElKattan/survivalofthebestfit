@@ -1,27 +1,26 @@
 import $ from 'jquery';
-import CLASSES from '../../../controllers/constants/classes';
-import EVENTS from '../../../controllers/constants/events';
-import UIBase from '../ui-base/ui-base';
-import {eventEmitter, pixiApp} from '../../../controllers/game/gameSetup.js';
+import {TweenLite} from 'gsap/TweenMax';
+import CLASSES from '~/public/controllers/constants/classes';
+import EVENTS from '~/public/controllers/constants/events';
+import UIBase from '~/public/components/interface/ui-base/ui-base';
+import {spotlight} from '~/public/components/pixi/office';
+import {eventEmitter, pixiApp} from '~/public/controllers/game/gameSetup.js';
 
 export default class extends UIBase {
     constructor(options) {
         super();
+        this.$id = '.js-yes-no';
         this.$el = $('.js-yes-no'); // This should be a single element
         this.$yesButton = this.$el.find('.js-yes');
         this.$noButton = this.$el.find('.js-no');
-
         this._addEventListeners();
-        
-        if (options && options.show) {
-            this.show();
-        };
     }
 
     _acceptClicked(e) {
         this.$yesButton.addClass(CLASSES.ACCEPTED);
         if (candidateInSpot != null) {
             eventEmitter.emit(EVENTS.ACCEPTED, {});
+            this.hide();
         }
     }
 
@@ -29,6 +28,7 @@ export default class extends UIBase {
         this.$noButton.addClass(CLASSES.REJECTED);
         if (candidateInSpot != null) {
             eventEmitter.emit(EVENTS.REJECTED, {});
+            this.hide();
         }
     }
 
@@ -39,8 +39,9 @@ export default class extends UIBase {
         eventEmitter.on(EVENTS.STAGE_TWO_COMPLETED, (data) => {
             this.destroy();
         });
+        eventEmitter.on(EVENTS.CHANGE_SPOTLIGHT_STATUS, this._spotlightStatusHandler.bind(this));
     };
-    
+
     _removeEventListeners() {
         this.$yesButton.off();
         this.$noButton.off();
@@ -48,29 +49,32 @@ export default class extends UIBase {
         eventEmitter.off(EVENTS.ACCEPTED, () => {});
         eventEmitter.off(EVENTS.REJECTED, () => {});
         eventEmitter.off(EVENTS.STAGE_TWO_COMPLETED, () => {});
+        eventEmitter.off(EVENTS.CHANGE_SPOTLIGHT_STATUS, this._spotlightStatusHandler.bind(this));
+    }
+
+    _spotlightStatusHandler({spotlightOccupied, spotlightFill}) {
+        if (spotlightOccupied) {
+            spotlightFill ? '' : this.hide();
+        } else {
+            spotlightFill ? this.show() : '';
+        }
     }
 
     show() {
-        this.$el.removeClass(CLASSES.IS_INACTIVE)
-            .removeClass(CLASSES.FADE_OUT)
-            .addClass(CLASSES.FADE_IN);
-    }
-
-    disableButtons(){
-        // TODO - dynamically change?!?!
-        this.$yesButton.addClass('disabled');
-        this.$noButton.addClass('disabled');
-    }
-
-    enableButtons(){
-        this.$yesButton.removeClass('disabled');
-        this.$noButton.removeClass('disabled');
+        this.$el.css({
+            'top': `${spotlight.y - 180}px`,
+            'left': `${spotlight.x + 10}px`,
+        });
+        TweenLite.set(this.$id, {y: 5, xPercent: -50, opacity: 0});
+        this.$el.removeClass(CLASSES.IS_INACTIVE);
+        TweenLite.to(this.$id, 0.2, {y: 0, opacity: 1, ease: Power1.easeInOut});
     }
 
     hide() {
-        this.$el.removeClass(CLASSES.FADE_IN)
-            .addClass(CLASSES.FADE_OUT)
-            .addClass(CLASSES.IS_INACTIVE);
+        TweenLite.to(this.$id, 0.3, {y: 5, opacity: 0, ease: Power1.easeInOut});
+        TweenLite.delayedCall(0.4, () => {
+            this.$el.addClass(CLASSES.IS_INACTIVE);
+        });
     }
 
     destroy() {

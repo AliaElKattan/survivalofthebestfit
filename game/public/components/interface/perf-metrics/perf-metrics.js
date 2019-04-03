@@ -17,7 +17,7 @@ export default class extends UIBase {
 
     _updateBar(revenue) {
         this.hiresNum += 1;
-        const randomIncrement = ((Math.random() * 50) - 10) / this.hiresNum;
+        const randomIncrement = (Math.round(Math.random() * 50) - 10) / this.hiresNum;
         this.revenue = revenue === undefined || typeof revenue === 'object' ? this.revenue + randomIncrement : revenue;
         this.$progressBar.css('width', `${this.revenue}%`);
         if (this.revenue < 33) {

@@ -21,9 +21,7 @@ export default class {
     addToPixi(parentContainer = mlLabStageContainer) {
         this.sprite = SPRITES[this.doorType];
         this.sprite.name = this.doorType;
-        if (this.doorType === 'doorAccepted') {
-            this.sprite.loop = false;
-        };
+        this.sprite.loop = false;
         this._draw();
         parentContainer.addChild(this.sprite);
         this._addEventListeners();
