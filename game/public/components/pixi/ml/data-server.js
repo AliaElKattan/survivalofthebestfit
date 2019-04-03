@@ -9,6 +9,7 @@ export default class {
         this.dataServerScale = SCALES.DATA_SERVER[screenSizeDetector()];
         this.directionVector = type === 'rejected' ? -1 : 1;
         this.machine = machine;
+        this.counter = 0;
     }
 
     addToPixi() {
