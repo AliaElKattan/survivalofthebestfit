@@ -130,7 +130,7 @@ class Office {
             });
         });
 
-        eventEmitter.on(EVENTS.ACCEPTED, () => {
+        this.acceptedHandler = () => {
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
             this.hiredPeople.push(hiredPerson);
@@ -152,18 +152,19 @@ class Office {
                 eventEmitter.emit(EVENTS.STAGE_TWO_COMPLETED, {});
                 gameFSM.nextStage();
             }
-        });
+        };
+        eventEmitter.on(EVENTS.ACCEPTED, this.acceptedHandler);
 
         eventEmitter.on(EVENTS.REJECTED, () => {
             const rejectedPerson = this.allPeople[candidateInSpot];
             this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'));
 
             candidateInSpot = null;
-            // this.doors[1].playAnimation({direction: 'forward'});
+            this.doors[1].playAnimation({direction: 'forward'});
 
             rejectedPerson.tween.on('end', () => {
                 this.personContainer.removeChild(rejectedPerson);
-                // this.doors[1].playAnimation({direction: 'reverse'});
+                this.doors[1].playAnimation({direction: 'reverse'});
             });
 
             if (this.personContainer.children.length <= 1) {
@@ -175,6 +176,10 @@ class Office {
             animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
             this.allPeople[candidateInSpot].inSpotlight = false;
         });
+    }
+
+    _removeEventListeners() {
+        eventEmitter.off(EVENTS.ACCEPTED, this.acceptedHandler);
     }
 
     addPeople(startIndex, count) {
@@ -193,8 +198,12 @@ class Office {
     }
 
     delete() {
+        this.doors.forEach((door) => {
+            door.destroy();
+        });
         officeStageContainer.removeChild(this.interiorContainer);
         officeStageContainer.removeChild(this.personContainer);
+        this._removeEventListeners();
         this.peopleTalkManager.destroy();
         $( '.js-task-timer' ).remove();
     }

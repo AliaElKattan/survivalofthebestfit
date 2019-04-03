@@ -6,7 +6,7 @@
   padding: padding(xs) padding(sm);
   position: absolute;
   left: 14%;
-  top: 5%;
+  top: 4%;
   transform: translateX(-50%);
   min-width: 200px;
   
@@ -22,12 +22,28 @@
     height: 7px;
     width: 100%;
     margin: padding(xs) 0 5px 0;
-    background-color: color(shadow-rose-light);
+    background-color: lightgray;
   }
   
   &__timer-progress {
     height: inherit;
     background-color: color(shadow-rose-dark);
+  }
+
+  .blinking-bar {
+    -webkit-animation: blink-animation 1s infinite;  /* Safari 4+ */
+    -moz-animation: blink-animation 1s infinite;  /* Fx 5+ */
+    -o-animation: blink-animation 1s infinite;  /* Opera 12+ */
+    animation: blink-animation 1s infinite;  /* IE 10+, Fx 29+ */
+  }
+  
+  @-webkit-keyframes blink-animation {
+    0%, 49% {
+      background-color: color(shadow-rose-dark);
+    }
+    50%, 100% {
+      background-color: color(shadow-rose-light);
+    }
   }
 
 }

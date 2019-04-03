@@ -114,6 +114,13 @@ body.Page--Game {
     background: #919191; }
   .button:after {
     background: #B9B9B9; }
+  .YesNoButton .button {
+    color: #696969;
+    background-color: #F2F2F2; }
+    .YesNoButton .button:before {
+      background: #d28b82; }
+    .YesNoButton .button:after {
+      background: #FFADA3; }
   .button__wrapper {
     padding-right: 20px; }
   .button:hover {
@@ -121,14 +128,25 @@ body.Page--Game {
     color: #000000;
     background-color: #F2F2F2; }
     .button:hover:before {
-      background: #F29488; }
+      background: #d28b82; }
     .button:hover:after {
       background: #FFADA3; }
+    .YesNoButton .button:hover {
+      color: #000000;
+      background-color: #FECCC7; }
+      .YesNoButton .button:hover:before {
+        background: #d28b82; }
+      .YesNoButton .button:hover:after {
+        background: #FFADA3; }
+  .YesNoButton .button__text {
+    font-size: 1.4rem; }
+  .button:active {
+    transform: translateY(2px); }
   .button.is-clicked {
     color: #000000;
     background-color: #FECCC7; }
     .button.is-clicked:before {
-      background: #F29488; }
+      background: #d28b82; }
     .button.is-clicked:after {
       background: #FFADA3; }
 
@@ -251,7 +269,7 @@ h2 {
   padding: 20px 20px 40px 20px;
   position: absolute;
   right: 20px;
-  top: 7%;
+  top: 15%;
   min-width: 250px;
   min-height: 300px;
   max-height: 700px;
@@ -293,7 +311,7 @@ h2 {
     .Resume--blue:after {
       background: #CDE4F1; }
   .Resume--ml {
-    top: 70px; }
+    top: 150px; }
   .Resume__title {
     font-size: 2rem; }
   @media (max-width: 23.74em) {
@@ -345,7 +363,7 @@ h2 {
   padding: 10px 20px;
   position: absolute;
   left: 14%;
-  top: 5%;
+  top: 4%;
   transform: translateX(-50%);
   min-width: 200px; }
   .TaskTimer:before, .TaskTimer:after {
@@ -365,7 +383,7 @@ h2 {
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
   .TaskTimer:before {
-    background: #F29488; }
+    background: #d28b82; }
   .TaskTimer:after {
     background: #FFADA3; }
   .TaskTimer__task {
@@ -376,67 +394,110 @@ h2 {
     height: 7px;
     width: 100%;
     margin: 10px 0 5px 0;
-    background-color: #FFADA3; }
+    background-color: lightgray; }
   .TaskTimer__timer-progress {
     height: inherit;
-    background-color: #F29488; }
+    background-color: #d28b82; }
+  .TaskTimer .blinking-bar {
+    -webkit-animation: blink-animation 1s infinite;
+    /* Safari 4+ */
+    -moz-animation: blink-animation 1s infinite;
+    /* Fx 5+ */
+    -o-animation: blink-animation 1s infinite;
+    /* Opera 12+ */
+    animation: blink-animation 1s infinite;
+    /* IE 10+, Fx 29+ */ }
 
-.YesNo {
+@-webkit-keyframes blink-animation {
+  0%, 49% {
+    background-color: #d28b82; }
+  50%, 100% {
+    background-color: #FFADA3; } }
+
+.PerfMetrics {
+  color: inherit;
+  background-color: #FAFAFA;
   padding: 10px 20px;
   position: absolute;
-  left: 40%;
-  top: 10%;
-  transform: translateX(-50%);
+  display: inline-block;
+  right: 20px;
+  top: 4%;
+  min-width: 220px;
+  text-align: center; }
+  .PerfMetrics:before, .PerfMetrics:after {
+    content: "";
+    display: inline-block;
+    position: absolute; }
+  .PerfMetrics:before {
+    left: 0;
+    width: 100%;
+    height: 5px;
+    bottom: -5px;
+    transform: translateX(5px) skewX(65deg); }
+  .PerfMetrics:after {
+    top: 0;
+    height: 100%;
+    width: 10px;
+    right: -10px;
+    transform: translateY(3px) skewY(25deg); }
+  .PerfMetrics:before {
+    background: #d28b82; }
+  .PerfMetrics:after {
+    background: #FFADA3; }
+  .PerfMetrics__container {
+    margin: 3px 0 3px 0;
+    position: relative;
+    height: 10px;
+    width: 200px; }
+  .PerfMetrics__background {
+    background-color: lightgray;
+    width: 100%;
+    height: 10px;
+    position: absolute; }
+  .PerfMetrics__ticker {
+    width: 33%;
+    height: 10px;
+    background-color: transparent;
+    border-right: 7px solid #202020;
+    position: absolute; }
+  .PerfMetrics__progress {
+    width: 33%;
+    height: 10px;
+    background-color: #d28b82;
+    position: absolute; }
+  .PerfMetrics__title {
+    font-size: 2em; }
+  .PerfMetrics .blinking-bar {
+    -webkit-animation: blink-animation 0.5s infinite;
+    /* Safari 4+ */
+    -moz-animation: blink-animation 0.5s infinite;
+    /* Fx 5+ */
+    -o-animation: blink-animation 0.5s infinite;
+    /* Opera 12+ */
+    animation: blink-animation 0.5s infinite;
+    /* IE 10+, Fx 29+ */ }
+
+@-webkit-keyframes blink-animation {
+  0%, 49% {
+    background-color: #d28b82; }
+  50%, 100% {
+    background-color: #FFADA3; } }
+
+.YesNo {
+  display: flex;
+  justify-content: center;
+  padding: 10px 20px;
+  position: absolute;
   min-width: 300px;
   text-align: center; }
 
-.disabled {
-  opacity: .65;
-  pointer-events: none; }
-
-.btn {
-  display: inline-block;
-  font-weight: 400;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 1px solid transparent;
-  padding: .375rem .75rem;
-  font-size: 2rem;
-  line-height: 1.5;
-  border-radius: .25rem;
-  margin: 0.5rem;
-  font-weight: 700;
-  border-width: medium; }
-
-.btn-outline-danger:hover {
-  color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545; }
-
-.btn-outline-danger {
-  color: #dc3545;
-  background-color: white;
-  background-image: none;
-  border-color: #dc3545; }
-
-.btn:focus, .btn:hover {
-  text-decoration: none; }
-
-.btn-outline-success:hover {
-  color: #fff;
-  background-color: #28a745;
-  border-color: #28a745; }
-
-.btn-outline-success {
-  color: #28a745;
-  background-color: white;
-  background-image: none;
-  border-color: #28a745; }
+#spotlight-marker {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  width: 5px;
+  height: 5px;
+  background-color: red; }
 
 .Overlay {
   position: fixed;
@@ -554,7 +615,7 @@ h2 {
     right: -10px;
     transform: translateY(3px) skewY(25deg); }
   .AlgorithmInspector:before {
-    background: #F29488; }
+    background: #d28b82; }
   .AlgorithmInspector:after {
     background: #FFADA3; }
   .AlgorithmInspector__x-icon {
