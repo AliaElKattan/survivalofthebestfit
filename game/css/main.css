@@ -314,15 +314,12 @@ h2 {
     top: 150px; }
   .Resume__title {
     font-size: 2rem; }
-<<<<<<< HEAD
   @media (max-width: 23.74em) {
     .Resume {
       max-height: 240px;
       max-width: 180px; }
       .Resume__title {
         font-size: 1rem; } }
-=======
->>>>>>> 293224fbc73fc1ea4030d342d60ae98c5a632af3
   .Resume--dataset {
     display: block;
     opacity: 1;
@@ -628,7 +625,7 @@ h2 {
     background-color: red;
     right: 10px;
     top: 10px;
-    background: url("../assets/img/x-icon.png") no-repeat center;
+    background: url("../../assets/img/x-icon.png") no-repeat center;
     background-size: contain; }
   .AlgorithmInspector__title {
     text-transform: uppercase;
@@ -715,7 +712,7 @@ h2 {
     background-color: red;
     right: 10px;
     top: 10px;
-    background: url("../assets/img/x-icon.png") no-repeat center;
+    background: url("../../assets/img/x-icon.png") no-repeat center;
     background-size: contain; }
   .DatasetOverlay__header {
     width: 100%;
@@ -776,12 +773,12 @@ h2 {
     height: 80px;
     width: 50%; }
     .PersonCard--yellow .PersonCard-cv {
-      background: url("../assets/img/cv-flat-yellow.png");
+      background: url("../../assets/img/cv-flat-yellow.png");
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat; }
     .PersonCard--blue .PersonCard-cv {
-      background: url("../assets/img/cv-flat-blue.png");
+      background: url("../../assets/img/cv-flat-blue.png");
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat; }
@@ -875,8 +872,6 @@ h2 {
   bottom: -7px;
   left: 4px; }
 
-<<<<<<< HEAD
-=======
 .ServerCounter {
   position: fixed;
   top: 100px;
@@ -884,7 +879,6 @@ h2 {
   color: white;
   font-size: 1.3rem; }
 
->>>>>>> 293224fbc73fc1ea4030d342d60ae98c5a632af3
 .choiceButton {
   padding-right: 20px; }
 
