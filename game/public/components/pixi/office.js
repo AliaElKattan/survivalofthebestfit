@@ -48,7 +48,7 @@ class Office {
             first_floor: new Floor({type: 'first_floor'}),
         };
 
-        this.peopleTalkManager = new PeopleTalkManager({parent: this.personContainer});
+        this.peopleTalkManager = new PeopleTalkManager({parent: this.personContainer, stage: 'manual'});
 
         this.doors = [
             new Door({

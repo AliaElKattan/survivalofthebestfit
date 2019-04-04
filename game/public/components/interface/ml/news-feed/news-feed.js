@@ -16,7 +16,6 @@ export default class extends UIBase {
         this._newsArray = [];
         this.isDesktop = screenSizeDetector() === 'desktop';
         this._content = options ? options.content : 'dummy text'; // TODO: change this to null
-        // this._newsTimeline = new NewsTimeline();
 
         this._addEventListeners();
         // instead of showing the news feed right away launch the news updates timeline
@@ -38,9 +37,9 @@ export default class extends UIBase {
             if (!this.isDesktop) {
                 this._createNewsElement(n); // create a new news feed DOM element
             } else {
-                for (let i = 0; i < 2; i++) {
+                // for (let i = 0; i < 2; i++) {
                     this._createNewsElement(n); // create a new news feed DOM element
-                };
+                // };
             }
         });
 
