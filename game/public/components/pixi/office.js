@@ -63,12 +63,12 @@ class Office {
                 floorParent: this.floors.first_floor,
                 xAnchor: uv2px(this.exitDoorX, 'w'),
             }),
-            new Door({
-                type: 'doorEntry',
-                floor: 'ground_floor',
-                floorParent: this.floors.ground_floor,
-                xAnchor: uv2px(this.entryDoorX, 'w'),
-            }),
+            // new Door({
+            //     type: 'doorEntry',
+            //     floor: 'ground_floor',
+            //     floorParent: this.floors.ground_floor,
+            //     xAnchor: uv2px(this.entryDoorX, 'w'),
+            // }),
         ];
         this.listenerSetup();
     }

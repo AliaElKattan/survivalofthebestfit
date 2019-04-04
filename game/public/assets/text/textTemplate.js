@@ -111,7 +111,7 @@ const english = {
     mlLabStage: {
         conversation: [
             {
-                delay: 7,
+                delay: 12,
                 messageFromVc: 'We’ve been able to both hire at 10x our past rate and cut down costs! Great job, this seems to be working!',
                 responses: [
                     'Great to hear!',

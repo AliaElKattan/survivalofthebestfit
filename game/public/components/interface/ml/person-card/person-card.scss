@@ -22,13 +22,13 @@
     height: 80px;
     width: 50%;
     .PersonCard--yellow & {
-      background: url('../../assets/img/cv-flat-yellow.png');
+      background: url('/assets/img/cv-flat-yellow.png');
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;
     }
     .PersonCard--blue & {
-      background: url('../../assets/img/cv-flat-blue.png');
+      background: url('/assets/img/cv-flat-blue.png');
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;
