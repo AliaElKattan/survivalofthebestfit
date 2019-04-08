@@ -24,8 +24,6 @@ export default class extends UIBase {
         }
     }
 
-    // update news feed
-
     _updateNewsFeed({news}) {
         if (!Array.isArray(news) || news.length < 2) throw new Error('News has to be an array - with at least two members!');
 
@@ -38,18 +36,16 @@ export default class extends UIBase {
                 this._createNewsElement(n); // create a new news feed DOM element
             } else {
                 // for (let i = 0; i < 2; i++) {
-                    this._createNewsElement(n); // create a new news feed DOM element
+                this._createNewsElement(n); // create a new news feed DOM element
                 // };
             }
         });
 
-        // this.animateNews(); // TODO
+        this.animateNews(); // TODO
         this._newsArray = this._newsArray.slice(0, 2); // pop the outdated news from the array
         this.show(); // show the updated news feed
         // TODO tweak this if needed - schedule to hide the news after some time
     }
-
-    // create new news element
 
     _createNewsElement(newsText) {
         const newsEl = document.createElement('p');
@@ -57,20 +53,14 @@ export default class extends UIBase {
         $(newsEl).text(newsText).appendTo(this.$newsList);
     }
 
-    // add event listeners
-
     _addEventListeners() {
         eventEmitter.on(EVENTS.UPDATE_NEWS_FEED, this._updateNewsFeed.bind(this));
         eventEmitter.on(EVENTS.HIDE_NEWS_FEED, this.hide.bind(this));
     }
 
-    // remove event listeners
-
     _removeEventListeners() {
         eventEmitter.off(EVENTS.SHOW_NEWS, () => {});
     }
-
-    // show the news feed
 
     show() {
         TweenLite.set('#news-feed', {y: -50}); // set the Y transform before animating it
@@ -78,12 +68,9 @@ export default class extends UIBase {
         TweenLite.to('#news-feed', 0.3, {y: 0});
     }
 
-
     animateNews() {
-        TweenLite.to('.NewsList-item', 8, {x: '100vw', ease: Power0.easeNone});
+        TweenLite.fromTo('.NewsList-item', 24, {x: '-100vw'}, {x: '100vw', ease: Power0.easeNone, onComplete: function(){this.restart()}});
     }
-
-    // hide the news feed
 
     hide() {
         TweenLite.to('#news-feed', 0.3, {y: -50});
@@ -91,8 +78,6 @@ export default class extends UIBase {
             this.$el.addClass(CLASSES.IS_INACTIVE);
         });
     }
-
-    // destroy the instance
 
     destroy() {
         super.dispose();
