@@ -3,6 +3,8 @@ import {uv2px} from '../../controllers/common/utils.js';
 import {spotlight} from './office';
 import EVENTS from '../../controllers/constants/events';
 
+let showedInstructions = false;
+
 function onPersonHover(event) {
     candidateHovered = this.id;
     eventEmitter.emit(EVENTS.PERSON_HOVERED, {});
@@ -20,6 +22,10 @@ function animateThisCandidate(person, newX, newY) {
 }
 
 function moveCandidate() {
+    if (!showedInstructions) {
+        eventEmitter.emit(EVENTS.UPDATE_INSTRUCTIONS, {type: 'manual-eval-show'});
+        showedInstructions = true;
+    }
     // display clicked person's CV
     candidateClicked = this.id;
     eventEmitter.emit(EVENTS.DISPLAY_THIS_CV, {});

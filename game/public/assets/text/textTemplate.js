@@ -22,9 +22,19 @@ const english = {
             'Got it',
         ],
     },
+    instructions: {
+        manual: {
+            click: 'Click the candidates to see their CVs',
+            eval: 'Hire or reject candidates based on their profiles',
+        },
+        ml: {
+
+        },
+    },
     smallOfficeStage: {
-        messageFromVc: 'Congrats again on your latest investment.\n\nNow’s time to execute the idea. Hire the best people, fast.\n\nHiring good talent is a war these days...\n\nkeep us updated.\n\n\t\t\tThanks, Tim Partner, Linear Ventures (click to acknowledge)',
+        messageFromVc: 'Congrats again on your latest investment.\n\nNow’s time to execute the idea. Hire the best people, fast.\n\nHiring good talent is a war these days...\n\nkeep us updated.',
         responses: ['Let\'s do this'],
+        hiringGoal: 3,
         taskDescription: 'Task: Hire 3 new employees',
         retryMessage: 'You are not hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.',
         retryResponses: ['I will do better this time.'],
@@ -36,6 +46,7 @@ const english = {
             'I\'ll do my best',
             'Are you sure?',
         ],
+        hiringGoal: 10,
         taskDescription: 'Task: Hire 10 new employees',
         retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.',
         retryResponses: ['I will do better this time.'],
@@ -111,7 +122,8 @@ const english = {
     mlLabStage: {
         conversation: [
             {
-                delay: 12,
+                // delay: 12,
+                delay: 3,
                 messageFromVc: 'We’ve been able to both hire at 10x our past rate and cut down costs! Great job, this seems to be working!',
                 responses: [
                     'Great to hear!',
@@ -122,7 +134,8 @@ const english = {
                 ],
             },
             {
-                delay: 7,
+                // delay: 7,
+                delay: 3,
                 messageFromVc: 'I just got a complaint from a past applicant who’s looking for feedback on why she was rejected. Can you look into it and let me know?',
                 responses: [
                     'I\'m on it!',
@@ -199,7 +212,7 @@ let candidateClicked = 0;
 let candidateHovered = null;
 
 let candidateInSpot = null;
-let hiringGoals = {'smallStage': 3, 'mediumStage': 10};
+const hiringGoals = {'smallStage': 3, 'mediumStage': 10};
 
 function setLang(dictionary) {
     if (typeof module !== 'undefined') {

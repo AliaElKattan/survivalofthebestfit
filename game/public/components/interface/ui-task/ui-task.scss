@@ -1,14 +1,34 @@
 // UI instruction box
 .TaskTimer {
-  @include textBox();
+  pointer-events: none;
+  @include buttonBox();
   @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'rose');
+  box-shadow: inset 0 0 0 2px color(shadow-rose-light);
     
-  padding: padding(xs) padding(sm);
+  padding: 2px padding(xs) padding(xs) padding(xs);
   position: absolute;
-  left: 14%;
-  top: 4%;
+  left: 50%;
+  top: 2%;
   transform: translateX(-50%);
   min-width: 200px;
+  display: flex;
+  justify-content: space-around;
+  
+  &-task {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  &-title {
+    color: color(txt-light-grey);
+  }
+  
+  &-value {
+    color: black;
+    line-height: 1rem;
+    font-size: 1.5rem;
+  }
   
   &__task {
     text-align: center;

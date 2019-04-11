@@ -1,14 +1,17 @@
 import * as PIXI from 'pixi.js';
-import {uv2px, clamp} from '~/public/controllers/common/utils.js';
+import {uv2px, clamp, screenSizeDetector} from '~/public/controllers/common/utils.js';
 import COLORS from '~/public/controllers/constants/pixi-colors.js';
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/controllers/constants/events.js';
+import SCALES from '~/public/controllers/constants/pixi-scales.js';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 export default class {
     constructor({type}) {
-        this.heightMain = clamp(uv2px(0.1, 'w'), 40, 50);
-        this.heightShadow = clamp(this.heightMain/5, 20, 30);
+        this.heightMain = SCALES.FLOOR[screenSizeDetector()];
+        this.heightShadow = SCALES.FLOOR_SHADOW[screenSizeDetector()];
+        // this.heightMain = clamp(uv2px(0.1, 'w'), 40, 50);
+        // this.heightShadow = clamp(this.heightMain/5, 20, 30);
         this.yAnchorUV = type === 'ground_floor' ? ANCHORS.FLOORS.GROUND_FLOOR.y : ANCHORS.FLOORS.FIRST_FLOOR.y;
         this.yAnchor = uv2px(this.yAnchorUV, 'h');
         this.surface = null;

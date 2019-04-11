@@ -24,9 +24,9 @@ const gameFSM = new machina.Fsm({
         uninitialized: {
             startGame: function() {
                 // this.transition('titleStage');
-                // this.transition('smallOfficeStage');
+                this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
-                this.transition('mlLabStage');
+                // this.transition('mlLabStage');
             },
         },
 
@@ -97,7 +97,7 @@ const gameFSM = new machina.Fsm({
                         revenue = new PerfMetrics();
                         revenue.show();
                         office.draw(0);
-                        task = new TaskUI({show: true, hires: hiringGoals['smallStage'], duration: 60, content: txt.smallOfficeStage.taskDescription});
+                        task = new TaskUI({showTimer: false, hires: hiringGoals['smallStage'], duration: 60, content: txt.smallOfficeStage.taskDescription});
                     }
                 });
             },
@@ -149,7 +149,7 @@ const gameFSM = new machina.Fsm({
                     if (!data.isSmallStage) {
                         revenue.show()
                         office.draw(1);
-                        task = new TaskUI({show: true, hires: hiringGoals['mediumStage'], duration: 60, content: txt.mediumOfficeStage.taskDescription});
+                        task = new TaskUI({showTimer: true, hires: hiringGoals['mediumStage'], duration: 60, content: txt.mediumOfficeStage.taskDescription});
                     }
                 });
             },

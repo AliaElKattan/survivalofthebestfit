@@ -10,7 +10,9 @@ export default class extends UIBase {
         super();
         this.$el = $('#js-tooltip');
         this.$icon = this.$el.find('.Tooltip-icon');
-        this.$text = this.$el.find('.Tooltip-text');
+        this.$tooltip = this.$el.find('.Tooltip-box');
+        this.$text = this.$el.find('.Tooltip-box__text');
+        this.$dismissBtn = this.$el.find('.Tooltip-box__button');
         this.parent = parent;
         this.content = text;
         this.isActive = false;
@@ -27,7 +29,7 @@ export default class extends UIBase {
         });
         if (!this.$icon.hasClass(CLASSES.PULSATE)) this.$icon.addClass(CLASSES.PULSATE);
         this.$text.html(this.content);
-        this.$text.addClass(CLASSES.IS_INACTIVE);
+        this.$tooltip.addClass(CLASSES.IS_INACTIVE);
     }
 
     _handleIconHover() {
@@ -36,11 +38,25 @@ export default class extends UIBase {
             this.$icon.removeClass(CLASSES.PULSATE);
             eventEmitter.emit(EVENTS.RESUME_TIMELINE, {});
         };
-        this.$text.toggleClass(CLASSES.IS_INACTIVE);
     }
 
+    _expandTooltip() {
+        this.isActive = true;
+        this.$icon.addClass(CLASSES.IS_INACTIVE);
+        this.$tooltip.removeClass(CLASSES.IS_INACTIVE);
+    }
+
+    _dismissTooltip() {
+        console.log('resume timeline!');
+        eventEmitter.emit(EVENTS.RESUME_TIMELINE, {});
+        this.hide();
+    }
+
+
     _addEventListeners() {
-        this.$el.on( 'mouseover', this._handleIconHover).mouseleave('mouseout', this._handleIconHover);
+        // this.$el.on( 'mouseover', this._handleIconHover).mouseleave('mouseout', this._handleIconHover);
+        this.$el.on('click', this._expandTooltip.bind(this));
+        this.$dismissBtn.on('click', this._dismissTooltip.bind(this));
         eventEmitter.on(EVENTS.SHOW_TOOLTIP, this.show.bind(this));
         eventEmitter.on(EVENTS.DESTROY_TOOLTIP, this.destroy.bind(this));
     }
