@@ -10,14 +10,14 @@ const english = {
     // texts displayed during the game
     titleStage: {
         header: 'Survival of the Best Fit',
-        instruction: 'Congratulations! You just secured 2 million dollar funding to turn your startup idea into reality. Are you ready to grow a company?',
+        instruction: 'Congratulations! You just secured 2 million dollar funding to turn your startup idea into reality. Are you ready to grow your new company, Bestfit Technologies?',
         responses: [
             'Start Game',
         ],
     },
     tutorialStage: {
         header: 'Tutorial',
-        instruction: 'As the CEO, your goal is to hire the best and the brightest talent that will help your startup grow.\n\nYou can hover over each candidate to view their CV and drag to the desk to hire.\nYou have a hired headcount KPI for each stage so try to meet them and make your investors happy!',
+        instruction: 'As the CEO, your goal is to hire the best and the brightest talent that will help your startup grow. You can hover over each candidate to view their CV and drag to the desk to hire. Try to meet your hiring goals for each stage and make your investors happy!',
         responses: [
             'Got it',
         ],
@@ -32,7 +32,7 @@ const english = {
         },
     },
     smallOfficeStage: {
-        messageFromVc: 'Congrats again on your latest investment.\n\nNow’s time to execute the idea. Hire the best people, fast.\n\nHiring good talent is a war these days...\n\nkeep us updated.',
+        messageFromVc: 'Congrats again on your latest investment. Now’s time to execute the idea. Hire the best people, fast. Hiring good talent is a war these days... keep us updated.',
         responses: ['Let\'s do this'],
         hiringGoal: 3,
         taskDescription: 'Task: Hire 3 new employees',
@@ -41,7 +41,7 @@ const english = {
 
     },
     mediumOfficeStage: {
-        messageFromVc: 'Hi,\n\nGood progress but you are just not growing quickly enough. You need to hire more aggressively to get top talent and outgrow your competitors.\n\nTry to quadraple your headcount by next week so you can get more funding...\n\nThanks,\n\nTim\nPartner, Linear Ventures\n\n\t\t\t(click to acknowledge)',
+        messageFromVc: 'Hi, \ngood progress, but you are just not growing quickly enough. You need to hire more aggressively to get top talent and outgrow your competitors. Try to quadruple your headcount by next week if you want better funding... ',
         responses: [
             'I\'ll do my best',
             'Are you sure?',
@@ -58,7 +58,7 @@ const english = {
     conversation: [
         {
             dialogue_step: 1,
-            text: 'We’re working on a new hiring program, and the software team wants to use machine learning. It’s a great solution, because it allows us to teach the automated software to hire just as our HR team would, but at a much faster pace...',
+            text: 'We’re working on a new hiring program, and the software team wants to use machine learning. It’s a great solution, because it allows us to teach the automated software to hire just as our HR team would, but at a much faster pace!',
             answer_choice: [
                 {
                     text: 'How does that work?',
@@ -77,7 +77,7 @@ const english = {
             text: 'The algorithm will analyze a lot of CV samples, like those of people already working here and in other big tech companies, and use that to figure out what a successful employee looks like - in numbers. Basically, it can replicate your hiring strategy!',
             answer_choice: [
                 {
-                    text: 'The program will think the way I do?',
+                    text: 'What do you need to get started?',
                     response: 'Thinking is a strong word; it’s just really good at finding patterns in the data I give to it, and copying that.\n',
                 },
                 {
@@ -88,7 +88,7 @@ const english = {
         },
         {
             dialogue_step: 3,
-            text: 'First, we need something to build off of. Can you send me the CVs of all current employees? Then, you can sit back and supervise the algorithm.\n',
+            text: 'First, we need something to build off of. Can you send me the CVs of all current employees?\n',
             answer_choice: [
                 {
                     text: 'OK, will do',
@@ -134,9 +134,8 @@ const english = {
                 ],
             },
             {
-                // delay: 7,
-                delay: 3,
-                messageFromVc: 'I just got a complaint from a past applicant who’s looking for feedback on why she was rejected. Can you look into it and let me know?',
+                delay: 7,
+                messageFromVc: 'Hello, I just got a complaint from a past applicant who’s looking for feedback on why she was rejected. Can you look into it and let me know?',
                 responses: [
                     'I\'m on it!',
                     'Ok, but where should I look?',
