@@ -10,14 +10,14 @@ const english = {
     // texts displayed during the game
     titleStage: {
         header: 'Survival of the Best Fit',
-        instruction: 'Congratulations! You just secured 2 million dollar funding to turn your startup idea into reality. Are you ready to grow your new company, Bestfit Technologies?',
+        instruction: 'Congratulations! You just secured funding to turn your startup idea into reality. Are you ready to grow your new company, Bestfit Technologies?',
         responses: [
             'Start Game',
         ],
     },
     tutorialStage: {
         header: 'Tutorial',
-        instruction: 'As the CEO, your goal is to hire the best and the brightest talent that will help your startup grow. You can hover over each candidate to view their CV and drag to the desk to hire. Try to meet your hiring goals for each stage and make your investors happy!',
+        instruction: 'As the CEO, your goal is to hire the best and brightest talent to help your startup grow. You can select a candidate to view their CV, then decide whether to accept or reject them. Try to meet your hiring goals for each stage to make your investors happy!',
         responses: [
             'Got it',
         ],
@@ -32,7 +32,7 @@ const english = {
         },
     },
     smallOfficeStage: {
-        messageFromVc: 'Congrats again on your latest investment. Now’s time to execute the idea. Hire the best people, fast. Hiring good talent is a war these days... keep us updated.',
+        messageFromVc: 'Congrats again on your latest investment. Now\'s time to execute the idea. Hire the best people, as quickly as you can. Hiring good talent is a war these days... keep us updated. Thanks, Tim Partner, Linear Ventures.',
         responses: ['Let\'s do this'],
         hiringGoal: 3,
         taskDescription: 'Task: Hire 3 new employees',
