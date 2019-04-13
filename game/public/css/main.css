@@ -764,14 +764,9 @@ h2 {
     display: inline-block; }
   .NewsFeed .NewsList {
     transform: translateX(100px);
-    padding: 2px;
-    width: 300vw;
-    display: flex;
+    white-space: nowrap;
     align-items: center;
     overflow: hidden; }
-    @media (max-width: 23.74em) {
-      .NewsFeed .NewsList {
-        width: 400vw; } }
     .NewsFeed .NewsList-item {
       font-size: 1.4rem;
       padding: 0 20px;
@@ -959,6 +954,13 @@ h2 {
   position: absolute;
   bottom: -7px;
   left: 4px; }
+
+.ServerCounter {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  color: white;
+  font-size: 1.3rem; }
 
 .choiceButton {
   padding-right: 20px; }
