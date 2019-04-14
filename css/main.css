@@ -59,6 +59,10 @@ SotBF
   color: rgba(190, 88, 87, 0.25);
 }
 
+#mainNav.navbar-shrink {
+  background-color: rgba(250, 250, 250, 0.8);
+}
+
 @media (min-width: 992px) {
   #mainNav {
     padding-top: 0;
@@ -82,9 +86,6 @@ SotBF
   }
   #mainNav .nav-link:active {
     color: white;
-  }
-  #mainNav.navbar-shrink {
-    background-color: #FAFAFA;
   }
   #mainNav.navbar-shrink .nav-link {
     padding: 1rem;
