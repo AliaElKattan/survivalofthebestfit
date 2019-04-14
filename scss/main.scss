@@ -6,13 +6,7 @@
 @import 'about.scss';
 @import 'signup.scss';
 @import 'contact.scss';
-
-@font-face {
-  font-family: 'VT323';
-  src: url('../img/vt323-regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-}
+@import 'footer.scss';
 
 body {
   font-family: 'Roboto Mono';
@@ -20,6 +14,13 @@ body {
   background: $yellow-washed;
 }
 
+.cute-box {
+  position: relative;
+  @include textBox();
+}
+
+
+// Text
 h1, h2 {
   font-family: 'VT323', monospace;
 }
@@ -37,40 +38,7 @@ a {
   }
 }
 
-.bg-white {
-  background-color: $white-washed !important;
-}
-
-.cute-box {
-  position: relative;
-  @include textBox();
-}
-
-.text-primary {
-  color: #2e4755 !important;
-}
-.text-gray {
-  color: #2F4755 !important;
-}
-.text-dark-pink {
-  color: #be5857 !important;
-}
-
+// Spacing
 .padding-top {
   padding-top: 1rem;
-}
-
-footer {
-  padding: 4rem;
-}
-
-.footer-text {
-  font-weight: 700;
-  font-family: 'Roboto Mono', monospace;
-  font-size: 1.5rem;
-  text-align: center;
-}
-
-.our-email {
-  font-size: 1.2rem;
 }

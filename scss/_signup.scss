@@ -2,7 +2,6 @@
   padding: 4rem 0;
   background: $yellow-washed;
   .form-inline {
-    @include textBox();
     input {
       background: $gray-300;
       padding: 1.25rem 2rem;

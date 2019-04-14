@@ -1,6 +1,7 @@
  @mixin textBox() {
    padding: 30px;
-   color: black;
+   background: $white-washed !important;
+
    &:before, &:after {
      content: "";
      display: inline-block;

@@ -1,49 +1,20 @@
 // Variables
-
 $white: #fff !default;
-$gray-100: #f8f9fa !default;
-$gray-200: #e9ecef !default;
 $gray-300: #dee2e6 !default;
-$gray-400: #ced4da !default;
-$gray-500: #adb5bd !default;
-$gray-600: #868e96 !default;
-$gray-700: #495057 !default;
-$gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 $black: #161616 !default;
 $rose-light: #FFADA3 !default;
 $rose-dark: #be5857 !default;
 $yellow-washed: #f9f0e3 !default;
 $white-washed: #FAFAFA;
-
-$bg-yellow: #F9F0E3;
-$bg-transparent: #f9f0e354;
-$txt-light-grey: #B2B2B2;
-$txt-dark-grey: #696969;
-$txt-light-pink: #FFD6D6;
-$txt-black: #000000;
-$rose-light: #FECCC7;
-$grey-main: #F2F2F2;
-$resume-mask: #e8e8e8ad;
-$dark-mode-bg: #ff8d8d;
-$dark-red-bg: #DD6363;
-// box shadow;
-$shadow-darkred-light: #e05555;
-$shadow-darkred-dark: #a52424;
-$shadow-red-light: #FF6262;
-$shadow-red-dark: #D04949;
-$shadow-rose-light: #FFADA3,;
-// shadow-rose-dark: #F29488;
-$shadow-rose-dark: #d28b82;
-$shadow-grey-light: #B9B9B9;
-$shadow-grey-dark: #919191;
-$shadow-blue-light: #CDE4F1;
-$shadow-blue-dark: #7DA6BE;
-$shadow-yellow-light: #FFDB8C;
-$shadow-yellow-dark: #F4AB0B;
-// resume skill color;
-$skill-bg-blue: #CDE4F1;
-$skill-val-blue: #2F4755;
-$skill-bg-yellow: #FFDB8C;
+$dark-pink: #be5857 !default;
 
 $primary: #2e4755 !default;
+
+
+@font-face {
+    font-family: 'VT323';
+    src: url('../img/vt323-regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
