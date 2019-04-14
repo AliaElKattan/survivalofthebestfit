@@ -9,12 +9,16 @@ SotBF
 
 #mainNav {
   min-height: 56px;
-  background-color: fade(#fff, 50%);
+  color: #be5857;
 }
 
 #mainNav h1 {
   color: #be5857;
   margin: 0;
+}
+
+#mainNav .bg-white-transparent {
+  background-color: rgba(250, 250, 250, 0.85);
 }
 
 #mainNav .navbar-toggler {
@@ -34,7 +38,7 @@ SotBF
 }
 
 #mainNav .navbar-nav .nav-item:hover {
-  color: fade(#212529, 80%);
+  color: #212529;
   outline: none;
   background-color: transparent;
 }
@@ -59,27 +63,48 @@ SotBF
   color: rgba(190, 88, 87, 0.25);
 }
 
-#mainNav.navbar-shrink {
-  background-color: #FAFAFA;
-}
-
-#mainNav.navbar-shrink .nav-link {
-  padding: 1rem;
-  border-bottom: 0.25rem solid transparent;
-}
-
-#mainNav.navbar-shrink .nav-link:hover {
-  color: #2e4755;
-}
-
-#mainNav.navbar-shrink .nav-link:active {
-  color: #131e23;
-}
-
-#mainNav.navbar-shrink .nav-link.active {
-  color: #2e4755;
-  outline: none;
-  border-bottom: 0.25rem solid #2e4755;
+@media (min-width: 992px) {
+  #mainNav {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    -webkit-transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
+  }
+  #mainNav .navbar-brand {
+    padding: .5rem 0;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  #mainNav .nav-link {
+    -webkit-transition: none;
+    transition: none;
+    padding: 2rem 1.5rem;
+    color: rgba(190, 88, 87, 0.9);
+  }
+  #mainNav .nav-link:hover {
+    color: rgba(190, 88, 87, 0.5);
+  }
+  #mainNav .nav-link:active {
+    color: white;
+  }
+  #mainNav.navbar-shrink {
+    background-color: #FAFAFA;
+  }
+  #mainNav.navbar-shrink .nav-link {
+    padding: 1rem;
+    border-bottom: 0.25rem solid transparent;
+  }
+  #mainNav.navbar-shrink .nav-link:hover {
+    color: #2e4755;
+  }
+  #mainNav.navbar-shrink .nav-link:active {
+    color: #131e23;
+  }
+  #mainNav.navbar-shrink .nav-link.active {
+    color: #2e4755;
+    outline: none;
+    border-bottom: 0.25rem solid #2e4755;
+  }
 }
 
 .masthead {
@@ -123,7 +148,7 @@ SotBF
   }
 }
 
-@media (min-device-aspect-ratio: 16 / 9) {
+@media (min-device-aspect-ratio: 15 / 9) {
   .masthead {
     background-size: contain;
   }
@@ -176,6 +201,15 @@ SotBF
 .signup-section {
   padding: 4rem 0;
   background: #f9f0e3;
+}
+
+.signup-section h2 {
+  display: inline;
+  margin: 1rem;
+}
+
+.signup-section .form-inline {
+  padding-top: 1.5rem;
 }
 
 .signup-section .form-inline input {

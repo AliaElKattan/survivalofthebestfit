@@ -34,6 +34,11 @@
       $("#mainNav").removeClass("navbar-shrink");
     }
   };
+
+  $('.navbar-toggler').click(function() {
+    $('#mainNav').toggleClass('bg-white-transparent');
+  })
+
   // Collapse now if page is not at top
   navbarCollapse();
   // Collapse the navbar when page is scrolled
