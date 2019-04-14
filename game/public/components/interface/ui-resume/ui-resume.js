@@ -1,7 +1,8 @@
 import {TweenLite} from 'gsap/TweenMax';
 import $ from 'jquery';
-import CLASSES from '../../../controllers/constants/classes';
-import UIBase from '../ui-base/ui-base';
+import CLASSES from '~/public/controllers/constants/classes';
+import UIBase from '~/public/components/interface/ui-base/ui-base';
+import {clamp} from '~/public/controllers/common/utils';
 
 export default class extends UIBase {
     constructor(options) {
@@ -53,7 +54,7 @@ export default class extends UIBase {
             const skillClass = `.${CLASSES.CV_CATEGORY}--${feature.class}`;
             const $skillEl = this.$el.find(skillClass);
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__name`).html(feature.name);
-            $skillEl.find(`.${CLASSES.CV_CATEGORY}__progress`).css('width', `${skillScore}%`);
+            $skillEl.find(`.${CLASSES.CV_CATEGORY}__progress`).css('width', `${clamp(skillScore, 5, 100)}%`);
         });
         if (this.$el.hasClass(CLASSES.IS_INACTIVE)) this.show();
     }

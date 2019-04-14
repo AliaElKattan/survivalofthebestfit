@@ -11,16 +11,14 @@
     @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'blue');
   }
   
-
   padding: padding(sm) padding(sm) padding(md) padding(sm);
-
   position: absolute;
   right: margin(sm);
   //Change the y of resume viewer to dynamic if you need it!
   //Otherwise changing it to be in top half for manual stage
-  top: 15%;
+  top: 2%;
   &--ml {
-    top: 150px;
+    top: 10%;
   }
   min-width: 250px;
   min-height: 300px;
@@ -29,23 +27,28 @@
 
   
   
-  &__title {
-    font-size: 2rem;
-  }
-
-  @include mq($until: mobile){
-    max-height: 240px;
-    max-width: 180px;
-    &__title {
-      font-size: 1rem;
-      
+  @include mq($until: mobile-landscape) {
+    @include buttonBox();
+    min-width: 190px;
+    min-height: unset;
+    padding: padding(xs) 15px padding(sm) 15px;
+    &--ml {
+      top: 60px;
     }
   }
-
-  // @include mq($until: mobile) {
-  //     width: 300px !important;
-  //     height: 300px;
-  // }
+  
+  &__title {
+    font-size: 2rem;
+    @include mq($until: mobile-landscape) {
+      font-size: 1.5rem;
+    }
+  }
+  
+  &__tagline {
+    @include mq($until: mobile-landscape) {
+      display: none;
+    }
+  }
 
   &--dataset {
     display: block;
@@ -79,6 +82,9 @@
 
   &__name {
     padding: padding(xs) 0;
+    @include mq($until: mobile-landscape) {
+      padding: padding(xxs) 0;
+    }
   }
 
   &__skillbar {

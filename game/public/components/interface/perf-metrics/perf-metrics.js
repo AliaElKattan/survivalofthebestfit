@@ -32,7 +32,7 @@ export default class extends UIBase {
     }
 
     show() {
-        this.$el.removeClass(CLASSES.IS_INACTIVE);
+        // this.$el.removeClass(CLASSES.IS_INACTIVE);
     }
 
     hide() {

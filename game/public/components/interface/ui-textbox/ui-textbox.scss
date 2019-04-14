@@ -10,22 +10,29 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  max-height: 500px;
+  max-height: 510px;
   max-width: 600px;
   
-  @include mq($until: mobile) {
-      min-width: 400px;
-      background-color: red;
+  
+  @include mq($until: mobile-landscape) {
+      min-width: 450px;
+  }
+  
+  &__email {
+    margin-bottom: margin(xs);
+  }
+  
+  &__header, &__response {
+    margin-bottom: padding(xs);
   }
   
   &__content {
-    margin-bottom: margin(sm);
     font-size: font(base);
   }
   
-  &__head {
-    color: color(txt-light-grey);
-  }
+   &__response, &__subject {
+     color: color(txt-light-grey);
+   }
   
   &__buttons {
     display: flex;

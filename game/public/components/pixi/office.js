@@ -1,18 +1,19 @@
 import * as PIXI from 'pixi.js';
 import $ from 'jquery';
-import {officeStageContainer, eventEmitter} from '../../controllers/game/gameSetup.js';
-import {bluePersonTexture, yellowPersonTexture} from '../../controllers/common/textures.js';
-import {gameFSM} from '../../controllers/game/stateManager.js';
-import {createPerson, animateThisCandidate} from '../../components/pixi/person.js';
-import Floor from './ml/floor.js';
-import {cvCollection} from '../../assets/text/cvCollection.js';
-import {screenSizeDetector, uv2px, spacingUtils as space} from '../../controllers/common/utils.js';
-import Door from './door.js';
-import ResumeUI from '../../components/interface/ui-resume/ui-resume';
-import YesNo from '../../components/interface/yes-no/yes-no';
+import {officeStageContainer, eventEmitter} from '~/public/controllers/game/gameSetup.js';
+import {bluePersonTexture, yellowPersonTexture} from '~/public/controllers/common/textures.js';
+import {gameFSM} from '~/public/controllers/game/stateManager.js';
+import {createPerson, animateThisCandidate} from '~/public/components/pixi/person.js';
+import Floor from '~/public/components/pixi/ml/floor.js';
+import {cvCollection} from '~/public/assets/text/cvCollection.js';
+import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/controllers/common/utils.js';
+import Door from '~/public/components/pixi/door.js';
+import ResumeUI from '~/public/components/interface/ui-resume/ui-resume';
+import InstructionUI from '~/public/components/interface/ui-instruction/ui-instruction';
+import YesNo from '~/public/components/interface/yes-no/yes-no';
 import PeopleTalkManager from '~/public/components/interface/ml/people-talk-manager/people-talk-manager';
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
-import EVENTS from '../../controllers/constants/events';
+import EVENTS from '~/public/controllers/constants/events';
 
 const spotlight = {
     x: uv2px(0.4, 'w'),
@@ -48,6 +49,8 @@ class Office {
             first_floor: new Floor({type: 'first_floor'}),
         };
 
+        this.instructions = new InstructionUI();
+
         this.peopleTalkManager = new PeopleTalkManager({parent: this.personContainer, stage: 'manual'});
 
         this.doors = [
@@ -63,12 +66,12 @@ class Office {
                 floorParent: this.floors.first_floor,
                 xAnchor: uv2px(this.exitDoorX, 'w'),
             }),
-            new Door({
-                type: 'doorEntry',
-                floor: 'ground_floor',
-                floorParent: this.floors.ground_floor,
-                xAnchor: uv2px(this.entryDoorX, 'w'),
-            }),
+            // new Door({
+            //     type: 'doorEntry',
+            //     floor: 'ground_floor',
+            //     floorParent: this.floors.ground_floor,
+            //     xAnchor: uv2px(this.entryDoorX, 'w'),
+            // }),
         ];
         this.listenerSetup();
     }
@@ -84,6 +87,7 @@ class Office {
 
             this.doors.forEach((door) => door.addToPixi(this.interiorContainer));
             this.yesno = new YesNo({show: true});
+            this.instructions.reveal({type: 'manual-click'});
 
             if (this.personContainer.children.length > 0) {
                 // in case small stage was repeated, clear the office
@@ -201,11 +205,12 @@ class Office {
         this.doors.forEach((door) => {
             door.destroy();
         });
+        this.instructions.destroy();
         officeStageContainer.removeChild(this.interiorContainer);
         officeStageContainer.removeChild(this.personContainer);
         this._removeEventListeners();
         this.peopleTalkManager.destroy();
-        $( '.js-task-timer' ).remove();
+        $( '#js-task-timer' ).remove();
     }
 }
 

@@ -11,6 +11,16 @@ export default {
         mobile: 0.3,
         desktop: 0.38,
     },
+    // in pixels!
+    FLOOR: {
+        mobile: 25,
+        desktop: 40,
+    },
+    // in pixels!
+    FLOOR_SHADOW: {
+        mobile: 12,
+        desktop: 20,
+    },
     BELT: {
         mobile: 0.3,
         desktop: 0.45,

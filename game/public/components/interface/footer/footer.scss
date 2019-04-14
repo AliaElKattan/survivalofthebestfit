@@ -1,7 +1,11 @@
 .Footer {
   position: absolute;
-  bottom: margin(sm);
-  right: margin(md);
+  bottom: 30px;
+  right: margin(sm);
+  @include mq($until: mobile) {
+    bottom: margin(xs);
+    right: margin(xs);
+  }
   z-index: 5;
   
   &:hover {
@@ -13,11 +17,12 @@
   height: 23px;
   width: auto;
   width: 50px;
-  background: url('../assets/img/screen-expand-icon.png') no-repeat center;
+  
+  background: url('../assets/img/fullscreen-expand.png') no-repeat center;
   background-size: contain;
   
   &--expanded {
-    background: url('../assets/img/screen-collapse-icon.png') no-repeat center;
+    background: url('../assets/img/fullscreen-collapse.png') no-repeat center;
     background-size: contain;
   }
 

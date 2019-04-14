@@ -1,6 +1,7 @@
 @import "./node_modules/sass-mq/_mq";
 
 $paddings: (
+  xxs: 5px,
   xs: 10px,
   sm: 20px,
   md: 40px,
@@ -8,6 +9,7 @@ $paddings: (
 );
 
 $margins: (
+  xxs: 5px,
   xs: 10px,
   sm: 20px,
   md: 40px,
@@ -55,6 +57,7 @@ $colors: (
 
 $mq-breakpoints: (
     mobile:  380px,
+    mobile-landscape:  815px,
     tablet:  740px,
     desktop: 1024px,
     wide:    1300px

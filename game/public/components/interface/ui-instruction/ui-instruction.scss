@@ -1,0 +1,18 @@
+// UI instruction box
+.Instruction {
+  
+  @include buttonBox();
+  @include boxColors($bg-color: #f56b6bf7, $shadow-color: 'darkred');
+  
+  &__wrapper {
+    position: absolute;
+    bottom: 200px;
+    left: 50%;
+    z-index: 1;
+  }
+  
+  color: white;
+  font-size: 1.3rem;
+  padding: 0 padding(xs) padding(xxs);
+
+}

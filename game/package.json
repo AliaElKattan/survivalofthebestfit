@@ -18,7 +18,7 @@
     "dev-all": "npm-run-all --parallel clean-dist watch:* dev ",
     "clean-dist": "cd public && del-cli dist && mkdir dist",
     "build:css": "node-sass --include-path node_modules/sass-mq public/scss/main.scss public/css/main.css",
-    "build:main-js": "babelify --outfile public/dist/main-bundle.js",
+    "build:main-js": "browserify 'public/controllers/game/gameEntry.js' -o 'public/dist/main-bundle.js' -t babelify --outfile 'public/dist/main-bundle.js' -v --debug",
     "watch:css": "nodemon -e scss -x \"npm run build:css\"",
     "watch:main-js": "watchify public/controllers/game/gameEntry.js -t babelify --outfile public/dist/main-bundle.js -v --debug",
     "build-static": "npm-run-all clean-dist build:* gulp-pug"
