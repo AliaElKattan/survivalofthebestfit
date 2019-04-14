@@ -39,3 +39,7 @@ a {
 .padding-top {
   padding-top: 1rem;
 }
+
+.bg-white-transparent {
+  background-color: fade-out($white-washed, .15);
+}

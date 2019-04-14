@@ -5,9 +5,7 @@
     color: $dark-pink;
     margin: 0;
   }
-  .bg-white-transparent {
-    background-color: fade-out($white-washed, .15);
-  }
+
   .navbar-toggler {
     font-size: 80%;
     padding: 0.75rem;
