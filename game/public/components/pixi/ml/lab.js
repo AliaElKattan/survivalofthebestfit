@@ -1,4 +1,4 @@
-import {uv2px, waitForSeconds, pacingUtils as space} from '~/public/controllers/common/utils.js';
+import {uv2px, waitForSeconds} from '~/public/controllers/common/utils.js';
 import {cvCollection} from '~/public/assets/text/cvCollection.js';
 import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
@@ -92,18 +92,14 @@ export default class MLLab {
     }
 
     _setupTweens() {
-        // constructor
         this.tweens.resumesTween = this.resumeList.createTween();
         this.tweens.rayAnim = this.scanRay.getSprite();
         this.tweens.doorAnim = this.door.getSprite();
         this.tweens.resumeScanline = this.resumeUI.createScanTween();
         this.tweens.resumeMask = this.resumeUI.createMaskTween();
-        // this.tweens.serverAcceptedAnim = this.dataServers[0].getSprite(); // TODO refactor this to object based approach
-        // this.tweens.serverRejectedAnim = this.dataServers[1].getSprite();
         this.tweens.peopleLine = this.people.createTween();
         let activeServer;
-        // let serverAnim;
-
+        
         // once the conveyor belt (resume tween) animation is done:
         // 1. reset the conveyor belt animation
         // 2. show the resume of the first person in line
@@ -155,26 +151,15 @@ export default class MLLab {
                 if (candidateEval === 'accepted') {
                     eventEmitter.emit(EVENTS.ACCEPTED, {});
                     activeServer = this.dataServers[1];
-                    // serverAnim = this.tweens.serverAcceptedAnim;
                     this.door.playAnimation({direction: 'forward'});
                 } else {
                     activeServer = this.dataServers[0];
-                    // serverAnim = this.tweens.serverRejectedAnim;
                 };
                 // #3: play the people line animation
                 this.people.recalibrateTween(this.tweens.peopleLine);
                 this.tweens.peopleLine.start();
                 // #4: play the server animation
                 activeServer.updateServerCounter();
-                // waitForSeconds(0.2)
-                //     .then(() => {
-                //         serverAnim.gotoAndStop(0);
-                //         serverAnim.play();
-                //         return waitForSeconds(1.5);
-                //     })
-                //     .then(() => {
-                //         serverAnim.gotoAndStop(0);
-                //     });
             };
 
             // #5: hide the scanline and reset its position

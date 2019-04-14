@@ -24,9 +24,9 @@ const gameFSM = new machina.Fsm({
         uninitialized: {
             startGame: function() {
                 // this.transition('titleStage');
-                // this.transition('smallOfficeStage');
+                this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
-                this.transition('mlLabStage');
+                // this.transition('mlLabStage');
             },
         },
 
@@ -81,7 +81,6 @@ const gameFSM = new machina.Fsm({
         /* ///////////////////
         // Small office, hiring 5
         */// /////////////////
-
         smallOfficeStage: {
             _onEnter: function() {
                 new TextBoxUI({
@@ -135,14 +134,14 @@ const gameFSM = new machina.Fsm({
 
         /* //////////////////
         // Medium office, hiring 15
-        *////////////////////
+        */// /////////////////
         mediumOfficeStage: {
             _onEnter: function() {
                 new TextBoxUI({
                     content: txt.mediumOfficeStage.messageFromVc,
                     responses: txt.mediumOfficeStage.responses,
                     show: true,
-                    overlay: true
+                    overlay: true,
                 });
 
                 eventEmitter.on('instructionAcked', (data) => {
@@ -173,7 +172,7 @@ const gameFSM = new machina.Fsm({
                     responses: txt.mediumOfficeStage.retryResponses,
                     show: true,
                     isSmallStage: false,
-                    overlay: true
+                    overlay: true,
 
                 });
 

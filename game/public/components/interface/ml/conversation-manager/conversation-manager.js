@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import EVENTS from '~/public/controllers/constants/events';
 import CLASSES from '~/public/controllers/constants/classes';
 import TextboxUI from '~/public/components/interface/ui-textbox/ui-textbox';
@@ -44,19 +43,13 @@ export default class {
         }
     }
 
-    // add event listeners
-
     _addEventListeners() {
         eventEmitter.on(EVENTS.SHOW_MESSAGE_FROM_BOSS, this._showNewMessage.bind(this));
     }
 
-    // remove event listeners
-
     _removeEventListeners() {
         eventEmitter.off(EVENTS.SHOW_MESSAGE_FROM_BOSS, this._showNewMessage.bind(this));
     }
-
-    // destroy the instance
 
     destroy() {
     }
