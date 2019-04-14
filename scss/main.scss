@@ -19,8 +19,6 @@ body {
   @include textBox();
 }
 
-
-// Text
 h1, h2 {
   font-family: 'VT323', monospace;
 }
@@ -38,7 +36,6 @@ a {
   }
 }
 
-// Spacing
 .padding-top {
   padding-top: 1rem;
 }
