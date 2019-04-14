@@ -9,11 +9,12 @@ SotBF
 
 #mainNav {
   min-height: 56px;
-  background-color: #fff;
+  background-color: fade(#fff, 50%);
 }
 
 #mainNav h1 {
   color: #be5857;
+  margin: 0;
 }
 
 #mainNav .navbar-toggler {
@@ -28,9 +29,8 @@ SotBF
 }
 
 #mainNav .navbar-brand {
-  color: #161616;
   font-weight: 700;
-  padding: .9rem 0;
+  padding: 0;
 }
 
 #mainNav .navbar-nav .nav-item:hover {
@@ -44,52 +44,42 @@ SotBF
   background-color: transparent;
 }
 
-@media (min-width: 992px) {
-  #mainNav {
-    padding-top: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-    -webkit-transition: background-color 0.3s ease-in-out;
-    transition: background-color 0.3s ease-in-out;
-  }
-  #mainNav .navbar-brand {
-    padding: .5rem 0;
-    color: rgba(255, 255, 255, 0.5);
-  }
-  #mainNav .nav-link {
-    -webkit-transition: none;
-    transition: none;
-    padding: 2rem 1.5rem;
-    color: rgba(190, 88, 87, 0.5);
-  }
-  #mainNav .nav-link:hover {
-    color: rgba(190, 88, 87, 0.75);
-  }
-  #mainNav .nav-link:active {
-    color: white;
-  }
-  #mainNav.navbar-shrink {
-    background-color: #fff;
-  }
-  #mainNav.navbar-shrink .navbar-brand {
-    color: #161616;
-  }
-  #mainNav.navbar-shrink .nav-link {
-    color: #161616;
-    padding: 1.5rem 1.5rem 1.25rem;
-    border-bottom: 0.25rem solid transparent;
-  }
-  #mainNav.navbar-shrink .nav-link:hover {
-    color: #2e4755;
-  }
-  #mainNav.navbar-shrink .nav-link:active {
-    color: #131e23;
-  }
-  #mainNav.navbar-shrink .nav-link.active {
-    color: #2e4755;
-    outline: none;
-    border-bottom: 0.25rem solid #2e4755;
-  }
+#mainNav .nav-link {
+  -webkit-transition: none;
+  transition: none;
+  padding: 1rem;
+  color: #be5857;
+}
+
+#mainNav .nav-link:hover {
+  color: rgba(190, 88, 87, 0.75);
+}
+
+#mainNav .nav-link:active {
+  color: rgba(190, 88, 87, 0.25);
+}
+
+#mainNav.navbar-shrink {
+  background-color: #FAFAFA;
+}
+
+#mainNav.navbar-shrink .nav-link {
+  padding: 1rem;
+  border-bottom: 0.25rem solid transparent;
+}
+
+#mainNav.navbar-shrink .nav-link:hover {
+  color: #2e4755;
+}
+
+#mainNav.navbar-shrink .nav-link:active {
+  color: #131e23;
+}
+
+#mainNav.navbar-shrink .nav-link.active {
+  color: #2e4755;
+  outline: none;
+  border-bottom: 0.25rem solid #2e4755;
 }
 
 .masthead {
@@ -97,19 +87,20 @@ SotBF
   width: 100%;
   height: auto;
   min-height: 35rem;
-  margin-top: 4.2rem;
+  margin-top: 4rem;
   padding: 15rem 0;
   background: url("../img/landing2x.png");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size: cover;
-  color: #2e4755;
+  max-height: 90vh;
 }
 
 .masthead h1 {
   font-size: 4rem;
   line-height: 3rem;
+  color: #be5857;
   margin-top: -5rem !important;
 }
 
@@ -122,13 +113,19 @@ SotBF
 
 @media (min-width: 992px) {
   .masthead {
-    height: 100vh;
+    height: 90vh;
     padding: 0;
   }
   .masthead h1 {
     font-size: 5rem;
     line-height: 6rem;
     margin-top: -8rem !important;
+  }
+}
+
+@media (min-device-aspect-ratio: 16 / 9) {
+  .masthead {
+    background-size: contain;
   }
 }
 
