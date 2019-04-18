@@ -136,6 +136,8 @@ class Office {
             const hiredPerson = this.allPeople[candidateInSpot];
             this.hiredPeople.push(hiredPerson);
             this.toReplaceX = hiredPerson.uvX;
+            this.placeCandidate(this.toReplaceX);
+
             this.moveTweenHorizontally(hiredPerson.tween, uv2px(this.entryDoorX + 0.04, 'w'));
             candidateInSpot = null;
             this.doors[0].playAnimation({direction: 'forward'});
@@ -143,7 +145,6 @@ class Office {
             hiredPerson.tween.on('end', () => {
                 this.personContainer.removeChild(hiredPerson);
                 this.doors[0].playAnimation({direction: 'reverse'});
-                this.placeCandidate(this.toReplaceX);
             });
 
             if (this.currentStage == 0 && this.takenDesks == hiringGoals['smallStage']) {
@@ -163,6 +164,7 @@ class Office {
         this.rejectedHandler = () => {
             const rejectedPerson = this.allPeople[candidateInSpot];
             this.toReplaceX = rejectedPerson.uvX;
+            this.placeCandidate(this.toReplaceX);
 
             this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'));
 
@@ -172,7 +174,6 @@ class Office {
             rejectedPerson.tween.on('end', () => {
                 this.personContainer.removeChild(rejectedPerson);
                 this.doors[1].playAnimation({direction: 'reverse'});
-                this.placeCandidate(this.toReplaceX);
             });
 
             if (this.personContainer.children.length <= 1) {
