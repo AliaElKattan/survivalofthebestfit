@@ -36,7 +36,7 @@ const english = {
         responses: ['Let\'s do this'],
         hiringGoal: 3,
         taskDescription: 'Task: Hire 3 new employees',
-        retryMessage: 'You are not hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.',
+        retryMessage: 'You ran out of people to hire. How are you going to meet 100% monthly growth targets at this pace? Try again.',
         retryResponses: ['I will do better this time.'],
 
     },
@@ -48,7 +48,7 @@ const english = {
         ],
         hiringGoal: 10,
         taskDescription: 'Task: Hire 10 new employees',
-        retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.',
+        retryMessage: 'You ran out of people to hire. There\'s a board meeting next month - try again to meet your targets. Try again.',
         retryResponses: ['I will do better this time.'],
     },
 
@@ -211,6 +211,8 @@ let candidateClicked = 0;
 let candidateHovered = null;
 
 let candidateInSpot = null;
+let candidateCount = 0;
+
 const hiringGoals = {'smallStage': 3, 'mediumStage': 10};
 
 function setLang(dictionary) {

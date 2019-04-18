@@ -70,7 +70,6 @@ export default class extends UIBase {
             'top': `${spotlight.y - 140}px`,
             'left': `${spotlight.x + 10}px`,
         });
-        console.log(document.querySelector('.js-yes-no'));
         TweenLite.set(this.$id, {y: 5, xPercent: -50, opacity: 0});
         this.$el.removeClass(CLASSES.IS_INACTIVE);
         TweenLite.to(this.$id, 0.2, {y: 0, opacity: 1, ease: Power1.easeInOut});

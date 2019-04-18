@@ -14,16 +14,17 @@ import YesNo from '~/public/components/interface/yes-no/yes-no';
 import PeopleTalkManager from '~/public/components/interface/ml/people-talk-manager/people-talk-manager';
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/controllers/constants/events';
+import SCALES from '~/public/controllers/constants/pixi-scales.js';
 
 const spotlight = {
     x: uv2px(0.4, 'w'),
-    y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.15, 'h'),
+    y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.13, 'h'),
 };
 
-const config = [
-    {row: 1, col: 5, scale: 1, newPeople: 10},
-    {row: 2, col: 8, scale: 0.8, newPeople: 15},
-];
+const candidatePoolSize = {
+    smallStage: 10,
+    mediumStage: 15
+}
 
 class Office {
     constructor() {
@@ -38,11 +39,12 @@ class Office {
         this.entryDoorX = 0.1;
         this.exitDoorX = 0.6;
         this.personStartX = 0.22;
-        this.personStartY = 0.85;
+        this.personStartY = 0.87;
         this.xOffset = 0.05;
         // IMPORTANT: people are stored by index so can't delete array
         this.allPeople = [];
-        this.hiredPeople = [];
+        this.hiredPeople = [];        
+        this.toReplaceX = 0;
 
         this.floors = {
             ground_floor: new Floor({type: 'ground_floor'}),
@@ -66,12 +68,6 @@ class Office {
                 floorParent: this.floors.first_floor,
                 xAnchor: uv2px(this.exitDoorX, 'w'),
             }),
-            // new Door({
-            //     type: 'doorEntry',
-            //     floor: 'ground_floor',
-            //     floorParent: this.floors.ground_floor,
-            //     xAnchor: uv2px(this.entryDoorX, 'w'),
-            // }),
         ];
         this.listenerSetup();
     }
@@ -99,9 +95,10 @@ class Office {
             this.takenDesks = 0;
 
             // Adding people for small stage
-            this.addPeople(0, config[this.currentStage].newPeople);
+            this.addPeople(0, candidatePoolSize.smallStage);
             this.peopleTalkManager.startTimeline();
-        } else if (stageNum == 1) {
+        } 
+        else if (stageNum == 1) {
             // MEDIUM STAGE - REDRAW PEOPLE
             officeStageContainer.removeChild(this.personContainer);
             this.personContainer = new PIXI.Container();
@@ -110,7 +107,7 @@ class Office {
 
             // empty the people line
             this.currentStage++;
-            this.addPeople(config[this.currentStage-1].newPeople, config[this.currentStage].newPeople);
+            this.addPeople(this.uniqueCandidateIndex, candidatePoolSize.mediumStage);
         }
         officeStageContainer.addChild(this.interiorContainer);
         officeStageContainer.addChild(this.personContainer);
@@ -138,6 +135,7 @@ class Office {
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
             this.hiredPeople.push(hiredPerson);
+            this.toReplaceX = hiredPerson.uvX;
             this.moveTweenHorizontally(hiredPerson.tween, uv2px(this.entryDoorX + 0.04, 'w'));
             candidateInSpot = null;
             this.doors[0].playAnimation({direction: 'forward'});
@@ -145,6 +143,7 @@ class Office {
             hiredPerson.tween.on('end', () => {
                 this.personContainer.removeChild(hiredPerson);
                 this.doors[0].playAnimation({direction: 'reverse'});
+                this.placeCandidate(this.toReplaceX);
             });
 
             if (this.currentStage == 0 && this.takenDesks == hiringGoals['smallStage']) {
@@ -156,11 +155,15 @@ class Office {
                 eventEmitter.emit(EVENTS.STAGE_TWO_COMPLETED, {});
                 gameFSM.nextStage();
             }
+            if (this.personContainer.children.length <= 1) {
+                gameFSM.repeatStage();
+            }
         };
-        eventEmitter.on(EVENTS.ACCEPTED, this.acceptedHandler);
 
-        eventEmitter.on(EVENTS.REJECTED, () => {
+        this.rejectedHandler = () => {
             const rejectedPerson = this.allPeople[candidateInSpot];
+            this.toReplaceX = rejectedPerson.uvX;
+
             this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'));
 
             candidateInSpot = null;
@@ -169,12 +172,17 @@ class Office {
             rejectedPerson.tween.on('end', () => {
                 this.personContainer.removeChild(rejectedPerson);
                 this.doors[1].playAnimation({direction: 'reverse'});
+                this.placeCandidate(this.toReplaceX);
             });
 
             if (this.personContainer.children.length <= 1) {
                 gameFSM.repeatStage();
             }
-        });
+        };
+
+        eventEmitter.on(EVENTS.ACCEPTED, this.acceptedHandler);
+
+        eventEmitter.on(EVENTS.REJECTED, this.rejectedHandler);
 
         eventEmitter.on(EVENTS.RETURN_CANDIDATE, () => {
             animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
@@ -182,24 +190,30 @@ class Office {
         });
     }
 
-    _removeEventListeners() {
-        eventEmitter.off(EVENTS.ACCEPTED, this.acceptedHandler);
+    placeCandidate(thisX) {
+        let texture = bluePersonTexture;
+        const color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
+        const name = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].name;
+        texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
+        const person = createPerson(thisX, this.personStartY, this.uniqueCandidateIndex, texture);
+        this.personContainer.addChild(person);
+        this.allPeople.push(person);
+        this.uniqueCandidateIndex++;
+        console.log("number of candidates displayed: " + this.uniqueCandidateIndex);
     }
 
     addPeople(startIndex, count) {
-        let texture = bluePersonTexture;
-
         for (let i = startIndex; i < startIndex + count; i++) {
             const orderInLine = i - startIndex;
-            const color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
-            const name = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].name;
-            texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
-            const person = createPerson(this.personStartX + this.xOffset * orderInLine, this.personStartY, this.uniqueCandidateIndex, texture);
-            this.personContainer.addChild(person);
-            this.allPeople.push(person);
-            this.uniqueCandidateIndex++;
+            this.placeCandidate(this.personStartX + this.xOffset * orderInLine);
         }
     }
+
+    _removeEventListeners() {
+        eventEmitter.off(EVENTS.ACCEPTED, this.acceptedHandler);
+        eventEmitter.off(EVENTS.REJECTED, this.rejectedHandler);
+    }
+
 
     delete() {
         this.doors.forEach((door) => {

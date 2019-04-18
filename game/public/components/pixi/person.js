@@ -67,6 +67,7 @@ function createPerson(x, y, id, texture) {
     person.buttonMode = true;
     person.inSpotlight = false;
     person.id = id;
+    person.uvX = x;
     person.x = uv2px(x, 'w');
     person.y = uv2px(y, 'h');
     person.originalX = person.x;
