@@ -28,7 +28,7 @@ export default class extends UIBase {
         if (!Array.isArray(news) || news.length < 2) throw new Error('News has to be an array - with at least two members!');
 
         this.$newsList.empty();
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 30; i++) {
             news.forEach((n) => {
                 this._newsArray.unshift(n); // add element to the beginning of the news array
                 this._createNewsElement(n);
@@ -64,7 +64,7 @@ export default class extends UIBase {
     }
 
     animateNews() {
-        TweenLite.fromTo('.NewsList', 65, {x: '-300vw'}, {x: '100vw', ease: Power0.easeNone, onComplete: function(){this.restart()}});
+        TweenLite.fromTo('.NewsList', 140, {x: '0vw'}, {x: '-600vw', ease: Power0.easeNone, onComplete: function(){this.restart()}});
     }
 
     hide() {

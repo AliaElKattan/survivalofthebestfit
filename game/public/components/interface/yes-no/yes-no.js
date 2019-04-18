@@ -18,9 +18,14 @@ export default class extends UIBase {
     }
 
     _acceptClicked(e) {
+        // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
+        gtag('event', 'accept', {
+            'event_category': 'default',
+            'event_label': 'accept/reject',
+        });
         if (!this.hasBeenClicked) {
-          eventEmitter.emit(EVENTS.UPDATE_INSTRUCTIONS, {type: 'manual-eval-hide'});
-          this.hasBeenClicked = true;
+            eventEmitter.emit(EVENTS.UPDATE_INSTRUCTIONS, {type: 'manual-eval-hide'});
+            this.hasBeenClicked = true;
         };
         this.$yesButton.addClass(CLASSES.ACCEPTED);
         if (candidateInSpot != null) {
@@ -30,6 +35,11 @@ export default class extends UIBase {
     }
 
     _rejectClicked(e) {
+        // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
+        gtag('event', 'reject', {
+            'event_category': 'default',
+            'event_label': 'accept/reject',
+        });
         this.$noButton.addClass(CLASSES.REJECTED);
         if (candidateInSpot != null) {
             eventEmitter.emit(EVENTS.REJECTED, {});

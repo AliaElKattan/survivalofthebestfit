@@ -32,7 +32,7 @@ const english = {
         },
     },
     smallOfficeStage: {
-        messageFromVc: 'Congrats again on your latest investment. Now\'s time to execute the idea. Hire the best people, as quickly as you can. Hiring good talent is a war these days... keep us updated. Thanks, Tim Partner, Linear Ventures.',
+        messageFromVc: 'Congrats again on your latest investment. Now\'s time to execute the idea. Hire the best people, as quickly as you can. Hiring good talent is a war these days... keep us updated. ',
         responses: ['Let\'s do this'],
         hiringGoal: 3,
         taskDescription: 'Task: Hire 3 new employees',
@@ -41,10 +41,10 @@ const english = {
 
     },
     mediumOfficeStage: {
-        messageFromVc: 'Hi, \ngood progress, but you are just not growing quickly enough. You need to hire more aggressively to get top talent and outgrow your competitors. Try to quadruple your headcount by next week if you want better funding... ',
+        messageFromVc: 'Hi, \ngood progress, but you just aren\'t growing quickly enough. You need to hire more aggressively to outgrow your competitors. Try to meet the new hiring goals if you want better funding... ',
         responses: [
             'I\'ll do my best',
-            'Are you sure?',
+            'I can do that!',
         ],
         hiringGoal: 10,
         taskDescription: 'Task: Hire 10 new employees',
