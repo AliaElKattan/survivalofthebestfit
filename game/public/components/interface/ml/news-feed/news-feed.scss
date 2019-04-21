@@ -30,6 +30,7 @@
   
   .NewsList {
     // transform: translateX(-100vw);
+    text-transform: uppercase;
     transform: translateX(100px);
     //padding: 2px;
     white-space: nowrap;
@@ -43,7 +44,7 @@
     
     &-item {
       // color: color(txt-dark-grey);
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       @include mq($until: mobile) {
           font-size: 1.1rem;
       };

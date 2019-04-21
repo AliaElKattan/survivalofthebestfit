@@ -2,83 +2,83 @@
 
 "door00.png":
 {
-	"frame": {"x":0,"y":0,"w":225,"h":395},
+	"frame": {"x":1,"y":1,"w":281,"h":495},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":395},
-	"sourceSize": {"w":225,"h":395}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":281,"h":495},
+	"sourceSize": {"w":281,"h":500}
 },
 "door01.png":
 {
-	"frame": {"x":0,"y":395,"w":225,"h":395},
+	"frame": {"x":1,"y":498,"w":281,"h":495},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":395},
-	"sourceSize": {"w":225,"h":395}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":281,"h":495},
+	"sourceSize": {"w":281,"h":500}
 },
 "door02.png":
 {
-	"frame": {"x":225,"y":0,"w":225,"h":395},
+	"frame": {"x":284,"y":1,"w":281,"h":495},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":395},
-	"sourceSize": {"w":225,"h":395}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":281,"h":495},
+	"sourceSize": {"w":281,"h":500}
 },
 "door03.png":
 {
-	"frame": {"x":225,"y":395,"w":225,"h":395},
+	"frame": {"x":284,"y":498,"w":281,"h":495},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":395},
-	"sourceSize": {"w":225,"h":395}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":281,"h":495},
+	"sourceSize": {"w":281,"h":500}
 },
 "door04.png":
 {
-	"frame": {"x":0,"y":790,"w":225,"h":395},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":395},
-	"sourceSize": {"w":225,"h":395}
+	"frame": {"x":567,"y":1,"w":281,"h":495},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":281,"h":495},
+	"sourceSize": {"w":281,"h":500}
 },
 "door05.png":
 {
-	"frame": {"x":450,"y":0,"w":225,"h":395},
+	"frame": {"x":567,"y":498,"w":281,"h":495},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":395},
-	"sourceSize": {"w":225,"h":395}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":281,"h":495},
+	"sourceSize": {"w":281,"h":500}
 },
 "door06.png":
 {
-	"frame": {"x":450,"y":395,"w":225,"h":395},
+	"frame": {"x":850,"y":1,"w":281,"h":495},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":395},
-	"sourceSize": {"w":225,"h":395}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":281,"h":495},
+	"sourceSize": {"w":281,"h":500}
 },
 "door07.png":
 {
-	"frame": {"x":675,"y":0,"w":225,"h":395},
+	"frame": {"x":850,"y":498,"w":281,"h":495},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":395},
-	"sourceSize": {"w":225,"h":395}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":281,"h":495},
+	"sourceSize": {"w":281,"h":500}
 },
 "door08.png":
 {
-	"frame": {"x":675,"y":395,"w":225,"h":395},
+	"frame": {"x":1133,"y":1,"w":281,"h":495},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":395},
-	"sourceSize": {"w":225,"h":395}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":281,"h":495},
+	"sourceSize": {"w":281,"h":500}
 },
 "door09.png":
 {
-	"frame": {"x":395,"y":790,"w":225,"h":395},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":395},
-	"sourceSize": {"w":225,"h":395}
+	"frame": {"x":1133,"y":498,"w":281,"h":495},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":281,"h":495},
+	"sourceSize": {"w":281,"h":500}
 }},
 "animations": {
 	"door": ["door00.png","door01.png","door02.png","door03.png","door04.png","door05.png","door06.png","door07.png","door08.png","door09.png"]
@@ -86,10 +86,10 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "door.png",
+	"image": "door-office-{1}.png",
 	"format": "RGBA8888",
-	"size": {"w":900,"h":1015},
-	"scale": "0.8",
-	"smartupdate": "$TexturePacker:SmartUpdate:d7408399c8bf88d74eaaf896ec9d5520:b5ad4d1151568dd6cad5ae5bee2c7465:2c8e93dc850867c80a18b16ab10fb124$"
+	"size": {"w":1415,"h":994},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:3220c765a9f24dd0e0ae77104dcbd897:bed2c91ae2ee991287cd95c2bc673783:d82ee846114b58c115099234512a1be8$"
 }
 }
