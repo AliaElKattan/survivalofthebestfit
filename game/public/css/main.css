@@ -302,8 +302,8 @@ h2 {
   background-color: #FAFAFA;
   padding: 20px 20px 40px 20px;
   position: absolute;
-  right: 20px;
-  top: 2%;
+  right: 50px;
+  top: 4%;
   min-width: 250px;
   min-height: 300px;
   max-height: 700px;
@@ -425,7 +425,7 @@ h2 {
   padding: 2px 10px 10px 10px;
   position: absolute;
   left: 50%;
-  top: 2%;
+  top: 4%;
   transform: translateX(-50%);
   min-width: 200px;
   display: flex;
@@ -763,6 +763,7 @@ h2 {
   .NewsFeed__title, .NewsFeed .NewsList, .NewsFeed .NewsList-item {
     display: inline-block; }
   .NewsFeed .NewsList {
+    text-transform: uppercase;
     transform: translateX(100px);
     padding: 2px;
     width: 300vw;
@@ -773,7 +774,7 @@ h2 {
       .NewsFeed .NewsList {
         width: 400vw; } }
     .NewsFeed .NewsList-item {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       padding: 0 20px;
       line-height: 1;
       border-right: solid #B2B2B2 2px; }
@@ -960,6 +961,13 @@ h2 {
   bottom: -7px;
   left: 4px; }
 
+.ServerCounter {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  color: white;
+  font-size: 1.3rem; }
+
 .choiceButton {
   padding-right: 20px; }
 
@@ -1003,6 +1011,19 @@ h2 {
     background: #919191; }
   .conversationBox:after {
     background: #B9B9B9; }
+
+.datafile {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  height: 50px;
+  width: 50px;
+  background-color: red;
+  z-index: 7;
+  cursor: move; }
+
+[draggable] {
+  user-select: none; }
 
 .MobileOrientationOverlay {
   display: none; }

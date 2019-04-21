@@ -67,7 +67,7 @@ export default class extends UIBase {
 
     show() {
         this.$el.css({
-            'top': `${spotlight.y - 140}px`,
+            'top': `${spotlight.y - 150}px`,
             'left': `${spotlight.x + 10}px`,
         });
         console.log(document.querySelector('.js-yes-no'));

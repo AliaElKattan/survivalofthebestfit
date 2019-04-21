@@ -69,7 +69,7 @@ export default class extends UIBase {
     }
 
     animateNews() {
-        TweenLite.fromTo('.NewsList-item', 24, {x: '-100vw'}, {x: '100vw', ease: Power0.easeNone, onComplete: function(){this.restart()}});
+        TweenLite.fromTo('.NewsList-item', 26, {x: '+100vw'}, {x: '-100vw', ease: Power0.easeNone, onComplete: function(){this.restart()}});
     }
 
     hide() {

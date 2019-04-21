@@ -21,8 +21,8 @@ const spotlight = {
 };
 
 const config = [
-    {row: 1, col: 5, scale: 1, newPeople: 10},
-    {row: 2, col: 8, scale: 0.8, newPeople: 15},
+    {row: 1, col: 5, scale: 1, newPeople: 16},
+    {row: 2, col: 8, scale: 0.8, newPeople: 16},
 ];
 
 class Office {
@@ -37,9 +37,9 @@ class Office {
         this.personContainer = new PIXI.Container();
         this.entryDoorX = 0.1;
         this.exitDoorX = 0.6;
-        this.personStartX = 0.22;
+        this.personStartX = 0.1;
         this.personStartY = 0.85;
-        this.xOffset = 0.05;
+        this.xOffset = 0.055;
         // IMPORTANT: people are stored by index so can't delete array
         this.allPeople = [];
         this.hiredPeople = [];
