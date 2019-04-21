@@ -15,7 +15,6 @@ import PeopleTalkManager from '~/public/components/interface/ml/people-talk-mana
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/controllers/constants/events';
 import SCALES from '~/public/controllers/constants/pixi-scales.js';
-import PerfMetrics from '~/public/components/interface/perf-metrics/perf-metrics';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
 
@@ -29,23 +28,24 @@ const candidatePoolSize = {
     mediumOfficeStage: 10,
     largeOfficeStage: 15
 }
+const officeCoordinates = {
+    entryDoorX: 0.1,
+    exitDoorX: 0.6,
+    personStartX: 0.2,
+    personStartY: 0.87,
+    xOffset: 0.05,
+}
 
 class Office {
     constructor() {
         this.uniqueCandidateIndex = 0;
         this.currentStage = 0;
         this.scale = 1;
-        this.deskList = [];
-        this.floorList = [];
         this.takenDesks = 0;
         this.interiorContainer = new PIXI.Container();
         this.personContainer = new PIXI.Container();
-        this.entryDoorX = 0.1;
-        this.exitDoorX = 0.6;
-        this.personStartX = 0.22;
-        this.personStartY = 0.87;
-        this.xOffset = 0.05;
-        // IMPORTANT: people are stored by index so can't delete array
+
+        // IMPORTANT: candidates ID refer to this array's index
         this.allPeople = [];
         this.hiredPeople = [];        
         this.toReplaceX = 0;
@@ -67,29 +67,53 @@ class Office {
                 type: 'doorAccepted',
                 floor: 'first_floor',
                 floorParent: this.floors.first_floor,
-                xAnchor: uv2px(this.entryDoorX, 'w'),
+                xAnchor: uv2px(officeCoordinates.entryDoorX, 'w'),
             }),
             new Door({
                 type: 'doorRejected',
                 floor: 'first_floor',
                 floorParent: this.floors.first_floor,
-                xAnchor: uv2px(this.exitDoorX, 'w'),
+                xAnchor: uv2px(officeCoordinates.exitDoorX, 'w'),
             }),
         ];
         this.listenerSetup();
     }
 
-    draw(stageNum) {
-        candidateInSpot = null;
-        this.takenDesks = 0;
+    start(stageNum) {
         this.currentStage = stageNum;
 
-        let showTimer;
+        if (this.task) {
+            this.task.destroy();
+            this.task = null;
+        }
 
-        if (stageNum == 0) {
+        switch(stageNum) {
+            case 0:
+                this.stageText = txt.smallOfficeStage;
+                break;
+            case 1:
+                this.stageText = txt.mediumOfficeStage;
+                break;
+            case 2:
+                this.stageText = txt.largeOfficeStage;
+                break;
+        }
+        
+        this.draw(stageNum);
+    }
+
+    draw() {
+        candidateInSpot = null;
+        this.takenDesks = 0;
+
+        let showTimer;        
+        let candidatesToAdd;
+
+        if (this.currentStage == 0) {
             // SMALL STAGE - INITIAL SET UP
 
             showTimer = false;
+            candidatesToAdd = candidatePoolSize.smallOfficeStage;
 
             for (const floor in this.floors) {
                 if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
@@ -101,31 +125,19 @@ class Office {
             this.yesno = new YesNo({show: true});
             this.instructions.reveal({type: 'manual-click'});
 
-            if (this.personContainer.children.length > 0) {
-                // in case small stage was repeated, clear the office
-                officeStageContainer.removeChild(this.personContainer);
-                this.personContainer = new PIXI.Container();
-            }
-
-            // Adding people for small stage
-            this.addPeople(0, candidatePoolSize.smallOfficeStage);
             this.peopleTalkManager.startTimeline();
         }
 
         else {
             showTimer = true;
-            // MEDIUM OFFICE STAGE - REDRAW PEOPLE
+            candidatesToAdd = this.currentStage === 1 ? candidatePoolSize.mediumOfficeStage : candidatePoolSize.largeOfficeStage;
+
             officeStageContainer.removeChild(this.personContainer);
             this.personContainer = new PIXI.Container();
-
-            // empty the people line
-
-            let toAdd = stageNum === 1 ? candidatePoolSize.mediumOfficeStage : candidatePoolSize.largeOfficeStage;
-            this.addPeople(this.uniqueCandidateIndex, toAdd);
-
             
         }
 
+        this.populateCandidates(this.uniqueCandidateIndex, candidatesToAdd);
         officeStageContainer.addChild(this.interiorContainer);
         officeStageContainer.addChild(this.personContainer);
 
@@ -135,7 +147,6 @@ class Office {
             duration: this.stageText.duration, 
             content: this.stageText.taskDescription
         });
-        
     }
 
     moveTweenHorizontally(tween, newX) {
@@ -176,7 +187,7 @@ class Office {
             this.toReplaceX = hiredPerson.uvX;
             this.placeCandidate(this.toReplaceX);
 
-            this.moveTweenHorizontally(hiredPerson.tween, uv2px(this.entryDoorX + 0.04, 'w'));
+            this.moveTweenHorizontally(hiredPerson.tween, uv2px(officeCoordinates.entryDoorX + 0.04, 'w'));
             candidateInSpot = null;
             this.doors[0].playAnimation({direction: 'forward'});
 
@@ -197,7 +208,7 @@ class Office {
             this.toReplaceX = rejectedPerson.uvX;
             this.placeCandidate(this.toReplaceX);
 
-            this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'));
+            this.moveTweenHorizontally(rejectedPerson.tween, uv2px(officeCoordinates.exitDoorX + 0.04, 'w'));
 
             candidateInSpot = null;
             this.doors[1].playAnimation({direction: 'forward'});
@@ -226,42 +237,21 @@ class Office {
         });
     }
 
-    start(stageNum) {
-        if (this.task) {
-            this.task.destroy();
-            this.task = null;
-        }
-
-        switch(stageNum) {
-            case 0:
-                this.stageText = txt.smallOfficeStage;
-                break;
-            case 1:
-                this.stageText = txt.mediumOfficeStage;
-                break;
-            case 2:
-                this.stageText = txt.largeOfficeStage;
-                break;
-        }
-        
-        this.draw(stageNum);
-    }
-
     placeCandidate(thisX) {
         let texture = bluePersonTexture;
         const color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
         const name = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].name;
         texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
-        const person = createPerson(thisX, this.personStartY, this.uniqueCandidateIndex, texture);
+        const person = createPerson(thisX, officeCoordinates.personStartY, this.uniqueCandidateIndex, texture);
         this.personContainer.addChild(person);
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;
     }
 
-    addPeople(startIndex, count) {
+    populateCandidates(startIndex, count) {
         for (let i = startIndex; i < startIndex + count; i++) {
             const orderInLine = i - startIndex;
-            this.placeCandidate(this.personStartX + this.xOffset * orderInLine);
+            this.placeCandidate(officeCoordinates.personStartX + officeCoordinates.xOffset * orderInLine);
         }
     }
 

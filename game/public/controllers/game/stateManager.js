@@ -5,12 +5,10 @@ import MLLab from '../../components/pixi/ml/lab.js';
 import TitlePageUI from '../../components/interface/ui-title/ui-title';
 import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
 import PerfMetrics from '~/public/components/interface/perf-metrics/perf-metrics';
-import TaskUI from '../../components/interface/ui-task/ui-task';
 import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
-import EVENTS from '~/public/controllers/constants/events';
 
 let office = new Office();
-let task;
+let currentStage;
 let revenue;
 let transitionOverlay;
 let titlePageUI;
@@ -84,11 +82,13 @@ const gameFSM = new machina.Fsm({
         */// /////////////////
         smallOfficeStage: {
             _onEnter: function() {
+                currentStage = 0;
+
                 new TextBoxUI({
                     content: txt.smallOfficeStage.messageFromVc,
                     responses: txt.smallOfficeStage.responses,
                     show: true,
-                    stageNumber: 0,
+                    stageNumber: currentStage,
                     overlay: true,
                 });
             },
@@ -104,9 +104,10 @@ const gameFSM = new machina.Fsm({
         */// /////////////////
         mediumOfficeStage: {
             _onEnter: function() {
+                currentStage = 1;
 
                 new TextBoxUI({
-                    stageNumber: 1,
+                    stageNumber: currentStage,
                     content: txt.mediumOfficeStage.messageFromVc,
                     responses: txt.mediumOfficeStage.responses,
                     show: true,
@@ -125,8 +126,10 @@ const gameFSM = new machina.Fsm({
         */// /////////////////
         largeOfficeStage: {
             _onEnter: function() {
+                currentStage = 2;
+
                 new TextBoxUI({
-                    stageNumber: 2,
+                    stageNumber: currentStage,
                     content: txt.largeOfficeStage.messageFromVc,
                     responses: txt.largeOfficeStage.responses,
                     show: true,
@@ -174,9 +177,11 @@ const gameFSM = new machina.Fsm({
     startGame: function() {
         this.handle('startGame');
     },
+
     nextStage: function() {
         this.handle('nextStage');
     },
+
     repeatStage: function() {
         this.handle('repeatStage');
     },
