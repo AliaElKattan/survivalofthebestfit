@@ -13,5 +13,4 @@ export default {
             x: 0.03,
         },
     },
-
 };

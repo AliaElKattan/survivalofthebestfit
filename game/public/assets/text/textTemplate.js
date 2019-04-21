@@ -10,14 +10,14 @@ const english = {
     // texts displayed during the game
     titleStage: {
         header: 'Survival of the Best Fit',
-        instruction: 'Congratulations! You just secured 2 million dollar funding to turn your startup idea into reality. Are you ready to grow your new company, Bestfit Technologies?',
+        instruction: 'Congratulations! You just secured funding to turn your startup idea into reality. Are you ready to grow your new company, Bestfit Technologies?',
         responses: [
             'Start Game',
         ],
     },
     tutorialStage: {
         header: 'Tutorial',
-        instruction: 'As the CEO, your goal is to hire the best and the brightest talent that will help your startup grow. You can hover over each candidate to view their CV and drag to the desk to hire. Try to meet your hiring goals for each stage and make your investors happy!',
+        instruction: 'As the CEO, your goal is to hire the best and brightest talent to help your startup grow. You can select a candidate to view their CV, then decide whether to accept or reject them. Try to meet your hiring goals for each stage to make your investors happy!',
         responses: [
             'Got it',
         ],
@@ -32,23 +32,23 @@ const english = {
         },
     },
     smallOfficeStage: {
-        messageFromVc: 'Congrats again on your latest investment. Now’s time to execute the idea. Hire the best people, fast. Hiring good talent is a war these days... keep us updated.',
+        messageFromVc: 'Congrats again on your latest investment. Now\'s time to execute the idea. Hire the best people, as quickly as you can. Hiring good talent is a war these days... keep us updated. ',
         responses: ['Let\'s do this'],
         hiringGoal: 3,
         taskDescription: 'Task: Hire 3 new employees',
-        retryMessage: 'You are not hiring. How are you going to meet 100% monthly growth targets at this pace? Try again.',
+        retryMessage: 'You ran out of people to hire. How are you going to meet 100% monthly growth targets at this pace? Try again.',
         retryResponses: ['I will do better this time.'],
 
     },
     mediumOfficeStage: {
-        messageFromVc: 'Hi, \ngood progress, but you are just not growing quickly enough. You need to hire more aggressively to get top talent and outgrow your competitors. Try to quadruple your headcount by next week if you want better funding... ',
+        messageFromVc: 'Hi, \ngood progress, but you just aren\'t growing quickly enough. You need to hire more aggressively to outgrow your competitors. Try to meet the new hiring goals if you want better funding... ',
         responses: [
             'I\'ll do my best',
-            'Are you sure?',
+            'I can do that!',
         ],
         hiringGoal: 10,
         taskDescription: 'Task: Hire 10 new employees',
-        retryMessage: 'Your competitors are catching up. There\'s a board meeting next month - try again and meet your hiring targets by then. Try again.',
+        retryMessage: 'You ran out of people to hire. There\'s a board meeting next month - try again to meet your targets. Try again.',
         retryResponses: ['I will do better this time.'],
     },
 
@@ -211,6 +211,8 @@ let candidateClicked = 0;
 let candidateHovered = null;
 
 let candidateInSpot = null;
+let candidateCount = 0;
+
 const hiringGoals = {'smallStage': 3, 'mediumStage': 10};
 
 function setLang(dictionary) {

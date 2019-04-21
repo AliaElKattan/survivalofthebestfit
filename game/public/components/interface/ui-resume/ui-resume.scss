@@ -24,6 +24,8 @@
   min-height: 300px;
   max-height: 700px;
   max-width: 400px;
+
+  
   
   @include mq($until: mobile-landscape) {
     @include buttonBox();

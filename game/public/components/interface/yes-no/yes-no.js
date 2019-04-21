@@ -18,9 +18,14 @@ export default class extends UIBase {
     }
 
     _acceptClicked(e) {
+        // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
+        gtag('event', 'accept', {
+            'event_category': 'default',
+            'event_label': 'accept/reject',
+        });
         if (!this.hasBeenClicked) {
-          eventEmitter.emit(EVENTS.UPDATE_INSTRUCTIONS, {type: 'manual-eval-hide'});
-          this.hasBeenClicked = true;
+            eventEmitter.emit(EVENTS.UPDATE_INSTRUCTIONS, {type: 'manual-eval-hide'});
+            this.hasBeenClicked = true;
         };
         this.$yesButton.addClass(CLASSES.ACCEPTED);
         if (candidateInSpot != null) {
@@ -30,6 +35,11 @@ export default class extends UIBase {
     }
 
     _rejectClicked(e) {
+        // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
+        gtag('event', 'reject', {
+            'event_category': 'default',
+            'event_label': 'accept/reject',
+        });
         this.$noButton.addClass(CLASSES.REJECTED);
         if (candidateInSpot != null) {
             eventEmitter.emit(EVENTS.REJECTED, {});
@@ -70,7 +80,6 @@ export default class extends UIBase {
             'top': `${spotlight.y - 150}px`,
             'left': `${spotlight.x + 10}px`,
         });
-        console.log(document.querySelector('.js-yes-no'));
         TweenLite.set(this.$id, {y: 5, xPercent: -50, opacity: 0});
         this.$el.removeClass(CLASSES.IS_INACTIVE);
         TweenLite.to(this.$id, 0.2, {y: 0, opacity: 1, ease: Power1.easeInOut});

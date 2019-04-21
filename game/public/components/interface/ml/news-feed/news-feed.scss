@@ -32,12 +32,13 @@
     // transform: translateX(-100vw);
     text-transform: uppercase;
     transform: translateX(100px);
-    padding: 2px;
-    width: 300vw;
+    //padding: 2px;
+    white-space: nowrap;
+    //width: 500vw;
     @include mq($until: mobile) {
-        width: 400vw;
+        //width: 400vw;
     }
-    display: flex;
+    //display: flex;
     align-items: center;
     overflow: hidden;
     

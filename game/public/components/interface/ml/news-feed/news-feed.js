@@ -28,18 +28,12 @@ export default class extends UIBase {
         if (!Array.isArray(news) || news.length < 2) throw new Error('News has to be an array - with at least two members!');
 
         this.$newsList.empty();
-
-        news.forEach((n) => {
-            this._newsArray.unshift(n); // add element to the beginning of the news array
-
-            if (!this.isDesktop) {
-                this._createNewsElement(n); // create a new news feed DOM element
-            } else {
-                // for (let i = 0; i < 2; i++) {
-                this._createNewsElement(n); // create a new news feed DOM element
-                // };
-            }
-        });
+        for (let i = 0; i < 30; i++) {
+            news.forEach((n) => {
+                this._newsArray.unshift(n); // add element to the beginning of the news array
+                this._createNewsElement(n);
+            });
+        }
 
         this.animateNews(); // TODO
         this._newsArray = this._newsArray.slice(0, 2); // pop the outdated news from the array
@@ -51,6 +45,7 @@ export default class extends UIBase {
         const newsEl = document.createElement('p');
         newsEl.classList.add(`${CLASSES.NEWS_FEED_ITEM}`);
         $(newsEl).text(newsText).appendTo(this.$newsList);
+        this.$newsElArray.push(newsEl);
     }
 
     _addEventListeners() {
@@ -69,7 +64,10 @@ export default class extends UIBase {
     }
 
     animateNews() {
-        TweenLite.fromTo('.NewsList-item', 26, {x: '+100vw'}, {x: '-100vw', ease: Power0.easeNone, onComplete: function(){this.restart()}});
+        TweenLite.fromTo('.NewsList', 140, {x: '0vw'}, {x: '-600vw', ease: Power0.easeNone, onComplete: function() {
+            this.restart();
+        }});
+        // TweenLite.fromTo('.NewsList-item', 26, {x: '+100vw'}, {x: '-100vw', ease: Power0.easeNone, onComplete: function(){this.restart()}});
     }
 
     hide() {
