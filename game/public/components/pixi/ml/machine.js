@@ -23,12 +23,15 @@ export default class {
     draw() {
         this.scale = SCALES.MACHINE[screenSizeDetector()];
         this.machine.scale.set(this.scale);
-        this.machine.x = space.screenCenterX(this.machine.width);
+        this.machine.x = space.screenCenterX(this.machine.width) - uv2px(0.175, 'h');
         const serverHeight = SPRITES.dataServerRejected.height / SPRITES.dataServerRejected.scale.x * SCALES.DATA_SERVER[screenSizeDetector()];
         this.machine.y = uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y, 'h') - serverHeight*1.1;
         this.inspectButton.scale.set(this.scale);
         this.inspectButton.x = space.getCenteredChildX(this.machine.x, this.machine.width, this.inspectButton.width);
         this.inspectButton.y = space.getCenteredChildY(this.machine.y, this.machine.height, this.inspectButton.height);
+        // this.machine.tint = 0xe8ffff;
+        // e8ffff
+        // fff5d2
     }
 
     _addEventListeners() {

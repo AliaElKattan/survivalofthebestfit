@@ -13,10 +13,10 @@
   
   padding: padding(sm) padding(sm) padding(md) padding(sm);
   position: absolute;
-  right: margin(sm);
+  right: 50px;
   //Change the y of resume viewer to dynamic if you need it!
   //Otherwise changing it to be in top half for manual stage
-  top: 2%;
+  top: 4%;
   &--ml {
     top: 10%;
   }

@@ -34,7 +34,7 @@ export default class extends UIBase {
                 this.setContent(txt.instructions.manual.eval);
                 this.$el.css({
                     'bottom': 'unset',
-                    'top': `${spotlight.y - 180}px`,
+                    'top': `${spotlight.y - 200}px`,
                     'left': `${spotlight.x + 10}px`,
                 });
                 this.show();

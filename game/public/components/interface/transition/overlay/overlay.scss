@@ -13,3 +13,18 @@
   max-width: 700px;
 
 }
+
+.datafile {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  height: 50px;
+  width:50px;
+  background-color:red;
+  z-index:7;
+  cursor: move;
+}
+
+[draggable] {
+  user-select: none;
+}
