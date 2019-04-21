@@ -5,7 +5,6 @@ import UIBase from '~/public/components/interface/ui-base/ui-base';
 import {eventEmitter, pixiApp} from '~/public/controllers/game/gameSetup.js';
 import {spotlight} from '~/public/components/pixi/office';
 
-
 export default class extends UIBase {
     constructor(options) {
         super();
@@ -15,7 +14,6 @@ export default class extends UIBase {
         this._duration = options.duration || undefined;
         this._elapsedTime = 0;
         this._runningMS = 0;
-        this.timeUp = false;
         this.timer = pixiApp.ticker;
         this.hiresQuota = options.hires || undefined;
         this.hiresNum = 0;
@@ -23,10 +21,12 @@ export default class extends UIBase {
 
         this.setContent();
         this.show();
+
         if (options.showTimer) {
             this.$timer.removeClass(CLASSES.IS_INACTIVE);
             this.startTimer();
         }
+
         this._addEventListeners();
     }
 
@@ -57,31 +57,44 @@ export default class extends UIBase {
 
     updateTimer(elapsedMS) {
         this._runningMS += elapsedMS;
-        if (this._runningMS < this._duration*1000) {
+        if (this._runningMS <= this._duration * 1000) {
             if (Math.floor(this._runningMS/1000) > this._elapsedTime) {
                 this._elapsedTime++;
                 this.writeTime();
             }
-        } else {
+        } 
+        else if (this._runningMS > this._duration * 1000) {
             this._elapsedTime = this._duration;
             this.writeTime();
-            // EMIT AN EVENT THAT THE TASK WAS NOT COMPLETED!
+            this.timer.stop();
+            eventEmitter.emit(EVENTS.STAGE_INCOMPLETE, {});
         }
     }
 
     startTimer() {
         if (this._duration === undefined) {
             throw new Error('the timer does not have a defined duration');
-        } else {
+        } 
+        else {
             this.timer.add(() => {
                 this.updateTimer(this.timer.elapsedMS);
             });
         }
     }
 
+    reset() {
+        this.timer.stop();
+        this._duration = undefined;
+        this._elapsedTime = 0;
+        this._runningMS = 0;
+        this.timer.start();
+    }
+
     _removeEventListeners() {
         eventEmitter.off(EVENTS.ACCEPTED, () => {});
-        eventEmitter.off(EVENTS.STAGE_ONE_COMPLETED, () => {});
+        eventEmitter.off(EVENTS.MANUAL_STAGE_COMPLETE, () => {});
+        eventEmitter.off(EVENTS.STAGE_INCOMPLETE, () => {});
+
     }
 
     show() {

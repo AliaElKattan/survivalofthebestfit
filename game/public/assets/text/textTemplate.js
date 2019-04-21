@@ -31,27 +31,40 @@ const english = {
 
         },
     },
+
     smallOfficeStage: {
         messageFromVc: 'Congrats again on your latest investment. Now\'s time to execute the idea. Hire the best people, as quickly as you can. Hiring good talent is a war these days... keep us updated. ',
         responses: ['Let\'s do this'],
         hiringGoal: 3,
         taskDescription: 'Task: Hire 3 new employees',
-        retryMessage: 'You ran out of people to hire. How are you going to meet 100% monthly growth targets at this pace? Try again.',
-        retryResponses: ['I will do better this time.'],
-
     },
+
     mediumOfficeStage: {
-        messageFromVc: 'Hi, \ngood progress, but you just aren\'t growing quickly enough. You need to hire more aggressively to outgrow your competitors. Try to meet the new hiring goals if you want better funding... ',
+        messageFromVc: 'Good progress, but you just aren\'t growing quickly enough. You need to hire more aggressively to outgrow your competitors. Try to meet the new hiring goals if you want better funding... ',
         responses: [
             'I\'ll do my best',
             'I can do that!',
         ],
-        hiringGoal: 10,
-        taskDescription: 'Task: Hire 10 new employees',
-        retryMessage: 'You ran out of people to hire. There\'s a board meeting next month - try again to meet your targets. Try again.',
-        retryResponses: ['I will do better this time.'],
+        hiringGoal: 5,
+        taskDescription: 'Task: Hire 5 new employees in 1 minute',
+        retryMessage: 'You ran out of time. There\'s a board meeting next month - try again to meet your targets. You have to hire faster.',
+        retryResponses: ['I will hire faster this time.'],
+        duration: 30
     },
 
+    largeOfficeStage: {
+        messageFromVc: 'Good job on growing to 8 people. But there is still a long way to go and that\'s why you need to expand the team faster so that you don\'t drown in work and competition. Can you pull this off or not?',
+        responses: [
+            'Of course I can.',
+            'I am a little overwhelmed.',
+        ],
+        hiringGoal: 10,
+        taskDescription: 'Task: Hire 10 new employees in 1 minute',
+        retryMessage: 'You ran out of time. The progress is not good enough. Hire faster to outrun your competitors. Try again.',
+        retryResponses: ['I will grow aggressively this time.'],
+        duration: 60
+
+    },
     // add transition here. e-mail from INVESTOR says:  We’ve made good progress, but the faster we grow, the more profit we’ll make. I suggest you use an automated program to help with hiring. Check with the software development team?
 
     // email from SOFTWARE ENGINEER
@@ -208,12 +221,7 @@ let txt;
 
 // defining a global variable candidateClicked to access the ID globally without having to emit a value
 let candidateClicked = 0;
-let candidateHovered = null;
-
 let candidateInSpot = null;
-let candidateCount = 0;
-
-const hiringGoals = {'smallStage': 3, 'mediumStage': 10};
 
 function setLang(dictionary) {
     if (typeof module !== 'undefined') {

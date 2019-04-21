@@ -20,7 +20,7 @@ componentLoader.scan();
 
 document.getElementById('gameCanvas').appendChild(pixiApp.view);
 loadAssets().then(() => {
-    console.log('start game!!');
+    console.log('Start game!!');
     gameFSM.startGame();
 
     startTweenManager();

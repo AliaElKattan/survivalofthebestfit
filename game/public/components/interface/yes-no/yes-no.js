@@ -51,9 +51,10 @@ export default class extends UIBase {
         this.$yesButton.click(this._acceptClicked.bind(this));
         this.$noButton.click(this._rejectClicked.bind(this));
 
-        eventEmitter.on(EVENTS.STAGE_TWO_COMPLETED, (data) => {
-            this.destroy();
+        eventEmitter.on(EVENTS.MANUAL_STAGE_COMPLETE, (data) => {
+            if (data.stageNumber == 2) this.destroy();
         });
+
         eventEmitter.on(EVENTS.CHANGE_SPOTLIGHT_STATUS, this._spotlightStatusHandler.bind(this));
     };
 
@@ -63,7 +64,7 @@ export default class extends UIBase {
 
         eventEmitter.off(EVENTS.ACCEPTED, () => {});
         eventEmitter.off(EVENTS.REJECTED, () => {});
-        eventEmitter.off(EVENTS.STAGE_TWO_COMPLETED, () => {});
+        eventEmitter.off(EVENTS.MANUAL_STAGE_COMPLETE, () => {});
         eventEmitter.off(EVENTS.CHANGE_SPOTLIGHT_STATUS, this._spotlightStatusHandler.bind(this));
     }
 

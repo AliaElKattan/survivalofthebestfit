@@ -7,8 +7,8 @@ import SCALES from '../../controllers/constants/pixi-scales.js';
 let showedInstructions = false;
 
 function onPersonHover(event) {
-    candidateHovered = this.id;
-    eventEmitter.emit(EVENTS.PERSON_HOVERED, {});
+    // PLACEHOLDER FUNCTION FOR HOVER EVENT
+    // eventEmitter.emit(EVENTS.PERSON_HOVERED, {});
 }
 
 function animateThisCandidate(person, newX, newY) {

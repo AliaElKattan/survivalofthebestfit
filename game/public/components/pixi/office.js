@@ -15,6 +15,9 @@ import PeopleTalkManager from '~/public/components/interface/ml/people-talk-mana
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/controllers/constants/events';
 import SCALES from '~/public/controllers/constants/pixi-scales.js';
+import PerfMetrics from '~/public/components/interface/perf-metrics/perf-metrics';
+import TaskUI from '../../components/interface/ui-task/ui-task';
+import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
 
 const spotlight = {
     x: uv2px(0.4, 'w'),
@@ -22,8 +25,9 @@ const spotlight = {
 };
 
 const candidatePoolSize = {
-    smallStage: 10,
-    mediumStage: 15
+    smallOfficeStage: 7,
+    mediumOfficeStage: 10,
+    largeOfficeStage: 15
 }
 
 class Office {
@@ -45,6 +49,9 @@ class Office {
         this.allPeople = [];
         this.hiredPeople = [];        
         this.toReplaceX = 0;
+
+        this.task;
+        this.stageText;
 
         this.floors = {
             ground_floor: new Floor({type: 'ground_floor'}),
@@ -73,8 +80,17 @@ class Office {
     }
 
     draw(stageNum) {
+        candidateInSpot = null;
+        this.takenDesks = 0;
+        this.currentStage = stageNum;
+
+        let showTimer;
+
         if (stageNum == 0) {
             // SMALL STAGE - INITIAL SET UP
+
+            showTimer = false;
+
             for (const floor in this.floors) {
                 if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
                     this.floors[floor].addToPixi(this.interiorContainer);
@@ -91,26 +107,35 @@ class Office {
                 this.personContainer = new PIXI.Container();
             }
 
-            candidateInSpot = null;
-            this.takenDesks = 0;
-
             // Adding people for small stage
-            this.addPeople(0, candidatePoolSize.smallStage);
+            this.addPeople(0, candidatePoolSize.smallOfficeStage);
             this.peopleTalkManager.startTimeline();
-        } 
-        else if (stageNum == 1) {
-            // MEDIUM STAGE - REDRAW PEOPLE
+        }
+
+        else {
+            showTimer = true;
+            // MEDIUM OFFICE STAGE - REDRAW PEOPLE
             officeStageContainer.removeChild(this.personContainer);
             this.personContainer = new PIXI.Container();
-            candidateInSpot = null;
-            this.takenDesks = 0;
 
             // empty the people line
-            this.currentStage++;
-            this.addPeople(this.uniqueCandidateIndex, candidatePoolSize.mediumStage);
+
+            let toAdd = stageNum === 1 ? candidatePoolSize.mediumOfficeStage : candidatePoolSize.largeOfficeStage;
+            this.addPeople(this.uniqueCandidateIndex, toAdd);
+
+            
         }
+
         officeStageContainer.addChild(this.interiorContainer);
         officeStageContainer.addChild(this.personContainer);
+
+        this.task = new TaskUI({
+            showTimer: showTimer, 
+            hires: this.stageText.hiringGoal, 
+            duration: this.stageText.duration, 
+            content: this.stageText.taskDescription
+        });
+        
     }
 
     moveTweenHorizontally(tween, newX) {
@@ -131,6 +156,19 @@ class Office {
             });
         });
 
+        eventEmitter.on(EVENTS.STAGE_INCOMPLETE, () => {
+            this.task.reset();
+
+            new TextBoxUI({
+                isRetry: true,
+                stageNumber: this.currentStage,
+                content: this.stageText.retryMessage,
+                responses: this.stageText.retryResponses,
+                show: true,
+                overlay: true,
+            });
+        });
+
         this.acceptedHandler = () => {
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
@@ -147,17 +185,10 @@ class Office {
                 this.doors[0].playAnimation({direction: 'reverse'});
             });
 
-            if (this.currentStage == 0 && this.takenDesks == hiringGoals['smallStage']) {
-                eventEmitter.emit(EVENTS.STAGE_ONE_COMPLETED, {});
+            if (this.takenDesks == this.stageText.hiringGoal) {
+                eventEmitter.emit(EVENTS.MANUAL_STAGE_COMPLETE, {stageNumber: this.currentStage});
+                this.task.reset();
                 gameFSM.nextStage();
-            }
-
-            if (this.currentStage == 1 && this.takenDesks == hiringGoals['mediumStage']) {
-                eventEmitter.emit(EVENTS.STAGE_TWO_COMPLETED, {});
-                gameFSM.nextStage();
-            }
-            if (this.personContainer.children.length <= 1) {
-                gameFSM.repeatStage();
             }
         };
 
@@ -175,10 +206,6 @@ class Office {
                 this.personContainer.removeChild(rejectedPerson);
                 this.doors[1].playAnimation({direction: 'reverse'});
             });
-
-            if (this.personContainer.children.length <= 1) {
-                gameFSM.repeatStage();
-            }
         };
 
         eventEmitter.on(EVENTS.ACCEPTED, this.acceptedHandler);
@@ -189,6 +216,35 @@ class Office {
             animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
             this.allPeople[candidateInSpot].inSpotlight = false;
         });
+
+        eventEmitter.on(EVENTS.INSTRUCTION_ACKED, (data) => {
+            this.start(data.stageNumber);
+        });
+
+        eventEmitter.on(EVENTS.RETRY_INSTRUCTION_ACKED, (data) => {
+            this.start(data.stageNumber);
+        });
+    }
+
+    start(stageNum) {
+        if (this.task) {
+            this.task.destroy();
+            this.task = null;
+        }
+
+        switch(stageNum) {
+            case 0:
+                this.stageText = txt.smallOfficeStage;
+                break;
+            case 1:
+                this.stageText = txt.mediumOfficeStage;
+                break;
+            case 2:
+                this.stageText = txt.largeOfficeStage;
+                break;
+        }
+        
+        this.draw(stageNum);
     }
 
     placeCandidate(thisX) {
@@ -200,7 +256,6 @@ class Office {
         this.personContainer.addChild(person);
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;
-        console.log("number of candidates displayed: " + this.uniqueCandidateIndex);
     }
 
     addPeople(startIndex, count) {
@@ -213,6 +268,11 @@ class Office {
     _removeEventListeners() {
         eventEmitter.off(EVENTS.ACCEPTED, this.acceptedHandler);
         eventEmitter.off(EVENTS.REJECTED, this.rejectedHandler);
+        eventEmitter.off(EVENTS.RETURN_CANDIDATE, () => {});
+        eventEmitter.off(EVENTS.STAGE_INCOMPLETE, () => {});
+        eventEmitter.off(EVENTS.DISPLAY_THIS_CV, () => {});
+        eventEmitter.off(EVENTS.RETRY_INSTRUCTION_ACKED, () => {});
+        eventEmitter.off(EVENTS.INSTRUCTION_ACKED, () => {});
     }
 
 
