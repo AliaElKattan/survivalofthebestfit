@@ -7,6 +7,7 @@ import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
 import PerfMetrics from '~/public/components/interface/perf-metrics/perf-metrics';
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
+import {mlModule} from '~/public/controllers/machine-learning/mlModule.js';
 
 let office = new Office();
 let task;
@@ -188,6 +189,7 @@ const gameFSM = new machina.Fsm({
             _onEnter: function() {
                 if (office) office.delete();
                 transitionOverlay = new TransitionOverlay({show: true});
+                mlModule.train();
             },
 
             nextStage: 'mlLabStage',

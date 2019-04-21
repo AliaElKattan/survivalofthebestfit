@@ -15,6 +15,7 @@ import PeopleTalkManager from '~/public/components/interface/ml/people-talk-mana
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/controllers/constants/events';
 import SCALES from '~/public/controllers/constants/pixi-scales.js';
+import {mlModule} from '~/public/controllers/machine-learning/mlModule.js';
 
 const spotlight = {
     x: uv2px(0.4, 'w'),
@@ -23,8 +24,8 @@ const spotlight = {
 
 const candidatePoolSize = {
     smallStage: 10,
-    mediumStage: 15
-}
+    mediumStage: 15,
+};
 
 class Office {
     constructor() {
@@ -43,7 +44,7 @@ class Office {
         this.xOffset = 0.05;
         // IMPORTANT: people are stored by index so can't delete array
         this.allPeople = [];
-        this.hiredPeople = [];        
+        this.hiredPeople = [];
         this.toReplaceX = 0;
 
         this.floors = {
@@ -132,6 +133,8 @@ class Office {
         });
 
         this.acceptedHandler = () => {
+            mlModule.recordAccept(candidateInSpot);
+
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
             this.hiredPeople.push(hiredPerson);
@@ -162,6 +165,8 @@ class Office {
         };
 
         this.rejectedHandler = () => {
+            mlModule.recordReject(candidateInSpot);
+
             const rejectedPerson = this.allPeople[candidateInSpot];
             this.toReplaceX = rejectedPerson.uvX;
             this.placeCandidate(this.toReplaceX);
@@ -192,10 +197,8 @@ class Office {
     }
 
     placeCandidate(thisX) {
-        let texture = bluePersonTexture;
         const color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
-        const name = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].name;
-        texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
+        const texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
         const person = createPerson(thisX, this.personStartY, this.uniqueCandidateIndex, texture);
         this.personContainer.addChild(person);
         this.allPeople.push(person);

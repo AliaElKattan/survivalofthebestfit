@@ -39,10 +39,10 @@ export default class extends UIBase {
         this.$buttons.addClass(CLASSES.BUTTON_CLICKED);
         if (this.isLastMessage) {
             // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
-            // gtag('event', 'test-game-completed', {
-            //     'event_category': 'default',
-            //     'event_label': 'how-far-do-ppl-get',
-            // });
+            gtag('event', 'test-game-completed', {
+                'event_category': 'default',
+                'event_label': 'how-far-do-ppl-get',
+            });
             eventEmitter.emit(EVENTS.SHOW_ENDGAME_OVERLAY, {});
         } else if (this.hasTooltip) {
             eventEmitter.emit(EVENTS.SHOW_TOOLTIP, {});
