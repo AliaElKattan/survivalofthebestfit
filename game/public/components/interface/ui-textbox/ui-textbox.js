@@ -13,11 +13,12 @@ export default class extends UIBase {
         this.$buttons = this.$el.find('.TextboxButton');
         this.setContent = this.setContent.bind(this);
         this._mainContent = options.content || 'dummy text'; // TODO: change this to null
-        this._responseContent = options.responses || ['OKK'];
+        this._responseContent = options.responses || ['Okay'];
         this.overlay = options.overlay || false; // TODO think about the overlay
         this.type = options.type || '';
         this.hasTooltip = options.hasTooltip;
-        this.isSmallStage = options.isSmallStage || false;
+        this.stageNumber = options.stageNumber;
+        this.isRetry = options.isRetry || false;
         this.isLastMessage = options.isLastMessage;
         if (options.show) this.show();
         this.setContent(); // set content
@@ -55,9 +56,16 @@ export default class extends UIBase {
 
     _manualStageButtonHandler(e) {
         this.$buttons.addClass(CLASSES.BUTTON_CLICKED);
-        eventEmitter.emit('instructionAcked', {
-            isSmallStage: this.isSmallStage,
-        });
+        if (this.isRetry) {
+            eventEmitter.emit(EVENTS.RETRY_INSTRUCTION_ACKED, {
+                stageNumber: this.stageNumber,
+            });
+        }
+        else {
+            eventEmitter.emit(EVENTS.INSTRUCTION_ACKED, {
+                stageNumber: this.stageNumber,
+            });
+        }
         this.destroy();
     }
 

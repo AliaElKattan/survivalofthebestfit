@@ -15,7 +15,12 @@ import PeopleTalkManager from '~/public/components/interface/ml/people-talk-mana
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/controllers/constants/events';
 import SCALES from '~/public/controllers/constants/pixi-scales.js';
+<<<<<<< HEAD
 import {mlModule} from '~/public/controllers/machine-learning/mlModule.js';
+=======
+import TaskUI from '../../components/interface/ui-task/ui-task';
+import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
+>>>>>>> d46962f1edd6b01fd728cb904255866a90b0c385
 
 const spotlight = {
     x: uv2px(0.4, 'w'),
@@ -23,29 +28,40 @@ const spotlight = {
 };
 
 const candidatePoolSize = {
+<<<<<<< HEAD
     smallStage: 10,
     mediumStage: 15,
 };
+=======
+    smallOfficeStage: 7,
+    mediumOfficeStage: 10,
+    largeOfficeStage: 15
+}
+const officeCoordinates = {
+    entryDoorX: 0.1,
+    exitDoorX: 0.6,
+    personStartX: 0.2,
+    personStartY: 0.87,
+    xOffset: 0.05,
+}
+>>>>>>> d46962f1edd6b01fd728cb904255866a90b0c385
 
 class Office {
     constructor() {
         this.uniqueCandidateIndex = 0;
         this.currentStage = 0;
         this.scale = 1;
-        this.deskList = [];
-        this.floorList = [];
         this.takenDesks = 0;
         this.interiorContainer = new PIXI.Container();
         this.personContainer = new PIXI.Container();
-        this.entryDoorX = 0.1;
-        this.exitDoorX = 0.6;
-        this.personStartX = 0.1;
-        this.personStartY = 0.85;
-        this.xOffset = 0.055;
-        // IMPORTANT: people are stored by index so can't delete array
+
+        // IMPORTANT: candidates ID refer to this array's index
         this.allPeople = [];
         this.hiredPeople = [];
         this.toReplaceX = 0;
+
+        this.task;
+        this.stageText;
 
         this.floors = {
             ground_floor: new Floor({type: 'ground_floor'}),
@@ -61,21 +77,54 @@ class Office {
                 type: 'doorAccepted',
                 floor: 'first_floor',
                 floorParent: this.floors.first_floor,
-                xAnchor: uv2px(this.entryDoorX, 'w'),
+                xAnchor: uv2px(officeCoordinates.entryDoorX, 'w'),
             }),
             new Door({
                 type: 'doorRejected',
                 floor: 'first_floor',
                 floorParent: this.floors.first_floor,
-                xAnchor: uv2px(this.exitDoorX, 'w'),
+                xAnchor: uv2px(officeCoordinates.exitDoorX, 'w'),
             }),
         ];
         this.listenerSetup();
     }
 
-    draw(stageNum) {
-        if (stageNum == 0) {
+    start(stageNum) {
+        this.currentStage = stageNum;
+
+        if (this.task) {
+            this.task.destroy();
+            this.task = null;
+        }
+
+        switch(stageNum) {
+            case 0:
+                this.stageText = txt.smallOfficeStage;
+                break;
+            case 1:
+                this.stageText = txt.mediumOfficeStage;
+                break;
+            case 2:
+                this.stageText = txt.largeOfficeStage;
+                break;
+        }
+        
+        this.draw(stageNum);
+    }
+
+    draw() {
+        candidateInSpot = null;
+        this.takenDesks = 0;
+
+        let showTimer;        
+        let candidatesToAdd;
+
+        if (this.currentStage == 0) {
             // SMALL STAGE - INITIAL SET UP
+
+            showTimer = false;
+            candidatesToAdd = candidatePoolSize.smallOfficeStage;
+
             for (const floor in this.floors) {
                 if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
                     this.floors[floor].addToPixi(this.interiorContainer);
@@ -86,32 +135,28 @@ class Office {
             this.yesno = new YesNo({show: true});
             this.instructions.reveal({type: 'manual-click'});
 
-            if (this.personContainer.children.length > 0) {
-                // in case small stage was repeated, clear the office
-                officeStageContainer.removeChild(this.personContainer);
-                this.personContainer = new PIXI.Container();
-            }
-
-            candidateInSpot = null;
-            this.takenDesks = 0;
-
-            // Adding people for small stage
-            this.addPeople(0, candidatePoolSize.smallStage);
             this.peopleTalkManager.startTimeline();
-        } 
-        else if (stageNum == 1) {
-            // MEDIUM STAGE - REDRAW PEOPLE
+        }
+
+        else {
+            showTimer = true;
+            candidatesToAdd = this.currentStage === 1 ? candidatePoolSize.mediumOfficeStage : candidatePoolSize.largeOfficeStage;
+
             officeStageContainer.removeChild(this.personContainer);
             this.personContainer = new PIXI.Container();
-            candidateInSpot = null;
-            this.takenDesks = 0;
-
-            // empty the people line
-            this.currentStage++;
-            this.addPeople(this.uniqueCandidateIndex, candidatePoolSize.mediumStage);
+            
         }
+
+        this.populateCandidates(this.uniqueCandidateIndex, candidatesToAdd);
         officeStageContainer.addChild(this.interiorContainer);
         officeStageContainer.addChild(this.personContainer);
+
+        this.task = new TaskUI({
+            showTimer: showTimer, 
+            hires: this.stageText.hiringGoal, 
+            duration: this.stageText.duration, 
+            content: this.stageText.taskDescription
+        });
     }
 
     moveTweenHorizontally(tween, newX) {
@@ -132,6 +177,19 @@ class Office {
             });
         });
 
+        eventEmitter.on(EVENTS.STAGE_INCOMPLETE, () => {
+            this.task.reset();
+
+            new TextBoxUI({
+                isRetry: true,
+                stageNumber: this.currentStage,
+                content: this.stageText.retryMessage,
+                responses: this.stageText.retryResponses,
+                show: true,
+                overlay: true,
+            });
+        });
+
         this.acceptedHandler = () => {
             mlModule.recordAccept(candidateInSpot);
 
@@ -141,7 +199,7 @@ class Office {
             this.toReplaceX = hiredPerson.uvX;
             this.placeCandidate(this.toReplaceX);
 
-            this.moveTweenHorizontally(hiredPerson.tween, uv2px(this.entryDoorX + 0.04, 'w'));
+            this.moveTweenHorizontally(hiredPerson.tween, uv2px(officeCoordinates.entryDoorX + 0.04, 'w'));
             candidateInSpot = null;
             this.doors[0].playAnimation({direction: 'forward'});
 
@@ -150,17 +208,10 @@ class Office {
                 this.doors[0].playAnimation({direction: 'reverse'});
             });
 
-            if (this.currentStage == 0 && this.takenDesks == hiringGoals['smallStage']) {
-                eventEmitter.emit(EVENTS.STAGE_ONE_COMPLETED, {});
+            if (this.takenDesks == this.stageText.hiringGoal) {
+                eventEmitter.emit(EVENTS.MANUAL_STAGE_COMPLETE, {stageNumber: this.currentStage});
+                this.task.reset();
                 gameFSM.nextStage();
-            }
-
-            if (this.currentStage == 1 && this.takenDesks == hiringGoals['mediumStage']) {
-                eventEmitter.emit(EVENTS.STAGE_TWO_COMPLETED, {});
-                gameFSM.nextStage();
-            }
-            if (this.personContainer.children.length <= 1) {
-                gameFSM.repeatStage();
             }
         };
 
@@ -169,7 +220,7 @@ class Office {
             this.toReplaceX = rejectedPerson.uvX;
             this.placeCandidate(this.toReplaceX);
 
-            this.moveTweenHorizontally(rejectedPerson.tween, uv2px(this.exitDoorX + 0.04, 'w'));
+            this.moveTweenHorizontally(rejectedPerson.tween, uv2px(officeCoordinates.exitDoorX + 0.04, 'w'));
 
             candidateInSpot = null;
             this.doors[1].playAnimation({direction: 'forward'});
@@ -178,10 +229,6 @@ class Office {
                 this.personContainer.removeChild(rejectedPerson);
                 this.doors[1].playAnimation({direction: 'reverse'});
             });
-
-            if (this.personContainer.children.length <= 1) {
-                gameFSM.repeatStage();
-            }
         };
 
         eventEmitter.on(EVENTS.ACCEPTED, this.acceptedHandler);
@@ -192,9 +239,18 @@ class Office {
             animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
             this.allPeople[candidateInSpot].inSpotlight = false;
         });
+
+        eventEmitter.on(EVENTS.INSTRUCTION_ACKED, (data) => {
+            this.start(data.stageNumber);
+        });
+
+        eventEmitter.on(EVENTS.RETRY_INSTRUCTION_ACKED, (data) => {
+            this.start(data.stageNumber);
+        });
     }
 
     placeCandidate(thisX) {
+<<<<<<< HEAD
         const color = cvCollection.cvData[this.uniqueCandidateIndex].color;
         const texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
         const person = createPerson(thisX, this.personStartY, this.uniqueCandidateIndex, texture);
@@ -202,18 +258,33 @@ class Office {
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;
         mlModule.recordLastIndex(this.uniqueCandidateIndex);
+=======
+        let texture = bluePersonTexture;
+        const color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
+        const name = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].name;
+        texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
+        const person = createPerson(thisX, officeCoordinates.personStartY, this.uniqueCandidateIndex, texture);
+        this.personContainer.addChild(person);
+        this.allPeople.push(person);
+        this.uniqueCandidateIndex++;
+>>>>>>> d46962f1edd6b01fd728cb904255866a90b0c385
     }
 
-    addPeople(startIndex, count) {
+    populateCandidates(startIndex, count) {
         for (let i = startIndex; i < startIndex + count; i++) {
             const orderInLine = i - startIndex;
-            this.placeCandidate(this.personStartX + this.xOffset * orderInLine);
+            this.placeCandidate(officeCoordinates.personStartX + officeCoordinates.xOffset * orderInLine);
         }
     }
 
     _removeEventListeners() {
         eventEmitter.off(EVENTS.ACCEPTED, this.acceptedHandler);
         eventEmitter.off(EVENTS.REJECTED, this.rejectedHandler);
+        eventEmitter.off(EVENTS.RETURN_CANDIDATE, () => {});
+        eventEmitter.off(EVENTS.STAGE_INCOMPLETE, () => {});
+        eventEmitter.off(EVENTS.DISPLAY_THIS_CV, () => {});
+        eventEmitter.off(EVENTS.RETRY_INSTRUCTION_ACKED, () => {});
+        eventEmitter.off(EVENTS.INSTRUCTION_ACKED, () => {});
     }
 
 
