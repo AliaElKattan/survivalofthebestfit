@@ -250,24 +250,13 @@ class Office {
     }
 
     placeCandidate(thisX) {
-<<<<<<< HEAD
         const color = cvCollection.cvData[this.uniqueCandidateIndex].color;
         const texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
-        const person = createPerson(thisX, this.personStartY, this.uniqueCandidateIndex, texture);
-        this.personContainer.addChild(person);
-        this.allPeople.push(person);
-        this.uniqueCandidateIndex++;
-        mlModule.recordLastIndex(this.uniqueCandidateIndex);
-=======
-        let texture = bluePersonTexture;
-        const color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
-        const name = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].name;
-        texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
         const person = createPerson(thisX, officeCoordinates.personStartY, this.uniqueCandidateIndex, texture);
         this.personContainer.addChild(person);
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;
->>>>>>> d46962f1edd6b01fd728cb904255866a90b0c385
+        mlModule.recordLastIndex(this.uniqueCandidateIndex);
     }
 
     populateCandidates(startIndex, count) {
