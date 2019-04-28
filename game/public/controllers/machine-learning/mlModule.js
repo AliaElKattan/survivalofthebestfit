@@ -1,3 +1,5 @@
+import {buildUserModel, testModel, buildFakeDataModel} from '~/public/controllers/machine-learning/ml.js';
+
 class MlModule {
     constructor() {
         this.accepted = [];
@@ -5,33 +7,32 @@ class MlModule {
     }
 
     recordAccept(personIndex) {
-        if (this.lastIndex > personIndex) {
-            this.lastIndex = personIndex;
-        }
         this.accepted.push(personIndex);
     }
 
-    recordReject(personIndex) {
-        if (this.lastIndex > personIndex) {
-            this.lastIndex = personIndex;
-        }
+    recordLastIndex(personIndex) {
+        this.lastIndex = personIndex;
     }
 
     train() {
-        console.log(this.accepted, this.rejected);
+        this.rejected = this._getRejectedPeople();
+        this.clf = buildUserModel(this.accepted, this.rejected);
+        if (!testModel(clf)) {
+            this.clf = buildFakeDataModel(this.accepted, this.rejected);
+        }
     }
 
-    predict() {
-
+    predict(inputSet) {
+        this.classifier.predict(inputSet);
     }
 
-    // everyone who isn't accepted, is assumed to be rejected
-    _getRejected() {
+    // everyone among the showed people who isn't accepted, is assumed to be rejected
+    _getRejectedPeople() {
         rejected = [];
-        for (let i = 0; i <= lastIndex; i++) {
+        for (let i = 0; i <= this.lastIndex; i++) {
             rejected.push(i);
         }
-        rejected.filter((i) => {
+        rejected = rejected.filter((i) => {
             return this.accepted.indexOf(i) < 0;
         });
         return rejected;

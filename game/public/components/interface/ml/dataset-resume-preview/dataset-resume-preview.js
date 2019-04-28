@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import {cvCollection} from '~/public/assets/text/cvCollection.js';
+import {cvCollection} from '~/public/assets/text/cvData.js';
 import CLASSES from '~/public/controllers/constants/classes';
 
 export default class {

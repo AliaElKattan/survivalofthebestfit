@@ -1,5 +1,5 @@
 import {uv2px, waitForSeconds} from '~/public/controllers/common/utils.js';
-import {cvCollection} from '~/public/assets/text/cvCollection.js';
+import {cvCollection} from '~/public/assets/text/cvData.js';
 import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 import EVENTS from '~/public/controllers/constants/events.js';

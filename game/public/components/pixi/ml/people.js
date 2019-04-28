@@ -1,5 +1,5 @@
 import {mlLabStageContainer} from '~/public/controllers/game/gameSetup.js';
-import {cvCollection} from '~/public/assets/text/cvCollection.js';
+import {cvCollection} from '~/public/assets/text/cvData.js';
 import {uv2px} from '~/public/controllers/common/utils.js';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 import EVENTS from '~/public/controllers/constants/events.js';
@@ -39,7 +39,7 @@ export default class {
         const person = new MLPerson({
             parent: this.container,
             x: this.personCount*this.personXoffset,
-            personData: cvCollection.smallOfficeStage[this.personCount],
+            personData: cvCollection.cvData[this.personCount],
             id: this.personCount,
         });
         person.addToPixi();

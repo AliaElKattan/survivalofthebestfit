@@ -5,7 +5,7 @@ import {bluePersonTexture, yellowPersonTexture} from '~/public/controllers/commo
 import {gameFSM} from '~/public/controllers/game/stateManager.js';
 import {createPerson, animateThisCandidate} from '~/public/components/pixi/person.js';
 import Floor from '~/public/components/pixi/ml/floor.js';
-import {cvCollection} from '~/public/assets/text/cvCollection.js';
+import {cvCollection} from '~/public/assets/text/cvData.js';
 import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/controllers/common/utils.js';
 import Door from '~/public/components/pixi/door.js';
 import ResumeUI from '~/public/components/interface/ui-resume/ui-resume';
@@ -127,7 +127,7 @@ class Office {
             new ResumeUI({
                 show: true,
                 features: cvCollection.cvFeatures,
-                scores: cvCollection.smallOfficeStage,
+                scores: cvCollection.cvData,
                 candidateId: candidateClicked,
             });
         });
@@ -165,8 +165,6 @@ class Office {
         };
 
         this.rejectedHandler = () => {
-            mlModule.recordReject(candidateInSpot);
-
             const rejectedPerson = this.allPeople[candidateInSpot];
             this.toReplaceX = rejectedPerson.uvX;
             this.placeCandidate(this.toReplaceX);
@@ -197,13 +195,13 @@ class Office {
     }
 
     placeCandidate(thisX) {
-        const color = cvCollection.smallOfficeStage[this.uniqueCandidateIndex].color;
+        const color = cvCollection.cvData[this.uniqueCandidateIndex].color;
         const texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
         const person = createPerson(thisX, this.personStartY, this.uniqueCandidateIndex, texture);
         this.personContainer.addChild(person);
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;
-        console.log("number of candidates displayed: " + this.uniqueCandidateIndex);
+        mlModule.recordLastIndex(this.uniqueCandidateIndex);
     }
 
     addPeople(startIndex, count) {

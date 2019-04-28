@@ -4,7 +4,6 @@ As of now, skills are scaled out of 10
 */// /////////////////
 
 import CLASSES from '../../controllers/constants/classes';
-const peopleData = require('./manualStageData.json');
 
 const cvCollection = {
     cvFeatures: [
@@ -25,7 +24,7 @@ const cvCollection = {
             class: CLASSES.CV_AMBITION,
         },
     ],
-    smallOfficeStage: peopleData.manualStageCandidates
+    cvData: require('./cvData.json').candidates,
 };
 
-export { cvCollection };
+export {cvCollection};

@@ -15,7 +15,7 @@
     "test": "test scrip include from karma website",
     "dev": "nodemon app.js",
     "gulp-pug": "gulp pug",
-    "dev-all": "npm-run-all --parallel clean-dist watch:* dev ",
+    "dev-all": "npm-run-all --parallel clean-dist gulp-pug watch:* dev ",
     "clean-dist": "cd public && del-cli dist && mkdir dist",
     "build:css": "node-sass --include-path node_modules/sass-mq public/scss/main.scss public/css/main.css",
     "build:main-js": "browserify 'public/controllers/game/gameEntry.js' -o 'public/dist/main-bundle.js' -t babelify --outfile 'public/dist/main-bundle.js' -v --debug",
