@@ -6,5 +6,6 @@ block content
       .row
         .col-md-2
         .col-md-8.col-xs-12.about-text.mx-auto
-          h1 About this project
-          p!= aboutBody.replace(/\n/g, '<br />')
+          h1.mb-5 #{title}
+          h3 b #{aboutBiasTitle}
+          p!= aboutBias.replace(/\n/g, '<br>')

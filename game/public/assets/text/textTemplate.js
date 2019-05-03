@@ -4,9 +4,18 @@ const english = {
         title: 'Survival of the Best Fit',
         subtitle: 'How AI hires like humans',
     },
+
     about: {
         aboutBody: 'Survival of the Best Fit is a game to demonstrates how careless use of AI in hiring further perpetuates existing human bias. In this simulation, the users will play the role of recruiters at a fast-growth company. To reduce costs and maximize output, they would use a new, obscure AI system to replace human recruiters, only to realize that this creates a snowball of problems.\nThis is a project by Gabor Csapo, Jihyun Kim, Miha Klasinc, and Alia ElKattan',
     },
+
+    resources: {
+      title: 'Machines, Bias, and Fairness',
+      aboutBiasTitle: 'How does \'machine bias\' work?',
+      aboutBias: 'Bias has long been a problem in recruiting. Research has shown that ref1, ref2, and ref3. One might think that computers can help us eliminate this human bias, but automation is not always the answer. There are several ways bias can be propagate through computer code. Since ‘machine learning’ algorithms work by learning from previous trends, bias could exist if the learning data we give our program is already biased. For example, if you teach a computer to learn from the past century of successful CVs, it can pick on trends that reflect historical and societal biases.\n As a matter of fact, sometimes the data isn’t biased because it represents a historical reality, it’s also inaccurate. According to research on gender bias in natural language processing (i.e. computers understanding text), ref. '
+
+    },
+
     // texts displayed during the game
     titleStage: {
         header: 'Survival of the Best Fit',

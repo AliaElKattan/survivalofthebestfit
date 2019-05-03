@@ -28,6 +28,7 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.get('/', routes.HOME);
 app.get('/about', routes.ABOUT);
 app.get('/game', routes.GAME);
+app.get('/resources', routes.RESOURCES);
 /**
  * Start Express server.
  */

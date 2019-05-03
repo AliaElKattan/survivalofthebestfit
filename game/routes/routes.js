@@ -15,8 +15,15 @@ const GAME = (req, res) => {
     res.render('pages/game', textFile);
 };
 
+// resources page
+
+const RESOURCES = (req, res) => {
+    res.render('pages/resources', textFile.resources);
+};
+
 module.exports = {
     HOME,
     ABOUT,
     GAME,
+    RESOURCES,
 };
