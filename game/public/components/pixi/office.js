@@ -5,7 +5,7 @@ import {bluePersonTexture, yellowPersonTexture} from '~/public/controllers/commo
 import {gameFSM} from '~/public/controllers/game/stateManager.js';
 import {createPerson, animateThisCandidate} from '~/public/components/pixi/person.js';
 import Floor from '~/public/components/pixi/ml/floor.js';
-import {cvCollection} from '~/public/assets/text/cvData.js';
+import {cvCollection} from '~/public/assets/text/cvCollection.js';
 import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/controllers/common/utils.js';
 import Door from '~/public/components/pixi/door.js';
 import ResumeUI from '~/public/components/interface/ui-resume/ui-resume';
@@ -15,12 +15,9 @@ import PeopleTalkManager from '~/public/components/interface/ml/people-talk-mana
 import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/controllers/constants/events';
 import SCALES from '~/public/controllers/constants/pixi-scales.js';
-<<<<<<< HEAD
 import {mlModule} from '~/public/controllers/machine-learning/mlModule.js';
-=======
 import TaskUI from '../../components/interface/ui-task/ui-task';
 import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
->>>>>>> d46962f1edd6b01fd728cb904255866a90b0c385
 
 const spotlight = {
     x: uv2px(0.4, 'w'),
@@ -28,23 +25,17 @@ const spotlight = {
 };
 
 const candidatePoolSize = {
-<<<<<<< HEAD
-    smallStage: 10,
-    mediumStage: 15,
-};
-=======
     smallOfficeStage: 7,
     mediumOfficeStage: 10,
-    largeOfficeStage: 15
-}
+    largeOfficeStage: 15,
+};
 const officeCoordinates = {
     entryDoorX: 0.1,
     exitDoorX: 0.6,
     personStartX: 0.2,
     personStartY: 0.87,
     xOffset: 0.05,
-}
->>>>>>> d46962f1edd6b01fd728cb904255866a90b0c385
+};
 
 class Office {
     constructor() {
@@ -97,18 +88,18 @@ class Office {
             this.task = null;
         }
 
-        switch(stageNum) {
-            case 0:
-                this.stageText = txt.smallOfficeStage;
-                break;
-            case 1:
-                this.stageText = txt.mediumOfficeStage;
-                break;
-            case 2:
-                this.stageText = txt.largeOfficeStage;
-                break;
+        switch (stageNum) {
+        case 0:
+            this.stageText = txt.smallOfficeStage;
+            break;
+        case 1:
+            this.stageText = txt.mediumOfficeStage;
+            break;
+        case 2:
+            this.stageText = txt.largeOfficeStage;
+            break;
         }
-        
+
         this.draw(stageNum);
     }
 

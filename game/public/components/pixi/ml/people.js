@@ -1,11 +1,11 @@
 import {mlLabStageContainer} from '~/public/controllers/game/gameSetup.js';
-import {cvCollection} from '~/public/assets/text/cvData.js';
+import {cvCollection} from '~/public/assets/text/cvCollection.js';
 import {uv2px} from '~/public/controllers/common/utils.js';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 import EVENTS from '~/public/controllers/constants/events.js';
 import MLPerson from '~/public/components/pixi/ml/person';
 import PeopleTalkManager from '~/public/components/interface/ml/people-talk-manager/people-talk-manager';
-
+import {mlModule} from '~/public/controllers/machine-learning/mlModule.js';
 
 export default class {
     constructor() {
@@ -68,7 +68,7 @@ export default class {
     }
 
     evaluateFirstPerson() {
-        const status = Math.random() < 0.5 ? 'accepted' : 'rejected';
+        const status = mlModule.predict(this.peopleLine[0].personData) == 1 ? 'accepted' : 'rejected';
         eventEmitter.emit(EVENTS.DATASET_VIEW_NEW_CV, {
             status: status,
             data: this.peopleLine[0].getData(),
