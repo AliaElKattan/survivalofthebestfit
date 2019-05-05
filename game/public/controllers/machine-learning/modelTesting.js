@@ -11,7 +11,7 @@ const testClf = (clf, featPref) => {
     // Test if good candidates are accepted. Count and most should be employed
     let [featArr, labelArr] = preprocResumes(goodCvTestData, featPref);
     let pred = clf.predict(featArr);
-    let metrics = testMetrics(pred, labelArr, SILENT);
+    let metrics = compareBinaryArrays(pred, labelArr, SILENT);
     const employedGood = metrics['oneOne'] + metrics['oneZero'];
     const unemployedGood = metrics['zeroOne'] + metrics['zeroZero'];
     const goodMetric = round(employedGood/(employedGood+unemployedGood));
@@ -19,7 +19,7 @@ const testClf = (clf, featPref) => {
     // Test if bad candidates are rejected. Count and most should not be employed
     [featArr, labelArr] = preprocResumes(badCvTestData, featPref);
     pred = clf.predict(featArr);
-    metrics = testMetrics(pred, labelArr, SILENT);
+    metrics = compareBinaryArrays(pred, labelArr, SILENT);
     const employedBad = metrics['oneOne'] + metrics['oneZero'];
     const unemployedBad = metrics['zeroOne'] + metrics['zeroZero'];
     const badMetric = round(unemployedBad/(employedBad+unemployedBad));
@@ -28,7 +28,7 @@ const testClf = (clf, featPref) => {
     [featArr, labelArr] = preprocResumes(equalCvTestData, featPref);
     pred = clf.predict(featArr);
     const cities = featArr.map((x) => x[x.length - 1]);
-    metrics = testMetrics(pred, cities, SILENT);
+    metrics = compareBinaryArrays(pred, cities, SILENT);
     const blueCityEmpl = metrics['oneZero'];
     const yellowCityEmpl = metrics['oneOne'];
     const biasMetric = round(blueCityEmpl / (blueCityEmpl + yellowCityEmpl));
@@ -43,27 +43,40 @@ const testClf = (clf, featPref) => {
     return true;
 };
 
-// prints recall, precision and blue yellow ratio, etc... 
 // also used to compare two array of binary values and count how many pairs of 11, 01, 10, 00 there are when iterating over the two arrays
-const testMetrics = (pred, valid, silent, colorArr) => {
-    let truePos = 0;
-    let falsePos = 0;
-    let falseNeg = 0;
-    let trueNeg = 0;
+const compareBinaryArrays = (pred, valid) => {
+    let oneOne = 0;
+    let zeroOne = 0;
+    let oneZero = 0;
+    let zeroZero = 0;
     
     pred.forEach((element, index) => {
         if (element == 1 && valid[index] == 1) {
-            truePos++;
+            oneOne++;
         } else if (element == 0 && valid[index] == 0) {
-            trueNeg++;
+            zeroZero++;
         } else if (element == 1 && valid[index] == 0) {
-            falsePos++;
+            zeroOne++;
         } else if (element == 0 && valid[index] == 1) {
-            falseNeg++;
+            oneZero++;
         }
     });
 
-    const metrics = {'b/y': 'NA', 'acc': round((truePos+trueNeg)/pred.length), 'prec': round(truePos/(truePos+falsePos)), 'rec': round(truePos/(truePos+falseNeg)), 'acceptance': round((truePos+falsePos)/pred.length)};
+    return {'oneOne': oneOne, 'zeroOne': zeroOne, 'oneZero': oneZero, 'zeroZero': zeroZero};
+};
+
+// prints recall, precision and blue yellow ratio, etc... 
+const reportMetrics = (pred, valid, colorArr) => {
+    const comparison = compareBinaryArrays(pred, valid);
+    const truePos = comparison['oneOne'];
+    const falsePos = comparison['zeroOne'];
+    const falseNeg = comparison['oneZero'];
+    const trueNeg = comparison['zeroZero'];
+
+    const accuracy = round((truePos+trueNeg)/pred.length);
+    const precision = round(truePos/(truePos+falsePos));
+    const recall = round(truePos/(truePos+falseNeg));
+    const acceptanceRate = round((truePos+falsePos)/pred.length);
     
     if (colorArr) {
         let blue = 0;
@@ -73,20 +86,19 @@ const testMetrics = (pred, valid, silent, colorArr) => {
                 elem == 'blue'? blue++ : yellow++;
             }
         });
-        metrics['b/y'] = round(blue/yellow);
+        by = round(blue/(yellow+blue));
     }
 
-    if (silent != SILENT && DEBUG_MODE) console.log('Accuracy: ', metrics['acc'], ' Precision:', metrics['prec'], ' Recall: ', metrics['rec'], ' Acceptance ratio: ', metrics['acceptance'], ' Blue/All Employed ratio: ', metrics['b/y'] );
+    if (DEBUG_MODE) console.log('Accuracy: ', accuracy, ' Precision:', precision, ' Recall: ', recall, ' Acceptance rate: ', acceptanceRate, ' Blue/All Employed ratio: ', by );
     
-    return {'oneOne': truePos, 'zeroOne': falsePos, 'oneZero': falseNeg, 'zeroZero': trueNeg};
-};
+}
 
 const testInputData = () => {
     const [featureArr, labelArr] = preprocResumes(cvCollection.cvData);
     const colorArr = cvCollection.cvData.map((x) => x.color == 'yellow' ? 1 : 0);
-    const metrics = testMetrics(colorArr, labelArr, SILENT);
+    const metrics = compareBinaryArrays(colorArr, labelArr, SILENT);
     const cityArr = cvCollection.cvData.map((x) => x.city);
-    const metrics2 = testMetrics(colorArr, cityArr, SILENT);
+    const metrics2 = compareBinaryArrays(colorArr, cityArr, SILENT);
     console.log('Input data test (Yellow 1, Blue 0) \n color-empl pair counts: ', metrics, '\n color-city pair counts:', metrics2);
 };
 

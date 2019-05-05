@@ -34,7 +34,7 @@ const buildFakeDataModel = (featPref) => {
     classifier.train(trainX, trainY);
     //test
     const prediction = classifier.predict(validX);
-    testMetrics(prediction, validY);
+    reportMetrics(prediction, validY);
 
     return classifier;
 };

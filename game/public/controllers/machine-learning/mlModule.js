@@ -65,6 +65,9 @@ class MlModule {
     }
 
     predict(inputResume) {
+        // if starting in MLlab stage, we need to quickly train to not break anything
+        if (!this.clf) train();
+        
         const result = this.clf.predict(predictPreprocResume([inputResume], this.featurePref));
 
         // measure ongoing performance and bias
@@ -72,7 +75,7 @@ class MlModule {
         this.acceptance.push(result);
         this.colorArr.push(inputResume.color);
         if (this.acceptance.length % 10 == 0) {
-            testMetrics(this.acceptance, this.groundTruth, false, this.colorArr);
+            reportMetrics(this.acceptance, this.groundTruth, false, this.colorArr);
         }
         
         return result;
@@ -88,6 +91,13 @@ class MlModule {
             return this.accepted.indexOf(i) < 0;
         });
         return rejected;
+    }
+
+    uploadUserDecisions() {
+        // this.accepted has the indices of accepted candidates
+        // _getRejectedPeople() returns indices of rejected people
+        // BE CAREFUL! IF DATASET IS REGENERATED ON THE PYTHON SIDE, THE INDICES ARE RANDOM
+        return;
     }
 }
 
