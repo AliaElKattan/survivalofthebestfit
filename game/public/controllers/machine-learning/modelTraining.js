@@ -1,7 +1,8 @@
 /* eslint-disable guard-for-in */
 import {DecisionTreeClassifier as DTClassifier} from 'ml-cart';
 import {cvCollection} from '~/public/assets/text/cvCollection.js';
-import {testClf} from '~/public/controllers/machine-learning/modelTesting';
+import {testMetrics} from '~/public/controllers/machine-learning/modelTesting.js';
+import {DEBUG_MODE} from '~/public/controllers/constants/mlConstants.js';
 
 // trains simple model purely on the accepted people list
 const buildUserModel = (acceptedIndices, rejectedIndices) => {
@@ -20,7 +21,7 @@ const buildUserModel = (acceptedIndices, rejectedIndices) => {
 
 // train model on all available data and tries to incorporate user decisions
 const buildFakeDataModel = (featPref) => {
-    const [featureArr, labelArr] = _preprocResumes(cvCollection.cvData, featPref);
+    const [featureArr, labelArr] = preprocResumes(cvCollection.cvData, featPref);
     const [trainX, trainY, validX, validY] =_splitTrainTest(featureArr, labelArr, 0.2);
 
     const options = {
@@ -31,7 +32,9 @@ const buildFakeDataModel = (featPref) => {
 
     const classifier = new DTClassifier(options);
     classifier.train(trainX, trainY);
-    testClf(classifier, featPref, validX, validY);
+    //test
+    const prediction = classifier.predict(validX);
+    testMetrics(prediction, validY);
 
     return classifier;
 };
@@ -50,15 +53,15 @@ const _userModelCvPreProc = (accepted, rejected) => {
         resumes.push(resume);
     });
 
-    return _preprocResumes(resumes);
+    return preprocResumes(resumes);
 };
 
 
 // takes a resume JSON and returns the array of features + city and accompanying labels
-const _preprocResumes = (resumes, featPref) => {
+const preprocResumes = (resumes, featPref) => {
     const features = [];
     const labels = [];
-    _shuffle(resumes);
+    //_shuffle(resumes);
     if (featPref != null) {
         for (let i = 0; i < resumes.length; i++) {
             const cv = [];
@@ -68,7 +71,7 @@ const _preprocResumes = (resumes, featPref) => {
             const qualAverage = resumes[i]['qualifications'].reduce((a, b) => {
                 return a + b;
             }, 0)/resumes[i]['qualifications'].length;
-            cv.push(qualAverage);
+            // cv.push(qualAverage);
             cv.push(resumes[i]['city']);
             features.push(cv);
             labels.push(resumes[i]['empl']);
@@ -110,26 +113,32 @@ const getFeaturePreference = (acceptedIndices) => {
     });
     const sum = Object.values(ranking).reduce((a, b) => a + b);
 
-    console.log('top1: ', top1, '-', ranking[top1], 'top2: ', top2, '-', ranking[top2], ' total sum of points: ', sum, ' Top to bottom feature ratio: ', (ranking[top1] + ranking[top2]) / sum);
+    if (DEBUG_MODE) console.log('top1: ', top1, '- points:', ranking[top1], 'top2: ', top2, '- points:', ranking[top2], ' total sum of points: ', sum, ' Top/Bottom features points ratio: ', (ranking[top1] + ranking[top2]) / sum);
+    
     if ((ranking[top1] + ranking[top2]) / sum > 0.60) return [top1, top2];
+    
     return Object.keys(ranking).map((item) => parseInt(item, 10));
 };
 
 // takes a resume JSON and returns the array of features + city based on the feaure preference of the player
-const predictPreprocResume = (resumes, featPref) => {
+const predictPreprocResume = (resume, featPref) => {
     const features = [];
 
     if (featPref != undefined) {
-        for (let i = 0; i < resumes.length; i++) {
+        for (let i = 0; i < resume.length; i++) {
             for (const ind in featPref) {
-                features.push(resumes[i]['qualifications'][ind]);
+                features.push(resume[i]['qualifications'][ind]);
             }
-            features.push(resumes[i]['city']);
+            const qualAverage = resume[i]['qualifications'].reduce((a, b) => {
+                return a + b;
+            }, 0)/resume[i]['qualifications'].length;
+            // cv.push(qualAverage);
+            features.push(resume[i]['city']);
         }
     } else {
-        for (let i = 0; i < resumes.length; i++) {
-            features.push(resumes[i]['qualifications']);
-            features.push(resumes[i]['city']);
+        for (let i = 0; i < resume.length; i++) {
+            features.push(resume[i]['qualifications']);
+            features.push(resume[i]['city']);
         }
     }
     return [features];
@@ -145,7 +154,8 @@ const _splitTrainTest = (featureArr, labelArr, ratio) => {
 };
 
 // shuffles an array
-const _shuffle = (a) => {
+const _shuffle = (b) => {
+    let a = b.slice(0);
     for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [a[i], a[j]] = [a[j], a[i]];
@@ -153,4 +163,4 @@ const _shuffle = (a) => {
     return a;
 };
 
-export {buildUserModel, buildFakeDataModel, getFeaturePreference, predictPreprocResume};
+export {buildUserModel, buildFakeDataModel, getFeaturePreference, predictPreprocResume, preprocResumes};
