@@ -1,7 +1,7 @@
 /* eslint-disable guard-for-in */
 import {DecisionTreeClassifier as DTClassifier} from 'ml-cart';
 import {cvCollection} from '~/public/assets/text/cvCollection.js';
-import {testMetrics} from '~/public/controllers/machine-learning/modelTesting.js';
+import {reportMetrics} from '~/public/controllers/machine-learning/modelTesting.js';
 import {DEBUG_MODE} from '~/public/controllers/constants/mlConstants.js';
 
 // trains simple model purely on the accepted people list

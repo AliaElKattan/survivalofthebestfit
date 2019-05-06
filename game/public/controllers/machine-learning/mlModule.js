@@ -1,5 +1,5 @@
 import {buildUserModel, buildFakeDataModel, getFeaturePreference, predictPreprocResume} from '~/public/controllers/machine-learning/modelTraining.js';
-import {testClf, testMetrics, testInputData} from '~/public/controllers/machine-learning/modelTesting';
+import {testClf, testInputData} from '~/public/controllers/machine-learning/modelTesting';
 import {DEBUG_MODE} from '~/public/controllers/constants/mlConstants.js';
 
 const testAccepted = [4, 3, 7, 12, 10, 15, 18, 19, 26, 25, 29, 30, 32, 36, 37, 46, 47, 38];
@@ -30,13 +30,13 @@ class MlModule {
         }
         this.rejected = this._getRejectedPeople();
 
-        // build user model and test it
         if (DEBUG_MODE) {
             console.log('\n%c SEND SCREENSHOT OF BELOW OUPUT IF MACHINE DECISIONS ARE WRONG \n IF YOU DON\'T WANT LOGS, SEARCH FOR VARIABLE "DEBUG_MODE" => SET TO 0', 'background: #222; color: #bada55'); 
             testInputData();
             console.log('\nTraining model - user decisions - all features');
         }
-
+        
+        // build user model and test it
         this.clf = buildUserModel(this.accepted, this.rejected);
         
         if (testClf(this.clf)) {
@@ -96,7 +96,7 @@ class MlModule {
     uploadUserDecisions() {
         // this.accepted has the indices of accepted candidates
         // _getRejectedPeople() returns indices of rejected people
-        // BE CAREFUL! IF DATASET IS REGENERATED ON THE PYTHON SIDE, THE INDICES ARE RANDOM
+        // BE CAREFUL! IF DATASET IS REGENERATED ON THE PYTHON SIDE, THE INDICES STILL REFER TO THE OLD DB
         return;
     }
 }

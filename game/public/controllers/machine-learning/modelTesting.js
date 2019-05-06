@@ -43,7 +43,7 @@ const testClf = (clf, featPref) => {
     return true;
 };
 
-// also used to compare two array of binary values and count how many pairs of 11, 01, 10, 00 there are when iterating over the two arrays
+// compare two array of binary values and count how many pairs of 11, 01, 10, 00 there are when iterating over the two arrays
 const compareBinaryArrays = (pred, valid) => {
     let oneOne = 0;
     let zeroOne = 0;
@@ -73,11 +73,12 @@ const reportMetrics = (pred, valid, colorArr) => {
     const falseNeg = comparison['oneZero'];
     const trueNeg = comparison['zeroZero'];
 
-    const accuracy = round((truePos+trueNeg)/pred.length);
-    const precision = round(truePos/(truePos+falsePos));
     const recall = round(truePos/(truePos+falseNeg));
+    const precision = round(truePos/(truePos+falsePos));
+    const accuracy = round((truePos+trueNeg)/pred.length);
     const acceptanceRate = round((truePos+falsePos)/pred.length);
     
+    const by = 'NA';
     if (colorArr) {
         let blue = 0;
         let yellow = 0;
@@ -95,9 +96,9 @@ const reportMetrics = (pred, valid, colorArr) => {
 
 const testInputData = () => {
     const [featureArr, labelArr] = preprocResumes(cvCollection.cvData);
+    const cityArr = cvCollection.cvData.map((x) => x.city);
     const colorArr = cvCollection.cvData.map((x) => x.color == 'yellow' ? 1 : 0);
     const metrics = compareBinaryArrays(colorArr, labelArr, SILENT);
-    const cityArr = cvCollection.cvData.map((x) => x.city);
     const metrics2 = compareBinaryArrays(colorArr, cityArr, SILENT);
     console.log('Input data test (Yellow 1, Blue 0) \n color-empl pair counts: ', metrics, '\n color-city pair counts:', metrics2);
 };
@@ -105,4 +106,4 @@ const testInputData = () => {
 const round = (num) => {
     return Math.round(num * 100) / 100;
 };
-export {testClf, testMetrics, testInputData};
+export {testClf, reportMetrics, testInputData};
