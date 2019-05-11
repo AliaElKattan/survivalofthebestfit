@@ -1,0 +1,19 @@
+// base styles
+
+// body 
+body { 
+  background-color: color(bg-yellow);
+  font-family: 'VT323', monospace;
+}
+
+// button
+button {
+  outline: none;
+  border: none;
+  font-family: 'VT323', monospace;
+  
+  &:hover, &:active {
+    outline: none;
+    border: none;
+  }
+}
