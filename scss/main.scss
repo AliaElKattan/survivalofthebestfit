@@ -1,0 +1,45 @@
+@import 'variables.scss';
+@import 'mixins.scss';
+@import 'navbar.scss';
+@import 'masthead.scss';
+@import 'buttons.scss';
+@import 'about.scss';
+@import 'signup.scss';
+@import 'contact.scss';
+@import 'footer.scss';
+
+body {
+  font-family: 'Roboto Mono';
+  letter-spacing: 0.0625em;
+  background: $yellow-washed;
+}
+
+.cute-box {
+  position: relative;
+  @include textBox();
+}
+
+h1, h2 {
+  font-family: 'VT323', monospace;
+}
+
+h1 {
+  font-size: 3.5rem;
+}
+
+a {
+  color: $primary;
+  &:focus,
+  &:hover {
+    text-decoration: none;
+    color: darken($primary, 20%);
+  }
+}
+
+.padding-top {
+  padding-top: 1rem;
+}
+
+.bg-white-transparent {
+  background-color: fade-out($white-washed, .15);
+}

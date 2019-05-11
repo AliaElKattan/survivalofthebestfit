@@ -1,0 +1,13 @@
+.about-section {
+  padding-top: 1rem;
+  p {
+    margin-bottom: 3rem;
+    text-align: left;
+    line-height: 1.5;
+  }
+  @media (min-width: 992px) {
+    p {
+      text-align: justify;
+    }
+  }
+}

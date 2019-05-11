@@ -1,0 +1,20 @@
+// Variables
+$white: #fff !default;
+$gray-300: #dee2e6 !default;
+$gray-900: #212529 !default;
+$black: #161616 !default;
+$rose-light: #FFADA3 !default;
+$rose-dark: #be5857 !default;
+$yellow-washed: #f9f0e3 !default;
+$white-washed: #FAFAFA;
+$dark-pink: #be5857 !default;
+
+$primary: #2e4755 !default;
+
+
+@font-face {
+    font-family: 'VT323';
+    src: url('../img/vt323-regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
