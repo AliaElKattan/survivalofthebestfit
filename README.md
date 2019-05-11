@@ -29,11 +29,3 @@ If you'd like to join the team or can contribute with ideas/feedback, please fee
 ## Acknowledgements
 * Politics of Code class for bringing us together
 * Moz://a foundation for its inspiring mission
-## Landing Page
-
-You can access the current landing page at https://survivalofthebestfit.com
-
-To build and serve run 
-```
-npm run start
-```
