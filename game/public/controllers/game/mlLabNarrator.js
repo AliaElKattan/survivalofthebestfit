@@ -10,7 +10,7 @@ import MlLabAnimator from '~/public/controllers/game/mlLabAnimator.js';
 import {waitForSeconds, clamp} from '~/public/controllers/common/utils';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
-export default class MetaMLLab {
+export default class MlLabNarrator {
     constructor() {
         new MlLabAnimator();
         
@@ -63,33 +63,37 @@ export default class MetaMLLab {
     _showNewMessage(msg) {
         if (!msg.hasOwnProperty('messageFromVc') || !msg.hasOwnProperty('responses')) throw new Error('message object does not have valid properties!');
 
-        // clear tooltip if one exists
-        if (this.tooltip) {
-            this.tooltip.destroy();
-            delete this.tooltip;
-        }
-
-        // if we have a last
-        if (msg.hasOwnProperty('isLastMessage')) {
-            console.log('LAST MESSAGE!');
-            new EndGameOverlay();
-        };
-
-        // show new textbox
+        let callback = this.textAckCallback.bind({}, msg, this.scheduleTimelineUpdate, this.newsFeed);
+        if (msg.tooltip) callback = this.showTooltipCallback.bind({}, msg, this.scheduleTimelineUpdate, this.newsFeed, callback);
+        
         new TextboxUI({
             show: true,
             type: CLASSES.ML,
             content: msg.messageFromVc,
             responses: msg.responses,
-            hasTooltip: msg.hasOwnProperty('tooltip'),
-            isLastMessage: msg.hasOwnProperty('isLastMessage'),
+            callback: callback,
         });
-
-        // if there is a tooltip linked to the message object, set up the tooltip object
-        if (msg.tooltip) {
-            this.tooltip = new InfoTooltip(msg.tooltip);
-        }
     }
+
+    showTooltipCallback(msg, scheduleTimelineUpdate, newsFeed, textAckCallback) {
+        new InfoTooltip(msg.tooltip, textAckCallback);
+        scheduleTimelineUpdate();
+        newsFeed.hide();
+    }
+
+    textAckCallback(msg, scheduleTimelineUpdate, newsFeed) {
+        if (msg.isLastMessage) {
+            // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
+            gtag('event', 'test-game-completed', {
+                'event_category': 'default',
+                'event_label': 'how-far-do-ppl-get',
+            });
+            new EndGameOverlay();
+            return;
+        } 
+        scheduleTimelineUpdate();
+    }
+
     // update schedule: pop the first timer value from the array
     updateTimeline() {
         this.ML_TIMELINE = this.ML_TIMELINE.slice(1);

@@ -19,7 +19,6 @@ export default class extends UIBase {
         this.scrollIsActive = false;
         this._handleIconClick = this._handleIconClick.bind(this);
         this._handleInspectButtonClick = this._handleInspectButtonClick.bind(this);
-        this._handleNewResume = this._handleNewResume.bind(this);
         this._handlePersonCardHover = this._handlePersonCardHover.bind(this);
         this.activePerson = null;
         this._addEventListeners();
@@ -31,7 +30,6 @@ export default class extends UIBase {
     _addEventListeners() {
         this.$xIcon.on('click', this._handleIconClick);
         eventEmitter.on(EVENTS.DATASET_VIEW_INSPECT, this._handleInspectButtonClick);
-        eventEmitter.on(EVENTS.DATASET_VIEW_NEW_CV, this._handleNewResume);
         const $resumeGrids = document.querySelectorAll('.DatasetGrid');
         $resumeGrids.forEach((grid) => grid.addEventListener('mouseover', this._handlePersonCardHover));
     }
@@ -39,7 +37,6 @@ export default class extends UIBase {
     _removeEventListeners() {
         this.$xIcon.off('click', this._handleIconClick);
         eventEmitter.off(EVENTS.DATASET_VIEW_INSPECT, this._handleInspectButtonClick);
-        eventEmitter.on(EVENTS.DATASET_VIEW_NEW_CV, this._handleNewResume);
     }
 
     _handleIconClick() {
@@ -50,7 +47,7 @@ export default class extends UIBase {
         this.$el.hasClass(CLASSES.IS_INACTIVE) ? this.show() : '';
     }
 
-    _handleNewResume(resume) {
+    handleNewResume(resume) {
         const personCard = new PersonCard({
             resume: resume,
             $parent: this.$el,

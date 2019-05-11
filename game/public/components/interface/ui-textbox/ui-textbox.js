@@ -7,19 +7,21 @@ import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 export default class extends UIBase {
     constructor(options) {
         super();
-        this.options = options;
         this.$el = $('#js-textbox-overlay'); // This should be a single element
         this.$textEl = this.$el.find('.Textbox__content');
         this.$buttons = this.$el.find('.TextboxButton');
         this.setContent = this.setContent.bind(this);
+
         this._mainContent = options.content || 'dummy text'; // TODO: change this to null
         this._responseContent = options.responses || ['Okay'];
+
         this.overlay = options.overlay || false; // TODO think about the overlay
         this.type = options.type || '';
         this.hasTooltip = options.hasTooltip;
         this.stageNumber = options.stageNumber;
         this.isRetry = options.isRetry || false;
         this.isLastMessage = options.isLastMessage;
+        this.callback = options.callback;
         if (options.show) this.show();
         this.setContent(); // set content
         this._addEventListeners();
@@ -38,19 +40,7 @@ export default class extends UIBase {
 
     _mlStageButtonHandler(e) {
         this.$buttons.addClass(CLASSES.BUTTON_CLICKED);
-        if (this.isLastMessage) {
-            // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
-            gtag('event', 'test-game-completed', {
-                'event_category': 'default',
-                'event_label': 'how-far-do-ppl-get',
-            });
-            eventEmitter.emit(EVENTS.SHOW_ENDGAME_OVERLAY, {});
-        } else if (this.hasTooltip) {
-            eventEmitter.emit(EVENTS.SHOW_TOOLTIP, {});
-        } else {
-            eventEmitter.emit(EVENTS.RESUME_TIMELINE, {});
-            eventEmitter.emit(EVENTS.HIDE_NEWS_FEED, {});
-        }
+        this.callback();
         this.destroy();
     }
 

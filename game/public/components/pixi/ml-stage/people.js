@@ -5,7 +5,6 @@ import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 import EVENTS from '~/public/controllers/constants/events.js';
 import MLPerson from '~/public/components/pixi/ml-stage/person';
 import PeopleTalkManager from '~/public/components/interface/ml/people-talk-manager/people-talk-manager';
-import {mlModule} from '~/public/controllers/machine-learning/mlModule.js';
 
 export default class {
     constructor() {
@@ -65,15 +64,9 @@ export default class {
         return this.peopleLine.length;
     }
 
-    evaluateFirstPerson() {
-        const status = mlModule.predict(this.peopleLine[0].personData) == 1 ? 'accepted' : 'rejected';
-        eventEmitter.emit(EVENTS.DATASET_VIEW_NEW_CV, {
-            status: status,
-            data: this.peopleLine[0].getData(),
-        });
+    removeFirstPerson(status) {
         this.peopleLine[0].removeFromLine({decision: status});
         this.peopleLine = this.peopleLine.slice(1);
         this._addNewPerson();
-        return status;
     }
 }
