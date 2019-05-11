@@ -1,0 +1,30 @@
+.conversationBox {
+  @include textBox();
+  @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'grey');
+  
+  padding: 10px 20px;
+  
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 80%;
+  max-width: 700px;
+
+}
+
+.datafile {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  height: 50px;
+  width:50px;
+  background-color:red;
+  z-index:7;
+  cursor: move;
+}
+
+[draggable] {
+  user-select: none;
+}

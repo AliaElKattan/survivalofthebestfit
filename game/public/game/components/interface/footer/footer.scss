@@ -1,0 +1,32 @@
+.Footer {
+  position: absolute;
+  bottom: 30px;
+  right: margin(sm);
+  @include mq($until: mobile) {
+    bottom: margin(xs);
+    right: margin(xs);
+  }
+  z-index: 5;
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.FullscreenIcon {
+  height: 23px;
+  width: auto;
+  width: 50px;
+  
+  background: url('../assets/img/fullscreen-expand.png') no-repeat center;
+  background-size: contain;
+  
+  &--expanded {
+    background: url('../assets/img/fullscreen-collapse.png') no-repeat center;
+    background-size: contain;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
