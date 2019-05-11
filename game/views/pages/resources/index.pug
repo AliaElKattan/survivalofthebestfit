@@ -1,11 +1,12 @@
 extends ../../layouts/layout-default
 
 block content
-  section.showcase.bg-light.about
+  section.showcase.bg-light.resources
     .container
       .row
         .col-md-2
         .col-md-8.col-xs-12.about-text.mx-auto
-          h1.mb-5 #{title}
-          h3 b #{aboutBiasTitle}
-          p!= aboutBias.replace(/\n/g, '<br>')
+          h1 #{title}
+          p!=aboutBias
+          p!= fixingBias.replace(/\n/g, '<br>')
+          p!= futureSteps.replace(/\n/g, '<br>')
