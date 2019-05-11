@@ -3,7 +3,7 @@ import {cvCollection} from '~/public/assets/text/cvCollection.js';
 import {uv2px} from '~/public/controllers/common/utils.js';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 import EVENTS from '~/public/controllers/constants/events.js';
-import MLPerson from '~/public/components/pixi/ml/person';
+import MLPerson from '~/public/components/pixi/ml-stage/person';
 import PeopleTalkManager from '~/public/components/interface/ml/people-talk-manager/people-talk-manager';
 import {mlModule} from '~/public/controllers/machine-learning/mlModule.js';
 
@@ -17,9 +17,7 @@ export default class {
         this.peopleTalkManager = new PeopleTalkManager({parent: this.container, stage: 'ml'});
         this._createPeople();
         eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
-    }
-
-    addToPixi() {
+        
         mlLabStageContainer.addChild(this.container);
         this._draw();
         this.container.x = uv2px(0.25, 'w');

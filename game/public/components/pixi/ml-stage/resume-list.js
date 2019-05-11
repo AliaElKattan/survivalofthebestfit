@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import Resume from './cv';
+import Resume from './resume';
 import {mlLabStageContainer} from '../../../controllers/game/gameSetup';
 import {beltTexture, cvTexture} from '../../../controllers/common/textures.js';
 import {screenSizeDetector, uv2px} from '~/public/controllers/common/utils.js';
@@ -11,10 +11,6 @@ export default class {
         this.resumeList = [];
         this.resumeContainer = new PIXI.Container();
         this.resumeContainer.type = 'resumeContainer';
-        this._recomputeParams();
-    }
-
-    addToPixi() {
         mlLabStageContainer.addChild(this.resumeContainer);
         this.draw();
     }

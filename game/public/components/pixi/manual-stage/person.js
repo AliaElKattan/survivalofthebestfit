@@ -1,8 +1,8 @@
-import {pixiApp, eventEmitter} from '../../controllers/game/gameSetup.js';
-import {uv2px, screenSizeDetector} from '../../controllers/common/utils.js';
+import {pixiApp, eventEmitter} from '../../../controllers/game/gameSetup.js';
+import {uv2px, screenSizeDetector} from '../../../controllers/common/utils.js';
 import {spotlight} from './office';
-import EVENTS from '../../controllers/constants/events';
-import SCALES from '../../controllers/constants/pixi-scales.js';
+import EVENTS from '../../../controllers/constants/events';
+import SCALES from '../../../controllers/constants/pixi-scales.js';
 
 let showedInstructions = false;
 

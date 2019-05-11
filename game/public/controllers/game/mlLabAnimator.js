@@ -3,54 +3,48 @@ import {cvCollection} from '~/public/assets/text/cvCollection.js';
 import {mlLabStageContainer} from '~/public/controllers/game/gameSetup';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 import EVENTS from '~/public/controllers/constants/events.js';
-import Machine from '~/public/components/pixi/ml/machine';
-import Resumes from '~/public/components/pixi/ml/cv-list';
-import Floor from '~/public/components/pixi/ml/floor';
-import ConveyorBelt from '~/public/components/pixi/ml/conveyor-belt';
-import Door from '~/public/components/pixi/door';
+import Machine from '~/public/components/pixi/ml-stage/machine';
+import ResumeList from '~/public/components/pixi/ml-stage/resume-list';
+import Floor from '~/public/components/pixi/manual-stage/floor';
+import ConveyorBelt from '~/public/components/pixi/ml-stage/conveyor-belt';
+import Door from '~/public/components/pixi/manual-stage/door';
 import ResumeUI from '~/public/components/interface/ui-resume/ui-resume';
-import ConversationManager from '~/public/components/interface/ml/conversation-manager/conversation-manager.js';
-import NewsFeedUI from '~/public/components/interface/ml/news-feed/news-feed.js';
 import AlgorithmInspectorUI from '~/public/components/interface/ml/algorithm-inspector/algorithm-inspector.js';
 import DatasetView from '~/public/components/interface/ml/dataset-view/dataset-view';
-import ScanRay from '~/public/components/pixi/ml/scan-ray.js';
-import DataServer from '~/public/components/pixi/ml/data-server.js';
-import MLPeople from '~/public/components/pixi/ml/people.js';
-import TimelineManager from '~/public/components/interface/ml/timeline-manager/timeline-manager';
+import ScanRay from '~/public/components/pixi/ml-stage/scan-ray.js';
+import DataServer from '~/public/components/pixi/ml-stage/data-server.js';
+import People from '~/public/components/pixi/ml-stage/people.js';
 
-export default class MLLab {
+export default class MlLabAnimator {
     constructor() {
         this.size = 0;
         this.scale = 1;
-
-        this.conversationManager = new ConversationManager();
-        this.newsFeed = new NewsFeedUI({show: true});
-        this.algorithmInspector = new AlgorithmInspectorUI({});
-        this.datasetView = new DatasetView({});
-        this.floors = {
-            ground_floor: new Floor({type: 'ground_floor'}),
-            first_floor: new Floor({type: 'first_floor'}),
-        };
+        
+        new Floor({type: 'first_floor'}).addToPixi(mlLabStageContainer);
+        const groundFloor = new Floor({type: 'ground_floor'}).addToPixi(mlLabStageContainer);
         this.door = new Door({
             type: 'doorAccepted',
             floor: 'ground_floor',
-            floorParent: this.floors.ground_floor,
+            floorParent: groundFloor,
             xAnchor: uv2px(0.08, 'w'),
-        });
-        this.resumeList = new Resumes();
-        this.belt = new ConveyorBelt();
-        this.machine = new Machine({});
+        }).addToPixi();
+        
+        this.machine = new Machine();        
         this.dataServers = [
-            new DataServer({
-                machine: this.machine,
-                type: 'rejected',
-            }),
-            new DataServer({
-                machine: this.machine,
-                type: 'accepted',
-            }),
+            new DataServer({machine: this.machine, type: 'rejected'}),
+            new DataServer({machine: this.machine, type: 'accepted'}),
         ];
+        
+        this.belt = new ConveyorBelt();
+        this.resumeList = new ResumeList();
         this.scanRay = new ScanRay({machine: this.machine});
+        this.people = new People();
+        
+
+        this.algorithmInspector = new AlgorithmInspectorUI({});
+        this.datasetView = new DatasetView({});
+        
+        
         // TODO change the scores and candidateId logic -> we can handle with event emitter
         // is the cv shown based on the person clicked?
         this.resumeUI = new ResumeUI({
@@ -59,31 +53,12 @@ export default class MLLab {
             scores: cvCollection.cvData,
             candidateId: candidateClicked,
         });
-        this.people = new MLPeople();
-        this.timeline = new TimelineManager();
         this.tweens = {};
         this.animLoopCount = 0;
-
+        
         eventEmitter.on(EVENTS.RESIZE, this._resize.bind(this));
 
         this._setupTweens();
-        this.draw();
-        this.timeline.start();
-    }
-
-    draw() {
-        for (const floor in this.floors) {
-            if (Object.prototype.hasOwnProperty.call(this.floors, floor)) {
-                this.floors[floor].addToPixi(mlLabStageContainer);
-            }
-        };
-        this.door.addToPixi();
-        this.machine.addToPixi();
-        this.dataServers.forEach((server) => server.addToPixi());
-        this.belt.addToPixi();
-        this.resumeList.addToPixi();
-        this.scanRay.addToPixi();
-        this.people.addToPixi();
         this.animate();
     }
 

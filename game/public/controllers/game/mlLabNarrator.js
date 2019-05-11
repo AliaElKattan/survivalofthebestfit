@@ -1,18 +1,29 @@
-import $ from 'jquery';
+
 import EVENTS from '~/public/controllers/constants/events';
+import CLASSES from '~/public/controllers/constants/classes';
+import TextboxUI from '~/public/components/interface/ui-textbox/ui-textbox';
+import InfoTooltip from '~/public/components/interface/ml/info-tooltip/info-tooltip';
+import EndGameOverlay from '~/public/components/interface/ml/endgame-overlay/endgame-overlay';
+
+import NewsFeedUI from '~/public/components/interface/ml/news-feed/news-feed.js';
+import MlLabAnimator from '~/public/controllers/game/mlLabAnimator.js';
 import {waitForSeconds, clamp} from '~/public/controllers/common/utils';
 import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
-export default class {
-    constructor(options) {
+export default class MetaMLLab {
+    constructor() {
+        new MlLabAnimator();
+        
+        this.newsFeed = new NewsFeedUI({show: true});
+        
         this.ML_TIMELINE = txt.mlLabStage.conversation;
         this.newsTimeOffset = 6;
         this.isActive = false;
         this.scheduleTimelineUpdate = this.scheduleTimelineUpdate.bind(this);
         this._addEventListeners();
-    }
 
-    // launch timeline: once it starts it runs on its own
+        this.start();
+    }
 
     start() {
         this.isActive = true;
@@ -20,13 +31,9 @@ export default class {
         this.scheduleTimelineUpdate();
     }
 
-    // stop timeline: the next news update will not fire
-
     stop() {
         this.isActive = false;
     }
-
-    // schedule a news update
 
     scheduleTimelineUpdate() {
         if (this.ML_TIMELINE.length === 0 || !this.isActive) return;
@@ -34,29 +41,56 @@ export default class {
         if ( this.ML_TIMELINE.length === 1) this.ML_TIMELINE[0].isLastMessage = true;
 
         // MESSAGE FROM BOSS UPDATE
-
         waitForSeconds(this.ML_TIMELINE[0].delay)
             .then(() => {
-                eventEmitter.emit(EVENTS.SHOW_MESSAGE_FROM_BOSS, this.ML_TIMELINE[0]);
+                this._showNewMessage(this.ML_TIMELINE[0]);
                 this.updateTimeline();
             }).catch((err) => {
                 console.log(err);
             });
 
         // NEWS UPDATE
-
         if (!this.ML_TIMELINE[0].hasOwnProperty('news')) return;
         const newsLaunch = clamp(this.ML_TIMELINE[0].delay - this.newsTimeOffset, 1, 5);
         waitForSeconds(newsLaunch)
             .then(() => {
-                eventEmitter.emit(EVENTS.UPDATE_NEWS_FEED, {news: this.ML_TIMELINE[0].news});
+                this.newsFeed.updateNewsFeed({news: this.ML_TIMELINE[0].news});
             }).catch((err) => {
                 console.log(err);
             });
+    };
+    
+    _showNewMessage(msg) {
+        if (!msg.hasOwnProperty('messageFromVc') || !msg.hasOwnProperty('responses')) throw new Error('message object does not have valid properties!');
+
+        // clear tooltip if one exists
+        if (this.tooltip) {
+            this.tooltip.destroy();
+            delete this.tooltip;
+        }
+
+        // if we have a last
+        if (msg.hasOwnProperty('isLastMessage')) {
+            console.log('LAST MESSAGE!');
+            new EndGameOverlay();
+        };
+
+        // show new textbox
+        new TextboxUI({
+            show: true,
+            type: CLASSES.ML,
+            content: msg.messageFromVc,
+            responses: msg.responses,
+            hasTooltip: msg.hasOwnProperty('tooltip'),
+            isLastMessage: msg.hasOwnProperty('isLastMessage'),
+        });
+
+        // if there is a tooltip linked to the message object, set up the tooltip object
+        if (msg.tooltip) {
+            this.tooltip = new InfoTooltip(msg.tooltip);
+        }
     }
-
     // update schedule: pop the first timer value from the array
-
     updateTimeline() {
         this.ML_TIMELINE = this.ML_TIMELINE.slice(1);
     }

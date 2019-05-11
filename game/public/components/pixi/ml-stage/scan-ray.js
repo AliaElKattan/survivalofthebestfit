@@ -12,9 +12,7 @@ export default class {
         this.scanRay.animationSpeed = 0.5;
         this.scanRay.gotoAndStop(0);
         this.scanRay.visible = false;
-    }
-
-    addToPixi() {
+    
         this.draw();
         mlLabStageContainer.addChild(this.scanRay);
     }

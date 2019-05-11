@@ -3,7 +3,7 @@ import {TweenLite} from 'gsap/TweenMax';
 import CLASSES from '~/public/controllers/constants/classes';
 import EVENTS from '~/public/controllers/constants/events';
 import UIBase from '~/public/components/interface/ui-base/ui-base';
-import {spotlight} from '~/public/components/pixi/office';
+import {spotlight} from '~/public/components/pixi/manual-stage/office';
 import {eventEmitter, pixiApp} from '~/public/controllers/game/gameSetup.js';
 
 export default class extends UIBase {

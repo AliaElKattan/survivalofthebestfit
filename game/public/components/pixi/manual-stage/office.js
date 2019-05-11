@@ -3,11 +3,11 @@ import $ from 'jquery';
 import {officeStageContainer, eventEmitter} from '~/public/controllers/game/gameSetup.js';
 import {bluePersonTexture, yellowPersonTexture} from '~/public/controllers/common/textures.js';
 import {gameFSM} from '~/public/controllers/game/stateManager.js';
-import {createPerson, animateThisCandidate} from '~/public/components/pixi/person.js';
-import Floor from '~/public/components/pixi/ml/floor.js';
+import {createPerson, animateThisCandidate} from '~/public/components/pixi/manual-stage/person.js';
+import Floor from '~/public/components/pixi/manual-stage/floor.js';
 import {cvCollection} from '~/public/assets/text/cvCollection.js';
 import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/controllers/common/utils.js';
-import Door from '~/public/components/pixi/door.js';
+import Door from '~/public/components/pixi/manual-stage/door.js';
 import ResumeUI from '~/public/components/interface/ui-resume/ui-resume';
 import InstructionUI from '~/public/components/interface/ui-instruction/ui-instruction';
 import YesNo from '~/public/components/interface/yes-no/yes-no';
@@ -16,8 +16,8 @@ import ANCHORS from '~/public/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/controllers/constants/events';
 import SCALES from '~/public/controllers/constants/pixi-scales.js';
 import {mlModule} from '~/public/controllers/machine-learning/mlModule.js';
-import TaskUI from '../../components/interface/ui-task/ui-task';
-import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
+import TaskUI from '../../interface/ui-task/ui-task';
+import TextBoxUI from '../../interface/ui-textbox/ui-textbox';
 
 const spotlight = {
     x: uv2px(0.4, 'w'),
