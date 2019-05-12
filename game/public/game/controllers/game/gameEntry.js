@@ -14,12 +14,11 @@ const componentLoader = new ComponentLoader({
     Footer,
 });
 
-componentLoader.scan();
-
 document.getElementById('gameCanvas').appendChild(pixiApp.view);
 loadAssets().then(() => {
     console.log('Start game!!');
     gameFSM.startGame();
+    componentLoader.scan();
 
     startTweenManager();
 });

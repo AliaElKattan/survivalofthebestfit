@@ -90,6 +90,14 @@ const clamp = (val, minVal, maxVal) => {
     return Math.max(minVal, Math.min(maxVal, val));
 };
 
+const getDateString = () => {
+    const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
+    const d = new Date();
+    const hourString = `${d.getHours() > 0 ? d.getHours() : `0${d.getHours()}`}:${d.getMinutes() > 0 ? d.getMinutes() : `0${d.getMinutes()}`}`;
+    return `${days[d.getDay()]} ${hourString}, ${months[d.getMonth()]} ${d.getDate()} ${d.getFullYear()}`;
+};
+
 // convenience function to animate object, parameter default to not moving anywhere
 function animateTo({target, x, y, scale=1, scaleY, easing=PIXI.tween.Easing.inQuart(), time=1000} = {}) {
     const X = x === undefined ? target.x : uv2px(x, 'w');
@@ -124,4 +132,15 @@ const waitForSeconds = (duration) => {
     });
 };
 
-export {spacingUtils, uv2px, px2uv, clamp, animateTo, lerp, screenSizeDetector, waitForSeconds};
+const setCanvasBackground = ({color = undefined}) => {
+    switch (color) {
+    case 'pink':
+        console.log('change pixi background color to pink!');
+        pixiApp.renderer.backgroundColor = 0xfeccc7;
+        break;
+    default:
+        pixiApp.renderer.backgroundColor = 0xf9f0e2;
+    }
+};
+
+export {spacingUtils, uv2px, px2uv, clamp, animateTo, lerp, getDateString, screenSizeDetector, waitForSeconds, setCanvasBackground};

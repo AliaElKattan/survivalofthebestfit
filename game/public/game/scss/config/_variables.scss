@@ -28,12 +28,14 @@ $colors: (
   txt-light-grey: #B2B2B2,
   txt-dark-grey: #696969,
   txt-light-pink: #FFD6D6,
+  bg-light-grey: #F2F2F2,
   txt-black: #000000,
   rose-light: #FECCC7,
   grey-main: #F2F2F2,
   resume-mask: #e8e8e8ad,
   dark-mode-bg: #ff8d8d,
   dark-red-bg: #DD6363,
+  red-bg: #FF6262,
   // box shadows
   shadow-darkred-light: #e05555,
   shadow-darkred-dark: #a52424,
@@ -57,7 +59,7 @@ $colors: (
 
 $mq-breakpoints: (
     mobile:  380px,
-    mobile-landscape:  815px,
+    mobile-landscape:  825px,
     tablet:  740px,
     desktop: 1024px,
     wide:    1300px
