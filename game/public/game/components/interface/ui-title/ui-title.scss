@@ -1,0 +1,57 @@
+// UI instruction box
+.Titlepage {
+    @include textBox();
+    @include boxColors($bg-color: color(bg-washed-white), $shadow-color: 'grey');
+    
+    padding: padding(sm);
+    
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 800px;
+    max-width: 1200px;
+    
+      &__head {
+        color: color(txt-light-grey);
+      }
+
+  }
+
+.title-blue-person {
+    max-height: 150px;
+    margin: auto;
+    display: inherit;
+}
+
+//TODO change background here to something more colorful?
+.Titlepage__wrapper {
+  background: url("../assets/img/landing-graphic.png") no-repeat center;
+  width: 100%;
+  height: auto;
+  background-attachment: scroll;
+  background-size: cover;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+
+.title-buttons {
+  display: inherit;
+  width: 200px;
+  height: 60px;
+  margin: auto;
+  margin-top: 1rem;
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+}
