@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import {Component} from 'component-loader-js';
-import {waitForSeconds} from '~/public/controllers/common/utils';
-import CLASSES from '~/public/controllers/constants/classes';
+import {waitForSeconds} from '~/public/game/controllers/common/utils';
+import CLASSES from '~/public/game/controllers/constants/classes';
 
 // publishing custom event to any registered listener
 export default class Replica extends Component {

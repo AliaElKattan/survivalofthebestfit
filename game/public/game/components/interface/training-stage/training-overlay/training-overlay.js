@@ -1,10 +1,10 @@
 import $ from 'jquery';
-import CLASSES from '~/public/controllers/constants/classes';
-import UIBase from '~/public/components/interface/ui-base/ui-base';
-import CircleGrid from '~/public/components/pixi/training-stage/circle-grid';
-import {gameFSM} from '~/public/controllers/game/stateManager.js';
-import {waitForSeconds, setCanvasBackground, clamp} from '~/public/controllers/common/utils';
-import {ticker} from '~/public/controllers/game/gameSetup.js';
+import CLASSES from '~/public/game/controllers/constants/classes';
+import UIBase from '~/public/game/components/interface/ui-base/ui-base';
+import CircleGrid from '~/public/game/components/pixi/training-stage/circle-grid';
+import {gameFSM} from '~/public/game/controllers/game/stateManager.js';
+import {waitForSeconds, setCanvasBackground, clamp} from '~/public/game/controllers/common/utils';
+import {ticker} from '~/public/game/controllers/game/gameSetup.js';
 
 export default class extends UIBase {
     constructor() {

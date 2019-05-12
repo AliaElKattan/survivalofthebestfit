@@ -1,8 +1,8 @@
 import {Component} from 'component-loader-js';
-import CLASSES from '~/public/controllers/constants/classes';
-import EVENTS from '~/public/controllers/constants/events';
-import {gameFSM} from '~/public/controllers/game/stateManager.js';
-import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
+import CLASSES from '~/public/game/controllers/constants/classes';
+import EVENTS from '~/public/game/controllers/constants/events';
+import {gameFSM} from '~/public/game/controllers/game/stateManager.js';
+import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 
 // publishing custom event to any registered listener
 export default class ChoiceButton extends Component {

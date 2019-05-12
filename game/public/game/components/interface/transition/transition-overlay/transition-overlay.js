@@ -1,11 +1,11 @@
 import $ from 'jquery';
 import {TweenLite} from 'gsap/TweenMax';
-import CLASSES from '~/public/controllers/constants/classes';
-import EVENTS from '~/public/controllers/constants/events';
-import UIBase from '~/public/components/interface/ui-base/ui-base';
-import {gameFSM} from '~/public/controllers/game/stateManager.js';
-import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
-import {waitForSeconds, setCanvasBackground, getDateString} from '~/public/controllers/common/utils';
+import CLASSES from '~/public/game/controllers/constants/classes';
+import EVENTS from '~/public/game/controllers/constants/events';
+import UIBase from '~/public/game/components/interface/ui-base/ui-base';
+import {gameFSM} from '~/public/game/controllers/game/stateManager.js';
+import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
+import {waitForSeconds, setCanvasBackground, getDateString} from '~/public/game/controllers/common/utils';
 
 export default class extends UIBase {
     constructor(options) {
