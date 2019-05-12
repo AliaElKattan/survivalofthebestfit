@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import {TweenLite} from 'gsap/TweenMax';
 import CLASSES from '~/public/game/controllers/constants/classes';
 import UIBase from '~/public/game/components/interface/ui-base/ui-base';
 import CircleGrid from '~/public/game/components/pixi/training-stage/circle-grid';
@@ -32,6 +33,7 @@ export default class extends UIBase {
     init() {
         waitForSeconds(1).then(() => {
             this.show();
+            // this.showEndUI(); // debugging only
             this.updateProgressText();
             this.launchProgressBar();
         });
@@ -79,8 +81,8 @@ export default class extends UIBase {
         TweenLite.delayedCall(1, () => {
             this.$el.addClass('pink-background');
             this.$email.removeClass(CLASSES.IS_INACTIVE);
-            TweenLite.set('#js-training-email', {yPercent: -40, xPercent: -50, opacity: 0});
-            TweenLite.to('#js-training-email', 0.3, {yPercent: -50, opacity: 1, ease: Power1.easeInOut});
+            TweenLite.set('.js-email', {y: 10, yPercent: -50, opacity: 0});
+            TweenLite.to('.js-email', 0.3, {y: 0, opacity: 1, ease: Power1.easeInOut});
             this.$stageEndBtn.on('click', () => {
                 this.$stageEndBtn.find('.button').addClass('step-completed');
                 this.exit();

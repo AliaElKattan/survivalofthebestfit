@@ -1,13 +1,16 @@
 .button {
-  .TransitionOverlay & {
+  #TransitionOverlay & {
     @include mq($until: mobile-landscape) {
       padding: 5px 10px;
     }
   }
 }
 
-.TransitionOverlay {
+#TransitionOverlay {
   transition: background-color 0.5s ease-in-out;
+  &.pink-background {
+    background-color: color(rose-light);
+  }
 }
 .conversationBox {
   @extend %email;

@@ -18,6 +18,7 @@ export default class extends UIBase {
             this.$date.html(`${getDateString()}`);
             this.show();
             this._addEventListeners();
+            // setTimeout(() => this.exit(),1000); // debugging only
         }
     }
 
@@ -36,7 +37,7 @@ export default class extends UIBase {
     }
 
     hide() {
-        TweenLite.to('.TransitionOverlay', 0.4, {opacity: 0, ease: Power1.easeInOut});
+        TweenLite.to('#TransitionOverlay', 0.4, {opacity: 0, ease: Power1.easeInOut});
         TweenLite.delayedCall(0.4, () => {
             this.$el.addClass(CLASSES.IS_INACTIVE);
         });
