@@ -90,9 +90,8 @@ const reportMetrics = (pred, valid, colorArr) => {
         by = round(blue/(yellow+blue));
     }
 
-    if (DEBUG_MODE) console.log('Accuracy: ', accuracy, ' Precision:', precision, ' Recall: ', recall, ' Acceptance rate: ', acceptanceRate, ' Blue/All Employed ratio: ', by );
-    
-}
+    if (DEBUG_MODE) console.log('Accuracy: ', accuracy, ' Precision:', precision, ' Recall: ', recall, ' Acceptance rate: ', acceptanceRate, ' Blue/All Employed ratio: ', by );    
+};
 
 const testInputData = () => {
     const [featureArr, labelArr] = preprocResumes(cvCollection.cvData);
@@ -106,4 +105,5 @@ const testInputData = () => {
 const round = (num) => {
     return Math.round(num * 100) / 100;
 };
+
 export {testClf, reportMetrics, testInputData};

@@ -15,9 +15,7 @@ export default class {
         this.$counterEl = null;
         this.counterId = `data-server-${type}`;
         this.counter = 0;
-    }
-
-    addToPixi() {
+    
         this.sprite.loop = true;
         this.sprite.animationSpeed = 0.5;
         this.sprite.gotoAndStop(0);

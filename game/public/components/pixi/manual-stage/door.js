@@ -25,6 +25,7 @@ export default class {
         this._draw();
         parentContainer.addChild(this.sprite);
         this._addEventListeners();
+        return this;
     }
 
     playAnimation({direction, close=false}) {

@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import CLASSES from '../../../controllers/constants/classes';
 import EVENTS from '../../../controllers/constants/events';
-import UIBase from '../ui-base/ui-base';
+import UIBase from '~/public/game/components/interface/ui-base/ui-base';
 import {eventEmitter, pixiApp} from '../../../controllers/game/gameSetup.js';
 
 

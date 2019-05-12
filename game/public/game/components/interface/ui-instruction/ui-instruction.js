@@ -2,7 +2,7 @@ import $ from 'jquery';
 import CLASSES from '~/public/game/controllers/constants/classes';
 import EVENTS from '~/public/game/controllers/constants/events';
 import UIBase from '~/public/game/components/interface/ui-base/ui-base';
-import {spotlight} from '~/public/game/components/pixi/office';
+import {spotlight} from '~/public/game/components/pixi/manual-stage/office';
 import {eventEmitter, pixiApp} from '~/public/game/controllers/game/gameSetup.js';
 import {waitForSeconds} from '~/public/game/controllers/common/utils';
 

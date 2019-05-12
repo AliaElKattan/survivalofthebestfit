@@ -3,9 +3,8 @@ import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
 import {uv2px} from '~/public/game/controllers/common/utils.js';
 import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 import EVENTS from '~/public/game/controllers/constants/events.js';
-import MLPerson from '~/public/game/components/pixi/ml/person';
+import MLPerson from '~/public/game/components/pixi/ml-stage/person';
 import PeopleTalkManager from '~/public/game/components/interface/ml/people-talk-manager/people-talk-manager';
-import {mlModule} from '~/public/game/controllers/machine-learning/mlModule.js';
 
 export default class {
     constructor() {
@@ -17,9 +16,7 @@ export default class {
         this.peopleTalkManager = new PeopleTalkManager({parent: this.container, stage: 'ml'});
         this._createPeople();
         eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
-    }
-
-    addToPixi() {
+        
         mlLabStageContainer.addChild(this.container);
         this._draw();
         this.container.x = uv2px(0.25, 'w');
@@ -67,15 +64,9 @@ export default class {
         return this.peopleLine.length;
     }
 
-    evaluateFirstPerson() {
-        const status = mlModule.predict(this.peopleLine[0].personData) == 1 ? 'accepted' : 'rejected';
-        eventEmitter.emit(EVENTS.DATASET_VIEW_NEW_CV, {
-            status: status,
-            data: this.peopleLine[0].getData(),
-        });
+    removeFirstPerson(status) {
         this.peopleLine[0].removeFromLine({decision: status});
         this.peopleLine = this.peopleLine.slice(1);
         this._addNewPerson();
-        return status;
     }
 }

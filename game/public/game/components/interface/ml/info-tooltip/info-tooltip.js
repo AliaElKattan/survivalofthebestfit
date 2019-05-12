@@ -6,19 +6,23 @@ import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 import {mlLabStageContainer} from '~/public/game/controllers/game/gameSetup';
 
 export default class extends UIBase {
-    constructor({text, parent}) {
+    constructor({text, parent}, callback) {
         super();
         this.$el = $('#js-tooltip');
         this.$icon = this.$el.find('.Tooltip-icon');
         this.$tooltip = this.$el.find('.Tooltip-box');
         this.$text = this.$el.find('.Tooltip-box__text');
         this.$dismissBtn = this.$el.find('.Tooltip-box__button');
+
         this.parent = parent;
         this.content = text;
         this.isActive = false;
+        this.callback = callback;
+
         this._handleIconHover = this._handleIconHover.bind(this);
         this._setContent();
         this._addEventListeners();
+        this.show();
     }
 
     _setContent() {
@@ -47,24 +51,17 @@ export default class extends UIBase {
     }
 
     _dismissTooltip() {
-        console.log('resume timeline!');
-        eventEmitter.emit(EVENTS.RESUME_TIMELINE, {});
-        this.hide();
+        this.callback();
+        this.destroy();
     }
 
-
     _addEventListeners() {
-        // this.$el.on( 'mouseover', this._handleIconHover).mouseleave('mouseout', this._handleIconHover);
         this.$el.on('click', this._expandTooltip.bind(this));
         this.$dismissBtn.on('click', this._dismissTooltip.bind(this));
-        eventEmitter.on(EVENTS.SHOW_TOOLTIP, this.show.bind(this));
-        eventEmitter.on(EVENTS.DESTROY_TOOLTIP, this.destroy.bind(this));
     }
 
     _removeEventListeners() {
         this.$el.off();
-        eventEmitter.off(EVENTS.SHOW_TOOLTIP, this.show.bind(this));
-        eventEmitter.off(EVENTS.DESTROY_TOOLTIP, this.destroy.bind(this));
     }
 
     show() {

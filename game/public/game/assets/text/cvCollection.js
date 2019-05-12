@@ -3,7 +3,7 @@ Object of all CVs for each stage
 As of now, skills are scaled out of 10
 */// /////////////////
 
-import CLASSES from '../../controllers/constants/classes';
+import CLASSES from '~/public/game/controllers/constants/classes';
 
 const cvCollection = {
     cvFeatures: [

@@ -1,12 +1,12 @@
 import * as machina from 'machina';
 import {eventEmitter} from './gameSetup.js';
-import {Office} from '../../components/pixi/office.js';
-import MLLab from '../../components/pixi/ml/lab.js';
-import TitlePageUI from '../../components/interface/ui-title/ui-title';
-import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
-import PerfMetrics from '../../components/interface/perf-metrics/perf-metrics';
-import TransitionOverlay from '../../components/interface/transition/overlay/overlay';
-import {mlModule} from '../../controllers/machine-learning/mlModule.js';
+import {Office} from '~/public/game/components/pixi/manual-stage/office.js';
+import MlLabNarrator from '~/public/game/controllers/game/mlLabNarrator';
+import TitlePageUI from '~/public/game/components/interface/ui-title/ui-title';
+import TextBoxUI from '~/public/game/components/interface/ui-textbox/ui-textbox';
+import PerfMetrics from '~/public/game/components/interface/perf-metrics/perf-metrics';
+import TransitionOverlay from '~/public/game/components/interface/transition/overlay/overlay';
+import {mlModule} from '~/public/game/controllers/machine-learning/mlModule.js';
 
 let office = new Office();
 let currentStage;
@@ -23,8 +23,8 @@ const gameFSM = new machina.Fsm({
     states: {
         uninitialized: {
             startGame: function() {
-                this.transition('titleStage');
-                // this.transition('smallOfficeStage');
+                // this.transition('titleStage');
+                this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
                 // this.transition('mlLabStage');
             },
@@ -167,7 +167,7 @@ const gameFSM = new machina.Fsm({
                     new PerfMetrics().show();
                 }
 
-                new MLLab();
+                new MlLabNarrator();
             },
             // TODO destroy the lab!
             nextStage: 'Oh gosh we haven\'t even started it hahah',

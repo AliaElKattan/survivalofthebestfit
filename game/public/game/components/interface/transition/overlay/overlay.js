@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import CLASSES from '../../../../controllers/constants/classes';
-import UIBase from '../../ui-base/ui-base';
+import UIBase from '~/public/game/components/interface/ui-base/ui-base';
 
 
 export default class extends UIBase {

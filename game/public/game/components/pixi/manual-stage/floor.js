@@ -24,6 +24,7 @@ export default class {
         parentContainer.addChild(this.surface);
         parentContainer.addChild(this.side);
         this._addEventListeners();
+        return this;
     }
 
     _initParams() {

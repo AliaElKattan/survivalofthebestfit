@@ -1,9 +1,8 @@
 import $ from 'jquery';
-import CLASSES from '../../../controllers/constants/classes';
-import EVENTS from '../../../controllers/constants/events';
+import CLASSES from '~/public/game/controllers/constants/classes';
 
-import UIBase from '../ui-base/ui-base';
-import {eventEmitter} from '../../../controllers/game/gameSetup.js';
+import UIBase from '~/public/game/components/interface/ui-base/ui-base';
+import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 
 export default class extends UIBase {
     constructor(options) {

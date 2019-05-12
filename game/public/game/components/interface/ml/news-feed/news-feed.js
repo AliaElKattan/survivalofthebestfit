@@ -24,7 +24,7 @@ export default class extends UIBase {
         }
     }
 
-    _updateNewsFeed({news}) {
+    updateNewsFeed({news}) {
         if (!Array.isArray(news) || news.length < 2) throw new Error('News has to be an array - with at least two members!');
 
         this.$newsList.empty();
@@ -49,7 +49,6 @@ export default class extends UIBase {
     }
 
     _addEventListeners() {
-        eventEmitter.on(EVENTS.UPDATE_NEWS_FEED, this._updateNewsFeed.bind(this));
         eventEmitter.on(EVENTS.HIDE_NEWS_FEED, this.hide.bind(this));
     }
 

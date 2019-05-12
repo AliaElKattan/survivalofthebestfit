@@ -3,11 +3,11 @@ import $ from 'jquery';
 import {officeStageContainer, eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 import {bluePersonTexture, yellowPersonTexture} from '~/public/game/controllers/common/textures.js';
 import {gameFSM} from '~/public/game/controllers/game/stateManager.js';
-import {createPerson, animateThisCandidate} from '~/public/game/components/pixi/person.js';
-import Floor from '~/public/game/components/pixi/ml/floor.js';
+import {createPerson, animateThisCandidate} from '~/public/game/components/pixi/manual-stage/person.js';
+import Floor from '~/public/game/components/pixi/manual-stage/floor.js';
 import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
 import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
-import Door from '~/public/game/components/pixi/door.js';
+import Door from '~/public/game/components/pixi/manual-stage/door.js';
 import ResumeUI from '~/public/game/components/interface/ui-resume/ui-resume';
 import InstructionUI from '~/public/game/components/interface/ui-instruction/ui-instruction';
 import YesNo from '~/public/game/components/interface/yes-no/yes-no';
@@ -16,8 +16,8 @@ import ANCHORS from '~/public/game/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/game/controllers/constants/events';
 import SCALES from '~/public/game/controllers/constants/pixi-scales.js';
 import {mlModule} from '~/public/game/controllers/machine-learning/mlModule.js';
-import TaskUI from '../../components/interface/ui-task/ui-task';
-import TextBoxUI from '../../components/interface/ui-textbox/ui-textbox';
+import TaskUI from '../../interface/ui-task/ui-task';
+import TextBoxUI from '../../interface/ui-textbox/ui-textbox';
 
 const spotlight = {
     x: uv2px(0.4, 'w'),

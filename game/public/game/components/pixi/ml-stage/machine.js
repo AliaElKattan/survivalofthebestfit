@@ -12,9 +12,6 @@ export default class {
         this.machine.name = 'machine';
         this.inspectButton = SPRITES.inspectButton;
         this._addEventListeners();
-    }
-
-    addToPixi() {
         this.draw();
         mlLabStageContainer.addChild(this.machine);
         mlLabStageContainer.addChild(this.inspectButton);

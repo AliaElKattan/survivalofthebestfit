@@ -12,9 +12,6 @@ export default class {
     constructor() {
         eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
         this.beltContainer = new PIXI.Container();
-    }
-
-    addToPixi() {
         mlLabStageContainer.addChild(this.beltContainer);
         this._draw();
     }
