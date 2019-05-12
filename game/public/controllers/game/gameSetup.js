@@ -17,6 +17,7 @@ pixiApp.renderer.autoResize = true;
 // TODO - should these be pre-defined here?
 const officeStageContainer = new PIXI.Container();
 const mlLabStageContainer = new PIXI.Container();
+const mlTrainingStageContainer = new PIXI.Container();
 const timerContainer = new PIXI.Container();
 const beltContainer = new PIXI.Container();
 
@@ -24,6 +25,7 @@ pixiApp.stage.addChild(officeStageContainer);
 pixiApp.stage.addChild(timerContainer);
 pixiApp.stage.addChild(beltContainer);
 pixiApp.stage.addChild(mlLabStageContainer);
+pixiApp.stage.addChild(mlTrainingStageContainer);
 
 // shared eventEmitter across components
 const eventEmitter = new PIXI.utils.EventEmitter();
@@ -54,4 +56,4 @@ function resize() {
     // TODO redraw all the elements!
 }
 
-export {pixiApp, beltContainer, officeStageContainer, mlLabStageContainer, timerContainer, eventEmitter, startTweenManager, stopTweenManager, ticker};
+export {pixiApp, beltContainer, officeStageContainer, mlTrainingStageContainer, mlLabStageContainer, timerContainer, eventEmitter, startTweenManager, stopTweenManager, ticker};

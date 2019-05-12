@@ -21,4 +21,5 @@ export default {
     ML: 'ml',
     OSCILLATE: 'u-oscillate',
     PULSATE: 'u-pulsate',
+    CONVERSATION_STEP_COMPLETED: 'step-completed',
 };

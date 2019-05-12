@@ -1,15 +1,13 @@
 import {Component} from 'component-loader-js';
-import CLASSES from '../../../../controllers/constants/classes';
-import EVENTS from '../../../../controllers/constants/events';
-import {gameFSM} from '../../../../controllers/game/stateManager.js';
-import {eventEmitter} from '../../../../controllers/game/gameSetup.js';
-
+import CLASSES from '~/public/controllers/constants/classes';
+import EVENTS from '~/public/controllers/constants/events';
+import {gameFSM} from '~/public/controllers/game/stateManager.js';
+import {eventEmitter} from '~/public/controllers/game/gameSetup.js';
 
 // publishing custom event to any registered listener
 export default class ChoiceButton extends Component {
     constructor() {
         super(...arguments);
-
         this._totalSteps = parseInt(this.el.dataset.totalsteps);
         this._step = parseInt(this.el.dataset.step);
         this._replica = this.el.closest('.replica');
@@ -27,7 +25,8 @@ export default class ChoiceButton extends Component {
         if (this.clicked) return;
         // add 'chosen' styling to the button
         if (this._step+1 === this._totalSteps) {
-            gameFSM.nextStage();
+            eventEmitter.emit(EVENTS.EXIT_TRANSITION_STAGE, {});
+            // gameFSM.nextStage();
             return;
         };
         this._btn.classList.add(CLASSES.BUTTON_CLICKED);
@@ -53,8 +52,8 @@ export default class ChoiceButton extends Component {
 
     // hide the unchosen button
 
-    _hideBtn(conversation_step) {
-        if (this._step === conversation_step && !this._btn.classList.contains(CLASSES.BUTTON_CLICKED)) {
+    _hideBtn(conversationStep) {
+        if (this._step === conversationStep && !this._btn.classList.contains(CLASSES.BUTTON_CLICKED)) {
             this.el.classList.add(CLASSES.IS_INACTIVE);
             this._removeEventListeners();
             super.destroy();
@@ -64,6 +63,7 @@ export default class ChoiceButton extends Component {
     // get response text to a given choice
 
     _getChoiceResponse(step, text) {
-	     return txt.conversation[step].answer_choice.find((choice) => choice.text === text).response;
+	      const choice = txt.conversation[step].answer_choice.find((choice) => choice.text === text);
+        return choice ? choice.response : '';
     }
 }
