@@ -5,7 +5,7 @@ import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 
 export default class {
     constructor(options) {
-        this.ML_TIMELINE = txt.mlLabStage.conversation;
+        this.ML_TIMELINE = txt.mlLabStage.narration;
         this.newsTimeOffset = 6;
         this.isActive = false;
         this.scheduleTimelineUpdate = this.scheduleTimelineUpdate.bind(this);

@@ -7,16 +7,15 @@ import EndGameOverlay from '~/public/game/components/interface/ml/endgame-overla
 
 import NewsFeedUI from '~/public/game/components/interface/ml/news-feed/news-feed.js';
 import MlLabAnimator from '~/public/game/controllers/game/mlLabAnimator.js';
-import {waitForSeconds, clamp} from '~/public/game/controllers/common/utils';
 import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 
 export default class MlLabNarrator {
     constructor() {
-        new MlLabAnimator();
+        this.animator = new MlLabAnimator();
         
         this.newsFeed = new NewsFeedUI({show: true});
         
-        this.ML_TIMELINE = txt.mlLabStage.conversation;
+        this.ML_TIMELINE = txt.mlLabStage.narration;
         this.newsTimeOffset = 6;
         this.isActive = false;
         this.scheduleTimelineUpdate = this.scheduleTimelineUpdate.bind(this);
@@ -27,8 +26,9 @@ export default class MlLabNarrator {
 
     start() {
         this.isActive = true;
+        // DISPLAY THE FIRST NEWSFEED that happens before the first investor message
+        this.newsFeed.updateNewsFeed({news: this.ML_TIMELINE[0].news});
         if (!Array.isArray(this.ML_TIMELINE)) throw new Error('The timeline needs to be an array!');
-        this.scheduleTimelineUpdate();
     }
 
     stop() {
@@ -36,36 +36,25 @@ export default class MlLabNarrator {
     }
 
     scheduleTimelineUpdate() {
+        this.updateTimeline();
         if (this.ML_TIMELINE.length === 0 || !this.isActive) return;
         if (!this.ML_TIMELINE[0].hasOwnProperty('delay')) throw new Error('The ML message object needs to have a delay!');
         if ( this.ML_TIMELINE.length === 1) this.ML_TIMELINE[0].isLastMessage = true;
 
-        // MESSAGE FROM BOSS UPDATE
-        waitForSeconds(this.ML_TIMELINE[0].delay)
-            .then(() => {
-                this._showNewMessage(this.ML_TIMELINE[0]);
-                this.updateTimeline();
-            }).catch((err) => {
-                console.log(err);
-            });
+        this._showNewMessage(this.ML_TIMELINE[0]);
 
         // NEWS UPDATE
         if (!this.ML_TIMELINE[0].hasOwnProperty('news')) return;
-        const newsLaunch = clamp(this.ML_TIMELINE[0].delay - this.newsTimeOffset, 1, 5);
-        waitForSeconds(newsLaunch)
-            .then(() => {
-                this.newsFeed.updateNewsFeed({news: this.ML_TIMELINE[0].news});
-            }).catch((err) => {
-                console.log(err);
-            });
+        this.newsFeed.updateNewsFeed({news: this.ML_TIMELINE[0].news});
     };
     
     _showNewMessage(msg) {
         if (!msg.hasOwnProperty('messageFromVc') || !msg.hasOwnProperty('responses')) throw new Error('message object does not have valid properties!');
-
-        let callback = this.textAckCallback.bind({}, msg, this.scheduleTimelineUpdate, this.newsFeed);
-        if (msg.tooltip) callback = this.showTooltipCallback.bind({}, msg, this.scheduleTimelineUpdate, this.newsFeed, callback);
+        let callback = this.textAckCallback.bind({}, msg, this.animator);
+        if (msg.tooltip) callback = this.showTooltipCallback.bind({}, msg, this.newsFeed, callback);
         
+        this.animator.pauseAnimation();
+
         new TextboxUI({
             show: true,
             type: CLASSES.ML,
@@ -75,13 +64,15 @@ export default class MlLabNarrator {
         });
     }
 
-    showTooltipCallback(msg, scheduleTimelineUpdate, newsFeed, textAckCallback) {
+    showTooltipCallback(msg, newsFeed, textAckCallback) {
         new InfoTooltip(msg.tooltip, textAckCallback);
-        scheduleTimelineUpdate();
         newsFeed.hide();
     }
 
-    textAckCallback(msg, scheduleTimelineUpdate, newsFeed) {
+    textAckCallback(msg, animator) {
+        
+        animator.startAnimation();
+
         if (msg.isLastMessage) {
             // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
             gtag('event', 'test-game-completed', {
@@ -91,7 +82,6 @@ export default class MlLabNarrator {
             new EndGameOverlay();
             return;
         } 
-        scheduleTimelineUpdate();
     }
 
     // update schedule: pop the first timer value from the array
@@ -99,12 +89,20 @@ export default class MlLabNarrator {
         this.ML_TIMELINE = this.ML_TIMELINE.slice(1);
     }
 
+    _triggerTimelineUpdate(count) {
+        if (count === this.ML_TIMELINE[0].delay) {
+            this.scheduleTimelineUpdate();
+        }
+    }
+
     _addEventListeners() {
         eventEmitter.on(EVENTS.RESUME_TIMELINE, this.scheduleTimelineUpdate);
+        eventEmitter.on(EVENTS.ACCEPTED, this._triggerTimelineUpdate.bind(this));
     }
 
     _removeEventListeners() {
         eventEmitter.off(EVENTS.RESUME_TIMELINE, this.scheduleTimelineUpdate);
+        eventEmitter.off(EVENTS.ACCEPTED, this._triggerTimelineUpdate.bind(this));
     }
 
     destroy() {

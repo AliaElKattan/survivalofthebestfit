@@ -1,6 +1,7 @@
 import {buildUserModel, buildFakeDataModel, getFeaturePreference, predictPreprocResume} from '~/public/game/controllers/machine-learning/modelTraining.js';
 import {testClf, testInputData, reportMetrics} from '~/public/game/controllers/machine-learning/modelTesting';
 import {DEBUG_MODE} from '~/public/game/controllers/constants/mlConstants.js';
+import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
 
 const testAccepted = [4, 3, 7, 12, 10, 15, 18, 19, 26, 25, 29, 30, 32, 36, 37, 46, 47, 38];
 const testLastIndex = 50;
@@ -12,6 +13,7 @@ class MlModule {
         this.groundTruth = [];
         this.acceptance = [];
         this.colorArr = [];
+        this.averageScore = [0, 0, 0, 0];
     }
 
     recordAccept(personIndex) {
@@ -20,6 +22,34 @@ class MlModule {
 
     recordLastIndex(personIndex) {
         this.lastIndex = personIndex;
+    }
+
+    getAverageScore(options) {
+        //TODO optimize
+        let _index = 0;
+        let averageScore = [0,0,0,0]
+        let peopleArray = [];
+
+        if (options.peopleArray && options.peopleArray.length > 0) {
+            peopleArray = options.peopleArray;
+        }
+        else if (options.peopleIndex && options.peopleIndex > 0) {
+            for(let i = 0; i <= options.peopleIndex; i++){
+                peopleArray.push(i);
+            }
+        }
+            
+        for (_index in peopleArray) {
+            let qual = cvCollection.cvData[_index].qualifications;
+            for (_index=0; _index<4; _index++) {
+                averageScore[_index] += qual[_index];
+            }
+        }
+
+        for (_index=0; _index<4; _index++) {
+            averageScore[_index] = (averageScore[_index] / peopleArray.length).toFixed(2);
+        }
+        return averageScore;
     }
 
     train() {

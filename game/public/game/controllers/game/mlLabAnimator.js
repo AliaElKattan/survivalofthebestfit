@@ -14,6 +14,7 @@ import ScanRay from '~/public/game/components/pixi/ml-stage/scan-ray.js';
 import DataServer from '~/public/game/components/pixi/ml-stage/data-server.js';
 import People from '~/public/game/components/pixi/ml-stage/people.js';
 import {mlModule} from '~/public/game/controllers/machine-learning/mlModule.js';
+import { TweenMax } from 'gsap';
 
 export default class MlLabAnimator {
     constructor() {
@@ -52,6 +53,9 @@ export default class MlLabAnimator {
 
         this._setupTweens();
         this.startAnimation();
+
+        this.acceptedCount = 0;
+        this.rejectedCount = 0;
     }
 
     _setupTweens() {
@@ -88,13 +92,10 @@ export default class MlLabAnimator {
                     // #4 play resume scanline animation
                     this.activeTween = this.resumeScanTween;
                     this.resumeUI.showScanline();
-                    if (this.animLoopCount === 0) {
-                        this.resumeScanTween.resume();
-                        this.resumeMaskTween.resume();
-                    } else {
-                        this.resumeScanTween.restart();
-                        this.resumeMaskTween.restart();
-                    }
+
+                    this.resumeScanTween.restart();
+                    this.resumeMaskTween.restart();
+
                 });
         });
 
@@ -112,11 +113,12 @@ export default class MlLabAnimator {
             const decision = this.evalFirstPerson();
             // #2: set up server/door animations
             if (decision === 'accepted') {
-                eventEmitter.emit(EVENTS.ACCEPTED, {});
-                this.dataServers[1].updateServerCounter();
+                eventEmitter.emit(EVENTS.ACCEPTED, this.acceptedCount++);
+                this.dataServers[1].updateServerCounter(this.acceptedCount);
                 this.door.playAnimation({direction: 'forward'});
             } else {
-                this.dataServers[0].updateServerCounter();
+                eventEmitter.emit(EVENTS.REJECTED, this.rejectedCount++);
+                this.dataServers[0].updateServerCounter(this.rejectedCount);
             };
             
             // #3: play the people line animation
@@ -142,11 +144,21 @@ export default class MlLabAnimator {
     }
 
     startAnimation() {
-        this.activeTween.start();
+        if(this.activeTween.constructor.name === "TweenMax") {
+            this.activeTween.restart();
+        }
+        else {
+            this.activeTween.start();
+        }
     }
 
     pauseAnimation() {
-        this.activeTween.stop();
+        if(this.activeTween.constructor.name === "TweenMax") {
+            this.activeTween.pause();
+        }
+        else {
+            this.activeTween.stop().clear();
+        }
     }
 
     evalFirstPerson() {

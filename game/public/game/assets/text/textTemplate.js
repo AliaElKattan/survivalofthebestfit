@@ -133,9 +133,16 @@ const english = {
     // would, but at a much faster pace! Your role now is to sit back and
     // supervise the algorithm.', answer_choice: [ { text: 'OK', }, ], }, ],
     mlLabStage: {
-        conversation: [
+        narration: [
             {
-                // delay: 12,
+                delay: 1,
+                news: [
+                    'Best way to cut costs: use machine learning in everything',
+                    'Ambition said to be the most important trait in employees',
+                    'Diplomatic or aggressive? Different ways to describe blue people traits',
+                ],
+            },
+            {
                 delay: 3,
                 messageFromVc: 'We’ve been able to both hire at 10x our past rate and cut down costs! Great job, this seems to be working!',
                 responses: [
@@ -147,7 +154,7 @@ const english = {
                 ],
             },
             {
-                delay: 7,
+                delay: 6,
                 messageFromVc: 'Hello, I just got a complaint from a past applicant who’s looking for feedback on why she was rejected. Can you look into it and let me know?',
                 responses: [
                     'I\'m on it!',
@@ -159,14 +166,14 @@ const english = {
                 },
             },
             {
-                delay: 8,
+                delay: 12,
                 messageFromVc: 'Hello, just checking in on the hiring process so far. Can you look into the decisions it’s made?',
                 responses: [
                     'Sure, I can do that!',
                 ],
             },
             {
-                delay: 7,
+                delay: 16,
                 messageFromVc: 'Hey, some reporters have been talking about bias in recruitment, but I guess we’re off the hook since we’ve switched to automated hiring anyway! Is that right?',
                 responses: [
                     'Yes, we dodged that bullet.',
@@ -182,7 +189,7 @@ const english = {
                 ],
             },
             {
-                delay: 10,
+                delay: 20,
                 messageFromVc: 'I’m hearing that we may be involved with this bias story, and reporters are asking us to make our process more transparent. Could you double check our evaluation metrics to see if we can go public?',
                 responses: [
                     'I\'ll give it a shot!',
@@ -197,7 +204,7 @@ const english = {
                 ],
             },
             {
-                delay: 8,
+                delay: 24,
                 messageFromVc: 'Hey, we are all over the news for biased hiring, all the investors are pulling out! We have to turn this story around, so I\'m sending you to AI debiasing seminar in Blueville. Think of it as paid vacation.',
                 responses: [
                     'Start learning about bias',

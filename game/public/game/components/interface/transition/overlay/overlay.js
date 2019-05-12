@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import CLASSES from '../../../../controllers/constants/classes';
+import CLASSES from '~/public/game/controllers/constants/classes';
 import UIBase from '~/public/game/components/interface/ui-base/ui-base';
 
 
