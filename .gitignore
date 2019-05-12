@@ -5,3 +5,6 @@ node_modules/
 .DS_Store
 *.log
 *.log.*
+.sass-cache
+bower_components
+npm-debug.log

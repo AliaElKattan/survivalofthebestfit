@@ -1,4 +1,4 @@
-const textFile = require('../public/assets/text/textTemplate.js');
+const textFile = require('../public/game/assets/text/textTemplate.js');
 // home page
 const HOME = (req, res) => {
     res.render('pages/home', textFile.header);

@@ -12,5 +12,6 @@ parserOptions:
 rules: {
   "indent": ["error", 4],
   "max-len": ["error", {"code": 240}],
-  "require-jsdoc" : 0
+  "require-jsdoc" : 0,
+  "no-trailing-spaces": 0,
 }

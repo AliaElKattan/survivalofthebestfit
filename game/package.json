@@ -15,13 +15,12 @@
     "test": "test scrip include from karma website",
     "dev": "nodemon app.js",
     "gulp-pug": "gulp pug",
-    "dev-all": "npm-run-all --parallel clean-dist watch:* dev ",
-    "clean-dist": "cd public && del-cli dist && mkdir dist",
-    "build:css": "node-sass --include-path node_modules/sass-mq public/scss/main.scss public/css/main.css",
-    "build:main-js": "browserify 'public/controllers/game/gameEntry.js' -o 'public/dist/main-bundle.js' -t babelify --outfile 'public/dist/main-bundle.js' -v --debug",
+    "dev-all": "npm-run-all --parallel clean-dist gulp-pug watch:* dev ",
+    "clean-dist": "cd public/game && del-cli dist && mkdir dist",
+    "build:css": "node-sass --include-path node_modules/sass-mq public/game/scss/main.scss public/game/css/main.css",
+    "build:main-js": "browserify 'public/game/controllers/game/gameEntry.js' -o 'public/game/dist/main-bundle.js' -t babelify --outfile 'public/game/dist/main-bundle.js' -v --debug",
     "watch:css": "nodemon -e scss -x \"npm run build:css\"",
-    "watch:main-js": "watchify public/controllers/game/gameEntry.js -t babelify --outfile public/dist/main-bundle.js -v --debug",
-    "build-static": "npm-run-all clean-dist build:* gulp-pug"
+    "watch:main-js": "watchify public/game/controllers/game/gameEntry.js -t babelify --outfile public/game/dist/main-bundle.js -v --debug"
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
@@ -38,6 +37,7 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "machina": "^4.0.2",
+    "ml-cart": "^1.0.8",
     "ml-random-forest": "^1.0.3",
     "morgan": "^1.9.1",
     "mustache-express": "^1.2.8",
