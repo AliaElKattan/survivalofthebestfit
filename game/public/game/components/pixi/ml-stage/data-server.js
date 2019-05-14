@@ -50,9 +50,8 @@ export default class {
             .appendTo('body');
     }
 
-    updateServerCounter() {
-        this.counter++;
-        this.$counterEl.text(this.counter);
+    updateServerCounter(count) {
+        this.$counterEl.text(count);
         this.playServerAnimation();
     }
 

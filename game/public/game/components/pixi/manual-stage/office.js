@@ -29,6 +29,7 @@ const candidatePoolSize = {
     mediumOfficeStage: 10,
     largeOfficeStage: 15,
 };
+
 const officeCoordinates = {
     entryDoorX: 0.1,
     exitDoorX: 0.6,
@@ -193,6 +194,9 @@ class Office {
             candidateInSpot = null;
             this.doors[0].playAnimation({direction: 'forward'});
 
+            let acceptedAverageScore = mlModule.getAverageScore({peopleArray: mlModule.accepted});
+            console.log("accepted average: " + acceptedAverageScore);
+
             hiredPerson.tween.on('end', () => {
                 this.personContainer.removeChild(hiredPerson);
                 this.doors[0].playAnimation({direction: 'reverse'});
@@ -247,6 +251,9 @@ class Office {
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;
         mlModule.recordLastIndex(this.uniqueCandidateIndex);
+        let candidatesAverageScore = mlModule.getAverageScore({peopleIndex: mlModule.lastIndex});
+        console.log("candidate pool average: " + candidatesAverageScore);
+
     }
 
     populateCandidates(startIndex, count) {
