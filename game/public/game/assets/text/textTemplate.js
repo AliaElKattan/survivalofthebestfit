@@ -181,7 +181,7 @@ const english = {
             }
 
         ],
-        conversation: [
+
         narration: [
             {
                 delay: 1,
