@@ -6,7 +6,8 @@
   "config": {},
   "scripts": {
     "build": "gulp build",
-    "dev-all": "gulp watch"
+    "dev-all": "gulp watch",
+    "start": "gulp watch"
     },
   "dependencies": {
     "@babel/core": "^7.2.2",
