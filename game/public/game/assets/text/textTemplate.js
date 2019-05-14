@@ -163,6 +163,24 @@ const english = {
     // would, but at a much faster pace! Your role now is to sit back and
     // supervise the algorithm.', answer_choice: [ { text: 'OK', }, ], }, ],
     mlLabStage: {
+        onboarding: [
+            {
+                text: "People’s CVs are now scanned and evaluated by a computer program"
+            },
+            {
+                text: "People’s CVs are now scanned and evaluated by a computer program"
+            },
+            {
+                text: "The machine scans each CV and either accepts or rejects the candidate"
+            },
+            {
+                text: "Candidates are informed about their status immediately after the machine makes its decision"
+            }, 
+            {
+                text: "Your job is to supervise the program and report any progress or issues to the investors. Click on info icons for hints. Good luck!"
+            }
+
+        ],
         conversation: [
             {
                 // delay: 12,
