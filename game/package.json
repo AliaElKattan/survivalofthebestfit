@@ -4,28 +4,10 @@
   "description": "Simulation teaching about problems in AI",
   "main": "app.js",
   "config": {},
-  "nodemonConfig": {
-    "ignore": [
-      "**/fontawesome-free/*",
-      "**/node_modules/"
-    ]
-  },
   "scripts": {
-    "test": "test scrip include from karma website",
-    "dev": "nodemon app.js",
-    "gulp-pug": "gulp pug_dev",
-    "dev-all": "npm-run-all --parallel clean-dist gulp-pug watch:* dev ",
-    "clean-dist": "cd public/game && del-cli dist && mkdir dist",
-    "build:css": "node-sass --include-path node_modules/sass-mq public/game/scss/main.scss public/game/css/main.css",
-    "build:main-js": "browserify 'public/game/controllers/game/gameEntry.js' -o 'public/game/dist/main-bundle.js' -t babelify --outfile 'public/game/dist/main-bundle.js' -v --debug",
-    "watch:css": "nodemon -e scss -x \"npm run build:css\"",
-    "watch:main-js": "watchify public/game/controllers/game/gameEntry.js -t babelify --outfile public/game/dist/main-bundle.js -v --debug",
-    "deploy": "npm run clean-dist-deploy && npm-run-all --parallel gulp-deploy build-deploy:* ",
-    "gulp-deploy": "gulp pug_deploy && gulp move_assets",
-    "clean-dist-deploy": "cd ../docs/ && del-cli game && mkdir game",
-    "build-deploy:css": "node-sass --include-path node_modules/sass-mq public/game/scss/main.scss '../docs/game/css/main.css'",
-    "build-deploy:main-js": "browserify 'public/game/controllers/game/gameEntry.js' -o '../docs/game/dist/main-bundle.js' -t babelify -v --debug"
-  },
+    "build": "gulp build",
+    "dev-all": "gulp watch"
+    },
   "dependencies": {
     "@babel/core": "^7.2.2",
     "@babel/polyfill": "^7.2.5",
@@ -44,7 +26,6 @@
     "ml-cart": "^1.0.8",
     "morgan": "^1.9.1",
     "mustache-express": "^1.2.8",
-    "nodemon": "^1.18.7",
     "pixi-timer": "^1.0.1",
     "pixi-tween": "^0.2.0",
     "pixi.js": "^4.8.5",

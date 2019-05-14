@@ -19,7 +19,7 @@ const babel = require('babelify');
 function browserSync(done) {
     browsersync.init({
         server: {
-            baseDir: '../docs/',
+            baseDir: '../dist/',
         },
         port: 4000,
     });
@@ -34,7 +34,7 @@ function browserSyncReload(done) {
 
 // Clean assets
 function clean() {
-    return del(['../docs/game/assets'], {force: true});
+    return del(['../dist/game/assets'], {force: true});
 }
 
 // Assets
@@ -43,7 +43,7 @@ function moveAssets() {
         .src([
             'public/game/assets/**/*',
         ])
-        .pipe(gulp.dest('../docs/game/assets'));
+        .pipe(gulp.dest('../dist/game/assets'));
 }
 
 // Pug
@@ -54,7 +54,7 @@ function pugCompile() {
         }))
         .pipe(pug())
         .pipe(rename('game.html'))
-        .pipe(gulp.dest('../docs/game')); 
+        .pipe(gulp.dest('../dist/game')); 
 };
 
 // CSS task
@@ -71,7 +71,7 @@ function css() {
         }))
         .pipe(rename('styles-game.min.css'))
         .pipe(cleanCSS())
-        .pipe(gulp.dest('../docs/game/css'))
+        .pipe(gulp.dest('../dist/game/css'))
         .pipe(browsersync.stream());
 }
 
@@ -91,7 +91,7 @@ function compileJs(done, watchFlag) {
             .pipe(buffer())
             .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest('../docs/game/js'));
+            .pipe(gulp.dest('../dist/game/js'));
     }
   
     if (watchFlag) {
