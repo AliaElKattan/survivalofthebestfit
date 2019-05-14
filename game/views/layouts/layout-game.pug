@@ -8,14 +8,14 @@ html
     meta(name='csrf-token', content=_csrf)
     title #{title} - Survival of the Best Fit
     link(rel='shortcut icon', href='favicon.png')
-    link(rel='stylesheet', href='css/main.css')
+    link(rel='stylesheet', href='css/styles-game.min.css')
 
   body(class="Page--Game")
 
     block content
 
     script(src='assets/text/textTemplate.js')
-    script(src='dist/main-bundle.js')
+    script(src='js/bundle-game.js')
 
     //- Global site tag (gtag.js) - Google Analytics 
     script(async src="https://www.googletagmanager.com/gtag/js?id=UA-138331065-1")

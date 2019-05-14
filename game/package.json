@@ -7,20 +7,24 @@
   "nodemonConfig": {
     "ignore": [
       "**/fontawesome-free/*",
-      "node_modules/*"
+      "**/node_modules/"
     ]
   },
   "scripts": {
-    "start": "node app.js",
     "test": "test scrip include from karma website",
     "dev": "nodemon app.js",
-    "gulp-pug": "gulp pug",
+    "gulp-pug": "gulp pug_dev",
     "dev-all": "npm-run-all --parallel clean-dist gulp-pug watch:* dev ",
     "clean-dist": "cd public/game && del-cli dist && mkdir dist",
     "build:css": "node-sass --include-path node_modules/sass-mq public/game/scss/main.scss public/game/css/main.css",
     "build:main-js": "browserify 'public/game/controllers/game/gameEntry.js' -o 'public/game/dist/main-bundle.js' -t babelify --outfile 'public/game/dist/main-bundle.js' -v --debug",
     "watch:css": "nodemon -e scss -x \"npm run build:css\"",
-    "watch:main-js": "watchify public/game/controllers/game/gameEntry.js -t babelify --outfile public/game/dist/main-bundle.js -v --debug"
+    "watch:main-js": "watchify public/game/controllers/game/gameEntry.js -t babelify --outfile public/game/dist/main-bundle.js -v --debug",
+    "deploy": "npm run clean-dist-deploy && npm-run-all --parallel gulp-deploy build-deploy:* ",
+    "gulp-deploy": "gulp pug_deploy && gulp move_assets",
+    "clean-dist-deploy": "cd ../docs/ && del-cli game && mkdir game",
+    "build-deploy:css": "node-sass --include-path node_modules/sass-mq public/game/scss/main.scss '../docs/game/css/main.css'",
+    "build-deploy:main-js": "browserify 'public/game/controllers/game/gameEntry.js' -o '../docs/game/dist/main-bundle.js' -t babelify -v --debug"
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
@@ -38,7 +42,6 @@
     "lodash": "^4.17.11",
     "machina": "^4.0.2",
     "ml-cart": "^1.0.8",
-    "ml-random-forest": "^1.0.3",
     "morgan": "^1.9.1",
     "mustache-express": "^1.2.8",
     "nodemon": "^1.18.7",
@@ -54,12 +57,21 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "babel-plugin-root-import": "^6.1.0",
     "babelify": "^10.0.0",
+    "browser-sync": "^2.26.5",
     "browserify": "^16.2.3",
     "del-cli": "^1.1.0",
     "eslint": "^5.14.0",
     "eslint-config-google": "^0.12.0",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^6.1.0",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-exit": "0.0.2",
+    "gulp-header": "^2.0.7",
+    "gulp-plumber": "^1.2.1",
     "gulp-pug": "^4.0.1",
+    "gulp-rename": "1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
     "jasmine-core": "^3.3.0",
     "karma": "^3.1.3",
     "karma-chrome-launcher": "^2.2.0",
@@ -67,6 +79,8 @@
     "node-sass": "^4.11.0",
     "npm-run-all": "^4.1.5",
     "serve": "^10.1.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.11.1"
   },
   "author": "",

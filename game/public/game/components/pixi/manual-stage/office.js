@@ -112,7 +112,6 @@ class Office {
 
         if (this.currentStage == 0) {
             // SMALL STAGE - INITIAL SET UP
-
             showTimer = false;
             candidatesToAdd = candidatePoolSize.smallOfficeStage;
 
@@ -168,7 +167,7 @@ class Office {
             });
         });
 
-        eventEmitter.on(EVENTS.STAGE_INCOMPLETE, () => {
+        eventEmitter.on(EVENTS.STAGE_INCOMPLETE, function() {
             this.task.reset();
 
             new TextBoxUI({
@@ -179,7 +178,7 @@ class Office {
                 show: true,
                 overlay: true,
             });
-        });
+        }.bind(this));
 
         this.acceptedHandler = () => {
             mlModule.recordAccept(candidateInSpot);
