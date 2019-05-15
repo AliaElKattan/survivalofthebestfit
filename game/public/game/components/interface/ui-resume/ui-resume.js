@@ -19,9 +19,12 @@ export default class extends UIBase {
         this._resumeFeatures = options ? options.features : undefined;
         this._resumes = options ? options.scores : undefined;
         this._candidateId = options.candidateId || 0;
+
+        this.acceptedAverageScore = options.acceptedAverageScore ? options.acceptedAverageScore : undefined;
+        this.candidatesAverageScore = options.candidatesAverageScore ? options.candidatesAverageScore : undefined;
+
         this.type = options.type || 'manual';
         // this.setContent(); // set content
-
 
         if (this.type === 'ml') {
             this.$el.addClass(CLASSES.ML_RESUME);
@@ -49,13 +52,43 @@ export default class extends UIBase {
         this.setColor(cv.color);
         this.$nameEl.html(cv.name);
         this.$taglineEl.html('personal tagline comes here');
+        let skillBarWidth;
         this._resumeFeatures.forEach((feature, index) => {
             const skillScore = cv.qualifications[index]*10;
             const skillClass = `.${CLASSES.CV_CATEGORY}--${feature.class}`;
             const $skillEl = this.$el.find(skillClass);
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__name`).html(feature.name);
             $skillEl.find(`.${CLASSES.CV_CATEGORY}__progress`).css('width', `${clamp(skillScore, 5, 100)}%`);
+
+            skillBarWidth = $skillEl.find(`.${CLASSES.CV_CATEGORY}__skillbar`).width();
         });
+
+        if (this.candidatesAverageScore != undefined && this.candidatesAverageScore[0] != 0) {
+            this.candidatesAverageScore.forEach((score, index) => {
+                const skillScore = skillBarWidth * (score/10);
+                const skillClass = `.${CLASSES.CV_CATEGORY}--${this._resumeFeatures[index].class}`;
+                const $skillEl = this.$el.find(skillClass);
+                $skillEl.find(`.${CLASSES.CV_CATEGORY}__candidate`).css('margin-left', `${clamp(skillScore, 0, 100)}px`);
+            });
+            
+        }
+
+        if (this.acceptedAverageScore != undefined && this.acceptedAverageScore[0] != 0) {
+            this.$el.find(`.${CLASSES.CV_CATEGORY}__hired`).css('opacity', 0.8);
+
+            this.acceptedAverageScore.forEach((score, index) => {
+                const absoluteScore = skillBarWidth * (score/10);
+                const skillClass = `.${CLASSES.CV_CATEGORY}--${this._resumeFeatures[index].class}`;
+                const $skillEl = this.$el.find(skillClass);
+                const parentMargin = parseFloat($skillEl.find(`.${CLASSES.CV_CATEGORY}__candidate`).css('margin-left')).toFixed(2);
+                const relativeMargin = absoluteScore - parentMargin;
+                $skillEl.find(`.${CLASSES.CV_CATEGORY}__hired`).css('margin-left', `${clamp(relativeMargin, 0, 100)}px`);
+            });
+        }
+        else {
+            this.$el.find(`.${CLASSES.CV_CATEGORY}__hired`).css('opacity', 0);
+        }
+
         if (this.$el.hasClass(CLASSES.IS_INACTIVE)) this.show();
     }
 

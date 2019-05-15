@@ -6,7 +6,7 @@ import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
 const testAccepted = [4, 3, 7, 12, 10, 15, 18, 19, 26, 25, 29, 30, 32, 36, 37, 46, 47, 38];
 const testLastIndex = 50;
 
-class MlModule {
+class DataModule {
     constructor() {
         this.accepted = [];
         this.lastIndex = 0;
@@ -14,6 +14,7 @@ class MlModule {
         this.acceptance = [];
         this.colorArr = [];
         this.averageScore = [0, 0, 0, 0];
+        this.skillFeatureSize = cvCollection.cvFeatures.length;
     }
 
     recordAccept(personIndex) {
@@ -25,7 +26,7 @@ class MlModule {
     }
 
     getAverageScore(options) {
-        //TODO optimize
+        //TODO optimize calculation so that any additional one CV can be calculated without having to recalc the whole batch
         let _index = 0;
         let averageScore = [0,0,0,0]
         let peopleArray = [];
@@ -33,6 +34,7 @@ class MlModule {
         if (options.peopleArray && options.peopleArray.length > 0) {
             peopleArray = options.peopleArray;
         }
+
         else if (options.peopleIndex && options.peopleIndex > 0) {
             for(let i = 0; i <= options.peopleIndex; i++){
                 peopleArray.push(i);
@@ -41,12 +43,12 @@ class MlModule {
             
         for (_index in peopleArray) {
             let qual = cvCollection.cvData[_index].qualifications;
-            for (_index=0; _index<4; _index++) {
+            for (_index=0; _index<this.skillFeatureSize; _index++) {
                 averageScore[_index] += qual[_index];
             }
         }
 
-        for (_index=0; _index<4; _index++) {
+        for (_index=0; _index<this.skillFeatureSize; _index++) {
             averageScore[_index] = (averageScore[_index] / peopleArray.length).toFixed(2);
         }
         return averageScore;
@@ -132,4 +134,4 @@ class MlModule {
     }
 }
 
-export const mlModule = new MlModule();
+export const dataModule = new DataModule();

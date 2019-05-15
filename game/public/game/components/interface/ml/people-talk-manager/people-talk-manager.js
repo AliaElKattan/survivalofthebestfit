@@ -29,7 +29,6 @@ export default class {
     // launch timeline: once it starts it runs on its own
 
     startTimeline() {
-        console.log('the length of the person container is:' + this.peopleContainer.children.length);
         ticker.add(this.tickerHandler.bind(this));
         ticker.start();
     }
@@ -61,7 +60,6 @@ export default class {
     }
 
     _addEventListeners() {
-        console.log('people talk manager is listening to events!');
         eventEmitter.on(EVENTS.MAKE_ML_PEOPLE_TALK, this.createTooltip.bind(this));
     }
 

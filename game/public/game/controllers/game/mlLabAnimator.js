@@ -13,7 +13,7 @@ import DatasetView from '~/public/game/components/interface/ml/dataset-view/data
 import ScanRay from '~/public/game/components/pixi/ml-stage/scan-ray.js';
 import DataServer from '~/public/game/components/pixi/ml-stage/data-server.js';
 import People from '~/public/game/components/pixi/ml-stage/people.js';
-import {mlModule} from '~/public/game/controllers/machine-learning/mlModule.js';
+import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.js';
 import { TweenMax } from 'gsap';
 
 export default class MlLabAnimator {
@@ -163,7 +163,7 @@ export default class MlLabAnimator {
 
     evalFirstPerson() {
         const firstPerson = this.people.getFirstPerson();
-        const status = mlModule.predict(firstPerson.getData()) == 1 ? 'accepted' : 'rejected';
+        const status = dataModule.predict(firstPerson.getData()) == 1 ? 'accepted' : 'rejected';
         this.people.removeFirstPerson(status);
         this.datasetView.handleNewResume({status: status, data: firstPerson.getData()});
 

@@ -15,7 +15,7 @@ import PeopleTalkManager from '~/public/game/components/interface/ml/people-talk
 import ANCHORS from '~/public/game/controllers/constants/pixi-anchors';
 import EVENTS from '~/public/game/controllers/constants/events';
 import SCALES from '~/public/game/controllers/constants/pixi-scales.js';
-import {mlModule} from '~/public/game/controllers/machine-learning/mlModule.js';
+import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.js';
 import TaskUI from '../../interface/ui-task/ui-task';
 import TextBoxUI from '../../interface/ui-textbox/ui-textbox';
 
@@ -47,12 +47,15 @@ class Office {
         this.interiorContainer = new PIXI.Container();
         this.personContainer = new PIXI.Container();
 
+        let acceptedAverageScore;
+        let candidatesAverageScore;
+
         // IMPORTANT: candidates ID refer to this array's index
         this.allPeople = [];
         this.hiredPeople = [];
         this.toReplaceX = 0;
 
-        this.task;
+        this.task = null;
         this.stageText;
 
         this.floors = {
@@ -84,11 +87,6 @@ class Office {
     start(stageNum) {
         this.currentStage = stageNum;
 
-        if (this.task) {
-            this.task.destroy();
-            this.task = null;
-        }
-
         switch (stageNum) {
         case 0:
             this.stageText = txt.smallOfficeStage;
@@ -108,12 +106,16 @@ class Office {
         candidateInSpot = null;
         this.takenDesks = 0;
 
-        let showTimer;        
+        let showTimer = false;        
         let candidatesToAdd;
+
+        if (this.task) {
+            this.task.destroy();
+            this.task = null;
+        }
 
         if (this.currentStage == 0) {
             // SMALL STAGE - INITIAL SET UP
-            showTimer = false;
             candidatesToAdd = candidatePoolSize.smallOfficeStage;
 
             for (const floor in this.floors) {
@@ -165,11 +167,12 @@ class Office {
                 features: cvCollection.cvFeatures,
                 scores: cvCollection.cvData,
                 candidateId: candidateClicked,
+                acceptedAverageScore: this.acceptedAverageScore,
+                candidatesAverageScore: this.candidatesAverageScore
             });
         });
 
-        eventEmitter.on(EVENTS.STAGE_INCOMPLETE, function() {
-            this.task.reset();
+        this.stageResetHandler = () => {
 
             new TextBoxUI({
                 isRetry: true,
@@ -179,10 +182,16 @@ class Office {
                 show: true,
                 overlay: true,
             });
-        }.bind(this));
+
+            if (this.task) {
+                this.task.reset();
+            }
+        }
+
+        eventEmitter.on(EVENTS.STAGE_INCOMPLETE, this.stageResetHandler);
 
         this.acceptedHandler = () => {
-            mlModule.recordAccept(candidateInSpot);
+            dataModule.recordAccept(candidateInSpot);
 
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
@@ -194,8 +203,7 @@ class Office {
             candidateInSpot = null;
             this.doors[0].playAnimation({direction: 'forward'});
 
-            let acceptedAverageScore = mlModule.getAverageScore({peopleArray: mlModule.accepted});
-            console.log("accepted average: " + acceptedAverageScore);
+            this.acceptedAverageScore = dataModule.getAverageScore({peopleArray: dataModule.accepted});
 
             hiredPerson.tween.on('end', () => {
                 this.personContainer.removeChild(hiredPerson);
@@ -250,10 +258,8 @@ class Office {
         this.personContainer.addChild(person);
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;
-        mlModule.recordLastIndex(this.uniqueCandidateIndex);
-        let candidatesAverageScore = mlModule.getAverageScore({peopleIndex: mlModule.lastIndex});
-        console.log("candidate pool average: " + candidatesAverageScore);
-
+        dataModule.recordLastIndex(this.uniqueCandidateIndex);
+        this.candidatesAverageScore = dataModule.getAverageScore({peopleIndex: dataModule.lastIndex});
     }
 
     populateCandidates(startIndex, count) {
@@ -267,7 +273,7 @@ class Office {
         eventEmitter.off(EVENTS.ACCEPTED, this.acceptedHandler);
         eventEmitter.off(EVENTS.REJECTED, this.rejectedHandler);
         eventEmitter.off(EVENTS.RETURN_CANDIDATE, () => {});
-        eventEmitter.off(EVENTS.STAGE_INCOMPLETE, () => {});
+        eventEmitter.off(EVENTS.STAGE_INCOMPLETE, this.stageResetHandler);
         eventEmitter.off(EVENTS.DISPLAY_THIS_CV, () => {});
         eventEmitter.off(EVENTS.RETRY_INSTRUCTION_ACKED, () => {});
         eventEmitter.off(EVENTS.INSTRUCTION_ACKED, () => {});

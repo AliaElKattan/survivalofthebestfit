@@ -7,7 +7,7 @@ import TextBoxUI from '~/public/game/components/interface/ui-textbox/ui-textbox'
 import PerfMetrics from '~/public/game/components/interface/perf-metrics/perf-metrics';
 import TransitionOverlay from '~/public/game/components/interface/transition/transition-overlay/transition-overlay';
 import TrainingStageOverlay from '~/public/game/components/interface/training-stage/training-overlay/training-overlay';
-import {mlModule} from '~/public/game/controllers/machine-learning/mlModule.js';
+import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.js';
 
 let office = new Office();
 let currentStage;
@@ -26,8 +26,8 @@ const gameFSM = new machina.Fsm({
         uninitialized: {
             startGame: function() {
                 // this.transition('titleStage');
-                // this.transition('smallOfficeStage');
-                this.transition('mlTransitionStage');
+                this.transition('smallOfficeStage');
+                // this.transition('mlTransitionStage');
                 // this.transition('mlTrainingStage');
                 // this.transition('mlLabStage');
             },

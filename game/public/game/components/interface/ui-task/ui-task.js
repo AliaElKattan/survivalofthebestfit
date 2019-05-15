@@ -67,6 +67,7 @@ export default class extends UIBase {
             this._elapsedTime = this._duration;
             this.writeTime();
             this.timer.stop();
+            console.log("am i called why?")
             eventEmitter.emit(EVENTS.STAGE_INCOMPLETE, {});
         }
     }

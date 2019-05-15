@@ -53,7 +53,7 @@ function pugCompile() {
             return textFile;
         }))
         .pipe(pug())
-        .pipe(rename('game.html'))
+        // .pipe(rename('game.html'))
         .pipe(gulp.dest('../dist/game')); 
 };
 
