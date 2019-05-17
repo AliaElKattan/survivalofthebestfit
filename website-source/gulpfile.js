@@ -12,7 +12,7 @@ const plumber = require("gulp-plumber");
 const rename = require("gulp-rename");
 const sass = require("gulp-sass");
 const uglify = require("gulp-uglify");
-
+const pug = require("gulp-pug")
 
 // Load package.json for banner
 const pkg = require('./package.json');
@@ -21,6 +21,18 @@ const pkg = require('./package.json');
 const banner = ['/*!\n',
   'SotBF\n*/'
 ].join('');
+
+
+// Pug
+function pugCompile() {
+    return gulp.src('resources/index.pug')
+     
+        .pipe(pug())
+        // .pipe(rename('game.html'))
+        .pipe(gulp.dest('../dist/resources')); 
+};
+
+
 
 // BrowserSync
 function browserSync(done) {
@@ -132,6 +144,9 @@ function watchFiles() {
   gulp.watch("./js/**/*", js).on('add', function(path, stats) {
     console.log(`File ${path} was added`);
   });
+  gulp.watch('./resources/*', gulp.series(pugCompile, browserSyncReload)).on('add', function(path, stats) {
+        console.log(`File ${path} was added`);
+    });
   gulp.watch(["!./node_modules", "./**/*.html"], browserSyncReload).on('add', function(path, stats) {
     console.log(`File ${path} was added`);
   });
@@ -140,7 +155,7 @@ function watchFiles() {
 
 // Define complex tasks
 const vendor = gulp.series(clean, modules);
-const build = gulp.series(vendor, gulp.parallel(css, js, copyHtml, copyImg));
+const build = gulp.series(vendor, gulp.parallel(css, js, copyHtml, copyImg, pugCompile));
 const watch = gulp.series(build, gulp.parallel(watchFiles, browserSync));
 
 // Export tasks
