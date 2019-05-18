@@ -8,12 +8,17 @@ read -p "Did you test your changes? Are you sure you want to push? [y/n]" -n 1 -
 echo    
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    git checkout -b temp-release-branch
-    git add --force dist
+    git add ./dist
     git status 
-    git commit -m "gh pages release"
-    git subtree push --prefix dist origin gh-pages
-    git checkout master
-    git branch -D temp-release-branch
+    read -p "Are you happy with the changelist? [y/n]" -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        git commit -m "gh pages release"
+        git subtree split --prefix dist -b gh-pages
+        git push -f origin gh-pages:gh-pages
+    else
+        echo "Aborting and Resetting stage."
+        git reset
+    fi
 fi
 echo "Done. Make sure live page still works!"
