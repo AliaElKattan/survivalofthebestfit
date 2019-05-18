@@ -30,3 +30,4 @@ If you'd like to join the team or can contribute with ideas/feedback, please fee
 * Politics of Code class for bringing us together
 * Moz://a foundation for its inspiring mission
 
+Note: as of May 18th, work on this project has been migrated to [this repo](https://github.com/theethicaltechcompany/survivalofthebestfit).
