@@ -6,6 +6,7 @@ const browsersync = require("browser-sync").create();
 const cleanCSS = require("gulp-clean-css");
 const del = require("del");
 const gulp = require("gulp");
+const imagemin = require('gulp-imagemin');
 const header = require("gulp-header");
 const merge = require("merge-stream");
 const plumber = require("gulp-plumber");
@@ -137,6 +138,7 @@ function copyImg() {
     .src([
       './img-website/**/*',
     ])
+    .pipe(imagemin())
     .pipe(gulp.dest('../dist/img-website/'));
 }
 

@@ -7,6 +7,7 @@ const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const browsersync = require('browser-sync').create();
 const cleanCSS = require('gulp-clean-css');
+const imagemin = require('gulp-imagemin');
 const del = require('del');
 const sourcemaps = require('gulp-sourcemaps');
 const source = require('vinyl-source-stream');
@@ -43,6 +44,7 @@ function moveAssets() {
         .src([
             'public/game/assets/**/*',
         ])
+        .pipe(imagemin())
         .pipe(gulp.dest('../dist/game/assets'));
 }
 
