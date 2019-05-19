@@ -26,8 +26,7 @@ const banner = ['/*!\n',
 
 // Pug
 function pugCompile() {
-    return gulp.src('resources/index.pug')
-     
+    return gulp.src('resources/index.pug') 
         .pipe(pug())
         // .pipe(rename('game.html'))
         .pipe(gulp.dest('../dist/resources')); 
@@ -100,7 +99,7 @@ function css() {
     }))
     .pipe(rename("styles-website.min.css"))
     .pipe(cleanCSS())
-    .pipe(gulp.dest("../dist/"))
+    .pipe(gulp.dest("../dist/css"))
     .pipe(browsersync.stream());
 }
 
