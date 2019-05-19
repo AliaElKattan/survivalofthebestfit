@@ -1,7 +1,7 @@
 # Getting started
 Commands to get you started:
 - `npm install`: install all modules
-- `npm start`: transpile SASS, bundle up JS, and start a dev server
+- `npm start`: transpile SASS, bundle up JS, and start a dev server and watch for changes, which triggers rebuild and browser reload
 
 Head over to localhost:4000 to view website
 
@@ -122,7 +122,3 @@ app();
 ## Styling: Sass + BEM
 [Sass](https://sass-lang.com/) is a CSS extension language that allows you to write modular CSS code. Sass ships with a bunch of code-resembling features, such as variables, key-value based lists, functions, reusable styling blocks, and more. Sass reduces repetition and confusion in styling elements, which is crucial in developing and maintaining bigger projects. Sass becomes even more powerful with [BEM](http://getbem.com/) a CSS naming conventions that encourages modulular styling and basically tries to remove weird styling errors that often happen because of style overwrites. Just like Sass, BEM speeds up the development process and makes our styling both scalable and maintainable.
 <br />
-**Usage:**
-<br />
-We will use the `.scss` syntax of SASS, which looks like an enhanced version of CSS. Browsers do not understand `.scss` files, so we have to transpile `.scss` files to `.css` first. We're using `node-sass` package for that. Currently, SASS-compiler script is used in `npm run dev`, so we watch all `.scss` files and transpile them to `.css` immediately during development.
-
