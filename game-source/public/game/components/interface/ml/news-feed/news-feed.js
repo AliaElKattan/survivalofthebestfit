@@ -63,10 +63,17 @@ export default class extends UIBase {
     }
 
     animateNews() {
-        TweenLite.fromTo('.NewsList', 140, {x: '0vw'}, {x: '-600vw', ease: Power0.easeNone, onComplete: function() {
+        this.tween = TweenMax.staggerFromTo('.NewsList', 140, {x: '0vw'}, {x: '-600vw', ease: Power0.easeNone, onComplete: function() {
             this.restart();
         }});
-        // TweenLite.fromTo('.NewsList-item', 26, {x: '+100vw'}, {x: '-100vw', ease: Power0.easeNone, onComplete: function(){this.restart()}});
+    }
+
+    start() {
+        this.tween[0].paused(false);
+    }
+
+    stop() {
+        this.tween[0].paused(true);
     }
 
     hide() {

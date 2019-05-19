@@ -29,6 +29,7 @@ function browserSync(done) {
 
 // BrowserSync reload
 function browserSyncReload(done) {
+    console.log('-> reloading browser...');
     browsersync.reload();
     done();
 }   
@@ -100,6 +101,9 @@ function compileJs(done, watchFlag) {
         bundler.on('update', function() {
             console.log('-> bundling...');
             rebundle();
+            browserSyncReload(() => {
+                console.log('Refreshed js')
+            });
         });
         rebundle();
     } else {
