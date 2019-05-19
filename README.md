@@ -29,4 +29,3 @@ If you'd like to join the team or can contribute with ideas/feedback, please fee
 ## Acknowledgements
 * Politics of Code class for bringing us together
 * Moz://a foundation for its inspiring mission
-
