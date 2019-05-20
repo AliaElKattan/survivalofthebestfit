@@ -7,7 +7,7 @@ import TextBoxUI from '~/public/game/components/interface/ui-textbox/ui-textbox'
 import PerfMetrics from '~/public/game/components/interface/perf-metrics/perf-metrics';
 import TransitionOverlay from '~/public/game/components/interface/transition/transition-overlay/transition-overlay';
 import TrainingStageOverlay from '~/public/game/components/interface/training-stage/training-overlay/training-overlay';
-import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.js';
+import EVENTS from '~/public/game/controllers/constants/events';
 
 let office = new Office();
 let currentStage;
@@ -25,8 +25,8 @@ const gameFSM = new machina.Fsm({
     states: {
         uninitialized: {
             startGame: function() {
-                this.transition('titleStage');
-                // this.transition('smallOfficeStage');
+                // this.transition('titleStage');
+                this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
                 // this.transition('mlTrainingStage');
                 // this.transition('mlLabStage');
@@ -116,6 +116,7 @@ const gameFSM = new machina.Fsm({
                     responses: txt.mediumOfficeStage.responses,
                     show: true,
                     overlay: true,
+                    displayScore: true,
                 });
             },
 
@@ -138,6 +139,7 @@ const gameFSM = new machina.Fsm({
                     responses: txt.largeOfficeStage.responses,
                     show: true,
                     overlay: true,
+                    displayScore: true,
                 });
             },
 
@@ -146,11 +148,27 @@ const gameFSM = new machina.Fsm({
             _onExit: function() {
             },
         },
+
        
         mlTransitionStage: {
             _onEnter: function() {
                 if (office) office.delete();
-                transitionOverlay = new TransitionOverlay({show: true});
+
+                currentStage = 3;
+
+                new TextBoxUI({
+                    stageNumber: currentStage,
+                    content: txt.mlTransition.messageFromVc,
+                    responses: txt.mlTransition.responses,
+                    show: true,
+                    overlay: true,
+                    isTransition: true,
+                    displayScore: true,
+                });
+
+                eventEmitter.on(EVENTS.TRANSITION_INSTRUCTION_ACKED, () => {
+                    transitionOverlay = new TransitionOverlay({show: true});
+                });
             },
 
             nextStage: 'mlTrainingStage',

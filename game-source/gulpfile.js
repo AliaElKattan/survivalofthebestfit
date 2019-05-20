@@ -23,6 +23,7 @@ function browserSync(done) {
             baseDir: '../dist/',
         },
         port: 4000,
+        open: false,
     });
     done();
 }
@@ -56,7 +57,6 @@ function pugCompile() {
             return textFile;
         }))
         .pipe(pug())
-        // .pipe(rename('game.html'))
         .pipe(gulp.dest('../dist/game')); 
 };
 
@@ -101,9 +101,9 @@ function compileJs(done, watchFlag) {
         bundler.on('update', function() {
             console.log('-> bundling...');
             rebundle();
-            browserSyncReload(() => {
-                console.log('Refreshed js')
-            });
+            // browserSyncReload(() => {
+            //     console.log('Refreshed js')
+            // });
         });
         rebundle();
     } else {

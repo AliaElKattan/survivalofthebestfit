@@ -113,43 +113,4 @@
       background-color: color(skill-val-blue);
     }
   }
-
-  &__candidate {
-    height: inherit;
-    background-color: color(skill-candidate);
-    width: 0.5em;
-    opacity: 0.8;
-  }
-
-  &__hired {
-    height: inherit;
-    background-color: color(skill-hired);
-    width: 0.5em;
-  }
-}
-
-.help {
-  padding: padding(xs) 0;
-
-  &-text {
-    display: inline-block;
-    color: #777;
-    margin: 0.4em;
-  }
-
-  &-color {
-    display: inline-block;
-    color: rgba(0, 0, 0, 0);
-    width: 1em;
-    height: 1em;
-    margin-left: 0.4em;
-  }
-}
-
-.hired-color {
-  background-color: color(skill-hired);
-}
-
-.candidate-color {
-  background-color: color(skill-candidate);
 }

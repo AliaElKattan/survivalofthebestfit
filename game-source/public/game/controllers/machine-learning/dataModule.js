@@ -25,33 +25,60 @@ class DataModule {
         this.lastIndex = personIndex;
     }
 
+    getLastIndex() {
+        return this.lastIndex;
+    }
+
     getAverageScore(options) {
         //TODO optimize calculation so that any additional one CV can be calculated without having to recalc the whole batch
         let _index = 0;
         let averageScore = [0,0,0,0]
-        let peopleArray = [];
+        let selectedIndexArray = [];
 
-        if (options.peopleArray && options.peopleArray.length > 0) {
-            peopleArray = options.peopleArray;
+        //this is for an array of all selected indices
+        if (options.selectedIndexArray && options.selectedIndexArray.length > 0) {
+            selectedIndexArray = options.selectedIndexArray;
         }
-
-        else if (options.peopleIndex && options.peopleIndex > 0) {
-            for(let i = 0; i <= options.peopleIndex; i++){
-                peopleArray.push(i);
+    
+        //this is for an array of start and end range index
+        else if (options.indexRange && options.indexRange.length == 2) {
+            for(let i = options.indexRange[0]; i <= options.indexRange[1]; i++){
+                selectedIndexArray.push(i);
             }
         }
-            
-        for (_index in peopleArray) {
-            let qual = cvCollection.cvData[_index].qualifications;
+
+        else throw new Error('Incorrect index array passed to calculate average people scores');
+
+        selectedIndexArray.forEach((personId) => {
+            let qual = cvCollection.cvData[personId].qualifications;
             for (_index=0; _index<this.skillFeatureSize; _index++) {
                 averageScore[_index] += qual[_index];
             }
-        }
+        });
 
         for (_index=0; _index<this.skillFeatureSize; _index++) {
-            averageScore[_index] = (averageScore[_index] / peopleArray.length).toFixed(2);
+            averageScore[_index] = (averageScore[_index] / selectedIndexArray.length).toFixed(2);
         }
+
         return averageScore;
+    }
+
+    _calculateScore() {
+
+        let hiredAverage = this.getAverageScore({selectedIndexArray: this.accepted});
+        let candidateAverage = this.getAverageScore({indexRange: [0, this.lastIndex]});
+
+        const formatScoreText = (maxDiff, maxDiffFeature) => `Your team has ${maxDiff}% better ${maxDiffFeature} than the rest.`;
+
+        let diff = [];
+        hiredAverage.forEach((score, idx) => {
+            diff.push(parseFloat(((score - candidateAverage[idx]) * 10).toFixed(1)));
+        });
+
+        let maxDiff = Math.max(...diff);
+        let maxDiffFeature = cvCollection.cvFeatures[diff.indexOf(Math.max(...diff))].name;
+
+        return formatScoreText(maxDiff, maxDiffFeature);
     }
 
     train() {

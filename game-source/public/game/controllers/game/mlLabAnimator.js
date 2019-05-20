@@ -14,6 +14,7 @@ import ScanRay from '~/public/game/components/pixi/ml-stage/scan-ray.js';
 import DataServer from '~/public/game/components/pixi/ml-stage/data-server.js';
 import People from '~/public/game/components/pixi/ml-stage/people.js';
 import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.js';
+import TaskUI from '~/public/game/components/interface/ui-task/ui-task';
 
 export default class MlLabAnimator {
     constructor() {
@@ -42,7 +43,7 @@ export default class MlLabAnimator {
         
         this.datasetView = new DatasetView({});
         this.resumeUI = new ResumeUI({
-            show: true, type: 'ml',
+            type: 'ml',
             features: cvCollection.cvFeatures,
             scores: cvCollection.cvData,
             candidateId: candidateClicked,
@@ -52,6 +53,12 @@ export default class MlLabAnimator {
 
         this._setupTweens();
         this.startAnimation();
+
+        this.task = new TaskUI({
+            showTimer: false, 
+            placeLeft: true,
+            hires: txt.mlLabStage.hiringGoal
+        });
 
         this.acceptedCount = 0;
         this.rejectedCount = 0;

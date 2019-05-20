@@ -18,6 +18,7 @@ export default class extends UIBase {
         this.hiresQuota = options.hires || undefined;
         this.hiresNum = 0;
         this._content = options.content || null;
+        this.placeLeft = options.placeLeft || false;
 
         this.setContent();
         this.show();
@@ -25,6 +26,15 @@ export default class extends UIBase {
         if (options.showTimer) {
             this.$timer.removeClass(CLASSES.IS_INACTIVE);
             this.startTimer();
+        }
+
+        if (options.placeLeft) {
+            let mlLabCoordinates = {left: 10, top: 17, minWidth: 150};
+            this.$el.css({
+                'top': `${mlLabCoordinates.top}%`,
+                'left': `${mlLabCoordinates.left}%`,
+                'min-width': `${mlLabCoordinates.minWidth}px`
+            });
         }
 
         this._addEventListeners();
@@ -112,5 +122,6 @@ export default class extends UIBase {
         super.dispose();
         this.hide();
         this._removeEventListeners();
+        this.$timer.addClass(CLASSES.IS_INACTIVE);
     }
 }
