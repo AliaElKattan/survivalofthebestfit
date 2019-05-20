@@ -14,7 +14,7 @@
   &__typeIcon {
     height: 20px;
     width: 50px;
-    background: url("../../../game/assets/img/type-bubble.gif") center/contain no-repeat;
+    background: url("../assets/img/type-bubble.gif") center/contain no-repeat;
   }
 
   &__send-instructions {
@@ -57,10 +57,8 @@
       @include buttonBox();
       @include boxColors($txt-color:color(txt-black), $bg-color: color(rose-light), $shadow-color: 'rose');
       color: black;
-    }
-  
+    }  
   }
-
 
   &__icon {
     width: 7px;

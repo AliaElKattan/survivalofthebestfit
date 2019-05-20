@@ -50,10 +50,12 @@ export default class MlLabNarrator {
     
     _showNewMessage(msg) {
         if (!msg.hasOwnProperty('messageFromVc') || !msg.hasOwnProperty('responses')) throw new Error('message object does not have valid properties!');
-        let callback = this.textAckCallback.bind({}, msg, this.animator);
+        let callback = this.textAckCallback.bind({}, msg, this.animator, this.newsFeed);
         if (msg.tooltip) callback = this.showTooltipCallback.bind({}, msg, this.newsFeed, callback);
         
         this.animator.pauseAnimation();
+        this.newsFeed.stop();
+        this.newsFeed.hide();
 
         new TextboxUI({
             show: true,
@@ -69,10 +71,11 @@ export default class MlLabNarrator {
         newsFeed.hide();
     }
 
-    textAckCallback(msg, animator) {
-        
+    textAckCallback(msg, animator, newsFeed) {
         animator.startAnimation();
-
+        newsFeed.start();
+        newsFeed.show();
+        
         if (msg.isLastMessage) {
             // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
             gtag('event', 'test-game-completed', {

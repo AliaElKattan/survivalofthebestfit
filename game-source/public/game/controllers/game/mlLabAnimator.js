@@ -14,7 +14,7 @@ import ScanRay from '~/public/game/components/pixi/ml-stage/scan-ray.js';
 import DataServer from '~/public/game/components/pixi/ml-stage/data-server.js';
 import People from '~/public/game/components/pixi/ml-stage/people.js';
 import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.js';
-import { TweenMax } from 'gsap';
+import TaskUI from '~/public/game/components/interface/ui-task/ui-task';
 
 export default class MlLabAnimator {
     constructor() {
@@ -43,7 +43,7 @@ export default class MlLabAnimator {
         
         this.datasetView = new DatasetView({});
         this.resumeUI = new ResumeUI({
-            show: true, type: 'ml',
+            type: 'ml',
             features: cvCollection.cvFeatures,
             scores: cvCollection.cvData,
             candidateId: candidateClicked,
@@ -53,6 +53,12 @@ export default class MlLabAnimator {
 
         this._setupTweens();
         this.startAnimation();
+
+        this.task = new TaskUI({
+            showTimer: false, 
+            placeLeft: true,
+            hires: txt.mlLabStage.hiringGoal
+        });
 
         this.acceptedCount = 0;
         this.rejectedCount = 0;
@@ -67,76 +73,8 @@ export default class MlLabAnimator {
         this.peopleTween = this.people.createTween();
         this.activeTween = this.resumeLineTween;
         
-        // once the conveyor belt (resume tween) animation is done:
-        // 1. reset the conveyor belt animation
-        // 2. show the resume of the first person in line
-        // 3. play the conveyor belt scanline animation
-        // 4. play resume scanline animation
-
-        this.resumeLineTween.on('end', () => {
-            // #1: reset conveyor belt animation
-            this.resumeLineTween.reset();
-            waitForSeconds(0.1)
-                .then(() => {
-                    // #2: show the resume of the first person in line
-                    const person = this.people.getFirstPerson();
-                    if (person !== undefined) this.resumeUI.showCV(person.getData());
-                    // #3 play the conveyor belt scanline animation
-                    this.machineRayTween.visible = true;
-                    this.machineRayTween.animationSpeed = 0.5;
-                    this.machineRayTween.play();
-                    return waitForSeconds(0.4);
-                })
-                .then(() => {
-                    eventEmitter.emit(EVENTS.MAKE_ML_PEOPLE_TALK, {});
-                    // #4 play resume scanline animation
-                    this.activeTween = this.resumeScanTween;
-                    this.resumeUI.showScanline();
-
-                    this.resumeScanTween.restart();
-                    this.resumeMaskTween.restart();
-
-                });
-        });
-
-        // once the scanline animation is done:
-        // 1. evaluate a new candidate
-        // 2. based on the evaluation, set up door and data server animations
-        // 3. animate the line of people
-        // 4. animate servers
-        // 5. hide the resume
-        // 6. play the scan ray animation backwards
-        // 7. start a new conveyor belt animation
-
-        this.resumeScanTween.eventCallback('onComplete', () => {
-            // #1: evaluate new candidate
-            const decision = this.evalFirstPerson();
-            // #2: set up server/door animations
-            if (decision === 'accepted') {
-                eventEmitter.emit(EVENTS.ACCEPTED, this.acceptedCount++);
-                this.dataServers[1].updateServerCounter(this.acceptedCount);
-                this.door.playAnimation({direction: 'forward'});
-            } else {
-                eventEmitter.emit(EVENTS.REJECTED, this.rejectedCount++);
-                this.dataServers[0].updateServerCounter(this.rejectedCount);
-            };
-            
-            // #3: play the people line animation
-            this.people.recalibrateTween(this.peopleTween);
-            this.peopleTween.start();
-            // #4: play the server animation
-            
-
-            // #5: hide & reset the resume scan 
-            //     play machine scan backwards
-            this.resumeUI.hideScanline();
-            this.resumeUI.hide();
-            this.machineRayTween.animationSpeed = -0.7;
-            this.machineRayTween.play();
-            // #6: start a new conveyor belt animation
-            this.activeTween = this.resumeLineTween;
-            this.resumeLineTween.start();
-        });
+        this.resumeLineTween.on('end', this.animationFirstHalf.bind(this));
+        this.resumeScanTween.eventCallback('onComplete', this.animationSecondHalf.bind(this));
 
         this.peopleTween.on('end', () => {
             this.peopleTween.reset();
@@ -144,21 +82,12 @@ export default class MlLabAnimator {
     }
 
     startAnimation() {
-        if(this.activeTween.constructor.name === "TweenMax") {
-            this.activeTween.restart();
-        }
-        else {
-            this.activeTween.start();
-        }
+        this.stop = false;
+        this.animationFirstHalf();
     }
 
     pauseAnimation() {
-        if(this.activeTween.constructor.name === "TweenMax") {
-            this.activeTween.pause();
-        }
-        else {
-            this.activeTween.stop().clear();
-        }
+        this.stop = true;
     }
 
     evalFirstPerson() {
@@ -166,10 +95,75 @@ export default class MlLabAnimator {
         const status = dataModule.predict(firstPerson.getData()) == 1 ? 'accepted' : 'rejected';
         this.people.removeFirstPerson(status);
         this.datasetView.handleNewResume({status: status, data: firstPerson.getData()});
-
         return status;
     }
 
+    // once the conveyor belt (resume tween) animation is done:
+    // 1. reset the conveyor belt animation
+    // 2. show the resume of the first person in line
+    // 3. play the conveyor belt scanline animation
+    // 4. play resume scanline animation
+    animationFirstHalf() {
+        if (this.stop) return;
+        // #1: reset conveyor belt animation
+        this.resumeLineTween.reset();
+        waitForSeconds(0.1)
+            .then(() => {
+                // #2: show the resume of the first person in line
+                const person = this.people.getFirstPerson();
+                if (person !== undefined) this.resumeUI.showCV(person.getData());
+                // #3 play the conveyor belt scanline animation
+                this.machineRayTween.visible = true;
+                this.machineRayTween.animationSpeed = 0.5;
+                this.machineRayTween.play();
+                return waitForSeconds(0.4);
+            })
+            .then(() => {
+                eventEmitter.emit(EVENTS.MAKE_ML_PEOPLE_TALK, {});
+                // #4 play resume scanline animation
+                this.activeTween = this.resumeScanTween;
+                this.resumeUI.showScanline();
+
+                this.resumeScanTween.restart();
+                this.resumeMaskTween.restart();
+            });
+    }
+   
+    // once the scanline animation is done:
+    // 1. evaluate a new candidate
+    // 2. based on the evaluation, set up door and data server animations
+    // 3. animate the line of people
+    // 4. hide the resume
+    // 5. play the scan ray animation backwards
+    // 6. start a new conveyor belt animation
+    animationSecondHalf() {
+        // #1: evaluate new candidate
+        const decision = this.evalFirstPerson();
+        // #2: set up server/door animations
+        if (decision === 'accepted') {
+            eventEmitter.emit(EVENTS.ACCEPTED, this.acceptedCount++);
+            this.dataServers[1].updateServerCounter(this.acceptedCount);
+            this.door.playAnimation({direction: 'forward'});
+        } else {
+            eventEmitter.emit(EVENTS.REJECTED, this.rejectedCount++);
+            this.dataServers[0].updateServerCounter(this.rejectedCount);
+        };
+        
+        // #3: play the people line animation
+        this.people.recalibrateTween(this.peopleTween);
+        this.peopleTween.start();        
+
+        // #4: hide & reset the resume scan 
+        //     play machine scan backwards
+        this.resumeUI.hideScanline();
+        this.resumeUI.hide();
+        this.machineRayTween.animationSpeed = -0.7;
+        this.machineRayTween.play();
+        // #5: start a new conveyor belt animation
+        this.activeTween = this.resumeLineTween;
+        this.resumeLineTween.start();
+    }
+    
     // the properties between componenets are entangled and there are tweens and objects that need to be resized from here
     // resume list: the tween needs to be updated once the conveyor belt expands
     // servers: we need to make sure that the machine is resized before the servers because they get the y position from each other

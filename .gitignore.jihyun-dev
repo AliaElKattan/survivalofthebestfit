@@ -11,3 +11,5 @@ npm-debug.log
 **/fontawesome-free/**
 **/.cache
 **/package-lock.json
+dist/js/*
+dist/css/*

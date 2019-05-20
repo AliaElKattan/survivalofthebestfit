@@ -67,6 +67,12 @@ class Office {
 
         this.peopleTalkManager = new PeopleTalkManager({parent: this.personContainer, stage: 'manual'});
 
+        this.resumeUI = new ResumeUI({
+            features: cvCollection.cvFeatures,
+            scores: cvCollection.cvData,
+            candidateId: candidateClicked
+        });
+
         this.doors = [
             new Door({
                 type: 'doorAccepted',
@@ -147,8 +153,7 @@ class Office {
         this.task = new TaskUI({
             showTimer: showTimer, 
             hires: this.stageText.hiringGoal, 
-            duration: this.stageText.duration, 
-            content: this.stageText.taskDescription
+            duration: this.stageText.duration
         });
     }
 
@@ -162,18 +167,10 @@ class Office {
 
     listenerSetup() {
         eventEmitter.on(EVENTS.DISPLAY_THIS_CV, () => {
-            new ResumeUI({
-                show: true,
-                features: cvCollection.cvFeatures,
-                scores: cvCollection.cvData,
-                candidateId: candidateClicked,
-                acceptedAverageScore: this.acceptedAverageScore,
-                candidatesAverageScore: this.candidatesAverageScore
-            });
+            this.resumeUI.showCV(cvCollection.cvData[candidateClicked]);
         });
 
         this.stageResetHandler = () => {
-
             new TextBoxUI({
                 isRetry: true,
                 stageNumber: this.currentStage,
@@ -192,7 +189,6 @@ class Office {
 
         this.acceptedHandler = () => {
             dataModule.recordAccept(candidateInSpot);
-
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
             this.hiredPeople.push(hiredPerson);
@@ -203,7 +199,6 @@ class Office {
             candidateInSpot = null;
             this.doors[0].playAnimation({direction: 'forward'});
 
-            this.acceptedAverageScore = dataModule.getAverageScore({peopleArray: dataModule.accepted});
 
             hiredPerson.tween.on('end', () => {
                 this.personContainer.removeChild(hiredPerson);
@@ -211,7 +206,11 @@ class Office {
             });
 
             if (this.takenDesks == this.stageText.hiringGoal) {
-                eventEmitter.emit(EVENTS.MANUAL_STAGE_COMPLETE, {stageNumber: this.currentStage});
+
+                eventEmitter.emit(EVENTS.MANUAL_STAGE_COMPLETE, {
+                    stageNumber: this.currentStage
+                });
+                
                 this.task.reset();
                 gameFSM.nextStage();
             }
@@ -259,7 +258,6 @@ class Office {
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;
         dataModule.recordLastIndex(this.uniqueCandidateIndex);
-        this.candidatesAverageScore = dataModule.getAverageScore({peopleIndex: dataModule.lastIndex});
     }
 
     populateCandidates(startIndex, count) {
@@ -279,17 +277,17 @@ class Office {
         eventEmitter.off(EVENTS.INSTRUCTION_ACKED, () => {});
     }
 
-
     delete() {
         this.doors.forEach((door) => {
             door.destroy();
         });
+        this.resumeUI.destroy();
         this.instructions.destroy();
         officeStageContainer.removeChild(this.interiorContainer);
         officeStageContainer.removeChild(this.personContainer);
         this._removeEventListeners();
         this.peopleTalkManager.destroy();
-        $( '#js-task-timer' ).remove();
+        this.task.destroy();
     }
 }
 

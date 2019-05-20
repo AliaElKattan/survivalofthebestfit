@@ -4,6 +4,7 @@ export default {
     HIDE_NEWS_FEED: 'hide-news-feed',
     INSTRUCTION_ACKED: 'instruction-acked',
     RETRY_INSTRUCTION_ACKED: 'retry-instruction-acked',
+    TRANSITION_INSTRUCTION_ACKED: 'transition-instruction-acked',
     MANUAL_STAGE_COMPLETE: 'manual-stage-complete',
     PLAY_DOOR_ANIMATION: 'play-door-animation',
     INSPECT_ALGORITHM: 'inspect-algorithm',
