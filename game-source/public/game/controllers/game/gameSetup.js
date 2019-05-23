@@ -49,6 +49,7 @@ startTweenManager = startTweenManager.bind(this);
 stopTweenManager = startTweenManager.bind(this);
 
 window.addEventListener('resize', debounce(resize, 200));
+window.addEventListener('orientationchange', resize);
 
 function resize() {
     pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
