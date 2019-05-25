@@ -29,12 +29,7 @@ export default class extends UIBase {
                 const peopleLine = officeStageContainer.getChildByName(OFFICE_PEOPLE_CONTAINER);
                 const {width: peopleLineWidth} = peopleLine;
                 const {x: peopleLineX, y: peopleLineY} = peopleLine.getChildAt(0).getGlobalPosition();
-                // console.log(firstPerson.getGlobalPosition());
                 const {height: peopleHeight} = officeStageContainer.getChildByName(OFFICE_PEOPLE_CONTAINER).getChildAt(0);
-                console.table({
-                    peopleLineWidth: peopleLineWidth,
-                    start: peopleLineWidth/2,
-                }); 
                 this.$el.css({
                     'bottom': 'unset',
                     'top': `${peopleLineY - peopleHeight - 20}px`,
