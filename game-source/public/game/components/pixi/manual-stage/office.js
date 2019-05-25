@@ -33,9 +33,11 @@ const candidatePoolSize = {
 const officeCoordinates = {
     entryDoorX: 0.1,
     exitDoorX: 0.6,
+    peopleCenter: 0.3,
     personStartX: 0.2,
-    personStartY: 0.87,
-    xOffset: 0.05,
+    peoplePaddingX: 0.1,
+    personStartY: 0.87, // should be dependent on the floot size
+    xOffset: 0.05, // should be dependent 
 };
 
 class Office {
@@ -258,6 +260,13 @@ class Office {
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;
         dataModule.recordLastIndex(this.uniqueCandidateIndex);
+    }
+
+    centerPeopleLine(count) {
+        // const {peopleCenterX, xOffset, peoplePaddingX} = this.officeCoordinates;
+        // const startX = Math.max(0.05, peopleCenterX - xOffset*(count-1)/2); // startX, starting from the center between two doors
+        // const maxOffset = uv2px(1-2*peoplePaddingX/(count-1)); // maximum offset between people
+        // const xOffset = clamp(uv2px(xOffset), Math.min(50, maxOffset), maxOffset); // calculate xOffset
     }
 
     populateCandidates(startIndex, count) {
