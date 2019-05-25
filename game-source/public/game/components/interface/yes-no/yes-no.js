@@ -6,6 +6,7 @@ import UIBase from '~/public/game/components/interface/ui-base/ui-base';
 import {spotlight} from '~/public/game/components/pixi/manual-stage/office';
 import {eventEmitter, pixiApp, officeStageContainer} from '~/public/game/controllers/game/gameSetup.js';
 import {isMobile} from '~/public/game/controllers/common/utils.js';
+import {OFFICE_PEOPLE_CONTAINER} from '~/public/game/controllers/constants/pixi-containers.js';
 
 export default class extends UIBase {
     constructor(options) {
@@ -16,11 +17,11 @@ export default class extends UIBase {
         this.$noButton = this.$el.find('.js-no');
         this._addEventListeners();
         this.hasBeenClicked = false;
+        this.shownOnce = false;
+        this.personHeight = 100;
     }
 
     _acceptClicked(e) {
-        console.log('pixi container:');
-        console.log(officeStageContainer.getChildByName('personContainer'));
         // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
         gtag('event', 'accept', {
             'event_category': 'default',
@@ -72,6 +73,8 @@ export default class extends UIBase {
     }
 
     _spotlightStatusHandler({spotlightOccupied, spotlightFill}) {
+        const {height} = officeStageContainer.getChildByName(OFFICE_PEOPLE_CONTAINER).getChildAt(0);
+        this.personHeight = height;
         if (spotlightOccupied) {
             spotlightFill ? '' : this.hide();
         } else {
@@ -80,10 +83,8 @@ export default class extends UIBase {
     }
 
     show() {
-        const {height: personHeight} = officeStageContainer.getChildByName('personContainer');
-        console.log(personHeight);
         this.$el.css({
-            'top': `${spotlight.y - personHeight - (isMobile() ? 20 : 40 )}px`, // get person height
+            'top': `${spotlight.y - this.personHeight - (isMobile() ? 20 : 40 )}px`, // get person height
             'left': `${spotlight.x + 10}px`,
         });
         TweenLite.set(this.$id, {y: 5, xPercent: -50, opacity: 0});
