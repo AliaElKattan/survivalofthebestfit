@@ -4,7 +4,8 @@ import CLASSES from '~/public/game/controllers/constants/classes';
 import EVENTS from '~/public/game/controllers/constants/events';
 import UIBase from '~/public/game/components/interface/ui-base/ui-base';
 import {spotlight} from '~/public/game/components/pixi/manual-stage/office';
-import {eventEmitter, pixiApp} from '~/public/game/controllers/game/gameSetup.js';
+import {eventEmitter, pixiApp, officeStageContainer} from '~/public/game/controllers/game/gameSetup.js';
+import {isMobile} from '~/public/game/controllers/common/utils.js';
 
 export default class extends UIBase {
     constructor(options) {
@@ -18,6 +19,8 @@ export default class extends UIBase {
     }
 
     _acceptClicked(e) {
+        console.log('pixi container:');
+        console.log(officeStageContainer.getChildByName('personContainer'));
         // whenever you want to log an event in Google Analytics, just call one of these functions with appropriate names
         gtag('event', 'accept', {
             'event_category': 'default',
@@ -77,8 +80,10 @@ export default class extends UIBase {
     }
 
     show() {
+        const {height: personHeight} = officeStageContainer.getChildByName('personContainer');
+        console.log(personHeight);
         this.$el.css({
-            'top': `${spotlight.y - 150}px`,
+            'top': `${spotlight.y - personHeight - (isMobile() ? 20 : 40 )}px`, // get person height
             'left': `${spotlight.x + 10}px`,
         });
         TweenLite.set(this.$id, {y: 5, xPercent: -50, opacity: 0});

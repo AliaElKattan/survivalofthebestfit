@@ -8,6 +8,10 @@ const screenSizeDetector = () => {
     return mq(BREAKPOINTS.PHONE_LANDSCAPE) ? 'mobile' : 'desktop';
 };
 
+const isMobile = () => {
+    return mq(BREAKPOINTS.PHONE_LANDSCAPE);
+};
+
 const spacingUtils = {
     getCenteredChildX(parentX, parentWidth, childWidth) {
         return parentX + (parentWidth - childWidth) / 2;
@@ -143,4 +147,4 @@ const setCanvasBackground = ({color = undefined}) => {
     }
 };
 
-export {spacingUtils, uv2px, px2uv, clamp, animateTo, lerp, getDateString, screenSizeDetector, waitForSeconds, setCanvasBackground};
+export {spacingUtils, uv2px, px2uv, clamp, animateTo, lerp, isMobile, getDateString, screenSizeDetector, waitForSeconds, setCanvasBackground};

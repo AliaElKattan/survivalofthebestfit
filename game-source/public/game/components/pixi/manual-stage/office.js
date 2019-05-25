@@ -48,6 +48,7 @@ class Office {
         this.takenDesks = 0;
         this.interiorContainer = new PIXI.Container();
         this.personContainer = new PIXI.Container();
+        this.personContainer.name = 'personContainer';
 
         let acceptedAverageScore;
         let candidatesAverageScore;
