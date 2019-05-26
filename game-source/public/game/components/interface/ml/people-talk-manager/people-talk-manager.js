@@ -51,6 +51,8 @@ export default class {
         const maxIndex = this.stage === 'ml' ? clamp(this.peopleContainer.children.length, 0, 8) : this.peopleContainer.children.length;
         const childIndex = Math.floor(Math.random()*maxIndex);
         const message = this.messages[Math.floor(Math.random()*this.messages.length)];
+        // CHECK HERE
+        if (childIndex === candidateClicked) return;
         // console.log('show tooltip on child with index number: ', childIndex);
         this.personTooltip.showNewTooltip({
             parentContainer: this.peopleContainer,

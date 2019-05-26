@@ -6,7 +6,7 @@ import {gameFSM} from '~/public/game/controllers/game/stateManager.js';
 import {createPerson, animateThisCandidate} from '~/public/game/components/pixi/manual-stage/person.js';
 import Floor from '~/public/game/components/pixi/manual-stage/floor.js';
 import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
-import {screenSizeDetector, uv2px, px2uv, clamp, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
+import {screenSizeDetector, uv2px, px2uv, clamp, isMobile, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
 import Door from '~/public/game/components/pixi/manual-stage/door.js';
 import ResumeUI from '~/public/game/components/interface/ui-resume/ui-resume';
 import InstructionUI from '~/public/game/components/interface/ui-instruction/ui-instruction';
@@ -19,6 +19,7 @@ import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.
 import TaskUI from '../../interface/ui-task/ui-task';
 import TextBoxUI from '../../interface/ui-textbox/ui-textbox';
 import {OFFICE_PEOPLE_CONTAINER} from '~/public/game/controllers/constants/pixi-containers.js';
+import {waitForSeconds} from '~/public/game/controllers/common/utils.js';
 
 const spotlight = {
     x: uv2px(0.4, 'w'),
@@ -28,7 +29,7 @@ const spotlight = {
 const candidatePoolSize = {
     smallOfficeStage: 7,
     mediumOfficeStage: 10,
-    largeOfficeStage: 15,
+    largeOfficeStage: isMobile() ? 10 : 15,
 };
 
 const officeCoordinates = {
@@ -189,6 +190,7 @@ class Office {
         eventEmitter.on(EVENTS.STAGE_INCOMPLETE, this.stageResetHandler);
 
         this.acceptedHandler = () => {
+            console.log('record accepted!');
             dataModule.recordAccept(candidateInSpot);
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
@@ -207,12 +209,15 @@ class Office {
             });
 
             if (this.takenDesks == this.stageText.hiringGoal) {
-                eventEmitter.emit(EVENTS.MANUAL_STAGE_COMPLETE, {
-                    stageNumber: this.currentStage,
+                console.log('stage complete!');
+                waitForSeconds(1).then(() => {
+                    console.log('next stage!');
+                    eventEmitter.emit(EVENTS.MANUAL_STAGE_COMPLETE, {
+                        stageNumber: this.currentStage,
+                    });
+                    this.task.reset();
+                    gameFSM.nextStage();
                 });
-                
-                this.task.reset();
-                gameFSM.nextStage();
             }
         };
 
@@ -266,13 +271,13 @@ class Office {
         const startX = Math.max(0.05, peopleCenterX - xOffset*(count-1)/2); // startX, starting from the center between two doors
         const maxOffset = (1-2*peoplePaddingX)/(count-1); // maximum offset between people
         const xClampedOffset = clamp(xOffset, Math.min(px2uv(70, 'w'), maxOffset), maxOffset); // calculate xOffset
-        console.table({
-            peopleCenterX: peopleCenterX,
-            startX: startX,
-            count: count,
-            maxOffset: maxOffset,
-            xClampedOffset: xClampedOffset,
-        });
+        // console.table({
+        //     peopleCenterX: peopleCenterX,
+        //     startX: startX,
+        //     count: count,
+        //     maxOffset: maxOffset,
+        //     xClampedOffset: xClampedOffset,
+        // });
         return {
             xClampedOffset: xClampedOffset,
             startX: startX,
