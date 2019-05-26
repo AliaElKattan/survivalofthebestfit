@@ -14,6 +14,7 @@ export default class extends UIBase {
         this.$el = $(`${this.$id}`); // This should be a single element
         this.$textbox = this.$el.find('.Instruction');
         this.$textEl = this.$el.find('.Instruction__content');
+        this.state = null;
         this._addEventListeners();
     }
 
@@ -22,6 +23,7 @@ export default class extends UIBase {
     }
 
     reveal({type}) {
+        this.state = type;
         switch (type) {
         case 'manual-click':
             waitForSeconds(0.5).then(() => {
@@ -58,11 +60,20 @@ export default class extends UIBase {
         }
     }
 
+    disableInstructions() {
+        console.log('candidate returned!');
+        if (this.state && this.state === 'manual-eval-show') {
+            this.reveal({type: 'manual-eval-hide'});
+        }
+    }
+
     _addEventListeners() {
+        eventEmitter.on(EVENTS.RETURN_CANDIDATE, this.disableInstructions.bind(this));
         eventEmitter.on(EVENTS.UPDATE_INSTRUCTIONS, this.reveal.bind(this));
     }
 
     _removeEventListeners() {
+        eventEmitter.off(EVENTS.RETURN_CANDIDATE, this.disableInstructions.bind(this));
         eventEmitter.off(EVENTS.UPDATE_INSTRUCTIONS, this.show.bind(this));
     }
 

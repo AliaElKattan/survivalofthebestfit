@@ -43,6 +43,7 @@ function moveCandidate() {
     // candidate in spotlight clicked
     else if (this.inSpotlight) {
         // move candidate back to line
+        eventEmitter.emit(EVENTS.RETURN_CANDIDATE, {});
         animateThisCandidate(this, this.originalX, this.originalY);
         eventEmitter.emit(EVENTS.CHANGE_SPOTLIGHT_STATUS, {spotlightOccupied: true, spotlightFill: false});
 
