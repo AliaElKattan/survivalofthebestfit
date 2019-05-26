@@ -13,6 +13,11 @@ const isMobile = () => {
 };
 
 const spacingUtils = {
+    getRelativePoint(val1, val2, ratio) {
+        const min = Math.min(val1, val2);
+        const max = Math.max(val1, val2);
+        return min + (max - min) * ratio;
+    },
     getCenteredChildX(parentX, parentWidth, childWidth) {
         return parentX + (parentWidth - childWidth) / 2;
     },
@@ -95,8 +100,8 @@ const clamp = (val, minVal, maxVal) => {
 };
 
 const getDateString = () => {
-    const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     const d = new Date();
     const hourString = `${d.getHours() > 0 ? d.getHours() : `0${d.getHours()}`}:${d.getMinutes() > 0 ? d.getMinutes() : `0${d.getMinutes()}`}`;
     return `${days[d.getDay()]} ${hourString}, ${months[d.getMonth()]} ${d.getDate()} ${d.getFullYear()}`;

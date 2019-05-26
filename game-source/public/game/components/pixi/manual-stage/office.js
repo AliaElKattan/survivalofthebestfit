@@ -6,7 +6,7 @@ import {gameFSM} from '~/public/game/controllers/game/stateManager.js';
 import {createPerson, animateThisCandidate} from '~/public/game/components/pixi/manual-stage/person.js';
 import Floor from '~/public/game/components/pixi/manual-stage/floor.js';
 import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
-import {screenSizeDetector, uv2px, px2uv, clamp, isMobile, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
+import {screenSizeDetector, uv2px, px2uv, clamp, isMobile, waitForSeconds, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
 import Door from '~/public/game/components/pixi/manual-stage/door.js';
 import ResumeUI from '~/public/game/components/interface/ui-resume/ui-resume';
 import InstructionUI from '~/public/game/components/interface/ui-instruction/ui-instruction';
@@ -19,12 +19,6 @@ import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.
 import TaskUI from '../../interface/ui-task/ui-task';
 import TextBoxUI from '../../interface/ui-textbox/ui-textbox';
 import {OFFICE_PEOPLE_CONTAINER} from '~/public/game/controllers/constants/pixi-containers.js';
-import {waitForSeconds} from '~/public/game/controllers/common/utils.js';
-
-const spotlight = {
-    x: uv2px(0.4, 'w'),
-    y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.13, 'h'),
-};
 
 const candidatePoolSize = {
     smallOfficeStage: 7,
@@ -33,12 +27,17 @@ const candidatePoolSize = {
 };
 
 const officeCoordinates = {
-    entryDoorX: 0.1,
-    exitDoorX: 0.6,
+    entryDoorX: isMobile() ? 0.05 : 0.1,
+    exitDoorX: isMobile() ? 0.55 : 0.6,
     personStartX: 0.2,
     peoplePaddingX: 0.1,
     personStartY: 0.87, // should be dependent on the floot size
     xOffset: 0.06, // should be dependent 
+};
+
+const spotlight = {
+    x: uv2px(space.getRelativePoint(officeCoordinates.entryDoorX, officeCoordinates.exitDoorX, 0.6), 'w'),
+    y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.13, 'h'),
 };
 
 class Office {
@@ -267,17 +266,10 @@ class Office {
 
     centerPeopleLine(count) {
         const {entryDoorX, exitDoorX, xOffset, peoplePaddingX} = officeCoordinates;
-        const peopleCenterX = Math.min(entryDoorX, exitDoorX) + Math.abs(entryDoorX - exitDoorX)/2;
+        const peopleCenterX = space.getRelativePoint(entryDoorX, exitDoorX, 1/2);
         const startX = Math.max(0.05, peopleCenterX - xOffset*(count-1)/2); // startX, starting from the center between two doors
         const maxOffset = (1-2*peoplePaddingX)/(count-1); // maximum offset between people
         const xClampedOffset = clamp(xOffset, Math.min(px2uv(70, 'w'), maxOffset), maxOffset); // calculate xOffset
-        // console.table({
-        //     peopleCenterX: peopleCenterX,
-        //     startX: startX,
-        //     count: count,
-        //     maxOffset: maxOffset,
-        //     xClampedOffset: xClampedOffset,
-        // });
         return {
             xClampedOffset: xClampedOffset,
             startX: startX,
@@ -292,8 +284,6 @@ class Office {
                 personX: startX + xClampedOffset * orderInLine,
                 personXAlt: officeCoordinates.personStartX + officeCoordinates.xOffset * orderInLine,
             });
-            // this.placeCandidate(officeCoordinates.personStartX + officeCoordinates.xOffset * orderInLine);
-
             this.placeCandidate(startX + xClampedOffset * orderInLine);
         }
     }
