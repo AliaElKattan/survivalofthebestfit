@@ -83,4 +83,11 @@ function createPerson(x, y, id, texture) {
     return person;
 }
 
-export {createPerson, animateThisCandidate};
+function repositionPerson(x, y) {
+    person.scale.set(SCALES.PEOPLE[screenSizeDetector()]);
+    person.uvX = x;
+    person.x = uv2px(x, 'w');
+    person.y = uv2px(y, 'h');
+}
+
+export {createPerson, animateThisCandidate, repositionPerson};

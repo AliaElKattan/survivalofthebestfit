@@ -3,7 +3,7 @@ import $ from 'jquery';
 import {officeStageContainer, eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 import {bluePersonTexture, yellowPersonTexture} from '~/public/game/controllers/common/textures.js';
 import {gameFSM} from '~/public/game/controllers/game/stateManager.js';
-import {createPerson, animateThisCandidate} from '~/public/game/components/pixi/manual-stage/person.js';
+import {createPerson, animateThisCandidate, repositionPerson} from '~/public/game/components/pixi/manual-stage/person.js';
 import Floor from '~/public/game/components/pixi/manual-stage/floor.js';
 import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
 import {screenSizeDetector, uv2px, px2uv, clamp, isMobile, waitForSeconds, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
@@ -240,6 +240,8 @@ class Office {
 
         eventEmitter.on(EVENTS.REJECTED, this.rejectedHandler);
 
+        eventEmitter.on(EVENTS.RESIZE, this.repositionCandidates);
+
         eventEmitter.on(EVENTS.RETURN_CANDIDATE, () => {
             animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
             this.allPeople[candidateInSpot].inSpotlight = false;
@@ -264,6 +266,24 @@ class Office {
         dataModule.recordLastIndex(this.uniqueCandidateIndex);
     }
 
+    populateCandidates(startIndex, count) {
+        const {xClampedOffset, startX} = this.centerPeopleLine(count);
+        for (let i = startIndex; i < startIndex + count; i++) {
+            const orderInLine = i - startIndex;
+            this.placeCandidate(startX + xClampedOffset * orderInLine);
+        }
+    }
+    
+    repositionCandidates() {
+        // const {xClampedOffset, startX} = this.centerPeopleLine(count);
+        // for (let i = startIndex; i < startIndex + count; i++) {
+        //     const orderInLine = i - startIndex;
+        //     const x = startX + xClampedOffset * orderInLine;
+        //     const y = officeCoordinates.personStartY;
+        //     this.repositionPerson(x, y);
+        // }
+    }
+
     centerPeopleLine(count) {
         const {entryDoorX, exitDoorX, xOffset, peoplePaddingX} = officeCoordinates;
         const peopleCenterX = space.getRelativePoint(entryDoorX, exitDoorX, 1/2);
@@ -274,18 +294,6 @@ class Office {
             xClampedOffset: xClampedOffset,
             startX: startX,
         };
-    }
-
-    populateCandidates(startIndex, count) {
-        const {xClampedOffset, startX} = this.centerPeopleLine(count);
-        for (let i = startIndex; i < startIndex + count; i++) {
-            const orderInLine = i - startIndex;
-            console.log({
-                personX: startX + xClampedOffset * orderInLine,
-                personXAlt: officeCoordinates.personStartX + officeCoordinates.xOffset * orderInLine,
-            });
-            this.placeCandidate(startX + xClampedOffset * orderInLine);
-        }
     }
 
     _removeEventListeners() {
