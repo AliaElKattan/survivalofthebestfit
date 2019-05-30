@@ -9,10 +9,7 @@
 @import 'footer.scss';
 
 body {
-  font-family: 'Roboto Mono';
-  letter-spacing: 0.0625em;
   background-color: $yellow-washed;
-  
 }
 
 .cute-box {
@@ -20,9 +17,7 @@ body {
   @include textBox();
 }
 
-
 .resources {
-
   background-color: $rose-light-2;
   font-family: 'VT323', monospace;
   letter-spacing: 0;
@@ -35,26 +30,27 @@ body {
   }
 
   .header-box {
-  text-align: left;
-  position: relative;
-  color: white;
-  @include buttonBox();
-  @include boxColors($shadow-color: 'darkred');
-  float: left;
-  margin-left: 12%;
-  margin-right: 12%;
+    text-align: left;
+    position: relative;
+    color: white;
+    @include buttonBox();
+    @include boxColors($shadow-color: 'darkred');
+    float: left;
+    margin-left: 12%;
+    margin-right: 12%;
   }
 
   p {
-  font-size: 1.2rem;
-  text-align: justify;
-  clear: left;
-  margin-left: 12%;
-  margin-right: 12%;
-  padding-top: 1rem;
-  padding-bottom: 2rem;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.5;
+    text-align: justify;
+    clear: left;
+    margin-left: 12%;
+    margin-right: 12%;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
   }
-
 }
 
 h1, h2 {

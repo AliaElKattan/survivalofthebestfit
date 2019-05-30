@@ -68,7 +68,7 @@ class DataModule {
         let hiredAverage = this.getAverageScore({selectedIndexArray: this.accepted});
         let candidateAverage = this.getAverageScore({indexRange: [0, this.lastIndex]});
 
-        const formatScoreText = (maxDiff, maxDiffFeature) => `Your team has ${maxDiff}% better ${maxDiffFeature} than the rest.`;
+        const formatScoreText = (maxDiff, maxDiffFeature) => `You hired people with ${maxDiff}% more ${maxDiffFeature.toLowerCase()} than the average applicant.`;
 
         let diff = [];
         hiredAverage.forEach((score, idx) => {
