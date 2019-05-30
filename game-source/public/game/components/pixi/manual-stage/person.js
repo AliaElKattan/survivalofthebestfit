@@ -83,11 +83,19 @@ function createPerson(x, y, id, texture) {
     return person;
 }
 
-function repositionPerson(x, y) {
+function repositionPerson(person, x, y) {
     person.scale.set(SCALES.PEOPLE[screenSizeDetector()]);
     person.uvX = x;
     person.x = uv2px(x, 'w');
     person.y = uv2px(y, 'h');
+    person.originalX = person.x;
+    person.originalY = person.y;
+    if (person.id === candidateInSpot) {
+        eventEmitter.emit(EVENTS.RETURN_CANDIDATE, {});
+        eventEmitter.emit(EVENTS.CHANGE_SPOTLIGHT_STATUS, {spotlightOccupied: true, spotlightFill: false});
+        person.inSpotlight = false;
+        candidateInSpot = null;
+    }
 }
 
 export {createPerson, animateThisCandidate, repositionPerson};

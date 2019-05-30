@@ -7,10 +7,11 @@ import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
 
 export default class {
-    constructor({type, floor, floorParent, xAnchor}) {
+    constructor({type, floor, floorParent, xAnchorUV}) {
         this.doorType = type;
         this.floorParent = floorParent;
-        this.xAnchor = xAnchor;
+        this.xAnchorUV = xAnchorUV;
+        this.xAnchor = uv2px(this.xAnchorUV, 'w');
         this.yAnchorUV = floor === 'first_floor' ? ANCHORS.FLOORS.FIRST_FLOOR.y : ANCHORS.FLOORS.GROUND_FLOOR.y;
         this.yAnchor = uv2px(this.yAnchorUV, 'h');
         this.scale = SCALES.DOOR[screenSizeDetector()];
@@ -52,6 +53,7 @@ export default class {
     _recomputeParams() {
         this.scale = SCALES.DOOR[screenSizeDetector()];
         this.yAnchor = uv2px(this.yAnchorUV, 'h');
+        this.xAnchor = uv2px(this.xAnchorUV, 'w');
     }
 
     _resizeHandler() {

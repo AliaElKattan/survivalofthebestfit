@@ -35,10 +35,14 @@ const officeCoordinates = {
     xOffset: 0.06, // should be dependent 
 };
 
-const spotlight = {
-    x: uv2px(space.getRelativePoint(officeCoordinates.entryDoorX, officeCoordinates.exitDoorX, 0.6), 'w'),
-    y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.13, 'h'),
-};
+function computeSpotlight() {
+    return {
+        x: uv2px(space.getRelativePoint(officeCoordinates.entryDoorX, officeCoordinates.exitDoorX, 0.6), 'w'),
+        y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.13, 'h'),
+    };
+}
+
+const spotlight = computeSpotlight();
 
 class Office {
     constructor() {
@@ -81,13 +85,13 @@ class Office {
                 type: 'doorAccepted',
                 floor: 'first_floor',
                 floorParent: this.floors.first_floor,
-                xAnchor: uv2px(officeCoordinates.entryDoorX, 'w'),
+                xAnchorUV: officeCoordinates.entryDoorX,
             }),
             new Door({
                 type: 'doorRejected',
                 floor: 'first_floor',
                 floorParent: this.floors.first_floor,
-                xAnchor: uv2px(officeCoordinates.exitDoorX, 'w'),
+                xAnchorUV: officeCoordinates.exitDoorX,
             }),
         ];
         this.listenerSetup();
@@ -240,7 +244,7 @@ class Office {
 
         eventEmitter.on(EVENTS.REJECTED, this.rejectedHandler);
 
-        eventEmitter.on(EVENTS.RESIZE, this.repositionCandidates);
+        eventEmitter.on(EVENTS.RESIZE, this.resizeHandler.bind(this));
 
         eventEmitter.on(EVENTS.RETURN_CANDIDATE, () => {
             animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
@@ -274,14 +278,25 @@ class Office {
         }
     }
     
-    repositionCandidates() {
-        // const {xClampedOffset, startX} = this.centerPeopleLine(count);
-        // for (let i = startIndex; i < startIndex + count; i++) {
-        //     const orderInLine = i - startIndex;
-        //     const x = startX + xClampedOffset * orderInLine;
-        //     const y = officeCoordinates.personStartY;
-        //     this.repositionPerson(x, y);
-        // }
+    resizeHandler() {
+        // change spotlight position
+        const {x: spotNewX, y: spotNewY} = computeSpotlight();
+        spotlight.x = spotNewX;
+        spotlight.y = spotNewY;
+        // reposition candidates
+        const candidates = this.getCandidatePoolSize(this.currentStage);
+        const {xClampedOffset, startX} = this.centerPeopleLine(candidates);
+        for (let i = 0; i < candidates; i++) {
+            const x = startX + xClampedOffset * i;
+            const y = officeCoordinates.personStartY;
+            const person = this.personContainer.getChildAt(i);
+            if (person) repositionPerson(person, x, y);
+        }
+    }
+
+    getCandidatePoolSize(currentStage) {
+        const stages = ['smallOfficeStage', 'mediumOfficeStage', 'largeOfficeStage'];
+        return candidatePoolSize[stages[currentStage]];
     }
 
     centerPeopleLine(count) {
