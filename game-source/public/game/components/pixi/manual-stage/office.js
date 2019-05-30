@@ -72,7 +72,7 @@ class Office {
 
         this.instructions = new InstructionUI();
 
-        this.peopleTalkManager = new PeopleTalkManager({parent: this.personContainer, stage: 'manual'});
+        this.peopleTalkManager = new PeopleTalkManager({parent: officeStageContainer, stage: 'manual'});
 
         this.resumeUI = new ResumeUI({
             features: cvCollection.cvFeatures,
@@ -193,7 +193,7 @@ class Office {
         eventEmitter.on(EVENTS.STAGE_INCOMPLETE, this.stageResetHandler);
 
         this.acceptedHandler = () => {
-            console.log('record accepted!');
+            // console.log('record accepted!');
             dataModule.recordAccept(candidateInSpot);
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
@@ -212,9 +212,9 @@ class Office {
             });
 
             if (this.takenDesks == this.stageText.hiringGoal) {
-                console.log('stage complete!');
+                // console.log('stage complete!');
                 waitForSeconds(1).then(() => {
-                    console.log('next stage!');
+                    // console.log('next stage!');
                     eventEmitter.emit(EVENTS.MANUAL_STAGE_COMPLETE, {
                         stageNumber: this.currentStage,
                     });

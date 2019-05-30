@@ -4,10 +4,12 @@ import PersonTooltip from '~/public/game/components/interface/ml/person-tooltip/
 import {clamp} from '~/public/game/controllers/common/utils';
 import {ticker} from '~/public/game/controllers/game/gameSetup.js';
 import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
+import {OFFICE_PEOPLE_CONTAINER, ML_PEOPLE_CONTAINER} from '~/public/game/controllers/constants/pixi-containers.js';
+
 
 export default class {
     constructor({parent, stage}) {
-        this.peopleContainer = parent;
+        this.parentContainer = parent;
         this.stage = stage;
         this.elapsedTime = 0;
         this.nextTimeUpdate = 3000;
@@ -48,17 +50,30 @@ export default class {
     }
 
     createTooltip() {
-        const maxIndex = this.stage === 'ml' ? clamp(this.peopleContainer.children.length, 0, 8) : this.peopleContainer.children.length;
+        const peopleContainer = this.parentContainer.getChildByName(this.getContainerByStage(this.stage));
+        if (!peopleContainer) return;
+        const maxIndex = this.stage === 'ml' ? clamp(peopleContainer.children.length, 0, 8) : peopleContainer.children.length;
         const childIndex = Math.floor(Math.random()*maxIndex);
         const message = this.messages[Math.floor(Math.random()*this.messages.length)];
         // CHECK HERE
         if (childIndex === candidateClicked) return;
-        // console.log('show tooltip on child with index number: ', childIndex);
         this.personTooltip.showNewTooltip({
-            parentContainer: this.peopleContainer,
+            parentContainer: peopleContainer,
             index: childIndex,
             message: message,
         });
+    }
+
+    getContainerByStage(stage) {
+        switch (stage) {
+        case 'ml':
+            return ML_PEOPLE_CONTAINER;
+        case 'manual':
+            return OFFICE_PEOPLE_CONTAINER;
+        default:
+            console.warn(`invalid stage parameter, cannot find people container for speech bubble tooltips`);
+            return undefined;
+        }
     }
 
     _addEventListeners() {

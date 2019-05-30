@@ -6,16 +6,18 @@ import EVENTS from '~/public/game/controllers/constants/events.js';
 import MLPerson from '~/public/game/components/pixi/ml-stage/person';
 import PeopleTalkManager from '~/public/game/components/interface/ml/people-talk-manager/people-talk-manager';
 import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.js';
+import {ML_PEOPLE_CONTAINER} from '~/public/game/controllers/constants/pixi-containers.js';
 
 export default class {
     constructor() {
         this.container = new PIXI.Container();
+        this.container.name = ML_PEOPLE_CONTAINER;
         this.numOfPeople = Math.floor(uv2px(0.85, 'w')/70) * 2;
         this.mlStartIndex = dataModule.getLastIndex() || 0;
         this.mlLastIndex = dataModule.getLastIndex() || 0;
         this.peopleLine = [];
         this.personXoffset = 70;
-        this.peopleTalkManager = new PeopleTalkManager({parent: this.container, stage: 'ml'});
+        this.peopleTalkManager = new PeopleTalkManager({parent: mlLabStageContainer, stage: 'ml'});
         this._createPeople();
         eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
         
