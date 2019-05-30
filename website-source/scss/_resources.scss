@@ -1,0 +1,44 @@
+.next-box {
+position: relative;
+ @include buttonBox();
+  @include boxColors($shadow-color: 'darkred');
+float: right;
+ margin-right: 12%; 
+ clear: left;
+}
+
+
+#text2, #text3 {
+  display: none;
+}
+
+.resources {
+
+  background-color: $rose-light-2;
+  font-family: 'VT323', monospace;
+  letter-spacing: 0;
+  margin-left: 7%;
+
+  h1 {
+  margin-top: 5%;
+  margin-bottom: 5%;
+   text-align: center;
+   width: auto;
+  }
+
+  .header-box {
+  text-align: left;
+  position: relative;
+  color: white;
+  @include buttonBox();
+  @include boxColors($shadow-color: 'darkred');
+  float: left;
+  margin-left: 5%;
+  
+  //clear: left;
+
+  }
+
+    h4:hover {
+    color: black;
+  }

@@ -8,8 +8,12 @@
 @import 'contact.scss';
 @import 'footer.scss';
 
+
 body {
+  font-family: 'Roboto Mono';
+  letter-spacing: 0.0625em;
   background-color: $yellow-washed;
+  
 }
 
 .cute-box {
@@ -17,40 +21,76 @@ body {
   @include textBox();
 }
 
-.resources {
-  background-color: $rose-light-2;
-  font-family: 'VT323', monospace;
-  letter-spacing: 0;
-
-  h1 {
-  margin-top: 5%;
-  margin-bottom: 5%;
-   text-align: center;
-   width: auto;
-  }
-
-  .header-box {
-    text-align: left;
-    position: relative;
-    color: white;
-    @include buttonBox();
-    @include boxColors($shadow-color: 'darkred');
-    float: left;
-    margin-left: 12%;
-    margin-right: 12%;
-  }
 
   p {
-    font-family: 'Heebo', sans-serif;
-    font-size: 1.25em;
-    line-height: 1.5;
-    text-align: justify;
-    clear: left;
-    margin-left: 12%;
-    margin-right: 12%;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
+  font-size: 1.2rem;
+  text-align: justify;
+  clear: left;
+  margin-left: 5%;
+  margin-right: 12%;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
   }
+
+}
+
+h1, h2 {
+  font-family: 'VT323', monospace;
+}
+
+h1 {
+  font-size: 3.5rem;
+}
+
+a {
+  color: $primary;
+  &:focus,
+  &:hover {
+    text-decoration: none;
+    color: darken($primary, 20%);
+  }
+}
+
+.padding-top {
+  padding-top: 1rem;
+}
+
+.bg-white-transparent {
+  background-color: fade-out($white-washed, .15);
+@import 'variables.scss';
+@import 'mixins.scss';
+@import 'navbar.scss';
+@import 'masthead.scss';
+@import 'buttons.scss';
+@import 'about.scss';
+@import 'signup.scss';
+@import 'contact.scss';
+@import 'footer.scss';
+
+
+body {
+  font-family: 'Roboto Mono';
+  letter-spacing: 0.0625em;
+  background-color: $yellow-washed;
+  
+}
+
+.cute-box {
+  position: relative;
+  @include textBox();
+}
+
+
+  p {
+  font-size: 1.2rem;
+  text-align: justify;
+  clear: left;
+  margin-left: 5%;
+  margin-right: 12%;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  }
+
 }
 
 h1, h2 {
