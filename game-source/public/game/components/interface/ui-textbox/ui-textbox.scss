@@ -13,7 +13,6 @@
   max-height: 510px;
   max-width: 600px;
   
-  
   @include mq($until: mobile-landscape) {
       min-width: 450px;
   }
@@ -22,22 +21,46 @@
     margin-bottom: margin(xs);
   }
   
-  &__header, &__response {
-    margin-bottom: padding(xs);
+  i {
+    color: red;
+    font-size: 2em; 
+    padding-top: padding(xs);
+  }
+
+  hr {
+    opacity:0.3;
   }
   
-  &__content {
+  &__header {
+    margin-bottom: padding(sm);
+  }
+  
+  &__subject {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: black;
+  }
+
+  &__signature {
+    padding-left: 0.5em;
+    display: inline-block;
+    color: color(txt-dark-grey);
+  }
+
+  &__response {
+    margin-top: padding(xs);
+
+  }
+
+  &__content, &__response {
     font-size: font(base);
+    color: color(txt-dark-grey);
+    margin-bottom: padding(sm);
   }
-  
-   &__response, &__subject {
-     color: color(txt-light-grey);
-   }
   
   &__buttons {
     display: flex;
   }
-
 }
 
 .TextboxButton {

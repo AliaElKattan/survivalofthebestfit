@@ -7,6 +7,7 @@ if [[ "$BRANCH" != "master" ]]; then
 fi
 
 read -p "Did you test your changes? Are you sure you want to push? [y/n]" -n 1 -r
+read -p "Is the state manager's stransition stage set to title? [y/n]" -n 1 -r
 echo    
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
