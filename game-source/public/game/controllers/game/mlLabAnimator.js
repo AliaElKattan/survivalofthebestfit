@@ -27,7 +27,7 @@ export default class MlLabAnimator {
             type: 'doorAccepted',
             floor: 'ground_floor',
             floorParent: this.groundFloor,
-            xAnchor: uv2px(0.08, 'w'),
+            xAnchorUV: 0.08,
         }).addToPixi();
         
         this.machine = new Machine();        

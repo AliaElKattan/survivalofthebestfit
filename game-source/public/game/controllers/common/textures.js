@@ -13,8 +13,7 @@ loader
     .add('dataServerAccepted', 'assets/spritesheets/data-server-accepted/data-server-accepted.json')
     .add('doorAccepted', 'assets/img/door-accepted.png')
     .add('officeDoor', 'assets/spritesheets/office-door/office-door.json')
-    .add('wayOutDoor', 'assets/spritesheets/way-out-door/way-out-door.json')
-    .add('doorRejected', 'assets/img/door-rejected.png');
+    .add('wayOutDoor', 'assets/spritesheets/way-out-door/door-rejected.json');
 
 async function loadAssets() {
     await new Promise((resolve, reject) => {

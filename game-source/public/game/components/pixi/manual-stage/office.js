@@ -3,10 +3,10 @@ import $ from 'jquery';
 import {officeStageContainer, eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 import {bluePersonTexture, yellowPersonTexture} from '~/public/game/controllers/common/textures.js';
 import {gameFSM} from '~/public/game/controllers/game/stateManager.js';
-import {createPerson, animateThisCandidate} from '~/public/game/components/pixi/manual-stage/person.js';
+import {createPerson, animateThisCandidate, repositionPerson} from '~/public/game/components/pixi/manual-stage/person.js';
 import Floor from '~/public/game/components/pixi/manual-stage/floor.js';
 import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
-import {screenSizeDetector, uv2px, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
+import {screenSizeDetector, uv2px, px2uv, clamp, isMobile, waitForSeconds, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
 import Door from '~/public/game/components/pixi/manual-stage/door.js';
 import ResumeUI from '~/public/game/components/interface/ui-resume/ui-resume';
 import InstructionUI from '~/public/game/components/interface/ui-instruction/ui-instruction';
@@ -18,25 +18,31 @@ import SCALES from '~/public/game/controllers/constants/pixi-scales.js';
 import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.js';
 import TaskUI from '../../interface/ui-task/ui-task';
 import TextBoxUI from '../../interface/ui-textbox/ui-textbox';
-
-const spotlight = {
-    x: uv2px(0.4, 'w'),
-    y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.13, 'h'),
-};
+import {OFFICE_PEOPLE_CONTAINER} from '~/public/game/controllers/constants/pixi-containers.js';
 
 const candidatePoolSize = {
     smallOfficeStage: 7,
     mediumOfficeStage: 10,
-    largeOfficeStage: 15,
+    largeOfficeStage: isMobile() ? 10 : 15,
 };
 
 const officeCoordinates = {
-    entryDoorX: 0.1,
-    exitDoorX: 0.6,
+    entryDoorX: isMobile() ? 0.05 : 0.1,
+    exitDoorX: isMobile() ? 0.55 : 0.6,
     personStartX: 0.2,
-    personStartY: 0.87,
-    xOffset: 0.05,
+    peoplePaddingX: 0.1,
+    personStartY: 0.87, // should be dependent on the floot size
+    xOffset: 0.06, // should be dependent 
 };
+
+function computeSpotlight() {
+    return {
+        x: uv2px(space.getRelativePoint(officeCoordinates.entryDoorX, officeCoordinates.exitDoorX, 0.6), 'w'),
+        y: uv2px(ANCHORS.FLOORS.FIRST_FLOOR.y - 0.13, 'h'),
+    };
+}
+
+const spotlight = computeSpotlight();
 
 class Office {
     constructor() {
@@ -46,6 +52,7 @@ class Office {
         this.takenDesks = 0;
         this.interiorContainer = new PIXI.Container();
         this.personContainer = new PIXI.Container();
+        this.personContainer.name = OFFICE_PEOPLE_CONTAINER;
 
         let acceptedAverageScore;
         let candidatesAverageScore;
@@ -65,12 +72,12 @@ class Office {
 
         this.instructions = new InstructionUI();
 
-        this.peopleTalkManager = new PeopleTalkManager({parent: this.personContainer, stage: 'manual'});
+        this.peopleTalkManager = new PeopleTalkManager({parent: officeStageContainer, stage: 'manual'});
 
         this.resumeUI = new ResumeUI({
             features: cvCollection.cvFeatures,
             scores: cvCollection.cvData,
-            candidateId: candidateClicked
+            candidateId: candidateClicked,
         });
 
         this.doors = [
@@ -78,13 +85,13 @@ class Office {
                 type: 'doorAccepted',
                 floor: 'first_floor',
                 floorParent: this.floors.first_floor,
-                xAnchor: uv2px(officeCoordinates.entryDoorX, 'w'),
+                xAnchorUV: officeCoordinates.entryDoorX,
             }),
             new Door({
                 type: 'doorRejected',
                 floor: 'first_floor',
                 floorParent: this.floors.first_floor,
-                xAnchor: uv2px(officeCoordinates.exitDoorX, 'w'),
+                xAnchorUV: officeCoordinates.exitDoorX,
             }),
         ];
         this.listenerSetup();
@@ -135,15 +142,13 @@ class Office {
             this.instructions.reveal({type: 'manual-click'});
 
             this.peopleTalkManager.startTimeline();
-        }
-
-        else {
+        } else {
             showTimer = true;
             candidatesToAdd = this.currentStage === 1 ? candidatePoolSize.mediumOfficeStage : candidatePoolSize.largeOfficeStage;
 
             officeStageContainer.removeChild(this.personContainer);
             this.personContainer = new PIXI.Container();
-            
+            this.personContainer.name = OFFICE_PEOPLE_CONTAINER;
         }
 
         this.populateCandidates(this.uniqueCandidateIndex, candidatesToAdd);
@@ -153,7 +158,7 @@ class Office {
         this.task = new TaskUI({
             showTimer: showTimer, 
             hires: this.stageText.hiringGoal, 
-            duration: this.stageText.duration
+            duration: this.stageText.duration,
         });
     }
 
@@ -183,11 +188,12 @@ class Office {
             if (this.task) {
                 this.task.reset();
             }
-        }
+        };
 
         eventEmitter.on(EVENTS.STAGE_INCOMPLETE, this.stageResetHandler);
 
         this.acceptedHandler = () => {
+            // console.log('record accepted!');
             dataModule.recordAccept(candidateInSpot);
             this.takenDesks += 1;
             const hiredPerson = this.allPeople[candidateInSpot];
@@ -206,13 +212,15 @@ class Office {
             });
 
             if (this.takenDesks == this.stageText.hiringGoal) {
-
-                eventEmitter.emit(EVENTS.MANUAL_STAGE_COMPLETE, {
-                    stageNumber: this.currentStage
+                // console.log('stage complete!');
+                waitForSeconds(1).then(() => {
+                    // console.log('next stage!');
+                    eventEmitter.emit(EVENTS.MANUAL_STAGE_COMPLETE, {
+                        stageNumber: this.currentStage,
+                    });
+                    this.task.reset();
+                    gameFSM.nextStage();
                 });
-                
-                this.task.reset();
-                gameFSM.nextStage();
             }
         };
 
@@ -235,6 +243,8 @@ class Office {
         eventEmitter.on(EVENTS.ACCEPTED, this.acceptedHandler);
 
         eventEmitter.on(EVENTS.REJECTED, this.rejectedHandler);
+
+        eventEmitter.on(EVENTS.RESIZE, this.resizeHandler.bind(this));
 
         eventEmitter.on(EVENTS.RETURN_CANDIDATE, () => {
             animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
@@ -261,10 +271,44 @@ class Office {
     }
 
     populateCandidates(startIndex, count) {
+        const {xClampedOffset, startX} = this.centerPeopleLine(count);
         for (let i = startIndex; i < startIndex + count; i++) {
             const orderInLine = i - startIndex;
-            this.placeCandidate(officeCoordinates.personStartX + officeCoordinates.xOffset * orderInLine);
+            this.placeCandidate(startX + xClampedOffset * orderInLine);
         }
+    }
+    
+    resizeHandler() {
+        // change spotlight position
+        const {x: spotNewX, y: spotNewY} = computeSpotlight();
+        spotlight.x = spotNewX;
+        spotlight.y = spotNewY;
+        // reposition candidates
+        const candidates = this.getCandidatePoolSize(this.currentStage);
+        const {xClampedOffset, startX} = this.centerPeopleLine(candidates);
+        for (let i = 0; i < candidates; i++) {
+            const x = startX + xClampedOffset * i;
+            const y = officeCoordinates.personStartY;
+            const person = this.personContainer.getChildAt(i);
+            if (person) repositionPerson(person, x, y);
+        }
+    }
+
+    getCandidatePoolSize(currentStage) {
+        const stages = ['smallOfficeStage', 'mediumOfficeStage', 'largeOfficeStage'];
+        return candidatePoolSize[stages[currentStage]];
+    }
+
+    centerPeopleLine(count) {
+        const {entryDoorX, exitDoorX, xOffset, peoplePaddingX} = officeCoordinates;
+        const peopleCenterX = space.getRelativePoint(entryDoorX, exitDoorX, 1/2);
+        const startX = Math.max(0.05, peopleCenterX - xOffset*(count-1)/2); // startX, starting from the center between two doors
+        const maxOffset = (1-2*peoplePaddingX)/(count-1); // maximum offset between people
+        const xClampedOffset = clamp(xOffset, Math.min(px2uv(70, 'w'), maxOffset), maxOffset); // calculate xOffset
+        return {
+            xClampedOffset: xClampedOffset,
+            startX: startX,
+        };
     }
 
     _removeEventListeners() {
