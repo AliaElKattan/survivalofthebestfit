@@ -1,4 +1,4 @@
-import {pixiApp, eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
+import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 import {uv2px, screenSizeDetector, createPersonSprite, getAnimationByName} from '~/public/game/controllers/common/utils.js';
 import {spotlight} from './office';
 import {EVENTS, ANIM, SCALES} from '~/public/game/controllers/constants';
