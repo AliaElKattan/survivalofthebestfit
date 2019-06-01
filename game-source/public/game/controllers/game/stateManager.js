@@ -26,10 +26,10 @@ const gameFSM = new machina.Fsm({
         uninitialized: {
             startGame: function() {
                 // this.transition('titleStage');
-                this.transition('smallOfficeStage');
+                // this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
                 // this.transition('mlTrainingStage');
-                // this.transition('mlLabStage');
+                this.transition('mlLabStage');
             },
         },
 

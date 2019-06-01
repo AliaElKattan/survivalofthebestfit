@@ -1,9 +1,8 @@
 import * as PIXI from 'pixi.js';
 import $ from 'jquery';
 import {officeStageContainer, eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
-import {bluePersonTexture, yellowPersonTexture} from '~/public/game/controllers/common/textures.js';
 import {gameFSM} from '~/public/game/controllers/game/stateManager.js';
-import {createPerson, animateThisCandidate, repositionPerson} from '~/public/game/components/pixi/manual-stage/person.js';
+import {createPerson, moveToDoor, moveToFromSpotlight, repositionPerson} from '~/public/game/components/pixi/manual-stage/person.js';
 import Floor from '~/public/game/components/pixi/manual-stage/floor.js';
 import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
 import {screenSizeDetector, uv2px, px2uv, clamp, isMobile, waitForSeconds, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
@@ -162,13 +161,13 @@ class Office {
         });
     }
 
-    moveTweenHorizontally(tween, newX) {
-        tween.stop().clear();
-        tween.to({x: newX});
-        tween.easing = PIXI.tween.Easing.inOutSine();
-        tween.time = 1200;
-        tween.start();
-    }
+    // moveTweenHorizontally(tween, newX) {
+    //     tween.stop().clear();
+    //     tween.to({x: newX});
+    //     tween.easing = PIXI.tween.Easing.inOutSine();
+    //     tween.time = 1200;
+    //     tween.start();
+    // }
 
     listenerSetup() {
         eventEmitter.on(EVENTS.DISPLAY_THIS_CV, () => {
@@ -201,7 +200,7 @@ class Office {
             this.toReplaceX = hiredPerson.uvX;
             this.placeCandidate(this.toReplaceX);
 
-            this.moveTweenHorizontally(hiredPerson.tween, uv2px(officeCoordinates.entryDoorX + 0.04, 'w'));
+            moveToDoor(hiredPerson, uv2px(officeCoordinates.entryDoorX + 0.04, 'w'));
             candidateInSpot = null;
             this.doors[0].playAnimation({direction: 'forward'});
 
@@ -229,7 +228,8 @@ class Office {
             this.toReplaceX = rejectedPerson.uvX;
             this.placeCandidate(this.toReplaceX);
 
-            this.moveTweenHorizontally(rejectedPerson.tween, uv2px(officeCoordinates.exitDoorX + 0.04, 'w'));
+            rejectedPerson.scale.x *= -1;
+            moveToDoor(rejectedPerson, uv2px(officeCoordinates.exitDoorX + 0.04, 'w'));
 
             candidateInSpot = null;
             this.doors[1].playAnimation({direction: 'forward'});
@@ -247,7 +247,7 @@ class Office {
         eventEmitter.on(EVENTS.RESIZE, this.resizeHandler.bind(this));
 
         eventEmitter.on(EVENTS.RETURN_CANDIDATE, () => {
-            animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
+            moveToFromSpotlight(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
             this.allPeople[candidateInSpot].inSpotlight = false;
         });
 
@@ -262,8 +262,7 @@ class Office {
 
     placeCandidate(thisX) {
         const color = cvCollection.cvData[this.uniqueCandidateIndex].color;
-        const texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
-        const person = createPerson(thisX, officeCoordinates.personStartY, this.uniqueCandidateIndex, texture);
+        const person = createPerson(thisX, officeCoordinates.personStartY, this.uniqueCandidateIndex, color);
         this.personContainer.addChild(person);
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;

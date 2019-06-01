@@ -21,6 +21,7 @@ export default class {
 
     addToPixi(parentContainer = mlLabStageContainer) {
         this.sprite = SPRITES[this.doorType];
+        console.log(this.sprite);
         this.sprite.name = this.doorType;
         this.sprite.loop = false;
         this._draw();
