@@ -1,9 +1,8 @@
 import * as PIXI from 'pixi.js';
 import $ from 'jquery';
 import {officeStageContainer, eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
-import {bluePersonTexture, yellowPersonTexture} from '~/public/game/controllers/common/textures.js';
 import {gameFSM} from '~/public/game/controllers/game/stateManager.js';
-import {createPerson, animateThisCandidate, repositionPerson} from '~/public/game/components/pixi/manual-stage/person.js';
+import {createPerson, moveToDoor, moveToFromSpotlight, repositionPerson} from '~/public/game/components/pixi/manual-stage/person.js';
 import Floor from '~/public/game/components/pixi/manual-stage/floor.js';
 import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
 import {screenSizeDetector, uv2px, px2uv, clamp, isMobile, waitForSeconds, spacingUtils as space} from '~/public/game/controllers/common/utils.js';
@@ -12,9 +11,7 @@ import ResumeUI from '~/public/game/components/interface/ui-resume/ui-resume';
 import InstructionUI from '~/public/game/components/interface/ui-instruction/ui-instruction';
 import YesNo from '~/public/game/components/interface/yes-no/yes-no';
 import PeopleTalkManager from '~/public/game/components/interface/ml/people-talk-manager/people-talk-manager';
-import ANCHORS from '~/public/game/controllers/constants/pixi-anchors';
-import EVENTS from '~/public/game/controllers/constants/events';
-import SCALES from '~/public/game/controllers/constants/pixi-scales.js';
+import {ANCHORS, EVENTS} from '~/public/game/controllers/constants';
 import {dataModule} from '~/public/game/controllers/machine-learning/dataModule.js';
 import TaskUI from '../../interface/ui-task/ui-task';
 import TextBoxUI from '../../interface/ui-textbox/ui-textbox';
@@ -162,13 +159,13 @@ class Office {
         });
     }
 
-    moveTweenHorizontally(tween, newX) {
-        tween.stop().clear();
-        tween.to({x: newX});
-        tween.easing = PIXI.tween.Easing.inOutSine();
-        tween.time = 1200;
-        tween.start();
-    }
+    // moveTweenHorizontally(tween, newX) {
+    //     tween.stop().clear();
+    //     tween.to({x: newX});
+    //     tween.easing = PIXI.tween.Easing.inOutSine();
+    //     tween.time = 1200;
+    //     tween.start();
+    // }
 
     listenerSetup() {
         eventEmitter.on(EVENTS.DISPLAY_THIS_CV, () => {
@@ -201,7 +198,7 @@ class Office {
             this.toReplaceX = hiredPerson.uvX;
             this.placeCandidate(this.toReplaceX);
 
-            this.moveTweenHorizontally(hiredPerson.tween, uv2px(officeCoordinates.entryDoorX + 0.04, 'w'));
+            moveToDoor(hiredPerson, uv2px(officeCoordinates.entryDoorX + 0.04, 'w'));
             candidateInSpot = null;
             this.doors[0].playAnimation({direction: 'forward'});
 
@@ -229,7 +226,8 @@ class Office {
             this.toReplaceX = rejectedPerson.uvX;
             this.placeCandidate(this.toReplaceX);
 
-            this.moveTweenHorizontally(rejectedPerson.tween, uv2px(officeCoordinates.exitDoorX + 0.04, 'w'));
+            rejectedPerson.scale.x *= -1;
+            moveToDoor(rejectedPerson, uv2px(officeCoordinates.exitDoorX + 0.04, 'w'));
 
             candidateInSpot = null;
             this.doors[1].playAnimation({direction: 'forward'});
@@ -247,7 +245,7 @@ class Office {
         eventEmitter.on(EVENTS.RESIZE, this.resizeHandler.bind(this));
 
         eventEmitter.on(EVENTS.RETURN_CANDIDATE, () => {
-            animateThisCandidate(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
+            moveToFromSpotlight(this.allPeople[candidateInSpot], this.allPeople[candidateInSpot].originalX, this.allPeople[candidateInSpot].originalY);
             this.allPeople[candidateInSpot].inSpotlight = false;
         });
 
@@ -262,8 +260,7 @@ class Office {
 
     placeCandidate(thisX) {
         const color = cvCollection.cvData[this.uniqueCandidateIndex].color;
-        const texture = (color === 'yellow') ? yellowPersonTexture : bluePersonTexture;
-        const person = createPerson(thisX, officeCoordinates.personStartY, this.uniqueCandidateIndex, texture);
+        const person = createPerson(thisX, officeCoordinates.personStartY, this.uniqueCandidateIndex, color);
         this.personContainer.addChild(person);
         this.allPeople.push(person);
         this.uniqueCandidateIndex++;
@@ -322,16 +319,13 @@ class Office {
     }
 
     delete() {
-        this.doors.forEach((door) => {
-            door.destroy();
-        });
-        this.resumeUI.destroy();
-        this.instructions.destroy();
+        const componentsToDestroy = [this.resumeUI, this.instructions, this.peopleTalkManager, this.task, ...this.doors];
         officeStageContainer.removeChild(this.interiorContainer);
         officeStageContainer.removeChild(this.personContainer);
         this._removeEventListeners();
-        this.peopleTalkManager.destroy();
-        this.task.destroy();
+        componentsToDestroy
+            .filter((component) => component)
+            .map((component) => component.destroy());
     }
 }
 
