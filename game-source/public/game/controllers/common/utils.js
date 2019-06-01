@@ -1,6 +1,6 @@
 import mq from 'browsernizr/lib/mq';
-import BREAKPOINTS from '../constants/breakpoints.js';
-import {pixiApp} from '../game/gameSetup.js';
+import {BREAKPOINTS} from '~/public/game/controllers/constants/index.js';
+import {pixiApp} from '~/public/game/controllers/game/gameSetup.js';
 
 // let {pixiApp.screen.width, pixiApp.screen.height} = pixiApp.screen;
 

@@ -1,10 +1,7 @@
 import {pixiApp, eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 import {uv2px, screenSizeDetector, createPersonSprite, getAnimationByName} from '~/public/game/controllers/common/utils.js';
 import {spotlight} from './office';
-import EVENTS from '~/public/game/controllers/constants/events';
-import ANIM from '~/public/game/controllers/constants/pixi-animations';
-import {SPRITES} from '~/public/game/controllers/common/textures.js';
-import SCALES from '~/public/game/controllers/constants/pixi-scales.js';
+import {EVENTS, ANIM, SCALES} from '~/public/game/controllers/constants';
 
 let showedInstructions = false;
 
