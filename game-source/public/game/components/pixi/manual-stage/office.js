@@ -321,16 +321,13 @@ class Office {
     }
 
     delete() {
-        this.doors.forEach((door) => {
-            door.destroy();
-        });
-        this.resumeUI.destroy();
-        this.instructions.destroy();
+        const componentsToDestroy = [this.resumeUI, this.instructions, this.peopleTalkManager, this.task, ...this.doors];
         officeStageContainer.removeChild(this.interiorContainer);
         officeStageContainer.removeChild(this.personContainer);
         this._removeEventListeners();
-        this.peopleTalkManager.destroy();
-        this.task.destroy();
+        componentsToDestroy
+            .filter((component) => component)
+            .map((component) => component.destroy());
     }
 }
 

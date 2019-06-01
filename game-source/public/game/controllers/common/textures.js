@@ -50,7 +50,6 @@ bluePersonTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 const incubator = PIXI.Texture.fromImage('assets/img/incubator-winners.jpeg');
 
 const xIcon = PIXI.Texture.fromImage('assets/img/x-icon.png');
-floorPlanTwo.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
 const beltTexture = PIXI.Texture.fromImage('assets/img/conveyor_belt.png');
 beltTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -59,4 +58,4 @@ const cvTexture = PIXI.Texture.fromImage('assets/img/cv_yellow.png');
 cvTexture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
 
-export {cvTexture, personTexture, SPRITES, loadAssets, yellowPersonTexture, bluePersonTexture, deskTexture, incubator, xIcon, beltTexture};
+export {cvTexture, SPRITES, loadAssets, yellowPersonTexture, bluePersonTexture, incubator, xIcon, beltTexture};

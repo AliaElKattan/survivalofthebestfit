@@ -9,7 +9,7 @@ import TransitionOverlay from '~/public/game/components/interface/transition/tra
 import TrainingStageOverlay from '~/public/game/components/interface/training-stage/training-overlay/training-overlay';
 import EVENTS from '~/public/game/controllers/constants/events';
 
-let office = new Office();
+const office = new Office();
 let currentStage;
 let revenue;
 let transitionOverlay;
@@ -196,7 +196,7 @@ const gameFSM = new machina.Fsm({
                 if (revenue) {
                     revenue.show();
                 } else {
-                    office.delete();
+                    if (office) office.delete();
                     new PerfMetrics().show();
                 }
 

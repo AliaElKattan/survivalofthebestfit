@@ -30,7 +30,7 @@ export default {
         desktop: 0.5,
     },
     PEOPLE: {
-        mobile: 0.2,
+        mobile: 0.16,
         desktop: 0.28,
     },
 };
