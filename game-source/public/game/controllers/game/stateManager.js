@@ -9,7 +9,7 @@ import TransitionOverlay from '~/public/game/components/interface/transition/tra
 import TrainingStageOverlay from '~/public/game/components/interface/training-stage/training-overlay/training-overlay';
 import EVENTS from '~/public/game/controllers/constants/events';
 
-let office = new Office();
+let office;
 let currentStage;
 let revenue;
 let transitionOverlay;
@@ -25,8 +25,8 @@ const gameFSM = new machina.Fsm({
     states: {
         uninitialized: {
             startGame: function() {
-                this.transition('titleStage');
-                // this.transition('smallOfficeStage');
+                // this.transition('titleStage');
+                this.transition('smallOfficeStage');
                 // this.transition('mlTransitionStage');
                 // this.transition('mlTrainingStage');
                 // this.transition('mlLabStage');
@@ -87,7 +87,6 @@ const gameFSM = new machina.Fsm({
         smallOfficeStage: {
             _onEnter: function() {
                 currentStage = 0;
-
                 new TextBoxUI({
                     content: txt.smallOfficeStage.messageFromVc,
                     responses: txt.smallOfficeStage.responses,
@@ -95,6 +94,7 @@ const gameFSM = new machina.Fsm({
                     stageNumber: currentStage,
                     overlay: true,
                 });
+                office = new Office();
             },
 
             nextStage: 'mediumOfficeStage',
@@ -196,7 +196,7 @@ const gameFSM = new machina.Fsm({
                 if (revenue) {
                     revenue.show();
                 } else {
-                    office.delete();
+                    if (office) office.delete();
                     new PerfMetrics().show();
                 }
 
