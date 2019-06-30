@@ -1,4 +1,7 @@
-# Survival of the Best Fit
+# [OUTDATED] Survival of the Best Fit
+
+This is the older version of our repo. For the most up-to-date code and documentation, please go [here](https://github.com/survivalofthebestfit/survivalofthebestfit).
+
 
 ## Concept
 Survival of the Best Fit is a web simulation of how blind usage of algorithms in hiring practices can reinforce workforce inequality. It aims to break down the barrier between internet users and the technologies behind building the internet (particularly AI and ML), by giving them an understanding of how decisions made by developers of recruitment applications directly impact the decisions produced by algorithms.
